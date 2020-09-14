@@ -1,0 +1,22 @@
+<div class="milenio-title">
+	<div layout="row" layout-align-gt-sm="center center" layout-align="space-between center" ng-show="vm.titleText">
+		<div class="divider-holder" layout="row" layout-align="center center" flex hide show-gt-xs>
+			<div flex class="divider"></div>
+			<div class="losango"></div>
+		</div>
+		<div class="title" ng-show="!vm.titleText.subtitle">
+			<h2 class="md-display-2">{{ vm.titleText }}</h2>
+		</div>
+		<div class="title" ng-show="vm.titleText.subtitle">
+			<h2 class="md-display-2">{{ vm.titleText.title }}</h2>
+			<span>{{ vm.titleText.subtitle }}</span>
+		</div>
+		<div class="divider-holder" layout="row" layout-align="center center" flex hide show-gt-xs>
+			<div class="losango"></div>
+			<div flex class="divider"></div>
+		</div>
+	</div>
+	<div layout="row" layout-align="center center" ng-show="description && vm.checkMedia('gt-xs')">
+		<h4 class="description" ng-bind-html="description"></h4>
+	</div>
+</div>

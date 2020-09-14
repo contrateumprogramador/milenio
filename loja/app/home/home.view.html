@@ -1,0 +1,62 @@
+<div layout="column">
+    <li-carousel id="HomeCarousel" li-content="vm.carousel" li-interval="5000"></li-carousel>
+    <div id="Home" layout="column">
+        <div class="row-vitrine" layout="row" layout-align="center center" layout-padding>
+            <div class="row-vitrine" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
+                <milenio-title title-text="'Novos Produtos'" description="'Conheça os novos produtos que a milênio preparou para você decorar seu ambiente.'"></milenio-title>
+                <div id="NovosProd">
+                    <li-items-list items="vm.newItems" row-size="5"></li-items-list>
+                </div>
+            </div>
+        </div>
+        <div class="" layout="row" layout-align="center center">
+            <div class="" layout="column" flex="100" flex-gt-sm="100" flex-gt-lg="100">
+                <div id="BannerSecundario" layout="column" layout-gt-sm="row" layout-align="center center" layout-align-gt-sm="space-around center">
+                    <li-carousel li-content="vm.homeSecundario" li-interval="5000"></li-carousel>
+                </div>
+            </div>
+        </div>
+        <div class="row-vitrine" layout="row" layout-align="center center" layout-padding>
+            <div class="row-vitrine" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
+                <milenio-title title-text="'Mais vendidos'" description="'Conheça os produtos mais vendidos da Milênio Móveis para você decorar seu ambiente.'"></milenio-title>
+                <div id="MaisVendidos">
+                    <li-items-list items="vm.bestSellers" row-size="5"></li-items-list>
+                </div>
+            </div>
+        </div>
+        <div layout="row" layout-align="center center" id="RowBlocoBanners">
+            <div layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
+                <div layout="row" flex ng-show="ctrl.checkMedia('gt-sm')">
+                    <div layout="column" flex="33" layout-align-gt-sm="end end">
+                        <a ng-href="{{ vm.blocoBanners[0].link }}" title="{{ vm.blocoBanners[0].description }}"><img src="{{ vm.blocoBanners[0].url }}" alt="{{ vm.blocoBanners[0].description }}"></a>
+                    </div>
+                    <div layout="column" flex="33" layout-align="center center">
+                        <a ng-href="{{ vm.blocoBanners[1].link }}" title="{{ vm.blocoBanners[1].description }}"><img src="{{ vm.blocoBanners[1].url }}" class="pBot11" alt="{{ vm.blocoBanners[1].description }}"></a>
+                        <a ng-href="{{ vm.blocoBanners[2].link }}" title="{{ vm.blocoBanners[2].description }}"><img src="{{ vm.blocoBanners[2].url }}" class="pTop11" alt="{{ vm.blocoBanners[2].description }}"></a>
+                    </div>
+                    <div layout="column" flex="33" layout-align="start start">
+                        <a ng-href="{{ vm.blocoBanners[3].link }}" title="{{ vm.blocoBanners[3].description }}"><img src="{{ vm.blocoBanners[3].url }}" alt="{{ vm.blocoBanners[3].description }}"></a>
+                    </div>
+                </div>
+                <div layout="column" flex ng-hide="ctrl.checkMedia('gt-sm')">
+                    <div layout="row" layout-align="space-around center">
+                        <div layout="column" flex="45" layout-align-gt-sm="end end">
+                            <a ng-href="{{ vm.blocoBanners[0].link }}" title="{{ vm.blocoBanners[0].description }}"><img src="{{ vm.blocoBanners[0].url }}" width="100%" alt="{{ vm.blocoBanners[0].description }}"></a>
+                        </div>
+                        <div layout="column" flex="45" layout-align="start start">
+                            <a ng-href="{{ vm.blocoBanners[2].link }}" title="{{ vm.blocoBanners[1].description }}"><img src="{{ vm.blocoBanners[3].url }}" width="100%" alt="{{ vm.blocoBanners[1].description }}"></a>
+                        </div>
+                    </div>
+                    <div layout="row" layout-align="space-around center" class="mTop20">
+                        <div layout="column" flex="45" layout-align-gt-sm="end end">
+                            <a ng-href="{{ vm.blocoBanners[2].link }}" title="{{ vm.blocoBanners[2].description }}"><img src="{{ vm.blocoBanners[1].url }}" width="100%" alt="{{ vm.blocoBanners[2].description }}"></a>
+                        </div>
+                        <div layout="column" flex="45" layout-align="start start">
+                            <a ng-href="{{ vm.blocoBanners[3].link }}" title="{{ vm.blocoBanners[3].description }}"><img src="{{ vm.blocoBanners[2].url }}" width="100%" alt="{{ vm.blocoBanners[3].description }}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+// home.sass
+@import '../variables.scss'
+
+$white: #fff
+$accent: #deba2c
+$primary: #10367a
+
+
+// Home
+#Category
+	.button-filter
+		background-color: $accent
+		color: $white
+
+	#Produtos
+		width: 100%
+
+	.description
+		text-align: center
+
+	.icon-search
+		margin-top: 25px
+
+	.list-title
+		height: 48px !important
+
+	.li-items-list
+		margin-left: 0 !important
+
+	md-list-item
+		.active
+			background-color: $primary !important
+
+	.items-filter
+		margin-bottom: 12px
+		padding: 8px
+
+		md-input-container
+			margin-bottom: 0
+			min-width: 200px
+
+			label
+				font-size: 20px
+
+			.md-errors-spacer
+				display: none
+	
+	.tags-list
+		margin-left: 8px
+		margin-top: 24px
+		padding-right: 4px
+
+		md-list
+
+			h3
+				color: #10367a
+				margin: 12px 0
+				text-transform: uppercase
+
+			md-divider
+				margin: 8px auto
+				width: 90%
+
+			md-list-item
+				height: 36px
+				min-height: 36px
+
+			.md-button
+				width: 100%
+
+				&.active
+					background: #10367a
+					color: #fff
+			
+		.md-button
+			margin: 0
+			text-align: left
+			text-transform: initial
+
+	.items-order
+		min-width: 200px
+
+body.is-mobile
+	#Category
+		.items-order
+			margin-top: 8px
+			min-width: 100px
+			
+	#ListItem 
+		md-card-title-text 
+			span
+				font-size: 18px
+
+	.milenio-title
+		.md-display-2
+		    line-height: 0;
+		    font-size: 32px;
+
+	#RowInput
+		height: 80px
+

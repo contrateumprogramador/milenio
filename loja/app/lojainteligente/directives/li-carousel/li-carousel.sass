@@ -1,0 +1,31 @@
+// li-carousel.sass
+.li-carousel-tabs
+	min-height: 30vw !important
+	height: 100%
+	width: 100%
+	
+	a
+		text-decoration: none
+
+	h2
+		margin: 0
+
+	md-tabs-content-wrapper
+		top: 0
+
+		.li-carousel-item
+			background-position: center
+			background-size: cover
+			height: 100%
+			
+	[md-tabs-template]
+		height: 100%
+
+body.is-mobile
+	.li-carousel-tabs
+		height: 100vw
+
+body.is-ipad
+	#BannerSecundario
+		.li-carousel
+			margin-top: 0 !important

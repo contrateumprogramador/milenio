@@ -1,0 +1,82 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div class="toolbar" layout="row" layout-align="end center">
+            <md-menu>
+                <md-button aria-label="Mais" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                    <md-tooltip><span>Mais</span></md-tooltip>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="vm.edit($event)">
+                            <md-icon md-font-icon="icon-pencil" md-menu-align-target></md-icon>
+                            Editar
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.welcome($event)">
+                            <md-icon md-font-icon="icon-email" md-menu-align-target></md-icon>
+                            Reenviar e-mail de boas vindas
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.remove($event)">
+                            <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+                            Excluir
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+
+
+    <div>
+        <div class="title">{{vm.selected.profile.firstname}} {{vm.selected.profile.lastname}}</div>
+        <div class="subtitle secondary-text">Comissão: {{ vm.selected.profile.comissions.rate }}%</div>
+    </div>
+</div>
+
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+
+    <div class="file-details">
+
+        <dl>
+            <dt>E-mail:</dt>
+            <dd>
+                {{vm.selected.emails[0].address}}
+            </dd>
+            <dt>Telefone:</dt>
+            <dd>
+                {{vm.selected.profile.phone | brPhoneNumber }}
+            </dd>
+            <dt>Documento:</dt>
+            <dd>
+                {{vm.selected.profile.document | brCpfCnpj}}
+            </dd>
+            <dt>ABD:</dt>
+            <dd>
+                {{vm.selected.profile.abd}}
+            </dd>
+            
+        </dl>
+        <md-divider></md-divider>
+        <dl>
+            <dt>Banco:</dt>
+            <dd>
+                {{vm.selected.profile.bank.name}}
+            </dd>
+            <dt>Agência:</dt>
+            <dd>
+                {{vm.selected.profile.bank.agency}}
+            </dd>
+            <dt>Conta:</dt>
+            <dd>
+                {{vm.selected.profile.bank.account}}
+            </dd>
+        </dl>
+
+</md-content>
+<!-- / SIDENAV CONTENT -->

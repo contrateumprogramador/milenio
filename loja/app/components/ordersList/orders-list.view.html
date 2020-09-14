@@ -1,0 +1,13 @@
+<md-content ng-class="" sw-stage="addresses list">
+    <md-list class="addresses-list orders-list">
+        <div ng-repeat="(key, order) in vm.orders | orderBy:'-createdAt' track by order._id" class="slide-down">
+            <md-list-item class="md-3-line cursor-pointer pandRight-0 pandLeft-0 pandTop-0 pandBot-0" ng-class="{ active: isSelectedOrder(order) }" layout-padding ng-click="select(order)">
+                <div class="md-list-item-text" layout="column">
+                <h3>{{(order.orderNumber) ? 'Pedido' : 'Orçamento'}}:
+                  {{ (order.orderNumber) ? order.orderNumber : order.number }} | Valor: {{ order.cart.total | currency:"R$"}}</h3>
+                  <h4>{{ order.createdAt | date:"dd/MM/yyyy 'ás' HH:mm"}}</h4>
+                </div>
+            </md-list-item>
+        </div>
+    </md-list>
+</md-content>

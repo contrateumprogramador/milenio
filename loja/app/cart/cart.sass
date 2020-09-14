@@ -1,0 +1,117 @@
+// home.sass
+@import '../variables.scss'
+
+$accent: #deba2c
+$grey: rgba(0, 0, 0, .2)
+$primary: #10367a
+$white: #fff
+
+#Cart
+	md-divider
+		margin-top: 18px
+
+	.bold
+		font-weight: bold
+	
+	.btn-cart
+		padding: 8px 16px
+
+	.right-floated
+		float: right
+
+	.txt-green
+		color: #62c462
+		font-weight: normal
+		font-size: 16px
+		text-align: right
+
+	#CartList
+		width: -webkit-fill-available
+		border-collapse: collapse
+
+		.th-image
+			max-width: 120px
+			text-align: center
+			margin-left: auto
+			margin-right: auto
+
+		.text-right
+			text-align: right
+
+		.table-header
+			background-color: rgba(0,0,0, 0.2)
+			height: 90px
+
+			th
+				color: $white
+
+				md-icon
+					color: $white
+
+		.red-button
+
+			md-icon
+				color: #FF4500
+		    font-size: 8px
+		    column-width: 1px
+				display: table-caption
+
+	#RowZip
+		margin: 8px
+		padding-bottom: 20px
+
+		md-input-container
+			height: 38px
+
+	//Classes auxiliares
+	.mTop16
+		margin-top: 16px
+
+	.mLeft20
+		margin-left: 20px 	!important
+
+	.text-right
+		text-align: right
+
+	.padTop30
+		padding-top: 30px
+
+body.is-mobile
+	#Cart
+		.md-headline
+			font-size: 16px !important
+			padding: 20px
+			min-width: 58vw
+
+		.customization-list
+			display: none
+
+		.text-right
+			text-align: left
+	
+	#RowConcluir
+		box-shadow: 0.5px 0.5px 5.5px #000005 !important
+		left: 0
+		bottom: 0
+		position: fixed
+		width: 100%
+		background-color: white
+		z-index: 10
+
+body.is-ipad
+	#Cart
+		.md-headline
+			font-size: 16px !important
+			padding: 20px
+
+		.customization-list
+			display: none
+
+	#RowConcluir
+		box-shadow: 0.5px 0.5px 5.5px #000005 !important
+		left: 0
+		bottom: 0
+		position: fixed
+		width: 100%
+		background-color: white
+		z-index: 10

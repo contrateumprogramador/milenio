@@ -1,0 +1,487 @@
+
+@import '{}/client/core/scss/angular-material/_variables.scss'
+
+a
+	cursor: pointer !important
+
+dd md-input-container
+    margin: 0 !important
+    width: 100%
+
+.adm-menu
+    font-size: 16px
+    font-weight: bold
+    margin-bottom: -24px
+
+    md-menu
+        padding: 0
+
+        .md-button.md-icon-button
+            margin: 0
+
+        md-icon
+            color: #fff !important
+
+    md-menu, .selected-view
+        background: rgba(0, 0 , 0, .15)
+
+    .selected-view
+        line-height: 24px
+        margin-right: 1px
+        padding: 8px 16px
+
+.alert
+    border-radius: 6px
+    margin-bottom: 4px
+    padding: 12px
+
+    &.danger
+        background: #f2dede !important
+
+.base
+    background: gainsboro
+
+.blue
+    color: rgb(3, 155, 229)
+
+.bg-blue
+    background: rgb(3, 155, 229) !important
+
+.bg-grey
+		background: lightgrey !important
+
+.bg-green
+	background: green !important
+
+.bg-grey
+	background: grey !important
+
+.bg-yellow
+	background: #D9D919 !important
+
+.bg-orange
+	background: orange !important
+
+.bg-red
+	background: red !important
+
+.bg-white
+    background: $white !important
+
+.btn-cta
+    color: #fff !important
+    background: $color2 !important
+    font-size: 18px !important
+    font-weight: bold !important
+    margin: 8px auto !important
+    padding: 12px 16px !important
+
+    md-icon
+        color: #fff !important
+        margin-right: 8px !important
+
+.btn-lg
+    font-size: 18px !important
+    padding: 12px   !important
+
+.center-image img
+	display: block
+  margin-left: auto !important
+  margin-right: auto !important
+
+.company-name
+    font-weight: bold
+    padding-left: 15px
+
+.cursor-pointer
+		cursor: pointer !important
+
+.danger
+    color: #a94442 !important
+
+.fullview
+    min-height: 100vh !important
+    width: 100vw
+
+.gradient
+    background: $gradient
+    color: #fff !important
+
+.green
+    color: #4CAF50
+
+.height-40
+	height: 40px
+
+.height-100-p
+	height: 100%
+
+.hint
+    color: rgba(0, 0, 0, .6)
+    font-size: 14px
+
+.input-datepicker md-input-container
+    maring: 0 0 0 12px !important
+
+.item-title
+    overflow: hidden
+    display: -webkit-box
+    -webkit-line-clamp: 2
+    -webkit-box-orient: vertical
+
+.logo
+    background: url(assets/icons/logo-milenio-v.svg) no-repeat
+    display: block
+    height: 48px
+    margin: 0 8px
+    padding: 0 !important
+    width: 160px !important
+
+    span
+        display: none
+
+.logo-milenio
+    background: url(assets/icons/logo-milenio.svg) no-repeat center
+    display: block
+    height: 80px
+    margin: 0
+    padding: 0 !important
+    width: 100% !important
+
+    span
+        display: none
+
+.logo-icon
+    background: url(icons/icon-milenio.svg) no-repeat center
+    display: block
+    height: 96px
+    margin: auto
+    width: 96px
+
+    span
+        display: none
+
+md-autocomplete
+    md-input-container
+        margin-top: 14px
+
+md-card-header div
+    width: 100%
+
+md-input-container
+    margin: 16px 0 8px 0 !important
+
+    md-checkbox
+        maring: 0 !important
+
+md-dialog-actions
+    padding: 8px !important
+
+    .md-button[flex="100"]
+        margin: 0 !important
+
+md-dialog-content
+    padding: 24px !important
+
+.md-dialog-fullscreen
+	width: 100% !important
+
+.md-dialog-fullscreen div div div md-content div div h2
+	font-size: 14px !important
+
+.md-button.md-primary md-icon
+    color: #fff !important
+
+
+.md-display-4
+    font-weight: bold !important
+
+md-progress-linear.input-progress
+    height: 2px
+    overflow: hidden
+    top: -26px
+    z-index: 10
+
+#vertical-navigation
+    top: 64px
+
+md-toolbar#toolbar
+    z-index: 65 !important
+
+md-toolbar.gradient
+    background: $gradient
+    color: #fff !important
+    min-height: 48px !important
+
+    .active
+        background: scale-color($color1, $lightness: -20%)
+
+    .btn-close
+        margin: 0
+        min-width: 36px
+
+    .btn-logo
+        margin: 0
+        padding: 0
+
+    .md-button
+        min-width: 36px
+
+    md-icon
+        color: #fff !important
+        font-size: 18px !important
+
+.message
+    font-size: 18px
+    padding: 12px
+    text-align: center
+
+.no-margin
+	margin: 0px !important
+
+.no-padding
+    padding: 0 !important
+
+.page-layout.simple.right-sidenav
+    .center
+        .content
+            padding: 0 !important
+            background: #FFFFFF
+
+    .file-icon
+        .icon-folder
+            &:before
+                color: #FFB300
+
+        .icon-document
+            &:before
+                color: #1565C0
+
+        .icon-spreadsheet
+            &:before
+                color: #4CAF50
+
+    .sidenav
+        width: 320px !important
+        min-width: 320px !important
+        max-width: 320px !important
+        padding: 0 !important
+
+        &.md-locked-open
+            width: 320px
+            min-width: 320px
+            max-width: 320px
+            overflow: hidden
+
+        .header
+            height: 148px
+            min-height: 148px
+            max-height: 200px
+            padding: 24px 24px
+
+            .title
+                font-size: 15px
+                margin-bottom: 8px
+
+            .subtitle
+
+        .content
+            position: relative
+            background: #FFFFFF
+
+            .file-details
+
+                dl
+                    dt
+                        margin-left: 24px
+                    dd
+                        margin-left: 30px
+
+                .preview
+                    background: #FFFFFF
+                    height: 240px
+
+                .offline-switch
+                    border-top: 1px solid rgba(0, 0, 0, 0.12)
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.12)
+                    font-weight: 500
+
+                    md-switch
+                        margin: 0
+
+                        .md-container
+                            margin: 0
+
+                .title
+                    padding: 24px 24px 16px 24px
+
+                table
+                    padding: 0 24px
+                    width: 100%
+                    text-align: left
+
+                    tr
+                        th, td
+                            padding: 16px 0
+
+                        th
+
+                        td
+
+                        &.type
+                            text-transform: capitalize
+
+                        &.size
+
+                        &.location
+
+                        &.owner
+                            text-transform: capitalize
+
+                        &.opened
+
+                        &.created
+
+.page-header
+    height: 80px !important
+    max-height: 80px !important
+    min-height: 80px !important
+
+    .header-content
+        padding: 36px 24px 12px 24px
+
+.page-header, .header
+    .md-headline, md-icon
+        color: $color1 !important
+    .md-headline
+        width: 100%
+
+.right-floated
+    float: right !important
+
+.scrollable
+	overflow-y: scroll
+
+.small-dialog
+	max-width: 50% !important
+	max-height: 60%
+
+#splash-screen
+    background: $white !important
+
+    .spinner-wrapper .spinner .inner
+        .left .half-circle, .right .half-circle
+            border: 10px solid $color1 !important
+            border-bottom-color: transparent !important
+        .left .half-circle
+            border-right-color: transparent !important
+        .right .half-circle
+            border-left-color: transparent !important
+
+    .splash-logo
+        border-radius: 6px
+        display: block
+        height: 120px
+        margin: auto
+        padding: 12px
+        width: 120px
+
+.status-title
+	font-size: 19px
+
+.text-blue
+    color: $color2 !important
+
+.text-center
+    text-align: center
+
+.text-cyan
+    color: $color3 !important
+
+.text-purple
+    color: $color1 !important
+
+.text-white
+    color: #fff !important
+
+.text-red
+    color: #db0000 !important
+
+#toolbar form
+    background: rgba(0, 0, 0, .05)
+    border-radius: 6px
+
+    md-autocomplete
+        input
+            font-size: 14px
+            padding: 0 6px !important
+
+    md-chip
+        margin-right: 2px
+
+    md-chips-wrap
+        box-shadow: none
+        padding-left: 0
+
+    .md-chip-content
+        font-size: 12px
+.top-50
+	top: 50px !important
+
+.user-avatar
+    background: $color1
+    border-radius: 50%
+    color: #fff
+    display: inline-block
+    font-weight: bold
+    height: 48px
+    line-height: 48px
+    text-align: center
+    width: 48px
+
+.vertical-centered
+    margin-top: auto !important
+    margin-bottom: auto !important
+
+.warn
+    color: #FF5722
+
+.width-10
+	width: 10% !important
+.width-p-90
+	width: 90% !important
+.width100
+  width: 100% !important
+
+// RESPONSIVE
+.is-mobile
+    .feat
+        font-size: 18px
+
+        strong
+            font-size: 24px
+
+    md-dialog-actions
+        .md-button
+            font-size: 12px !important
+            padding: 0 !important
+
+    .md-display-1
+        font-size: 24px !important
+
+    .md-display-4
+        font-size: 42px !important
+        line-height: 42px !important
+
+
+@media screen and (max-width: $layout-breakpoint-xs)
+	.page-layout.simple.fullwidth
+		&>.content
+			padding: 0 !important
+
+	.page-layout.simple.right-sidenav
+		.sidenav
+            .header
+                height: 160px
+                min-height: 160px
+                max-height: 160px

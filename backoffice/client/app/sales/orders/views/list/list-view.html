@@ -1,0 +1,224 @@
+<md-content id="Sales" class="funnel" layout-fill layout="row">
+    <div
+        flex="25"
+        layout="column"
+        class="funnel-column"
+        ng-repeat="(key, status) in vm.status track by $index"
+    >
+        <h2 class="status-title text-center">
+            {{ status.name }}
+            <md-button
+                ng-show="vm.possibleStatus.indexOf(status.name) > -1 && (vm.role == 'admin' || vm.role == 'expedition')"
+                aria-label="informação"
+                class="md-icon-button"
+                ng-click="vm.changeStatus(vm.selected, key)"
+            >
+                <md-tooltip>Mudar para {{ status.name }}</md-tooltip>
+                <md-icon md-font-icon="icon-arrow-down"></md-icon>
+            </md-button>
+        </h2>
+        <md-content class="column-overflow" flex>
+            <md-card
+                ng-repeat="item in vm.list | orderBy : '-orderNumber' track by item._id"
+                ng-if="vm.checkStatus(item) == status.name"
+                ng-class="{'suborder': item.subnumber, 'selected': vm.selected._id == item._id, 'opacity': item.payment.status == 'Cancelado'}"
+                ng-click="vm.select(item, key+1, $event)"
+            >
+                <md-card-content>
+                    <div
+                        layout="row"
+                        layout-align="space-between center"
+                        layout-wrap
+                    >
+                        <h3 flex="75">
+                            <span
+                                class="user-avatar"
+                                ng-class="vm.avatarClass(item)"
+                            >
+                                <md-tooltip>{{
+                                    item.payment.status
+                                }}</md-tooltip>
+                                {{ vm.customerAvatar(item) }}
+                            </span>
+                            {{ vm.customerName(item) }}
+                        </h3>
+                        <md-button
+                            aria-label="menu"
+                            class="md-icon-button"
+                            ng-if="vm.role == 'admin'"
+                            ng-show="item.sellers"
+                        >
+                            <md-icon
+                                md-font-icon="icon-account"
+                                md-menu-align-target
+                            >
+                                <md-tooltip>
+                                    Vendedores:
+                                    <span
+                                        ng-repeat="(key, name) in item.sellersNames track by $index"
+                                        >{{
+                                            key == item.sellersNames.length - 1
+                                                ? name
+                                                : name + ", "
+                                        }}</span
+                                    >
+                                </md-tooltip>
+                            </md-icon>
+                        </md-button>
+                        <md-button aria-label="menu" class="md-icon-button" ng-if="['admin','super-admin','salesman'].includes(vm.role) && item.affiliate">
+                                <md-tooltip>
+                                    Decorador: {{ item.affiliate.firstname }} {{ item.affiliate.lastname }}</span>
+                                </md-tooltip>
+                                <md-icon md-font-icon="icon-clipboard-account" md-menu-align-target></md-icon>
+                            </md-button>
+                        <md-menu
+                            ng-if="vm.role == 'admin' || vm.role == 'expedition'"
+                            ng-hide="(item.fractioned && key != vm.status.length-1) || item.payment.status == 'Cancelado' "
+                            flex="10"
+                        >
+                            <md-button
+                                aria-label="menu"
+                                class="md-icon-button"
+                                ng-click="$mdOpenMenu($event)"
+                            >
+                                <md-icon
+                                    md-font-icon="icon-dots-vertical"
+                                ></md-icon>
+                            </md-button>
+                            <md-menu-content width="4">
+                                <md-menu-item
+                                    ng-hide="key == vm.status.length-1"
+                                >
+                                    <md-button
+                                        ng-hide="key == 0 && item.payment.status == 'Pago e Não Capturado'"
+                                        ng-click="vm.changeStatus(item, key+1)"
+                                    >
+                                        <md-icon
+                                            md-font-icon="icon-arrow-right-bold"
+                                            md-menu-align-target
+                                        ></md-icon>
+                                        Avançar para
+                                        {{ vm.status[key + 1].name }}
+                                    </md-button>
+                                    <md-button
+                                        ng-show="key == 0 && item.payment.status == 'Pago e Não Capturado'"
+                                        ng-click="vm.changeStatus(item, key+1)"
+                                    >
+                                        <md-icon
+                                            md-font-icon="icon-arrow-right-bold"
+                                            md-menu-align-target
+                                        ></md-icon>
+                                        Capturar Pagamento
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item
+                                    ng-hide="key == 0 || key == vm.status.length-2 || key == vm.status.length-1"
+                                >
+                                    <md-button
+                                        ng-click="vm.makeDelivery(item, key+1)"
+                                    >
+                                        <md-icon
+                                            md-font-icon="icon-arrow-right-bold"
+                                            md-menu-align-target
+                                        ></md-icon>
+                                        Fracionar e avançar para
+                                        {{ vm.status[key + 1].name }}
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item
+                                    ng-if="vm.role == 'admin'"
+                                    ng-show="key == 1 || key != vm.status.length-1"
+                                >
+                                    <md-button
+                                        ng-click="vm.paymentCancel(item)"
+                                    >
+                                        <md-icon
+                                            md-font-icon="icon-cancel"
+                                            md-menu-align-target
+                                        ></md-icon>
+                                        Cancelar
+                                    </md-button>
+                                </md-menu-item>
+                                <md-divider
+                                    ng-if="vm.role == 'admin'"
+                                ></md-divider>
+                                <md-menu-item ng-if="vm.role == 'admin'">
+                                    <md-button
+                                        ng-click="vm.sponsorSellers($event, item)"
+                                    >
+                                        <md-icon
+                                            md-font-icon="icon-account"
+                                            md-menu-align-target
+                                        ></md-icon>
+                                        Vendedores Responsáveis
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button
+                                        ng-show="item.affiliate && !item.comission"
+                                        ng-click="vm.comission(item, $event)"
+                                    >
+                                        <md-icon
+                                            md-font-icon="icon-cash-usd"
+                                            md-menu-align-target
+                                        ></md-icon>
+                                        Comissão do Decorador
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                        <md-button
+                            ng-show="item.fractioned && key != vm.status.length-1"
+                            aria-label="menu"
+                            class="md-icon-button"
+                        >
+                            <md-tooltip
+                                >Pedido fracionado, automaticamente enviado para
+                                último status ao finalizar seus
+                                fracionados</md-tooltip
+                            >
+                            <md-icon md-font-icon="icon-lock"></md-icon>
+                        </md-button>
+                        <h3>
+                            Pedido <strong>{{ vm.configNumber(item) }}</strong>
+                            <md-icon
+                                ng-show="item.payment.method == 'Cartão de Crédito'"
+                                md-font-icon="icon-credit-card"
+                            >
+                                <md-tooltip>{{
+                                    item.payment.method
+                                }}</md-tooltip>
+                            </md-icon>
+                            <md-icon
+                                ng-show="item.payment.method == 'Boleto Bradesco'"
+                                md-font-icon="icon-clipboard-text"
+                            >
+                                <md-tooltip>{{
+                                    item.payment.method
+                                }}</md-tooltip>
+                            </md-icon>
+                            <md-icon
+                                ng-show="!item.payment.method"
+                                md-font-icon="icon-question-mark-circle"
+                            >
+                                <md-tooltip>Não identificado</md-tooltip>
+                            </md-icon>
+                        </h3>
+                    </div>
+                </md-card-content>
+                <md-card-footer>
+                    <div layout="row" layout-align="space-between center">
+                        <div>
+                            {{
+                                item.payment.time | date: "dd/MM/yyyy HH:mm:ss"
+                            }}
+                        </div>
+                        <div ng-if="!item.subnumber">
+                            <strong>{{ item.cart.total | currency }}</strong>
+                        </div>
+                    </div>
+                </md-card-footer>
+            </md-card>
+        </md-content>
+    </div>
+</md-content>

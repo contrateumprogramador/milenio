@@ -1,0 +1,33 @@
+<form name="userAddForm" ng-submit="userAddForm.$valid && vm.save()">
+    <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+    <md-content layout-fill>
+      <h2 class="md-title text-blue text-center">Parcelamento</h2>
+      <div layout="row" layout-padding class="card-view" layout-wrap id="cardView">
+        <md-input-container flex="100" flex-gt-xs="50">
+            <input type="text" ui-money-mask name="installments.min" ng-model="vm.form.installments.min" placeholder="Valor Mínimo da Parcela" required>
+            <div ng-messages="formAdd.installments.min.$error" ng-show="formAdd.installments.min.$touched" role="alert">
+                <div ng-message="required">
+                    <span>Campo obrigatório.</span>
+                </div>
+            </div>
+        </md-input-container>
+        <md-input-container flex="100" flex-gt-xs="50">
+            <label>Máximo de Parcelas</label>
+            <input type="number" name="installments.maxInstallments" ng-model="vm.form.installments.maxInstallments" min="1" max="100" required>
+            <div ng-messages="formAdd.installments.maxInstallments.$error" ng-show="formAdd.installments.maxInstallments.$touched" role="alert">
+                <div ng-message="required">
+                    <span>Campo obrigatório.</span>
+                </div>
+            </div>
+        </md-input-container>
+      </div>
+    </md-content>
+    <md-toolbar class="md-menu-toolbar bg-grey md-whiteframe-2dp slide-down">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+          <div></div>
+          <md-button class="md-raised md-accent" type="submit" ng-disabled="userAddForm.$invalid" aria-label="Adicionar">
+              Salvar
+          </md-button>
+        </div>
+    </md-toolbar>
+</form>

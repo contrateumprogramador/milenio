@@ -1,0 +1,17 @@
+<md-dialog id="Login" aria-label="Login" flex="100" flex-gt-xs="40">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <h2>
+            	<md-icon md-font-icon="icon-map-marker-circle"></md-icon>
+				Meus Endereços
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="vm.cancel()">
+                <md-icon md-font-icon="icon-window-close" aria-label="Fechar"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <addresses-list addresses="vm.addresses" select="vm.selectAddress" is-selected="vm.addressSelected"></addresses-list>
+    </md-dialog-content>
+</md-dialog>

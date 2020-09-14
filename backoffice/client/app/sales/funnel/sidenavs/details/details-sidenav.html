@@ -1,0 +1,113 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div class="toolbar" layout="row" layout-align="end center">
+        <md-button class="md-icon-button" aria-label="Capturar pagamento" ng-show="vm.is('sales') && vm.selected[0].status == 4" ng-click="vm.paymentCapture($event)">
+            <md-icon md-font-icon="icon-credit-card"></md-icon>
+            <md-tooltip><span>Capturar pagamento</span></md-tooltip>
+        </md-button>
+        <md-menu ng-show="vm.is('sales')">
+            <md-button aria-label="Mais" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                <md-tooltip><span>Mais</span></md-tooltip>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="vm.paymentCancel($event)">
+                        <md-icon md-font-icon="icon-cancel" md-menu-align-target></md-icon>
+                        Cancelar pagamento
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-menu ng-show="vm.is('carts')">
+            <md-button aria-label="Mais" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                <md-tooltip><span>Mais</span></md-tooltip>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="vm.cartRemove($event)">
+                        <md-icon md-font-icon="icon-cancel" md-menu-align-target></md-icon>
+                        Remover carrinho
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+    <div>
+        <div class="title">{{ vm.selected[0].customer.firstName || 'Não identificado' }}</div>
+        <div class="subtitle secondary-text">
+            {{ vm.selected[0].cart.total | currency }}
+            <span ng-show="vm.is('sales')">em {{ vm.payment[0].transaction.parcelas }}x </span> ({{ vm.getPaymentStatus(vm.selected[0]) }})
+        </div>
+    </div>
+</div>
+</div>
+<!-- / SIDENAV HEADER -->
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+    <div class="file-details">
+        <dl ng-show="vm.is('sales') && vm.checkKonduto()">
+            <dt>Recomendação</dt>
+            <dd>{{ vm.fraudRecommendation() }}</dd>
+            <dt>Konduto Score</dt>
+            <dd>{{ vm.payment[0].konduto.order.score }}</dd>
+            <dt>Status Antifraude</dt>
+            <dd>
+                <md-input-container>
+                    <md-select ng-model="vm.payment[0].konduto.order.status" md-on-open="vm.fraudStatusOpen()" md-on-close="vm.fraudStatusClose()" aria-label="Status Antifraude">
+                        <md-option value="{{ key }}" ng-repeat="(key, value) in vm.fraudStatusList">{{ value }}</md-option>
+                    </md-select>
+                </md-input-container>
+            </dd>
+        </dl>
+        <dl ng-show="vm.is('sales')">
+            <dt>Antifraude</dt>
+            <dd layout="row" layout-align="star center">
+                <md-button class="md-icon-button" aria-label="Atualizar Konduto" ng-click="vm.fraudUpdate()">
+                    <md-icon md-font-icon="icon-reload"></md-icon>
+                    <md-tooltip><span>Atualizar Konduto</span></md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button" ng-href="{{ vm.fraudLink() }}" target="_blank" aria-label="Acessar Konduto">
+                    <md-icon md-font-icon="icon-exit-to-app"></md-icon>
+                    <md-tooltip><span>Acessar Konduto</span></md-tooltip>
+                </md-button>
+            </dd>
+        </dl>
+        <md-divider></md-divider>
+        <dl ng-show="vm.is('sales')">
+            <dt>Cartão de Crédito</dt>
+            <dd>{{ vm.payment[0].credit_card.brand }} : {{ vm.payment[0].credit_card.number }}</dd>
+            <dt>Nome do Portador</dt>
+            <dd>{{ vm.payment[0].credit_card.holder }}</dd>
+            <dt>Comprovante TID</dt>
+            <dd>{{ vm.payment[0].transaction.numeroComprovanteVenda }}</dd>
+        </dl>
+        <md-divider></md-divider>
+        <dl ng-show="vm.selected[0].status == 3">
+            <dt>Última tentativa de pagamento</dt>
+            <dd>{{ vm.getLastPayment(vm.selected[0]) | date : 'dd/MM/yyyy HH:mm' }}</dd>
+        </dl>
+        <md-divider></md-divider>
+        <dl ng-show="vm.selected[0].customer">
+            <dt ng-show="vm.selected[0].customer.phone">Telefone</dt>
+            <dd ng-show="vm.selected[0].customer.phone">{{vm.selected[0].customer.phone | brPhoneNumber}}</dd>
+            <dt>E-mail</dt>
+            <dd>{{vm.selected[0].customer.email}}</dd>
+            <dt ng-show="vm.selected[0].customer.document">CPF:</dt>
+            <dd ng-show="vm.selected[0].customer.document">{{vm.selected[0].customer.document | brCpfCnpj}}</dd>
+        </dl>
+        <md-divider></md-divider>
+        <dl>
+            <dt ng-show="vm.selected[0].shipping.address">Endereço</dt>
+            <dd ng-show="vm.selected[0].shipping.address">{{vm.selected[0].shipping.address}}, {{vm.selected[0].shipping.number}} {{vm.selected[0].shipping.complement}}</dd>
+            <dt ng-show="vm.selected[0].address.district">Bairro</dt>
+            <dd ng-show="vm.selected[0].address.district">{{vm.selected[0].shipping.district}}</dd>
+            <dt>CEP</dt>
+            <dd>{{vm.selected[0].shipping.zipcode | brCep}}</dd>
+            <dt>Cidade - Estado</dt>
+            <dd>{{vm.selected[0].shipping.city}} - {{vm.selected[0].shipping.state}}</dd>
+        </dl>
+    </div>
+</md-content>
+<!-- / SIDENAV CONTENT -->

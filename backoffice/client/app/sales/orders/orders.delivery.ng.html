@@ -1,0 +1,48 @@
+<md-dialog flex>
+    <form name="form" ng-submit="form.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Fracionar Pedido Nº {{vm.checkout.orderNumber}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <div flex="100">
+                <h2 class="md-title text-blue text-center">Selecione os Itens para próximo status</h2>
+            </div>
+            <div layout="row">
+                <md-content layout="column" flex layout-wrap>
+                    <div layout="row" ng-repeat="(key, item) in vm.checkout.cart.items">
+                        <div flex="80" layout="row" layout-padding layout-align="start center">
+                            <md-button class="md-icon-button no-padding" ng-click="vm.removeItem($event, item)" aria-label="Remover" no-padding>
+                                <md-icon md-font-icon="icon-cancel"></md-icon>
+                                <md-tooltip><span>Remover</span></md-tooltip>
+                            </md-button>
+                            <img class="mini-picture" ng-show="item.pictures[0] || item.picture" ng-src="{{item.pictures[0] || item.picture}}"/>
+                            <span class="item-title">{{item.name}} </span>
+                        </div>
+                        <div flex="20" layout-align="start center">
+                            <md-input-container>
+                                <span>Quantidade: </span>
+                                <input type="number" name="quant" ng-model="item.quant" min="1" max="{{item.maxQuant}}" ng-required="vm.form.deliveries[item.name]" aria-label="{{item.name}}">
+                            </md-input-container>
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Enviar para {{vm.status.name}}
+                <md-icon md-font-icon="icon-arrow-right"></md-icon>
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,90 @@
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div class="toolbar" layout="row" layout-align="end center">
+        <md-button class="md-icon-button" ng-hide="vm.selected[0].production" ng-click="vm.upToProduction($event)" aria-label="Colocar em Produção">
+            <md-icon md-font-icon="icon-box-upload"></md-icon>
+            <md-tooltip><span>Colocar em Produção</span></md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="vm.addUser($event)" aria-label="Adicionar Usuário">
+            <md-icon md-font-icon="icon-account-plus"></md-icon>
+            <md-tooltip><span>Adicionar Usuário</span></md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="vm.edit($event)" aria-label="Editar">
+            <md-icon md-font-icon="icon-pencil"></md-icon>
+            <md-tooltip><span>Editar</span></md-tooltip>
+        </md-button>
+    </div>
+
+    <div>
+        <div class="title">{{vm.selected[0].name}}</div>
+        <div class="subtitle secondary-text">{{vm.selected[0].phone | brPhoneNumber}}</div>
+    </div>
+</div>
+
+<md-content class="content" flex ms-scroll>
+
+    <div class="file-details">
+        <md-list>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <p>Token Loja Inteligente</p>
+                    <h3>{{vm.selected[0]._id}}</h3>
+                </div>
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <p>Responsável</p>
+                    <h3>{{vm.selected[0].contact}}</h3>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <p>E-mail</p>
+                    <h3>{{vm.selected[0].email}}</h3>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-show="vm.selected[0].site">
+                <div class="md-list-item-text">
+                    <p>Site</p>
+                    <h3>{{vm.selected[0].site}}</h3>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <p>CNPJ</p>
+                    <h3>{{vm.selected[0].document | brCnpj }}</h3>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <p>Endereço</p>
+                    <h3>
+                        {{vm.selected[0].address.street}}, {{vm.selected[0].address.number}} {{vm.selected[0].address.complement}}<br>
+                        CEP: {{vm.selected[0].address.zipcode}}<br>
+                        {{vm.selected[0].address.city}} - {{vm.selected[0].address.state}}
+                    </h3>
+                </div>
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item class="md-2-line" ng-show="vm.selected[0].gateway.tokenSuperPay">
+                <div class="md-list-item-text">
+                    <p>SuperPay Token</p>
+                    <h3>{{vm.selected[0].gateway.tokenSuperPay}}</h3>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-show="vm.selected[0].gateway.konduto">
+                <div class="md-list-item-text">
+                    <p>Konduto Public Key</p>
+                    <h3>{{vm.selected[0].gateway.konduto.publicKey}}</h3>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-show="vm.selected[0].gateway.konduto">
+                <div class="md-list-item-text">
+                    <p>Konduto Private Key</p>
+                    <h3>{{vm.selected[0].gateway.konduto.privateKey}}</h3>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+
+</md-content>

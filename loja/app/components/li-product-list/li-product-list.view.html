@@ -1,0 +1,14 @@
+<md-list>
+	<md-list-item ng-repeat="item in items track by $index" layout-padding class="noright">
+	    <img alt="{{ item.name }}" ng-src="{{item.picture || '/assets/images/no_image.jpg'}}" class="md-avatar" />
+	    <div class="md-list-item-text">
+		    <h3 class="margin0">{{item.name}}</h3>
+		    <p class="margin0">Quantidade: {{item.quant}}</p>
+		    <p class="margin0">Total: {{item.total | currency}}</p>
+		</div>
+	    <md-button class="md-icon-button md-secondary" aria-label="Editar produto" ng-click="vm.editDetails($event, item)">
+            <md-tooltip md-direction="top">Editar produto</md-tooltip>
+            <md-icon md-font-icon="icon-pencil"></md-icon>
+        </md-button>
+  	</md-list-item>
+</md-list>

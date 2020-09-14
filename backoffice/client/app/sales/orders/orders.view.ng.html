@@ -1,0 +1,43 @@
+<div id="proposals" class="page-layout simple right-sidenav" layout="row">
+
+    <!-- CENTER -->
+    <div layout="column" flex>
+
+        <!-- CONTENT -->
+        <md-toolbar class="superior-bar" layout="row" layout-align="end center">
+            <div flex>
+                <md-button class="md-icon-button" aria-label="Botão Menos" ng-click="vm.changeMonth(-1)">
+                    <md-icon md-font-icon="icon-chevron-left"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Botão Mais" ng-click="vm.changeMonth(1)">
+                    <md-icon md-font-icon="icon-chevron-right"></md-icon>
+                </md-button>
+                {{vm.selectedMonth}}
+            </div>
+            <div ng-show="vm.selected" flex>
+                <h2 class="text-center">Carrinho: {{vm.selected.orderNumber}} - {{vm.selected.customer.firstname || "Não identificado"}}</h2>
+            </div>
+            <md-button ng-show="vm.selected" aria-label="informação" class="md-icon-button" ng-click="vm.showOrder($event)">
+                <md-tooltip>Informações do pedido</md-tooltip>
+                <md-icon md-font-icon="icon-information"></md-icon>
+            </md-button>
+            <md-button aria-label="informação" class="md-icon-button" ng-click="vm.questions($event)">
+                <md-tooltip>Dúvidas</md-tooltip>
+                <md-icon md-font-icon="icon-question-mark-circle"></md-icon>
+            </md-button>
+        </md-toolbar>
+        <div ng-include="'client/app/sales/orders/views/list/list-view.html'" flex></div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+    <!-- SIDENAV -->
+    <md-sidenav class="sidenav details-sidenav md-sidenav-right" md-is-locked-open="$mdMedia('gt-md') && vm.selected.length"
+                md-component-id="details-sidenav"
+                ng-include="'client/app/sales/orders/sidenavs/details/details-sidenav.html'" ms-scroll
+                ms-sidenav-helper>
+    </md-sidenav>
+    <!-- / SIDENAV -->
+
+</div>

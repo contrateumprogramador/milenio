@@ -1,0 +1,36 @@
+<div
+    ng-if="vm.cart.itemsCount"
+    layout-gt-sm="row"
+    layout-align="end stretch"
+    layout="column"
+    layout-padding
+>
+    <md-button
+        ng-disabled="vm.progressLoading"
+        class="md-primary"
+        ui-sref="home"
+    >
+        <md-icon md-font-icon="icon-cart"></md-icon>
+        Continuar Comprando
+    </md-button>
+    <md-button
+        ng-disabled="vm.progressLoading"
+        class="md-primary"
+        ng-click="vm.goToCheckout('user')"
+    >
+        <md-icon md-font-icon="icon-email"></md-icon>
+        Enviar Orçamento
+    </md-button>
+    <md-button
+        ng-disabled="vm.progressLoading || $root.affiliate"
+        class="btn-cart"
+        ng-click="vm.goToCheckout('shipping')"
+    >
+        <md-icon
+            ng-disabled="vm.progressLoading"
+            class="btn-cart"
+            md-font-icon="icon-wallet-travel"
+        ></md-icon>
+        Concluir Compra
+    </md-button>
+</div>

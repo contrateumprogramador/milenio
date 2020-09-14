@@ -1,0 +1,60 @@
+<md-dialog aria-label="Formulário">
+    <form name="userAddForm" ng-submit="userAddForm.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Plano</h2>
+                <h2 ng-show="vm.edit">Editar Plano</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="row" layout-wrap>
+                <div flex="50" hide show-gt-xs ng-hide="vm.companies.length"></div>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <input type="text" name="name" ng-model="vm.form.name" placeholder="Nome" required>
+                    <div ng-messages="userAddForm.name.$error" ng-show="userAddForm.name.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <input type="text" ui-money-mask name="price" ng-model="vm.form.price" placeholder="Preço" required>
+                    <div ng-messages="userAddForm.price.$error" ng-show="userAddForm.price.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container> 
+                <div layout="row" layout-align="space-between center">
+                  <md-chips ng-model="vm.form.permissions" md-autocomplete-snap md-require-match="true">
+                    <md-autocomplete
+                        md-selected-item="vm.selectedItem"
+                        md-search-text="vm.searchText"
+                        md-items="item in vm.querySearch(vm.searchText)"
+                        md-item-text="item"
+                        placeholder="Permissões do plano",
+                        md-min-length="2">
+                      <span md-highlight-text="vm.searchText">{{item}}</span>
+                    </md-autocomplete>                                    
+                    <md-chip-template>
+                      <span>{{$chip}}</span>
+                    </md-chip-template>
+                  </md-chips>     
+                </div>                             
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="userAddForm.$invalid" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

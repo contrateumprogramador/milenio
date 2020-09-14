@@ -1,0 +1,33 @@
+<!-- SIDENAV HEADER -->
+<div class="header" layout="column" layout-align="space-between start">
+    <div layout="row" layout-align="start center">
+        <md-icon md-font-icon="icon-tag" class="icon"></md-icon>
+        <span class="md-headline">Tags</span>
+    </div>
+</div>
+<!-- / SIDENAV HEADER -->
+<!-- SIDENAV CONTENT -->
+<md-content ms-scroll class="content" flex>
+    <div class="navigation-simple" layout="column">
+        <form flex layout="row" name="formAddTagsGroup" ng-submit="formAddTagsGroup.$valid && vm.tagsGroupAdd()" novalidate="">
+            <md-input-container flex="80">
+                <label>Novo Grupo</label>
+              <input type="text" ng-model="vm.form.tagGroup" required>
+            </md-input-container>
+            <md-button class="md-fab md-mini" type="submit" ng-disabled="formAddTagsGroup.$invalid || vm.progressLoading" aria-label="adicionar">
+                <md-icon md-font-icon="icon-plus"></md-icon>
+            </md-button>                        
+        </form>
+        <div layout="row" layout-align="space-between center" ng-repeat="(key, tagsGroup) in vm.tagsGroups track by $index" ng-class="{'selected': vm.tagsGroup == tagsGroup }" ng-if="vm.tagsGroups.length > 0">
+            <md-button flex class="item" aria-label="inbox" ng-click="vm.changeType(tagsGroup, key)">
+                <div layout="row" layout-align="start center">
+                    <span class="title">{{tagsGroup.name}}</span>
+                </div>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.removeTagsGroup(tagsGroup)" aria-label="remover" ng-hide="tagsGroup.tags.length > 0 || tagsGroup.categorie">
+                <md-icon md-font-icon="icon-trash"></md-icon>
+            </md-button>            
+        </div>
+    </div>
+</md-content>
+<!-- / SIDENAV CONTENT -->

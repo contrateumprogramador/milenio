@@ -1,0 +1,59 @@
+<div class="" layout="row" layout-align="center center">
+  <div class="" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
+    <div id="Contact" class="bg-white">
+      <div class="contact-body">
+        <milenio-title title-text="'Contato'"></milenio-title>
+        <div layout="row" layout-xs="column">
+          <div layout-padding flex="100" flex-gt-md="50">
+            <form name="vm.contactForm" layout="column" layout-padding ng-submit="vm.contactForm.$valid && vm.sendContact()" novalidate>
+                <div layout-gt-xs="row" layout-wrap layout-align="space-around start" flex>
+                    <md-input-container class="md-block" flex="100">
+                        <label>Nome:</label>
+                        <input required type="text" name="firstname" ng-model="vm.form.firstname"/>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex="100">
+                        <label>E-mail:</label>
+                        <input type="email" name="email" ng-model="vm.form.email" required>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex="100">
+                        <label>Celular:</label>
+                        <input type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.form.phone" ui-br-phone-number>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex="100">
+                        <label>Mensagem:</label>
+                        <textarea required ng-model="vm.form.message" md-maxlength="300" md-select-on-focus></textarea>
+                    </md-input-container>
+                    <div class="actions" flex="100">
+                        <md-button type="submit" class="md-raised width-100 md-primary" ng-disabled="vm.contactForm.$invalid || vm.loading" aria-label="Enviar contato">
+                          Enviar
+                        </md-button>
+                    </div>
+                </div>
+            </form>
+          </div>
+          <div layout-padding flex="100">
+            <div layout="column">
+              <div flex="100">
+                <small-title title="'Horário de Atendimento'"></small-title>
+                <p class="text-center">Segunda à Sexta-Feira: 10:00h às 19:00h</p>
+                <p class="text-center">Sábado: 10:00h às 16:00h</p>
+              </div>
+              <div flex="100">
+                <small-title title="'Dados de contato'"></small-title>
+                <p class="text-center">Rua Cunha Gago, 768 - Pinheiros<br/>
+                CEP: 05.421-001<br/>
+                São Paulo - SP<br/>
+                Telefone: (11) 3815-8177<br/>
+                milenio@mileniomoveis.com.br</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <milenio-title title-text="'Localização'"></milenio-title>
+        <div flex="100" class="location-banner">
+          <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=pt-BR&amp;geocode=&amp;q=Rua+Cunha+Gago,+768,+Pinheiros,+S%C3%A3o+Paulo,+Brasil&amp;aq=0&amp;oq=Rua+Cunha+Gago,+768&amp;sll=37.0625,-95.677068&amp;sspn=49.757664,92.900391&amp;ie=UTF8&amp;hq=&amp;hnear=Rua+Cunha+Gago,+768+-+Pinheiros,+S%C3%A3o+Paulo,+05421-001,+Brasil&amp;t=m&amp;ll=-23.561863,-46.694083&amp;spn=0.009834,0.020599&amp;z=15&amp;output=embed"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

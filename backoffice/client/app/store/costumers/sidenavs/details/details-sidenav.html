@@ -1,0 +1,82 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div class="toolbar" layout="row" layout-align="end center">
+            <md-button class="md-icon-button" aria-label="Listar Carrinhos" ng-click="vm.cartList($event)">
+                <md-icon md-font-icon="icon-cart-outline"></md-icon>
+                <md-tooltip><span>Listar Carrinhos</span></md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Listar Pedidos" ng-click="vm.orderList($event)">
+                <md-icon md-font-icon="icon-clipboard-text"></md-icon>
+                <md-tooltip><span>Listar Pedidos</span></md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Adicionar Cliente" ng-click="vm.add($event)">
+                <md-icon md-font-icon="icon-account-plus"></md-icon>
+                <md-tooltip><span>Adicionar Cliente</span></md-tooltip>
+            </md-button>
+            <md-menu>
+                <md-button aria-label="Mais" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                    <md-tooltip><span>Mais</span></md-tooltip>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="vm.edit($event)">
+                            <md-icon md-font-icon="icon-pencil" md-menu-align-target></md-icon>
+                            Editar
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.remove($event)">
+                            <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+                            Excluir
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+
+
+    <div>
+        <div class="title">{{vm.selected.firstname}} {{vm.selected.lastname}}</div>
+        <div class="subtitle">Email: {{vm.selected.email}}</div>
+    </div>
+    <md-button ng-click="vm.addAddress($event)" class="add-button addressButton md-fab md-mini" aria-label="Adicionar Endereço" ng-if="vm.addAddress">
+        <md-icon md-font-icon="icon-plus"></md-icon>
+    </md-button>
+</div>
+
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+
+    <div class="file-details">
+        <!-- <div class="preview file-icon" layout="row" layout-align="center center">
+            <i class="icon-{{vm.selected.type}} s48"></i>
+        </div> -->
+
+        <dl ng-repeat="address in vm.addresses">
+            <dt>Endereço</dt>
+            <dd>
+                {{address.address}}, {{address.number}}<br>
+                {{address.complement}}
+            </dd>
+            <dt>Bairro</dt>
+            <dd>{{address.district}}</dd>
+            <dt>CEP</dt>
+            <dd>{{address.zip | brCep}}</dd>
+            <dt>Cidade - Estado</dt>
+            <dd>{{address.city}} - {{address.state}}</dd>
+            <md-divider></md-divider>
+        </dl>
+
+        <!-- <md-list class="offline-switch">
+            <md-list-item>
+                <p>Available Offline</p>
+                <md-switch class="md-secondary" ng-model="vm.selected.offline" aria-label="Toggle offline"
+                          ></md-switch>
+            </md-list-item>
+        </md-list> -->
+
+</md-content>
+<!-- / SIDENAV CONTENT -->

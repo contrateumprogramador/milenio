@@ -1,0 +1,13 @@
+<div class="li-carousel" layout="column">
+	<md-tabs class="li-carousel-tabs" md-selected="vm.selected" md-no-pagination="true" md-swipe-content="true">
+		<md-tab ng-repeat="tab in vm.tabs track by $index">
+			<md-tab-body>
+				<a ng-href="{{ tab.link }}" title="{{ tab.title }}">
+					<div class="li-carousel-item" ng-style="{'background-image': 'url(' + vm.url(tab) + ')'}" layout="row" layout-align="center start">
+						<h2 class="md-display-2">{{ tab.title }}</h2>
+					</div>
+				</a>
+			</md-tab-body>
+		</md-tab>
+	</md-tabs>
+</div>

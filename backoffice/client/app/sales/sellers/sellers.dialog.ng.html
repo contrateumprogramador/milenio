@@ -1,0 +1,55 @@
+<md-dialog class="small-dialog" flex="33">
+    <form name="form" ng-submit="form.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Vendedores Responsáveis</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <div flex="100">
+                <h2 class="md-title text-blue text-center">Vendedores Responsáveis pelo carrinho</h2>
+                <p class="md-subheader text-blue text-center">Somente os vendedores abaixo tem acesso ao carrinho</p>
+            </div>
+            <div layout="row">
+                <div layout="row" flex layout-align="space-between center" layout-padding>
+                  <md-chips class="width100" ng-model="vm.checkout.sellers" md-autocomplete-snap md-require-match="true">
+                    <md-autocomplete
+                        md-selected-item="vm.selected"
+                        md-search-text="vm.searchText"
+                        md-items="item in vm.querySearch(vm.searchText)"
+                        md-item-text="item.name"
+                        placeholder="Vendedores",
+                        md-min-length="2">
+                      <span md-highlight-text="vm.searchText">{{item.name}}</span>
+                    </md-autocomplete>
+                    <md-chip-template>
+                      <span>{{$chip.name}}</span>
+                    </md-chip-template>
+                  </md-chips>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-between center" layout-padding>
+                <md-list ng-cloak>
+                    <md-list-item class="secondary-button-padding" ng-repeat="seller in vm.checkout.sellers track by $index">
+                        <span class="user-avatar">{{ vm.sellerAvatar(seller) }}</span>
+                        <h2> {{seller.name}}</h2>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                <md-icon md-font-icon="icon-account"></md-icon>
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

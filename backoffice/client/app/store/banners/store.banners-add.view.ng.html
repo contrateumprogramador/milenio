@@ -1,0 +1,93 @@
+<md-dialog aria-label="Mango (Fruit)" flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Banner</h2>
+                <h2 ng-show="vm.edit">Editar Banner</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content style="height: 800px;">
+            <div layout="column">
+                <div layout="row" layout-wrap>
+                    <md-input-container flex="50">
+                        <label>Título</label>
+                        <input type="text" name="title" ng-model="vm.form.title" tabindex="1">
+                    </md-input-container>
+                    <md-autocomplete class="width100" flex="40" required ng-disabled="vm.edit" md-input-name="group" md-selected-item="vm.selectedItem"
+                        md-search-text="vm.searchText" md-items="group in vm.querySearch(vm.searchText)" md-input-minlength="2"
+                        md-input-maxlength="50" md-require-match md-item-text="group.group" md-floating-label="Grupo" tabindex="2">
+                        <span md-highlight-text="vm.searchText">{{group.group}}</span>
+                    </md-autocomplete>
+                    <md-input-container flex="100" flex-gt-xs="50">
+                        <label>Link</label>
+                        <input tabindex="3" type="text" name="link" ng-model="vm.form.link" tabindex="6">
+                    </md-input-container>
+                    <md-input-container flex="25">
+                        <md-checkbox tabindex="4" ng-disabled="!vm.form.link" ng-model="vm.form.newWindow" aria-label="Nova Janela">
+                            Nova Janela
+                        </md-checkbox>
+                    </md-input-container>
+                    <md-input-container flex="25">
+                        <md-checkbox tabindex="5" ng-model="vm.form.active" aria-label="Ativo">
+                            Banner Ativo
+                        </md-checkbox>
+                    </md-input-container>
+                    <md-input-container flex="100">
+                        <label>Texto Descritivo</label>
+                        <textarea tabindex="6" ng-model="vm.form.description" md-select-on-focus></textarea>
+                        <div ng-messages="formAdd.description.$error" ng-show="formAdd.description.$touched" role="alert">
+                            <div ng-message="required">
+                                <span>Campo obrigatório.</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <div layout="column" flex="50">
+                        <h3>Banner Desktop</h3>
+                        <div class="cropArea">
+                            <drop-zone id="fileInput" name="imageUpload" options="vm.dropzoneOptions.desktop">
+                            </drop-zone>
+                        </div>
+                        <div layout-padding ng-show="vm.form.url">
+                            <h4 class="md-header">Imagem Atual</h4>
+                            <img ng-src="{{vm.form.url}}" />
+                        </div>
+                    </div>
+                    <div layout="column" flex="50">
+                        <h3>Banner Mobile</h3>
+                        <div class="cropArea">
+                            <drop-zone id="fileInput" name="imageUpload" options="vm.dropzoneOptions.mobile">
+                            </drop-zone>
+                        </div>
+                        <div ng-show="vm.form.urlMobile">
+                            <h4 class="md-header">Imagem Atual</h4>
+                            <img ng-src="{{vm.form.urlMobile}}" width="100%" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading || !vm.form.url"
+                aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+<style type="text/css">
+    .dropzone {
+        border: 1px dashed;
+        width: 100%;
+        height: 100px;
+    }
+</style>

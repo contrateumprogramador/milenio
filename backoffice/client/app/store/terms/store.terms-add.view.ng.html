@@ -1,0 +1,82 @@
+<md-dialog aria-label="Mango (Fruit)" flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Termos</h2>
+                <h2 ng-show="vm.edit">Editar Termos</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon
+                        md-font-icon="icon-window-close"
+                        aria-label="fechar janela"
+                    ></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear
+            md-mode="indeterminate"
+            class="md-accent"
+            ng-show="vm.progressLoading"
+        ></md-progress-linear>
+        <md-dialog-content>
+            <div layout="column">
+                <div class="md-dialog-content" layout="row" layout-wrap>
+                    <md-input-container flex="60" flex-gt-xs="60">
+                        <label>Nome</label>
+                        <input
+                            type="text"
+                            name="name"
+                            ng-model="vm.form.name"
+                            required
+                        />
+                        <div
+                            ng-messages="formAdd.name.$error"
+                            ng-show="formAdd.name.$touched"
+                            role="alert"
+                        >
+                            <div ng-message="required">
+                                <span>Campo obrigatório.</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="40" flex-gt-xs="40">
+                        <label>URL</label>
+                        <input
+                            type="text"
+                            name="url"
+                            ng-model="vm.form.url"
+                            required
+                        />
+                        <div
+                            ng-messages="formAdd.url.$error"
+                            ng-show="formAdd.url.$touched"
+                            role="alert"
+                        >
+                            <div ng-message="required">
+                                <span>Campo obrigatório.</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div>
+                    <md-input-container flex="100" flex-gt-xs="100">
+                        <text-angular ng-model="vm.form.text"></text-angular>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button
+                class="md-raised md-accent"
+                type="submit"
+                ng-disabled="formAdd.$invalid || vm.progressLoading"
+                aria-label="Adicionar"
+            >
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

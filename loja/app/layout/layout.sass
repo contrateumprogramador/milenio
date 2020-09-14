@@ -1,0 +1,89 @@
+//layout.sass
+@import '../variables.scss'
+
+.addresses-list
+	md-list-item.active
+		background: cyan(.1)
+
+#Layout
+	background: url(/assets/images/bg-bubbles.png) no-repeat
+	background-size: contain
+	height: 100vh
+
+	&.casal
+		background-color: $cyan
+
+		h2, h3, h2 md-icon, h3 md-icon
+			color: $cyan
+
+		md-sidenav md-toolbar
+			background-color: $cyan
+
+		.btn-continue
+			background-color: $amber !important
+
+	&.familia
+		background-color: $purple
+
+		h2, h3, h2 md-icon, h3 md-icon
+			color: $purple
+
+		md-sidenav md-toolbar
+			background-color: $purple
+
+		.btn-continue
+			background-color: $cyan
+			color: $white
+
+			md-icon
+				color: $white
+
+
+	&.personalizado
+		background-color: $red
+
+		h2, h3, h2 md-icon, h3 md-icon
+			color: $red
+
+		md-sidenav md-toolbar
+			background-color: $red
+
+		.btn-continue
+			background-color: $amber
+
+
+	&.solteiro
+		background-color: $amber
+
+		h2, h3, h2 md-icon, h3 md-icon
+			color: $amber
+
+		md-sidenav md-toolbar
+			background-color: $amber
+
+		.btn-continue
+			background-color: $purple
+
+	md-content
+		background: transparent
+		width: 100%
+
+	#footer
+        background: $white
+        font-size: 14px
+        padding: 8px 12px 6px 12px
+        width: 100%
+        z-index: 10
+
+        md-icon
+            font-size: 18px
+            line-height: 18px
+            width: 18px
+
+@media screen and (max-width: $layout-breakpoint-xs)
+	#Layout
+		md-content[ui-view]>*, md-content[ui-view]>*>*
+			padding: 0
+
+		.btn-footer
+			margin-top: 0 !important

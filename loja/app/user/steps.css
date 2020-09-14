@@ -1,0 +1,46 @@
+.bs-wizard {margin-top: 10px;}
+
+/*Form Wizard*/
+.bs-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0px 10px 0}
+.bs-wizard > .bs-wizard-step {padding: 0; position: relative;}
+.bs-wizard > .bs-wizard-step + .bs-wizard-step {}
+.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 16px; margin-bottom: 5px; margin-left: 25px; height: 39px}
+.bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 60px; height: 60px; display: block; background: #36C333; top: 60px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;} 
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 44px; height: 44px; background: green; border-radius: 50px; position: absolute; top: 8px; left: 8px; } 
+.bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 8px; box-shadow: none; margin: 30px 0; background: green; width: 102%;}
+.bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #fbe8aa;}
+.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
+.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:50%;}
+.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {width:0%;}
+.bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {width: 100%;}
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {background-color: #EAE5E5;}
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {opacity: 0; }
+.bs-wizard > .bs-wizard-step:first-child  > .progress {left: 50%; width: 55%; background: green;}
+.bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}
+.bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
+.icon-wizard {position: absolute; color: white; z-index: 1000; top: 16px; left: 18px;}
+.bs-wizard img {z-index: 10000; position: absolute; width: 27px; margin-left: 17px; margin-top: 15px;}
+
+@media (max-width: 767px){
+	.bs-wizard > .bs-wizard-step {margin-right: 5px;}
+	.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 9px; margin-bottom: 0px; margin-left: 0px; height: 21px}
+	.bs-wizard {padding: 0 0px 0px 10px}
+	.bs-wizard > .bs-wizard-step > .progress {z-index: -100; margin-top: 40px; left: 10%}
+	.bs-wizard > .bs-wizard-step > .bs-wizard-dot {left: 30%}
+	.bs-wizard > .bs-wizard-step > .bs-wizard-dot { width: 40px; height: 40px; }
+	.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after { width: 30px; height: 30px; top: 5px; left: 5px;}
+	.bs-wizard img { width: 16px; margin-left: 12px; margin-top: 12px; }
+	.bs-wizard > .bs-wizard-step:first-child  > .progress {width: 62%}
+}
+
+
+
+@media screen and (max-width: 960px) and (min-width: 769px){
+	.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {margin-left: -35px;}
+	.bs-wizard > .bs-wizard-step {margin-right: 0px;}
+	.bs-wizard > .bs-wizard-step:first-child  > .progress {width: 61%}
+	.bs-wizard > .bs-wizard-step:last-child  > .progress {width: 35%;}
+	.bs-wizard {padding: 0 0px 0px 30px}
+}
+/*END Form Wizard*/

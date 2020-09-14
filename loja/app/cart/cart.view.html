@@ -1,0 +1,171 @@
+<md-progress-linear
+    style="z-index: 9"
+    ng-show="vm.progressLoading"
+    md-mode="indeterminate"
+></md-progress-linear>
+<div class="" layout="row" layout-align="center center">
+    <div id="Cart" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
+        <div layout="row" class="title-top">
+            <milenio-title
+                flex="100"
+                title-text="'Meu Orçamento'"
+            ></milenio-title>
+        </div>
+        <div ng-if="!vm.cart.itemsCount">
+            <small-title
+                flex="100"
+                title="'Você não adicionou itens em seu carrinho'"
+            ></small-title>
+            <div layout="row" layout-align="center stretch" layout-padding>
+                <md-button class="md-raised md-primary" ui-sref="home">
+                    <md-icon md-font-icon="icon-cart"></md-icon>
+                    Comprar Agora
+                </md-button>
+            </div>
+        </div>
+        <div ng-show="vm.cart.itemsCount" id="RowTable">
+            <quote-list
+                items="vm.cart.items"
+                refresh-cart="vm.refreshCart"
+                cart-internal="vm.cart.internal"
+            ></quote-list>
+        </div>
+        <md-divider ng-if="vm.cart.itemsCount"></md-divider>
+        <div ng-if="vm.cart.itemsCount" layout="row">
+            <div
+                layout="column"
+                flex="80"
+                ng-show="ctrl.checkMedia('gt-xs')"
+            ></div>
+            <div
+                layout="column"
+                flex="100"
+                flex-sm="50"
+                flex-gt-xs="20"
+                id="RowZip"
+            >
+                <div layout="row" class="padTop30">
+                    <div layout="column" flex="40">
+                        <h3 class="margin0 text-right">Frete:</h3>
+                    </div>
+                    <div
+                        layout="column"
+                        flex="60"
+                        class="mLeft20"
+                        layout-align="end end"
+                    >
+                        <md-input-container class="margin0" flex="100">
+                            <label>CEP:</label>
+                            <input
+                                type="tel"
+                                inputmode="tel"
+                                x-inputmode="tel"
+                                id="ZipText"
+                                name="zipcode"
+                                ng-model="vm.zipcode"
+                                ui-br-cep-mask
+                                mask-fix
+                                required
+                                ng-keyup="vm.getZip()"
+                                autocomplete="off"
+                                ng-disabled="vm.zipcodeDisabled"
+                            />
+                        </md-input-container>
+                        <h4
+                            class="md-subhead margin0"
+                            ng-show="vm.zipcode || vm.cart.shippingPrice"
+                        >
+                            {{
+                                vm.cart.shippingPrice > 0
+                                    ? (vm.cart.shippingPrice | currency)
+                                    : "Frete Grátis"
+                            }}
+                        </h4>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+                <div
+                    layout="row"
+                    ng-show="vm.cart.discountType && vm.cart.discount"
+                >
+                    <div layout="column" flex="40">
+                        <h3 class="text-right">Desconto:</h3>
+                    </div>
+                    <div layout="column" flex="60" layout-align="center end">
+                        <h4
+                            class="md-subhead margin0 mLeft20"
+                            ng-show="vm.cart.discountType == '%'"
+                        >
+                            {{ vm.cart.discount }} {{ vm.cart.discountType }}
+                        </h4>
+                        <h4
+                            class="md-subhead margin0 mLeft20"
+                            ng-show="vm.cart.discountType == '$'"
+                        >
+                            {{ vm.cart.discount | currency }}
+                        </h4>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div layout="column" flex="40">
+                        <h3 class="text-right">Total:</h3>
+                    </div>
+                    <div layout="column" flex="60" layout-align="center end">
+                        <h4 class="md-subhead margin0 mLeft20">
+                            {{ vm.cart.total | currency }}
+                        </h4>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div layout="column" flex="100" layout-align="center end">
+                        <h3 class="txt-green margin0">
+                            em até {{ vm.installments.times }}x de
+                            {{ vm.installments.value | currency }} sem juros
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            ng-if="vm.cart.itemsCount"
+            layout-gt-sm="row"
+            layout-align="end stretch"
+            layout="column"
+            layout-padding
+        >
+            <p ng-if="$root.affiliate">
+                <a href="https://decor.mileniomoveis.com.br" target="_blank"
+                    >Este orçamento já está salvo na sua área do decorador,
+                    clique aqui para acessar.</a
+                >
+            </p>
+            <md-button
+                ng-disabled="vm.progressLoading"
+                class="md-warn"
+                ng-click="vm.clearCart()"
+            >
+                <md-icon md-font-icon="icon-delete"></md-icon>
+                Limpar Carrinho
+            </md-button>
+            <md-button
+                ng-disabled="vm.progressLoading || $root.affiliate"
+                class="btn-cart"
+                ng-click="vm.goToCheckout('shipping')"
+                hide
+                show-gt-sm
+            >
+                Concluir Compra
+            </md-button>
+        </div>
+    </div>
+</div>
+<div id="RowConcluir" layout="column" layout-align="center stretch" hide-gt-sm>
+    <md-button
+        ng-disabled="vm.progressLoading || !vm.cart.itemsCount || $root.affiliate"
+        class="btn-cart"
+        ng-click="vm.goToCheckout('shipping')"
+        flex-xs
+    >
+        Concluir Compra
+    </md-button>
+</div>

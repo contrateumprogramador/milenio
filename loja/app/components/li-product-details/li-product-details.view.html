@@ -1,0 +1,207 @@
+<div layout-padding layout="column" flex="100" id="DetailProduct" class="pTop0">
+    <div layout="row" flex="100" class="pTop0 flex-1">
+        <img
+            ng-if="vm.image"
+            ng-src="{{vm.item.pictures[0] || '/assets/images/no_image.jpg'}}"
+            class="cart-image md-avatar"
+            alt=""
+        />
+        <h1
+            hide
+            show-gt-sm
+            layout-padding
+            flex
+            class="md-display-1 product-title pTop0"
+        >
+            {{ vm.item.name }}
+        </h1>
+        <h1
+            hide-gt-sm
+            ng-show="vm.showTitle"
+            layout-padding
+            flex
+            class="md-title product-title"
+        >
+            {{ vm.item.name }}
+        </h1>
+    </div>
+    <md-divider></md-divider>
+    <div
+        layout="column"
+        layout-gt-xs="row"
+        layout-align="center center"
+        class="margins"
+        ng-class="{'layout-wrap': vm.checkMedia('md'), 'flex-1': !vm.checkMedia('gt-md')}"
+        ng-hide="vm.item.stock == -1"
+    >
+        <div
+            id="Price"
+            flex-gt-sm="100"
+            layout="column"
+            flex="100"
+            flex-md="50"
+            layout-align-sm="center center"
+            layout-align-md="center center"
+            ng-class="{'flex-1': !vm.checkMedia('gt-md')}"
+        >
+            <div class="line-through" ng-show="vm.options.salesPrice">
+                {{ vm.options.price | currency }}
+            </div>
+            <div id="PriceFeat">
+                {{ vm.options.salesPrice || vm.options.price | currency }}
+            </div>
+            <div id="PriceSplit">
+                Até {{ vm.installments.times }}x de
+                {{ vm.installments.value | currency }}
+            </div>
+            <div id="Estoque" ng-show="vm.item.stock == 1">pronta entrega</div>
+            <div id="Estoque" ng-show="vm.item.stock == 0">sob encomenda</div>
+        </div>
+        <div
+            id="Quant"
+            layout="column"
+            layout-align="center center"
+            flex="100"
+            flex-md="50"
+            ng-class="{'flex-1': !vm.checkMedia('gt-md')}"
+        >
+            <label>Quantidade</label>
+            <div
+                id="QuantBox"
+                layout="row"
+                layout-align="center center"
+                id="DivQuant"
+            >
+                <md-button
+                    class="md-icon-button"
+                    aria-lebel="Reduzir quantidade"
+                    ng-click="vm.changeQuant(-1)"
+                >
+                    <md-icon md-font-icon="icon-minus"></md-icon>
+                </md-button>
+                <span>{{ vm.quantity }}</span>
+                <md-button
+                    class="md-icon-button"
+                    aria-lebel="Aumentar quantidade"
+                    ng-click="vm.changeQuant(1)"
+                >
+                    <md-icon md-font-icon="icon-plus"></md-icon>
+                </md-button>
+            </div>
+        </div>
+        <div
+            layout="column"
+            flex-gt-sm
+            hide
+            show-gt-sm
+            flex="100"
+            flex-md="100"
+        >
+            <md-button
+                hide-sm
+                ng-click="vm.addToCart()"
+                id="ButtonCart"
+                class="md-raised"
+                aria-label="Adicionar ao Carrinho"
+            >
+                {{
+                    vm.checkoutItem
+                        ? "ATUALIZAR PRODUTO"
+                        : "ADICIONAR AO CARRINHO"
+                }}
+            </md-button>
+            <md-button
+                hide
+                show-sm
+                ng-click="vm.addToCart()"
+                id="ButtonCart"
+                class="md-raised"
+                aria-label="Adicionar ao Carrinho"
+            >
+                {{ vm.checkoutItem ? "ATUALIZAR" : "ADICIONAR" }}
+            </md-button>
+        </div>
+    </div>
+    <div
+        layout="row"
+        layout-align="center center"
+        ng-hide="vm.item.stock != -1"
+    >
+        <div id="SemEstoque">Produto Indisponível</div>
+    </div>
+    <md-divider></md-divider>
+    <div><li-stamp item="vm.item"></li-stamp></div>
+    <div
+        id="Options"
+        layout="column"
+        class="margins height100 flex-1"
+        ng-show="vm.item.options.length > 1"
+    >
+        <label>Outras Opções:</label>
+        <md-radio-group
+            layout="column"
+            layout-gt-sm="row"
+            ng-model="vm.options"
+            layout-wrap
+        >
+            <md-radio-button
+                ng-click="vm.updateInstallments()"
+                ng-value="item"
+                class="md-primary"
+                ng-repeat="item in vm.item.options track by $index"
+                aria-label="{{ item.name }}"
+                >{{ item.name }}</md-radio-button
+            >
+        </md-radio-group>
+    </div>
+    <md-divider ng-show="vm.item.options.length > 1"></md-divider>
+    <div layout="row" ng-show="vm.customizations.length">
+        <div id="Customizations" layout="column" flex="100">
+            <md-tabs md-border-bottom md-dynamic-height="true">
+                <md-tab
+                    ng-repeat="group in vm.customizations track by group._id"
+                    label="{{ group.type }}"
+                >
+                    <md-tab-body>
+                        <div layout="row" id="CustomizationsRow">
+                            <div
+                                ng-repeat="item in group.options track by $index"
+                            >
+                                <md-tooltip md-direction="bottom">
+                                    {{ item.name }}
+                                </md-tooltip>
+                                <img
+                                    ng-src="{{ item.image }}"
+                                    alt="{{ item.name }}"
+                                    ng-class="{ active: vm.customization[group._id].option.name == item.name }"
+                                    ng-click="vm.setCustomization(group, item)"
+                                />
+                            </div>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+        </div>
+    </div>
+    <md-dialog-actions>
+        <div
+            hide
+            show-sm
+            show-xs
+            class="actions"
+            layout="column"
+            layout-wrap
+            layout-align="start stretch"
+            id="RowButtonCart"
+        >
+            <md-button
+                id="btnAddCartMobile"
+                class="md-raised"
+                aria-label="Adicionar mobile"
+                ng-click="vm.addToCart()"
+            >
+                {{ vm.checkoutItem ? "Alterar Item" : "Adicionar ao carrinho" }}
+            </md-button>
+        </div>
+    </md-dialog-actions>
+</div>

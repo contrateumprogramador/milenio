@@ -1,0 +1,104 @@
+<md-dialog aria-label="Shipping">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Ceps</h2>
+                <h2 ng-show="vm.edit">Editar Ceps</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Faixa de Ceps">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-input-container flex="50">
+                            <label>Título</label>
+                            <input type="text" name="title" ng-model="vm.form.title" ng-disabled="vm.form.base">
+                            <div ng-messages="formAdd.title.$error" ng-show="formAdd.title.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="25">
+                            <label>De</label>
+                            <input type="text" ng-keyup="vm.maskZip('from')" name="from" ng-model="vm.form.from" required>
+                            <div ng-messages="formAdd.from.$error" ng-show="formAdd.from.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="25">
+                            <label>Até</label>
+                            <input type="text" ng-keyup="vm.maskZip('to')" name="to" ng-model="vm.form.to" required>
+                            <div ng-messages="formAdd.to.$error" ng-show="formAdd.to.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </md-tab>
+                <md-tab label="Regras de Frete">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-input-container flex="100" flex-gt-xs="40">
+                            <label>Frete Mínimo / Fixo</label>
+                            <input type="text" ui-money-mask name="price" ng-model="vm.form.price">
+                            <div ng-messages="formAdd.price.$error" ng-show="formAdd.price.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="40">
+                            <label>Frete Grátis a partir de</label>
+                            <input type="text" ui-money-mask name="minValue" ng-model="vm.form.minValue">
+                            <div ng-messages="formAdd.minValue.$error" ng-show="formAdd.minValue.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="20">
+                            <label>Percentual sob Pedido</label>
+                            <input type="number" name="percent" ng-model="vm.form.percent" min="0" max="100">
+                            <div ng-messages="formAdd.percent.$error" ng-show="formAdd.percent.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="column">
+                        <h3 class="text-blue text-center">Informações sobre as regras:</h3>
+                        <p>
+                            <b>Frete mínimo:</b>
+                            Valor a ser cobrado caso o frete grátis não tenha sido atingido. <b>Obs.:</b> o Frete mínimo também pode ser usado como frete fixo.
+                        </p>
+                        <p>
+                            <b>Frete Grátis a partir de:</b>
+                            Caso o pedido do cliente atinja o valor desse campo, não será cobrado taxa de entrega.
+                        </p>
+                        <p>
+                            <b>Percentual sob Pedido:</b>
+                            Caso nenhum dos casos acima tenham sido atendidos, aplica este percentual sobre o total do pedido do cliente.
+                        </p>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

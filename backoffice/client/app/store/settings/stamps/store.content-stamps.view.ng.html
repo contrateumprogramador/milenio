@@ -1,0 +1,95 @@
+<form name="userAddForm" layout="column" layout-fill ng-submit="userAddForm.$valid && vm.save()">
+    <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+    <md-content flex layout-fill layout="column">
+        <h2 class="md-title text-blue text-center">Selos</h2>
+        <div flex layout="column" id="cardView">
+            <table md-table md-row-select="options.rowSelection" ng-model="vm.selected" md-progress="promise">
+                <thead md-head md-order="vm.order">
+                    <tr md-row>
+                        <th md-column>Regra</th>
+                        <th md-column>Estilo</th>
+                        <th md-column>Texto 1</th>
+                        <th md-column>Texto 2</th>
+                        <th md-column>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row>
+                        <td md-cell>
+                            {{ vm.form.stamps.general.name }}
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Selecione</label>
+                                <md-select ng-model="vm.form.stamps.general.style">
+                                    <md-option ng-repeat="(key, style) in vm.styles" value="{{style}}">
+                                        {{key}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Texto 1</label>
+                                <input name="text1" ng-model="vm.form.stamps.general.texts[0]">
+                            </md-input-container>
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Texto 2</label>
+                                <input name="text2" ng-model="vm.form.stamps.general.texts[1]">
+                            </md-input-container>
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Descrição</label>
+                                <input name="description" ng-model="vm.form.stamps.general.description">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                    <tr md-row ng-repeat="(key, stamp) in vm.form.stamps.sections track by $index">
+                        <td md-cell>
+                            {{ stamp.name }}
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Selecione</label>
+                                <md-select ng-model="vm.form.stamps.sections[key].style">
+                                    <md-option ng-repeat="(key, style) in vm.styles" value="{{style}}">
+                                        {{key}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Texto 1</label>
+                                <input name="text1" ng-model="vm.form.stamps.sections[key].texts[0]">
+                            </md-input-container>
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Texto 2</label>
+                                <input name="text1" ng-model="vm.form.stamps.sections[key].texts[1]">
+                            </md-input-container>
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Descrição</label>
+                                <input name="description" ng-model="vm.form.stamps.sections[key].description">
+                            </md-input-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </md-content>
+    <md-toolbar class="md-menu-toolbar bg-grey md-whiteframe-2dp slide-down">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <div></div>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="userAddForm.$invalid" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </div>
+    </md-toolbar>
+</form>

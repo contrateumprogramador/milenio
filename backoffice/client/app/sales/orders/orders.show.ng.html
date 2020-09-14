@@ -1,0 +1,350 @@
+<md-dialog flex>
+    <form name="form" ng-submit="form.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Visualizar detalhes (Pedido {{vm.checkout.orderNumber}})</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content flex class="height-500 no-padding">
+            <md-tabs flex class="height-100-p">
+                <md-tab label="Informações Gerais">
+                    <div layout="row" layout-padding>
+                        <div flex="50">
+                            <div class="text-center">
+                                <h3>
+                                    <md-icon md-font-icon="icon-information"></md-icon>
+                                    Informações do Cliente
+                                </h3>
+                            </div>
+                            <div layout="row" layout-wrap>
+                                <md-input-container flex="100">
+                                    <label>E-mail</label>
+                                    <input type="text" name="email" ng-model="vm.checkout.customer.email" readonly />
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Nome</label>
+                                    <input type="text" name="firstname" ng-model="vm.checkout.customer.firstname"
+                                        readonly />
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Sobrenome</label>
+                                    <input type="text" name="lastname" ng-model="vm.checkout.customer.lastname"
+                                        readonly />
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>CPF</label>
+                                    <input type="text" ui-br-cpf-mask name="document" ng-model="vm.checkout.customer.document"
+                                        readonly />
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Telefone</label>
+                                    <input type="text" ui-br-phone-number name="phone" ng-model="vm.checkout.customer.phone"
+                                        readonly />
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div flex>
+                            <div class="text-center">
+                                <h3>
+                                    <md-icon md-font-icon="icon-clipboard-check"></md-icon>
+                                    Status do Pedido
+                                </h3>
+                                <div ng-repeat="(key, status) in vm.checkout.status track by $index" class="slide-down">
+                                    <md-list-item class="md-3-line cursor-pointer" ng-show="vm.hover == {{key}}">
+                                        <div class="md-list-item-text" layout="column">
+                                            <h3>{{ status.name }} | {{ status.time | date:"dd/MM/yyyy 'ás' HH:mm" }}</h3>
+                                        </div>
+                                    </md-list-item>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Carrinho">
+                    <div layout="row" layout-padding>
+                        <div class="cart-items" flex>
+                            <div layout="row" layout-padding>
+                                <div flex="33">
+                                    <h3 class="text-center" layout="column">
+                                        <strong>Frete:</strong> <span class="md-caption">{{vm.checkout.cart.shippingPrice
+                                            || 0 | currency: "R$ "}}</span>
+                                    </h3>
+                                </div>
+                                <div flex="33">
+                                    <h3 class="text-center" layout="column">
+                                        <strong>Desconto:</strong> <span class="md-caption">{{vm.checkout.cart.discount
+                                            || 0 | currency: "R$ "}}</span>
+                                    </h3>
+                                </div>
+                                <div flex="33">
+                                    <h3 class="text-center" layout="column">
+                                        <strong>Total:</strong> <span class="md-caption">{{vm.checkout.cart.total || 0
+                                            | currency: "R$ "}}</span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div layout="row" class="items-header" layout-padding>
+                                <div flex="60" class="text-center">
+                                    <span>Item</span>
+                                </div>
+                                <md-divider></md-divider>
+                                <div flex="10" layout="row" layout-align="center center" class="text-center">
+                                    <span>Quant</span>
+                                </div>
+                                <md-divider></md-divider>
+                                <div flex="15" layout="row" layout-align="center center" class="text-center">
+                                    <span>Preço</span>
+                                </div>
+                                <md-divider></md-divider>
+                                <div flex="15" layout="row" layout-align="center center" class="text-center">
+                                    <span>Total</span>
+                                </div>
+                            </div>
+                            <md-content flex layout-wrap class="column-overflow">
+                                <div ng-show="vm.checkout.cart.items.length" layout="row" ng-repeat="(key, item) in vm.checkout.cart.items track by $index"
+                                    class="md-3-line">
+                                    <div flex="60" layout="row" layout-padding layout-align="start center">
+                                        <img class="mini-mini-picture" ng-show="item.pictures[0] || item.picture"
+                                            ng-src="{{item.pictures[0] || item.picture}}" />
+                                        <div layout="column" flex>
+                                            <span class="cart-item-title md-caption">{{item.name}} </span>
+                                            <span class="cart-item-title md-caption"><strong>Opção:</strong>
+                                                {{item.options.name}}</span>
+                                            <span ng-repeat="customization in item.customizations track by $index"
+                                                class="cart-item-title md-caption">
+                                                <strong>{{customization.type}}:</strong> {{customization.option.name}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div flex="10" layout="row" layout-align="center center">
+                                        <span class="md-caption">{{item.quant}}</span>
+                                    </div>
+                                    <div flex="15" layout="row" layout-align="center center">
+                                        <span class="md-caption">{{(item.options.salesPrice || item.options.price) |
+                                            currency: "R$ "}}</span>
+                                    </div>
+                                    <div flex="15" layout="row" layout-align="center center">
+                                        <span class="md-caption">{{item.total | currency: "R$ "}}</span>
+                                    </div>
+                                </div>
+                                <empty-alert header="Seu carrinho está vazio. :(" show="!vm.checkout.cart.items.length">
+                                    Adicione itens ao carrinho!
+                                </empty-alert>
+                            </md-content>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Informações de entrega">
+                    <div layout="row" class="view-status" layout-padding>
+                        <div flex="50" layout-wrap>
+                            <div class="text-center">
+                                <h3>
+                                    <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
+                                    Localização do Cliente
+                                </h3>
+                            </div>
+                            <md-input-container flex="50">
+                                <label>Endereço</label>
+                                <input type="text" name="title" ng-model="vm.checkout.shipping.title" readonly />
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label>Logradouro</label>
+                                <input type="text" name="address" ng-model="vm.checkout.shipping.address" readonly />
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label>Bairro</label>
+                                <input type="text" name="district" ng-model="vm.checkout.shipping.district" readonly />
+                            </md-input-container>
+                            <md-input-container flex="30">
+                                <label>Complemento</label>
+                                <input type="text" name="complement" ng-model="vm.checkout.shipping.complement"
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="20">
+                                <label>Número</label>
+                                <input type="text" name="numero" ng-model="vm.checkout.shipping.number" readonly />
+                            </md-input-container>
+                            <md-input-container flex="30">
+                                <label>CEP</label>
+                                <input type="text" ui-br-cep-mask name="zipcode" ng-model="vm.checkout.shipping.zipcode"
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label>Cidade</label>
+                                <input type="text" name="city" ng-model="vm.checkout.shipping.city" readonly />
+                            </md-input-container>
+                            <md-input-container flex="20">
+                                <label>Estado</label>
+                                <input type="text" name="state" ng-model="vm.checkout.shipping.state" readonly />
+                            </md-input-container>
+                        </div>
+                        <div flex="50">
+                            <div class="text-center" ng-show="vm.checkout.shipping.options.collect.day">
+                                <h3>
+                                    <md-icon md-font-icon="icon-truck"></md-icon>
+                                    Informações de Entrega
+                                </h3>
+                                <div ng-repeat="(key, option) in vm.checkout.shipping.options track by $index" class="slide-down">
+                                    <md-list-item class="md-3-line cursor-pointer">
+                                        <div class="md-list-item-text" layout="column">
+                                            <h3>{{ (key == "collect") ? "Coleta" : "Entrega" }}</h3>
+                                            <h4>Dia: {{ option.day }}</h4>
+                                            <p>Período: {{ option.time }}</p>
+                                        </div>
+                                    </md-list-item>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Informações de pagamento" ng-click="vm.getPaymentValue()" ng-disabled="!vm.payment">
+                    <div layout="row" layout-padding>
+                        <div layout="row" layout-wrap flex="100">
+                            <div flex="100" class="text-center">
+                                <h3>
+                                    <md-icon md-font-icon="icon-cash"></md-icon>
+                                    Informações de Pagamento
+                                </h3>
+                            </div>
+                            <md-input-container flex="60">
+                                <label>Método de Pagamento</label>
+                                <input type="text" name="paymentMethod" ng-model="vm.payment.paymentMethod" readonly />
+                            </md-input-container>
+                            <md-input-container flex="40">
+                                <label>Tentativas</label>
+                                <input type="text" name="paymentAttempt" ng-model="vm.payment.paymentAttempt" readonly />
+                            </md-input-container>
+                            <md-input-container flex="30">
+                                <label>Transação</label>
+                                <input type="text" name="numeroTransacao" ng-model="vm.payment.transaction.numeroTransacao"
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="30">
+                                <label>Estabelecimento</label>
+                                <input type="text" name="codigoEstabelecimento" ng-model="vm.payment.transaction.codigoEstabelecimento"
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="20">
+                                <label>Valor</label>
+                                <input type="text" name="valor" ng-model="vm.payment.transaction.valor" ui-money-mask
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="20">
+                                <label>Desconto</label>
+                                <input type="text" name="valorDesconto" ng-model="vm.payment.transaction.valorDesconto"
+                                    ui-money-mask readonly />
+                            </md-input-container>
+                            <md-input-container flex="20">
+                                <label>Parcelas</label>
+                                <input type="number" name="parcelas" ng-model="vm.payment.transaction.parcelas"
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="40">
+                                <label>Status</label>
+                                <input type="text" name="status" ng-model="vm.payment.transaction.mensagemVenda"
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="40">
+                                <label>Vencimento</label>
+                                <input type="text" name="maturity" ng-model="vm.payment.maturity" ui-date-mask readonly />
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div layout="row" layout-padding ng-if="vm.payment.paymentMethod == 'Cartão de Crédito'">
+                        <div layout="row" layout-wrap flex="50">
+                            <div flex="100" class="text-center">
+                                <h3>
+                                    <md-icon md-font-icon="icon-credit-card"></md-icon>
+                                    Dados do cartão
+                                </h3>
+                            </div>
+                            <md-input-container flex="100">
+                                <label>Proprietário</label>
+                                <input type="text" name="holder" ng-model="vm.payment.credit_card.holder" readonly />
+                            </md-input-container>
+                            <md-input-container flex="40">
+                                <label>Cartão</label>
+                                <input type="text" name="brand" ng-model="vm.payment.credit_card.brand" readonly />
+                            </md-input-container>
+                            <md-input-container flex="40">
+                                <label>Número do cartão</label>
+                                <input type="text" name="number" ng-model="vm.payment.credit_card.number" readonly />
+                            </md-input-container>
+                            <md-input-container flex="10">
+                                <label>Mês</label>
+                                <input type="text" name="month" ng-model="vm.payment.credit_card.expiration_month"
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="10">
+                                <label>Ano</label>
+                                <input type="text" name="year" ng-model="vm.payment.credit_card.expiration_year"
+                                    readonly />
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label>Comprovante TID</label>
+                                <input type="text" name="comprovante" ng-model="vm.payment.transaction.numeroComprovanteVenda"
+                                    readonly />
+                            </md-input-container>
+                        </div>
+                        <div layout="row" flex="50" layout-padding>
+                            <div layout="row" layout-wrap flex>
+                                <div flex="100" class="text-center">
+                                    <h3>
+                                        <md-icon md-font-icon="icon-shield"></md-icon>
+                                        Antifraude
+                                    </h3>
+                                </div>
+                                <div flex="50">
+                                    <h3>Recomendação: {{ vm.fraudRecommendation() }}</h3>
+                                    <h3>Konduto Score: {{ vm.payment.konduto.order.score }}</h3>
+                                    <md-input-container flex>
+                                        <label>Status Antifraude:</label>
+                                        <md-select ng-model="vm.payment.konduto.order.status" md-on-open="vm.fraudStatusOpen()"
+                                            md-on-close="vm.fraudStatusClose()" aria-label="Status Antifraude">
+                                            <md-option value="{{ key }}" ng-repeat="(key, value) in vm.fraudStatusList">{{
+                                                value }}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div flex="50">
+                                    <h3>
+                                        Ações:
+                                        <div layout="row">
+                                            <md-button ng-if="!vm.payment.konduto" class="md-icon-button" ng-click="vm.updateKonduto()"
+                                                aria-label="Enviar Konduto Manualmente">
+                                                <md-icon md-font-icon="icon-cloud-upload"></md-icon>
+                                                <md-tooltip><span>Enviar requisição manualmente</span></md-tooltip>
+                                            </md-button>
+                                            <md-button class="md-icon-button" aria-label="Atualizar Konduto" ng-click="vm.fraudUpdate()">
+                                                <md-icon md-font-icon="icon-reload"></md-icon>
+                                                <md-tooltip><span>Atualizar Konduto</span></md-tooltip>
+                                            </md-button>
+                                            <md-button class="md-icon-button" ng-href="{{ vm.fraudLink() }}" target="_blank"
+                                                aria-label="Acessar Konduto">
+                                                <md-icon md-font-icon="icon-exit-to-app"></md-icon>
+                                                <md-tooltip><span>Acessar Konduto</span></md-tooltip>
+                                            </md-button>
+                                        </div>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="UTMs">
+                    <div layout="column" layout-padding>
+                        <p ng-repeat="(key, value) in vm.checkout.meta.utms">
+                            <strong>{{ key }}:</strong> {{ value }}
+                        </p>
+                        <p ng-if="!vm.checkout.meta.utms">Nenhuma UTM registrada.</p>
+                    </div>
+            </md-tabs>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

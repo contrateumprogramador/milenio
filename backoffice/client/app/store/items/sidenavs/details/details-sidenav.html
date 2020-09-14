@@ -1,0 +1,62 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div class="toolbar" layout="row" layout-align="end center">
+            <md-button class="md-icon-button" ng-click="vm.edit($event)" aria-label="Editar">
+                <md-icon md-font-icon="icon-pencil"></md-icon>
+                <md-tooltip><span>Editar</span></md-tooltip>
+            </md-button>
+
+            <md-menu ng-if="vm.role == 'admin' || vm.role == 'expedition'">
+                <md-button aria-label="Mais" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                    <md-tooltip><span>Mais</span></md-tooltip>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="vm.remove($event)">
+                            <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+                            Excluir
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+
+
+    <div>
+        <div class="title">{{vm.selected.type}}</div>
+    </div>
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+
+    <div class="file-details">
+        <!-- <div class="preview file-icon" layout="row" layout-align="center center">
+            <i class="icon-{{vm.selected.type}} s48"></i>
+        </div> -->
+
+        <!-- <md-list class="offline-switch">
+            <md-list-item>
+                <p>Available Offline</p>
+                <md-switch class="md-secondary" ng-model="vm.selected.offline" aria-label="Toggle offline"
+                          ></md-switch>
+            </md-list-item>
+        </md-list> -->
+
+        <dl>
+            <dt class="text-center" layout-padding>Opções</dt>
+            <div ng-repeat="(key, option) in vm.selected.options" layout-padding>
+                <dt>{{option.name}}</dt>
+                <div layout-padding>
+                    <img ng-src="{{option.image}}" width="75%" alt="{{option.name}}"/>
+                </div>
+                <md-divider></md-divider>
+            </div>
+        </dl>
+
+    </div>
+
+</md-content>
+<!-- / SIDENAV CONTENT -->

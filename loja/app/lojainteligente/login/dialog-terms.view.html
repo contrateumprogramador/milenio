@@ -1,0 +1,22 @@
+<md-dialog aria-label="Mango (Fruit)" flex="100" flex-gt-xs="60">
+  <form ng-cloak>
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <h2>
+                <md-icon md-font-icon="icon-account-circle"></md-icon>
+                    {{ terms.title }}
+                </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="terms.hideDialog()">
+                <md-icon md-font-icon="icon-window-close" aria-label="Fechar"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <span ng-bind-html="terms.text"></span>
+      </div>
+    </md-dialog-content>
+  </form>
+</md-dialog>

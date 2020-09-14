@@ -1,0 +1,111 @@
+<md-dialog flex="66">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Informações do Item</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="vm.cancel()">
+                <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+    <md-dialog-content>
+        <div>
+            <h2 class="title text-center">{{vm.item.name}}</h2>
+            <h3 class="subtitle text-center"><strong>URL:</strong> {{vm.item.url}}</h3>
+        </div>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="vm.tab">
+            <md-tab label="Dados do item">
+                <div layout="row">
+                    <div flex="50">
+                        <div layout="row">
+                            <h3 class="subtitle" flex><strong>Descrição</strong></h3>
+                        </div>
+                        <span ng-bind-html="vm.item.attributes[0].content"></span>
+                    </div>
+                    <md-divider></md-divider>
+                    <div flex>
+                        <div layout="row">
+                            <div layout="column" flex layout-padding>
+                                <h3 class="subtitle text-center"><strong>Item</strong></h3>
+                                <h3>
+                                    <strong>Preço: </strong>
+                                    <span>{{vm.item.options[0].price | currency: "R$ "}}</span>
+                                </h3>
+                                <h3>
+                                    <strong>Preço Promocional: </strong>
+                                    <span>{{vm.item.options[0].salesPrice | currency: "R$ "}}</span>
+                                </h3>
+                            </div>
+                            <md-divider></md-divider>
+                            <div layout="column" flex layout-padding>
+                                <h3 class="subtitle text-center"><strong>Subitens</strong></h3>
+                                <div ng-show="vm.item.options.length == 1">
+                                    <h4 class="text-center">Nenhum subitem cadastrado</h4>
+                                </div>
+                                <div ng-repeat="(key, sub) in vm.item.options" layout="row">
+                                    <span flex ng-hide="key == 0">{{sub.name}}</span>
+                                    <span ng-hide="key == 0">{{sub.price | currency: "R$ "}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <md-divider></md-divider>
+
+                        <div layout="row">
+                            <div class="column" flex>
+                                <h3 class="subtitle text-center"><strong>Tags</strong></h3>
+                                <div layout="row" layout-wrap layout-padding>
+                                    <div flex="50" ng-repeat="tag in vm.item.tags">
+                                        <span class="tags">{{tag.name}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-tab>
+            <md-tab label="Opções de Customização" ng-disabled="vm.item.customizations.length <= 0">
+              <div layout="row" layout-align="space-between">
+                <md-content flex="{{100/vm.item.customizations.length}}" layout="column" ng-repeat="(key, customization) in vm.item.customizations" layout-padding>
+                  <div class="bg-grey">
+                    <h2 class="text-white text-center">{{customization.type}}</h2>
+                    <md-card ng-style="{'background-image': 'url(' + option.image + ')'}" ng-repeat="(key, option) in customization.options">
+                      <h4 ng-class="{'border-dotted' : option.image}" class="text-blue bg-white option-title text-center">{{option.name}}</h4>
+                    </md-card>
+                  </div>
+                </md-content>
+              </div>
+            </md-tab>
+            <md-tab label="Itens Relacionados" ng-disabled="vm.item.related.length <= 0">
+              <div layout="row" layout-align="space-between">
+                <md-content flex="20" layout="column" ng-repeat="(key, item) in vm.item.related" layout-padding>
+                  <md-card>
+                    <md-card-title>
+                      <md-card-title-text>
+                        <span class="item-title md-subhead no-padding">
+                          {{item.name}}
+                        </span>
+                      </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content>
+                      <div class="md-subhead no-padding" ng-show="item.pictures.length > 0" no-padding>
+                        <img ng-src="{{item.pictures[0]}}" alt="{{item.name}}"/>
+                      </div>
+                    </md-card-content>
+                  </md-card>
+                </md-content>
+              </div>
+            </md-tab>
+            <md-tab label="Imagens" ng-disabled="vm.item.pictures.length <= 0">
+                <div>
+                    <div layout="row" layout-padding layout-wrap>
+                        <div ng-repeat="picture in vm.item.pictures track by $index" flex="25">
+                            <img ng-src="{{picture}}" alt="{{vm.item.name}}"/>
+                        </div>
+                    </div>
+                </div>
+            </md-tab>
+        </md-tabs>
+    </md-dialog-content>
+</md-dialog>

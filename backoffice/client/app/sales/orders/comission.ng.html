@@ -1,0 +1,89 @@
+<md-dialog id="Comission" flex>
+    <form name="form" ng-submit="form.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Comissão do Pedido Nº {{ vm.checkout.orderNumber }}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon
+                        md-font-icon="icon-window-close"
+                        aria-label="fechar janela"
+                    ></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear
+            md-mode="indeterminate"
+            class="md-accent"
+            ng-show="vm.progressLoading"
+        ></md-progress-linear>
+        <md-dialog-content>
+            <div layout="row" flex>
+                <div layout="column" flex="40">
+                    <h2>Dados do Pedido</h2>
+                    <div>
+                        <strong
+                            >Pedido N&deg;
+                            {{ vm.form.checkout.orderNumber }}</strong
+                        >
+                    </div>
+                    <div>
+                        <strong>Total dos Ítens:</strong>
+                        {{ vm.form.checkout.itemsTotal | currency }}
+                    </div>
+                    <div>
+                        <strong>Cliente:</strong>
+                        {{ vm.form.customer.firstname }}
+                        {{ vm.form.customer.lastname }}
+                    </div>
+                    <div>
+                        <strong>Decorador:</strong>
+                        {{ vm.form.affiliate.firstname }}
+                        {{ vm.form.affiliate.lastname }}
+                    </div>
+                </div>
+                <div layout="column" flex="60">
+                    <h2>Comissão</h2>
+                    <div layout="row">
+                        <md-input-container>
+                            <span>Taxa de Comissão (%)</span>
+                            <input
+                                type="number"
+                                name="percent"
+                                ng-model="vm.form.percent"
+                                ng-required
+                                aria-label="Taxa de Comissão (%)"
+                                ng-keyup="vm.calculate('percent')"
+                            />
+                        </md-input-container>
+                        <md-input-container>
+                            <span>Valor da Comissão (R$)</span>
+                            <input
+                                type="text"
+                                name="comission"
+                                ng-model="vm.form.comission"
+                                ng-required
+                                aria-label="Valor da Comissão (R$)"
+                                ng-keyup="vm.calculate('comission')"
+                                ui-money-mask
+                            />
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button
+                class="md-raised md-accent"
+                type="submit"
+                ng-disabled="formAdd.$invalid || vm.progressLoading"
+                aria-label="Salvar"
+            >
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

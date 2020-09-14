@@ -1,0 +1,14 @@
+<!-- LIST VIEW -->
+<table md-table md-row-select="options.rowSelection" ng-model="vm.selected" md-progress="promise" >
+    <thead md-head md-order="vm.order">
+        <tr md-row>
+            <th md-column>Tipo</th>
+        </tr>
+    </thead>
+    <tbody md-body>
+        <tr md-row md-select="customization" md-auto-select ng-repeat="(key, customization) in vm.customizations | orderBy : vm.order" ng-click="vm.select(customization)" ng-class="{'selected' : vm.selected === customization}">
+            <td md-cell><strong>{{customization.type}}</strong></td>
+        </tr>
+    </tbody>
+</table>
+<!-- / LIST VIEW -->

@@ -1,0 +1,25 @@
+<div id="adm-companies" class="page-layout simple right-sidenav" layout="row">
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <page-header>Empresas</page-header>
+
+        <!-- CONTENT -->
+        <md-content class="content" flex ms-scroll>
+            <div ng-include="'client/app/adm/companies/views/list/list-view.html'"></div>
+        </md-content>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+    <!-- SIDENAV -->
+    <md-sidenav class="sidenav details-sidenav md-sidenav-right" md-is-locked-open="$mdMedia('gt-md') && vm.selected.length"
+                md-component-id="details-sidenav"
+                ng-include="'client/app/adm/companies/sidenavs/details/details-sidenav.html'" ms-scroll
+                ms-sidenav-helper>
+    </md-sidenav>
+    <!-- / SIDENAV -->
+
+</div>

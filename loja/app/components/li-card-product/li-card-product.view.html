@@ -1,0 +1,28 @@
+<md-card class="itemPreview item-preview">
+    <div class="relative">
+        <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id})" title="{{ vm.item.name }}">
+            <img ng-src="{{ vm.item.pictures[0]  || '/assets/images/no_image.jpg' }}" class="md-card-image" alt="{{ vm.item.name }}">
+        </a>
+        <li-stamp item="item"></li-stamp>
+    </div>
+    <md-card-title>
+        <md-card-title-text>
+            <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id})" title="{{ vm.item.name }}">
+                <span class="md-headline" layout="row" layout-align="center center">{{ vm.item.name }}</span>
+            </a>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <p class="price" ng-show="vm.item.stock != -1">
+            <span ng-class="{'line-through': vm.item.options[0].salesPrice}">{{vm.item.options[0].price | currency}}</span>
+            <br/>
+            <span ng-if="vm.item.options[0].salesPrice">{{vm.item.options[0].salesPrice | currency}}</span>
+        </p>
+        <p class="installments" ng-show="vm.item.stock != -1">
+            Até {{ vm.installments.times }}x de {{ vm.installments.value | currency }}
+        </p>
+    </md-card-content>
+    <md-card-actions layout="column" layout-align="start">
+        <md-button ng-click="vm.addToCart()" class="md-raised btn-cart" ng-disabled="vm.item.stock == -1">{{ (vm.item.stock == -1) ? 'Produto Indisponível' : 'Adicionar ao carrinho' }}</md-button>
+    </md-card-actions>
+</md-card>

@@ -1,0 +1,225 @@
+<md-dialog class="small-dialog" aria-label="Mango (Fruit)" flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Decorador</h2>
+                <h2 ng-show="vm.edit">Editar Decorador</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon
+                        md-font-icon="icon-window-close"
+                        aria-label="fechar janela"
+                    ></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear
+            md-mode="indeterminate"
+            class="md-accent"
+            ng-show="vm.progressLoading"
+        ></md-progress-linear>
+        <md-dialog-content style="padding: 0 !important">
+            <div class="md-dialog-content" layout="row" layout-wrap>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <label>Nome</label>
+                    <input
+                        type="text"
+                        name="firstname"
+                        ng-model="vm.form.firstname"
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.firstname.$error"
+                        ng-show="formAdd.firstname.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <label>Sobrenome</label>
+                    <input
+                        type="text"
+                        name="lastname"
+                        ng-model="vm.form.lastname"
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.lastname.$error"
+                        ng-show="formAdd.lastname.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <label>Email</label>
+                    <input
+                        name="email"
+                        type="email"
+                        ng-model="vm.form.email"
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.email.$error"
+                        ng-show="formAdd.email.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <label>Telefone</label>
+                    <input
+                        type="text"
+                        name="phone"
+                        ng-model="vm.form.phone"
+                        ui-br-phone-number
+                    />
+                    <div
+                        ng-messages="formAdd.phone.$error"
+                        ng-show="formAdd.phone.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="40">
+                    <label>CPF/CNPJ</label>
+                    <input
+                        type="text"
+                        name="document"
+                        ng-model="vm.form.document"
+                        ui-br-cpfcnpj-mask
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.document.$error"
+                        ng-show="formAdd.document.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                        <div ng-message="cpf"><span>CPF inválido.</span></div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="40">
+                    <label>ABD</label>
+                    <input
+                        type="text"
+                        name="abd"
+                        ng-model="vm.form.abd"
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.abd.$error"
+                        ng-show="formAdd.abd.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="20">
+                    <label>Comissão</label>
+                    <input
+                        type="number"
+                        name="comissionsRate"
+                        ng-model="vm.form.comissions.rate"
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.comissionsRate.$error"
+                        ng-show="formAdd.comissionsRate.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="33">
+                    <label>Banco</label>
+                    <input
+                        type="text"
+                        name="bankName"
+                        ng-model="vm.form.bank.name"
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.bankName.$error"
+                        ng-show="formAdd.bankName.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="33">
+                    <label>Agência</label>
+                    <input
+                        type="text"
+                        name="banckAgency"
+                        ng-model="vm.form.bank.agency"
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.banckAgency.$error"
+                        ng-show="formAdd.banckAgency.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="33">
+                    <label>Conta</label>
+                    <input
+                        type="text"
+                        name="banckAccount"
+                        ng-model="vm.form.bank.account"
+                        required
+                    />
+                    <div
+                        ng-messages="formAdd.banckAccount.$error"
+                        ng-show="formAdd.banckAccount.$touched"
+                        role="alert"
+                    >
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button
+                ng-click="vm.cancel()"
+                aria-label="Cancelar"
+                ng-disabled="vm.needSave"
+            >
+                Cancelar
+            </md-button>
+            <md-button
+                class="md-raised md-accent"
+                type="submit"
+                ng-disabled="formAdd.$invalid || vm.progressLoading"
+                aria-label="Adicionar"
+            >
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

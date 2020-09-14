@@ -1,0 +1,422 @@
+// LojaInteligente Payment
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:700')
+
+$black: rgba(0, 0, 0, .86)
+$blue: rgb(33,150,243)
+$green: rgb(98, 196, 98)
+$red: rgb(244,67,54)
+$white: rgba(255, 255, 255, 1)
+$white-off: rgba(255, 255, 255, .1)
+$yellow: rgba(255, 235, 59, .9)
+
+#PaymentComplete.box-new-order
+    background: #23d982
+    font-size: 16px
+    text-align: center
+    color: rgba(0, 0, 0, .6)
+    padding: 16px 16px
+    border-radius: 10px
+    margin: 200px
+    font-weight: bold
+
+.payment-tabs
+    md-prev-button, md-next-button
+      md-icon
+        border: none !important
+
+    md-tab-item
+        background: #fff
+        margin-right: 4px
+        text-align: left
+        width: 49%
+        border-bottom: 1px solid $yellow
+
+        &.md-active
+            background: rgba(0, 0, 0, .05)
+
+        h3
+            margin: 0
+            text-transform: initial
+
+            .md-headline
+                font-size: 21px
+
+            .md-subhead
+                font-size: 14px
+                margin-top: -4px
+
+    md-pagination-wrapper, md-tabs-canvas, md-tabs-wrapper
+        height: 80px !important
+
+#Boleto
+    height: 768px
+
+    .checkout-alert
+        border-radius: 4px
+        font-weight: bold
+        margin-top: 8px
+        padding: 8px
+        text-align: center
+        background: rgba(244,67,54, .15)
+        color: $red
+    p
+        margin: 0
+
+    iframe
+        background: #fff
+        border: none
+        bottom: 0
+        height: 100%
+        left: 0
+        margin: auto
+        max-width: 748px
+        right: 0
+        top: 0
+        width: 100%
+
+.payment-installments
+    .md-select-icon
+        color: red
+
+#CIpayment
+  padding: 0
+
+  md-radio-group
+      font-size: 12px
+
+      md-radio-button
+          margin-bottom: 5px
+
+          &.md-checked
+              .md-off
+                  border-color: $blue
+              .md-on
+                  background-color: $blue
+
+  label.radio-button
+      margin-bottom: 6px;
+
+  md-dialog-actions
+    padding: 0 8px
+
+    .md-button
+      margin: 0
+
+  .btn-cart
+      margin: 0
+
+  .checkout-alert
+    border-radius: 4px
+    font-weight: bold
+    margin-top: 8px
+    padding: 8px
+    text-align: center
+
+    p
+      margin: 0
+
+    &.checkout-alert-error
+      background: rgba(244,67,54, .15)
+      color: $red
+
+    &.checkout-alert-info
+      background: rgba(33,150,243, .15)
+      color: $blue
+
+    &.checkout-alert-success
+      background: rgba(98, 196, 98, .15)
+      color: $green
+
+  .checkout-btn-success
+    background: $green !important
+    color: #fff
+
+    &:disabled
+      background-color: rgba(0, 0, 0, .15) !important
+
+  .checkout-card-wrapper
+    min-width: 384px
+
+    &>*
+      max-width: 360px
+
+  .checkout-actions
+    .md-button
+      margin: 0
+
+  .checkout-form
+    margin-top: 8px
+    padding: 0
+    width: 94%
+
+    &>*
+      padding: 0
+
+    md-input-container
+      margin-bottom: 0
+
+    md-tabs
+      min-height: 76px
+
+      md-tabs-wrapper
+        display: none
+
+      md-tabs-content-wrapper
+        top: 0
+
+      md-input-container
+        width: 100%
+
+  .checkout-card
+      background: #454a51
+      border-bottom: solid 4px scale-color(rgb(68, 110, 144), $lightness: -85%)
+      border-radius: 10px
+      box-shadow: 0px 0px 12px 5px rgba(200, 225, 250, 0.15)
+      color: rgba(255, 255, 255, .85)
+      font-family: 'Inconsolata'
+      font-size: 21px
+      height: 54vw
+      margin-bottom: 14px
+      margin-left: auto
+      margin-right: auto
+      max-height: 200px
+      text-align: left
+      text-shadow: 1px 2px 1px rgba(0, 0, 0, .25)
+
+      &.card-front
+          background: url(/assets/lojainteligente/cc_background.jpg) no-repeat center
+          padding: 25px
+
+      .card-black-stripe
+          background: scale-color(rgb(68, 110, 144), $lightness: -70%)
+          margin: 5% 0 10px
+          min-height: 30%
+          width: 100%
+
+      .card-brand
+          background: no-repeat bottom right
+          background-size: contain
+          height: 24px
+          opacity: 1
+          transition: all 0.4s ease-in-out
+
+          &.card-amex
+              background-image: url(/assets/lojainteligente/cc_amex.png)
+
+          &.card-elo
+              background-image: url(/assets/lojainteligente/cc_elo.png)
+
+          &.card-mastercard
+              background-image: url(/assets/lojainteligente/cc_mastercard.png)
+
+          &.card-visa
+              background-image: url(/assets/lojainteligente/cc_visa.png)
+
+          &.ng-hide
+              opacity: 0
+
+      .card-cvv
+          background: #fff
+          box-sizing: border-box
+          color: scale-color(rgb(68, 110, 144), $lightness: -70%)
+          font-family: 'Lato', sans-serif
+          font-size: .8em
+          font-style: italic
+          height: 100%
+          padding: 5px
+          text-shadow: none
+          width: 25%
+
+          &.card-focused
+              border: solid 3px $yellow
+              box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.25)
+              color: scale-color(rgb(68, 110, 144), $lightness: -70%)
+
+      .card-cvv-container
+          padding: 0 25px
+          height: 40px
+          width: 100%
+
+      .card-focused
+          color: $yellow
+
+      .card-infos
+          width: 100%
+
+      .card-name
+          margin-bottom: 8px
+          text-transform: uppercase
+
+      .card-number
+          font-size: 1.2em
+          margin-bottom: 12px
+
+      .card-validity
+          .card-validity-label
+              font-family: 'Lato', sans-serif
+              font-size: 14px
+              line-height: 12px
+              margin-right: 12px
+              text-align: right
+              text-shadow: none
+              width: 42px
+
+      .card-white-stripe
+          background: rgba(255, 255, 255, .8)
+          height: 100%
+          width: 55%
+
+
+  // FLIPPY
+  flippy
+    float: left
+    -webkit-perspective: 600px
+    perspective: 600px
+    -ms-perspective: none
+
+    position: relative
+    width: 100%
+
+    flippy-front, flippy-back
+      position: absolute
+      width: 95% !important
+      height: 100%
+      -webkit-transform-style: preserve-3d
+      transform-style: preserve-3d
+      -webkit-backface-visibility: hidden
+      backface-visibility: hidden
+
+      top: 0
+      right: 0
+      bottom:
+      left:  0
+      box-shadow: none
+      border: none
+      background: none
+
+    flippy-front
+      z-index: 900
+      -webkit-transform: rotate3d(0, 0, 0, 0deg)
+      transform: rotate3d(0, 0, 0, 0deg)
+      -ms-transform: rotateY(0deg)
+
+    flippy-back
+      z-index: 800
+      -webkit-transform: rotate3d(0, 1, 0, -180deg)
+      transform: rotate3d(0, 1, 0, -180deg)
+      -ms-transform: rotateY(180deg)
+
+    &.fancy
+      float: left
+      position: relative
+      font-size: .8em
+
+      cursor: auto
+      height: 54vw
+      margin: 0 auto
+      max-height: 200px
+      max-width: 360px
+      min-height: 160px
+
+      img
+        height: auto
+        width: auto
+
+      flippy-front
+        float: none
+        position: absolute
+        top: 0
+        left: 0
+        z-index: 900
+        width: inherit
+
+        &.flipped
+          border-color: #eee
+          box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2)
+
+      flippy-back
+        float: none
+        position: absolute
+        top: 0
+        left: 0
+        z-index: 800
+        width: inherit
+
+        &.flipped
+          box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2)
+
+    &.flipped
+      flippy-front
+        z-index: 900
+        -webkit-transform: rotate3d(0, 1, 0, 180deg)
+        transform: rotate3d(0, 1, 0, 180deg)
+        -ms-transform: rotateY(180deg)
+      flippy-back
+        z-index: 1000
+        -webkit-transform: rotate3d(0, 0, 0, 0deg)
+        transform: rotate3d(0, 0, 0, 0deg)
+        -ms-transform: rotateY(0deg)
+
+    .payment-tabs
+        md-next-button, md-prev-button
+            display: none
+
+            md-icon
+              border: none !important
+
+        md-tab-item
+            background: rgba(0, 0, 0, .05)
+            margin-right: 4px
+            text-align: left
+            width: 49%
+
+            &.md-active
+                background: #fff
+
+            h3
+                margin: 0
+                text-transform: initial
+
+                .md-headline
+                    font-size: 21px
+
+                .md-subhead
+                    font-size: 14px
+                    margin-top: -4px
+
+        md-pagination-wrapper
+            width: 90% !important
+
+        md-pagination-wrapper, md-tabs-canvas, md-tabs-wrapper
+            height: 80px !important
+
+.payment-dialog
+  md-tab-item
+    height: 60px !important
+
+  md-ink-bar
+    top: 60px !important
+
+  md-headline
+    font-size: 12px !important    
+
+body.is-mobile
+  md-tab-item
+    padding: 8px
+
+  .payment-tabs
+    #PayData
+      flex: 1
+
+    h3
+      text-align: center
+
+      .md-headline
+          font-size: 14px
+
+      .md-subhead
+        font-size: 12px
+
+@media screen and (max-width: 600px)
+  .checkout-card-wrapper
+    min-width: 100vw !important

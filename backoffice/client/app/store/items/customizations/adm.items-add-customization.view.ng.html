@@ -1,0 +1,86 @@
+<md-dialog aria-label="Mango (Fruit)" flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Customização</h2>
+                <h2 ng-show="vm.edit">Editar Customização</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="vm.tab">
+                <md-tab label="1- Customização">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-input-container flex="100">
+                            <label>Tipo (Ex.: Materiais, Cores...)</label>
+                            <input type="text" name="type" ng-model="vm.form.type" required>
+                            <div ng-messages="formAdd.type.$error" ng-show="formAdd.type.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div flex="100" layout-wrap layout-padding>
+                        <h2 class="md-title text-blue text-center">Opções</h2>
+                        <md-divider></md-divider>
+                    </div>
+                    <div layout="row" layout-wrap ng-repeat="(key, options) in vm.form.options">
+                        <md-input-container class="top-50" flex="100" flex-gt-xs="25">
+                            <input type="text" name="name[key]" ng-model="vm.form.options[key].name" placeholder="Nome" required>
+                            <div ng-messages="formAdd.name[key].$error" ng-show="formAdd.name[key].$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="top-50" flex="100" flex-gt-xs="15">
+                            <input type="text" name="code[key]" ng-model="vm.form.options[key].code" placeholder="Codigo" required>
+                            <div ng-messages="formAdd.code[key].$error" ng-show="formAdd.code[key].$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <div ng-hide="vm.form.options[key].image" flex="35" layout-padding class="mini-dropzone">
+                            <drop-zone id="fileInput[key]" name="imageUpload" ng-click="vm.setIndex(key)" uploadMultiple="false" options="vm.dropzoneOptions">
+                            </drop-zone>
+                        </div>
+                        <div flex="35" ng-show="vm.form.options[key].image">
+                          <md-card>
+                            <md-card-title>
+                              <md-card-title-media>
+                                <img width="25%" ng-src="{{vm.form.options[key].image}}" alt="Imagem não encontrada">
+                              </md-card-title-media>
+                            </md-card-title>
+                            <md-card-actions layout="row" layout-align="end center" class="slide-down">
+                                <md-button class="md-icon-button" ng-click="vm.removePicture(vm.form.options[key].image, key, true)" aria-label="Excluir">
+                                    <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+                                </md-button>
+                            </md-card-actions>
+                          </md-card>
+                        </div>
+                        <md-button class="md-fab md-mini top-50" ng-if="key != 0 || vm.form.options.length > 1" ng-click="vm.removeItem('options', key, vm.form.options[key].image)" aria-label="Retirar Opção">
+                          <md-icon md-font-icon="icon-close"></md-icon>
+                        </md-button>
+                        <md-button class="md-fab md-mini md-primary top-50" ng-click="vm.newItem('options')" ng-if="key == vm.form.options.length-1" aria-label="Nova Opção">
+                          <md-icon md-font-icon="icon-plus"></md-icon>
+                        </md-button>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar" ng-disabled="vm.needSave">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

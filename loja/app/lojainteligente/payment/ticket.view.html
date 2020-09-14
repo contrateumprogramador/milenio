@@ -1,0 +1,8 @@
+<div layout="row" layout-padding layout-wrap flex="100" layout-align="center start">
+    <div id="Boleto" class="" layout="column" flex="100" flex-gt-md="80" flex-gt-lg="70">
+        <div class="checkout-alert slide-down" ng-show="!vm.boletoUrl">
+            <p>Não encontramos o seu boleto.</p>
+        </div>
+        <iframe flex="100" ng-src="{{ vm.trustSrc(vm.boletoUrl) }}"></iframe>
+    </div>
+</div>

@@ -1,0 +1,175 @@
+<md-dialog id="Login" aria-label="Login" flex="100" flex-gt-xs="40">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Voltar" ng-click="vm.back()" ng-show="vm.tab">
+                <md-icon md-font-icon="icon-arrow-left"></md-icon>
+            </md-button>
+            <h2 ng-show="!vm.isCapture()">
+                <md-icon md-font-icon="icon-account-circle"></md-icon>
+                Acessar
+            </h2>
+            <h2 ng-show="vm.isCapture()">
+                <md-icon md-font-icon="icon-account-circle"></md-icon>
+                Registre-se
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="vm.cancel()">
+                <md-icon md-font-icon="icon-window-close" aria-label="Fechar"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-progress-linear md-mode="indeterminate" ng-show="ctrl.loading"></md-progress-linear>
+    <md-dialog-content>
+        <div layout="column" flex="100" layout-padding>
+            <md-tabs md-selected="vm.tab" md-dynamic-height="true">
+                <md-tab>
+                    <md-tab-body>
+                        <div ng-show="!vm.isCapture()">
+                            <h3 class="text-center">Acesse com seu e-mail</h3>
+                        </div>
+                        <div ng-show="vm.isCapture()">
+                            <h3 class="text-center">Acesse seu carrinho em qualquer dispositivo</h3>
+                            <p>Faça um cadastro rápido, assim você poderá acessar seu carrinho e continuar sua compra em outro
+                                computador ou smartphone ;)</p>
+                        </div>
+                        <form layout="column" name="vm.emailForm" ng-submit="vm.emailForm.$valid && vm.login()" novalidate="">
+                            <md-input-container>
+                                <label>Seu e-mail</label>
+                                <input type="email" name="email" ng-model="vm.customer.email" required>
+                                <div ng-messages="vm.emailForm.email.$error" ng-show="vm.emailForm.email.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório</span>
+                                    </div>
+                                    <div ng-message="email">
+                                        <span>Informe um e-mail válido.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </form>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab>
+                    <md-tab-body>
+                        <h3 class="text-center">Cadastre-se</h3>
+                        <form layout="column" name="vm.signupForm" ng-submit="vm.signupForm.$valid && vm.login()" novalidate="">
+                            <div layout="row">
+                                <md-input-container flex="50">
+                                    <label>Seu nome</label>
+                                    <input type="text" name="name" ng-model="vm.customer.firstname" required>
+                                    <div ng-messages="vm.signupForm.name.$error" ng-show="vm.signupForm.name.$touched" role="alert">
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Seu sobrenome</label>
+                                    <input type="text" name="lastname" ng-model="vm.customer.lastname" required>
+                                    <div ng-messages="vm.signupForm.lastname.$error" ng-show="vm.signupForm.lastname.$touched" role="alert">
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div layout="row">
+                                <md-input-container flex="50">
+                                    <label>Celular</label>
+                                    <input type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.customer.phone" required ui-br-phone-number-mask
+                                        mask-fix>
+                                    <div ng-messages="vm.signupForm.phone.$error" ng-show="vm.signupForm.phone.$touched" role="alert">
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                        <div ng-message="brPhoneNumber">
+                                            <span>Informe um celular válido.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Seu e-mail</label>
+                                    <input type="email" name="email" ng-model="vm.customer.email" required ng-readonly="true">
+                                    <div ng-messages="vm.loginForm.email.$error" ng-show="vm.loginForm.email.$touched" role="alert">
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                        <div ng-message="email">
+                                            <span>Informe um e-mail válido.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div layout="row" ng-if="!vm.isCapture()">
+                                <md-input-container flex>
+                                    <label>Seu CPF ou CNPJ</label>
+                                    <input type="tel" inputmode="tel" x-inputmode="tel" name="document" ng-model="vm.customer.document" required mask-fix ui-br-cpfcnpj-mask>
+                                    <div ng-messages="vm.signupForm.document.$error" ng-show="vm.signupForm.document.$touched" role="alert">
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                        <div ng-message="cpf">
+                                            <span>Informe um CPF válido.</span>
+                                        </div>
+                                        <div ng-message="cnpj">
+                                            <span>Informe um CNPJ válido.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <!-- <div class="row">
+                                <md-input-container>
+                                    <md-checkbox name="terms" ng-model="vm.customer.terms" required>
+                                        Eu Li e Aceito os <a href="#" ng-click="vm.showTerms(ev)">Termos de Uso</a>.
+                                    </md-checkbox>
+                                </md-input-container>
+                            </div> -->
+                            <button type="submit" class="hide"></button>
+                        </form>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab>
+                    <md-tab-body>
+                        <h3 class="text-center">Acesse com seu e-mail</h3>
+                        <form layout="column" name="vm.loginForm" ng-submit="vm.loginForm.$valid && vm.login()" novalidate="">
+                            <p class="text-center alert alert-warn slide-down" ng-show="vm.error">Erro: {{ vm.error }}</p>
+                            <md-input-container>
+                                <label>Seu e-mail</label>
+                                <input type="email" name="email" ng-model="vm.customer.email" required ng-readonly="true">
+                                <div ng-messages="vm.loginForm.email" ng-show="vm.loginForm.email.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                    <div ng-message="email">
+                                        <span>Informe um e-mail válido.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Sua senha</label>
+                                <input type="password" name="password" minlength="4" ng-model="vm.customer.password" required>
+                                <div ng-messages="vm.loginForm.password" ng-show="vm.loginForm.password.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                    <div ng-message="email">
+                                        <span>Informe um e-mail válido.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <button type="submit" class="hide"></button>
+                            <div ng-show="vm.passwordSent" layout="row" layout-align="center center">
+                                <strong>Uma nova senha foi enviada para o e-mail informado.</strong>
+                            </div>
+                            <md-button ng-click="vm.forgotPassword()" aria-label="recuperar senha">Esqueci minha senha</md-button>
+                        </form>
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <div layout="column" flex>
+            <md-button class="md-raised md-primary btn-lg" ng-click="vm.login()" ng-disabled="!vm.formValidity() || vm.loading" aria-label="Acessar">Acessar</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

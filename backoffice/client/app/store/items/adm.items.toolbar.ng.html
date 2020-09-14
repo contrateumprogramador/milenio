@@ -1,0 +1,21 @@
+<md-toolbar ng-show="vm.showToolbar" class="md-menu-toolbar bg-grey md-whiteframe-2dp slide-down">
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <div>
+          <md-button class="md-raised md-accent" ng-hide="vm.listCustomizations" ng-click="vm.listCustomizations = 1" aria-label="Listar Customizações">
+              <md-icon md-font-icon="icon-clipboard-text"></md-icon>
+              <span>Listar Customizações</span>
+          </md-button>
+          <md-button class="md-raised md-accent" ng-show="vm.listCustomizations" ng-click="vm.listCustomizations = 0" aria-label="Listar Itens">
+              <md-icon md-font-icon="icon-dropbox"></md-icon>
+              <span>Listar Itens</span>
+          </md-button>
+        </div>
+        <div>
+          <md-button class="md-raised md-accent" ng-disabled="vm.formSave.$invalid || vm.progressLoading" ng-click="vm.add($event)" aria-label="salvar">
+              <md-icon md-font-icon="icon-plus-circle"></md-icon>
+              <span ng-show="vm.listCustomizations">Nova Customização</span>
+              <span ng-hide="vm.listCustomizations">Novo Item</span>
+          </md-button>
+        </div>
+    </div>
+</md-toolbar>

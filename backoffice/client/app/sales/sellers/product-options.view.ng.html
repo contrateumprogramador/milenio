@@ -1,0 +1,59 @@
+<md-dialog class="small-dialog" flex>
+    <form name="form" ng-submit="form.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Adicionar Item</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <div id="Options" layout="column" class="margins height100 flex-1" layout-padding>
+                <label>Selecione a Opção:</label>
+                <md-radio-group layout="column" layout-gt-sm="row" ng-model="vm.option" layout-wrap>
+                    <md-radio-button ng-value="option" class="md-primary" ng-repeat="option in vm.item.options track by $index" aria-label="{{ option.name }}">{{ option.name }} ({{ option.price | currency: "R$ " }})</md-radio-button>
+                </md-radio-group>
+            </div>
+            <div ng-show="vm.option.custom" layout="row">
+                <md-input-container flex="50">
+                    <label>Nome da opção</label>
+                    <input type="text" name="title" ng-model="vm.option.name">
+                </md-input-container>
+                <md-input-container flex="50">
+                    <label>Valor</label>
+                    <input ui-money-mask type="text" name="title" ng-model="vm.option.price">
+                </md-input-container>
+            </div>
+            <md-divider></md-divider>
+            <div layout="row">
+                <div id="Customizations" layout="column" flex="100">
+                    <md-tabs md-border-bottom md-dynamic-height="true">
+                        <md-tab ng-repeat="group in vm.customizations track by group._id" label="{{ group.type }}">
+                            <md-tab-body>
+                                <div layout="row" id="CustomizationsRow">
+                                    <div ng-repeat="item in group.options track by $index">
+                                        <md-tooltip md-direction="bottom">
+                                            {{ item.name }}
+                                        </md-tooltip>
+                                        <img ng-src="{{ item.image }}" alt="{{ item.name }}" ng-class="{ 'active-customization': vm.customization[group._id].option.name == item.name }" ng-click="vm.setCustomization(group, item)">
+                                    </div>
+                                </div>
+                            </md-tab-body>
+                        </md-tab>
+                    </md-tabs>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Adicionar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,33 @@
+<md-table-container>
+    <table md-table md-row-select="true" md-progress="vm.promise" ng-model="vm.selected">
+        <thead md-head>
+            <tr md-row>
+                <th md-column md-numeric><span>#</span></th>
+                <th md-column><span>Empresa</span></th>
+                <th md-column><span>Responsável</span></th>
+                <th md-column md-numeric><span>N&deg; de Usuários</span></th>
+                <th md-column><span>Cidade - Estado</span></th>
+                <th md-column><span>Status</span></th>
+            </tr>
+        </thead>
+        <tbody md-body>
+            <tr md-row md-select="company" md-auto-select="true" ng-repeat="company in vm.list">
+                <td md-cell>{{ $index+1 }}</td>
+                <td md-cell>{{ company.name }}</td>
+                <td md-cell>{{ company.contact }}</td>
+                <td md-cell>{{ company.usersCount }}</td>
+                <td md-cell>{{ company.address.city }} - {{ company.address.state }}</td>
+                <td md-cell>
+                    <div ng-hide="company.production">
+                        <md-icon md-font-icon="icon-worker"></md-icon>
+                        <md-tooltip>Em Desenvolvimento</md-tooltip>
+                    </div>
+                    <div ng-show="company.production">
+                        <md-icon md-font-icon="icon-box-upload"></md-icon>
+                        <md-tooltip>Em Produção</md-tooltip>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</md-table-container>

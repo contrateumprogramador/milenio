@@ -1,0 +1,30 @@
+<md-content ng-class="" sw-stage="addresses list" id="AdressList">
+    <md-list class="addresses-list">
+        <div ng-repeat="address in addresses track by $index" class="slide-down">
+            <md-list-item class="md-3-line cursor-pointer" ng-class="{ active: isSelected(address) }" layout-padding ng-click="select(address)">
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ address.title }} | CEP: {{ address.zipcode | brCep }}</h3>
+                    <h4>{{ vm.getAddress(address) }}</h4>
+                    <h4>{{ address.city }}, {{ address.state }}</h4>
+                    <p ng-show="address.obs">
+                        <b>Observação:</b> {{ address.obs }}
+                    </p>
+                </div>
+                <md-menu ng-show="isSelected(address)">
+                 <!-- Trigger element is a md-button with an icon -->
+                 <md-button ng-click="$mdMenu.open($event)" class="md-icon-button" aria-label="Open sample menu">
+                   <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                 </md-button>
+                 <md-menu-content>
+                    <md-menu-item ng-show="vm.addressDialog"><md-button ng-click="vm.addressDialog('edit', $event)">
+                        <md-icon md-font-icon="icon-pencil"></md-icon> Editar
+                    </md-button></md-menu-item>
+                    <md-menu-item><md-button ng-click="addressRemove()">
+                        <md-icon md-font-icon="icon-trash"></md-icon> Apagar
+                    </md-button></md-menu-item>
+                 </md-menu-content>
+                </md-menu>
+            </md-list-item>
+        </div>
+    </md-list>
+</md-content>

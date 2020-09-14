@@ -1,0 +1,48 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div class="toolbar" layout="row" layout-align="end center">
+        <md-button class="md-icon-button" ng-click="vm.edit($event)" aria-label="Editar">
+            <md-icon md-font-icon="icon-pencil"></md-icon>
+            <md-tooltip><span>Editar</span></md-tooltip>
+        </md-button>
+        <md-menu ng-show="vm.selectedUser()">
+            <md-button aria-label="Mais" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                <md-tooltip><span>Mais</span></md-tooltip>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="vm.remove($event)">
+                        <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+                        Excluir
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+    <div>
+        <div class="title">{{vm.selected[0].profile.firstname}} {{vm.selected[0].profile.lastname}}</div>
+        <div class="subtitle secondary-text">{{ vm.selected[0].profile.company.name }}</div>
+    </div>
+</div>
+<!-- / SIDENAV HEADER -->
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+    <div class="file-details">
+        <md-list>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <p>E-mail</p>
+                    <h3>{{vm.selected[0].emails[0].address}}</h3>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-show="vm.selected[0].profile.phone">
+                <div class="md-list-item-text">
+                    <p>Telefone</p>
+                    <h3>{{vm.selected[0].profile.phone | brPhoneNumber}}</h3>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+</md-content>
+<!-- / SIDENAV CONTENT -->

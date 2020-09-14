@@ -1,0 +1,25 @@
+<div layout="column">
+    <div id="Search" layout="column">
+        <div class="" layout="row" layout-align="center center">
+            <div id="SearchField" hide show-gt-sm layout="column" flex="100" flex-gt-sm="90" flex-gt-lg="80">
+                <md-input-container>
+                    <label>
+                        <i class="fa fa-search" aria-hidden="true"></i> O que você procura?</label>
+                    <input id="searchText" type="text" ng-model="vm.searchText" ng-keydown="vm.typing()" />
+                </md-input-container>
+            </div>
+        </div>
+        <div class="" layout="row" layout-align="center center">
+            <div ng-show="vm.items.length > 0 && vm.searchText && !vm.empty" class="" layout="column" flex="100" flex-gt-sm="90" flex-gt-lg="80">
+                <milenio-title title-text="'Resultados de Busca'" description=""></milenio-title>
+                <div id="NovosProd" layout="column" layout-gt-xs="row" layout-align="space-between center">
+                    <li-items-list items="vm.itemsFiltered" row-size="5" col-flex="100" col-gt-xs="50" col-gt-sm="25"></li-items-list>
+                </div>
+            </div>
+            <div ng-show="vm.empty && !vm.loading" class="" layout="column" flex="100" flex-gt-sm="90" flex-gt-lg="80">
+                <milenio-title title-text="'Resultados de Busca'" description=""></milenio-title>
+                <h2>Nenhum produto encontrado com o termo "{{vm.searchText}}"</h2>
+            </div>
+        </div>
+    </div>
+</div>

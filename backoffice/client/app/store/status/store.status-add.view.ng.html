@@ -1,0 +1,55 @@
+<md-dialog aria-label="Mango (Fruit)" flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Status</h2>
+                <h2 ng-show="vm.edit">Editar Status</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="row" layout-wrap>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <label>Nome</label>
+                    <input type="text" name="name" ng-model="vm.form.name" required tabindex="1" ng-readonly="vm.form.mandatory">
+                    <div ng-messages="formAdd.name.$error" ng-show="formAdd.name.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="50" flex-gt-xs="25"> 
+                    <md-checkbox tabindex="2" ng-model="vm.form.email" aria-label="Enviar e-mail" ng-disabled="vm.form.mandatory">
+                        Enviar Atualizações por e-mail
+                    </md-checkbox>     
+                </md-input-container>                 
+                <md-input-container flex="50" flex-gt-xs="25"> 
+                    <md-checkbox tabindex="3" ng-model="vm.form.internal" aria-label="Processo interno" ng-disabled="vm.form.mandatory">
+                        Processo Interno
+                    </md-checkbox>     
+                </md-input-container>                                                       
+                <md-input-container flex="100">
+                    <label>Mensagem</label>
+                    <textarea tabindex="4" ng-model="vm.form.message" md-select-on-focus required></textarea>
+                    <div ng-messages="formAdd.message.$error" ng-show="formAdd.message.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>                    
+                </md-input-container>    
+            </div>                 
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

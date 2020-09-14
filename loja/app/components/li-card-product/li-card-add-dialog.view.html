@@ -1,0 +1,17 @@
+<md-dialog id="Product" aria-label="Opções do Produto" flex="100" flex-gt-xs="70">
+  <md-toolbar class="md-primary">
+      <div class="md-toolbar-tools">
+          <h2>
+              <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+              Customize seu produto
+          </h2>
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="vm.cancel()">
+              <md-icon md-font-icon="icon-window-close" aria-label="Fechar"></md-icon>
+          </md-button>
+      </div>
+  </md-toolbar>
+  <md-dialog-content layout-padding>
+    <li-product-details item="vm.item" image="true" checkout-item="vm.checkoutItem" show-title="true" dialog="true" index="vm.index"></li-product-details>
+  </md-dialog-content>
+</md-dialog>

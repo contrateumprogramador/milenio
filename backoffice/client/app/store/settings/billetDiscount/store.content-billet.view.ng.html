@@ -1,0 +1,36 @@
+<form name="userAddForm" ng-submit="userAddForm.$valid && vm.save()">
+    <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+    <md-content layout-fill>
+      <h2 class="md-title text-blue text-center">Boletos</h2>
+      <div layout="row" layout-padding class="card-view" layout-wrap id="cardView">
+          <md-input-container flex="100" flex-gt-xs="20">
+              <label>Tipo</label>
+              <md-select ng-model="vm.form.billet.discount.type" tabindex="2">
+                <md-option ng-repeat="type in vm.types" ng-value="type.short">
+                  {{type.name}}
+                </md-option>
+              </md-select>
+          </md-input-container>
+          <md-input-container ng-show="vm.form.billet.discount.type == '$'" flex="100" flex-gt-xs="40">
+              <label>Valor</label>
+              <input name="valueBillet" ui-money-mask type="text" ng-model="vm.form.billet.discount.value">
+          </md-input-container>
+          <md-input-container ng-show="vm.form.billet.discount.type == '%'" flex="100" flex-gt-xs="40">
+              <label>Valor</label>
+              <input name="percentBillet" type="number" ng-model="vm.form.billet.discount.value">
+          </md-input-container>
+          <md-input-container flex="100" flex-gt-xs="40">
+              <label>Dias para vencimento</label>
+              <input name="valueBillet" type="number" ng-model="vm.form.billet.validity">
+          </md-input-container>
+      </div>
+    </md-content>
+    <md-toolbar class="md-menu-toolbar bg-grey md-whiteframe-2dp slide-down">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+          <div></div>
+          <md-button class="md-raised md-accent" type="submit" ng-disabled="userAddForm.$invalid" aria-label="Adicionar">
+              Salvar
+          </md-button>
+        </div>
+    </md-toolbar>
+</form>

@@ -1,0 +1,32 @@
+<div layout="column">
+    <div ui-view="banner" id="BannerCategory"></div>
+    <div id="Category" layout="column">
+        <div class="" layout="row" layout-align="center center">
+            <div class="" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
+                <div layout="row">
+                    <div class="tags-list" layout="column" flex="20" ng-hide="!ctrl.checkMedia('gt-sm')">
+                        <md-list class="border-light">
+                            <md-list-item class="list-title">
+                                <h3>Categorias</h3>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-button ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: 'todos'})">Todos os produtos</md-button>
+                            </md-list-item>
+                            <md-list-item ng-repeat="tag in vm.section().subSections | orderBy: 'name' track by $index" ng-if="tag.tagsGroup == 'Categorias'">
+                                <md-button ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})">{{ tag.name }}</md-button>
+                            </md-list-item>
+                            <md-divider></md-divider>
+                            <md-list-item class="list-title">
+                                <h3>Ambientes</h3>
+                            </md-list-item>
+                            <md-list-item ui-sref-active="active" ng-repeat="tag in vm.section().subSections | orderBy: 'name' track by $index" ng-if="tag.tagsGroup == 'Ambientes'">
+                                <md-button ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})">{{ tag.name }}</md-button>
+                            </md-list-item>
+                        </md-list>                        
+                    </div>
+                    <div layout="column" flex="100" flex-gt-sm="80" ui-view="content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

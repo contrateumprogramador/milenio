@@ -1,0 +1,508 @@
+<div id="User" class="user-content relative" layout="row" layout-align="center start" layout-padding flex="100">
+    <md-tabs md-stretch-tabs="always" class="height100" md-selected="vm.tabSelected" flex ng-show="ctrl.checkMedia('gt-xs')">
+        <md-tab label="Meus Dados">
+            <md-tab-content layout="column" layout-gt-md="row" layout-align="start stretch" layout-align-gt-md="space-between start"
+                class="mTop6" flex>
+                <md-card class="height96" flex="100" flex-gt-md="50">
+                    <md-card-header layout="row" layout-align="space-between center" class="padding4">
+                        <h3>
+                            <md-icon md-font-icon="icon-account-box"></md-icon>
+                            Meus dados
+                        </h3>
+                        <div>
+                            <md-button aria-label="Alterar Senha" ng-show="!vm.customerEditing" ng-click="vm.editPassword()">
+                                <md-icon md-font-icon="icon-lock"></md-icon>
+                                <span>Alterar Senha</span>
+                            </md-button>
+                            <md-button aria-label="Editar dados" ng-click="vm.customerEdit('start')" ng-show="!vm.customerEditing">
+                                <md-icon md-font-icon="icon-pencil"></md-icon>
+                                <span>Editar dados</span>
+                            </md-button>
+                            <md-button aria-label="Cancelar edição" ng-click="vm.customerEdit('cancel')" ng-show="vm.customerEditing">
+                                <md-icon md-font-icon="icon-cancel"></md-icon>
+                                <span>Cancelar edição</span>
+                            </md-button>
+                            <md-button aria-label="Salvar dados" ng-click="vm.customerEdit('save')" ng-show="vm.customerEditing" ng-disabled="vm.vm.customerForm.$invalid">
+                                <md-icon md-font-icon="icon-content-save"></md-icon>
+                                <span>Salvar dados</span>
+                            </md-button>
+                        </div>
+                    </md-card-header>
+                    <md-card-content class="overflow padding4">
+                        <form layout="row" layout-wrap name="vm.customerForm" ng-submit="vm.customerForm.$valid && vm.customerUpdate()" novalidate>
+                            <md-input-container flex="50" class="mBot0 pandBot-0">
+                                <label>Nome</label>
+                                <input type="text" name="firstname" ng-model="vm.customer.profile.firstname" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="50" class="mBot0 pandBot-0">
+                                <label>Sobrenome</label>
+                                <input type="text" name="lastname" ng-model="vm.customer.profile.lastname" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="50" layout="row">
+                                <label>CPF</label>
+                                <input type="tel" inputmode="tel" x-inputmode="tel" name="document" ng-model="vm.customer.profile.document" ui-mask="{{ vm.documentMask }}"
+                                    mask-document="vm.documentMask" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="50" layout="row">
+                                <label>Celular</label>
+                                <input type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.customer.profile.phone" ui-mask="{{ vm.phoneMask }}"
+                                    mask-tel="vm.phoneMask" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="100" layout="row">
+                                <label>Email</label>
+                                <input type="text" name="email" ng-model="vm.customer.username" ng-readonly="true">
+                            </md-input-container>
+                        </form>
+                    </md-card-content>
+                </md-card>
+                <md-card class="" flex="100" flex-gt-md="50">
+                    <md-card-header layout="row" layout-align="space-between center" class="padding4">
+                        <h3>
+                            <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
+                            Meus endereços
+                        </h3>
+                        <md-button aria-label="Adicionar endereço" ng-click="vm.addressDialog('add', $event)">
+                            <md-icon md-font-icon="icon-plus-circle"></md-icon>
+                            <span>Novo endereço</span>
+                        </md-button>
+                    </md-card-header>
+                    <md-card-content class="overflow padding4">
+                        <addresses-list addresses="vm.addresses" address-remove="vm.addressRemove" address-dialog="vm.addressDialog" full="true"
+                            select="vm.addressSelect" is-selected="vm.addressSelected"></addresses-list>
+                    </md-card-content>
+                </md-card>
+            </md-tab-content>
+        </md-tab>
+        <md-tab label="Meus Pedidos">
+            <md-tab-content layout="row" layout-align="space-between start" class="mTop6" flex>
+                <div layout="column" class="height100" flex="100" flex-gt-md="33">
+                    <md-card class="height100">
+                        <md-card-header layout="row" layout-align="space-between center" class="padding4">
+                            <h3 hide show-gt-xs>
+                                <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+                                Pedidos e Orçamentos
+                            </h3>
+                        </md-card-header>
+                        <md-card-content class="overflow height100 padding4">
+                            <md-tabs md-stretch-tabs="always" md-selected="vm.indexTabOrders" class="height100">
+                                <md-tab ng-click="vm.tabChange('orders')" label="Pedidos">
+                                    <md-tab-body ng-show="vm.orders.length == 0" class="text-center" flex>
+                                        <p>Você não possui pedidos.</p>
+                                        <md-button class="md-button md-raised md-primary" ui-sref="home" aria-label="Comprar Já">Comprar Já</md-button>
+                                    </md-tab-body>
+                                    <md-tab-body ng-show="vm.orders.length" flex class="relative height100 pandTop-0 overflow">
+                                        <orders-list ng-click="(!ctrl.checkMedia('gt-md')) ? vm.openOrders(ev, vm.orderClicked) : ''" orders="vm.orders" full="true"
+                                            select="vm.orderSelect" is-selected-order="vm.orderSelected"></orders-list>
+                                    </md-tab-body>
+                                </md-tab>
+                                angularj
+                                <md-tab ng-click="vm.tabChange('carts')" label="Orçamentos">
+                                    <md-tab-body ng-show="vm.carts.length == 0" class="text-center" flex>
+                                        <p class="w3-animate-left">Você não possui orçamentos.</p>
+                                        <md-button class="md-button md-raised md-primary" ui-sref="home" aria-label="Comprar Já">Comprar Já</md-button>
+                                    </md-tab-body>
+                                    <md-tab-body ng-show="vm.carts.length" flex class="relative height100 pandTop-0 overflow">
+                                        <orders-list ng-click="(!ctrl.checkMedia('gt-md')) ? vm.openOrders(ev, vm.orderClicked) : ''" orders="vm.carts" full="true"
+                                            select="vm.orderSelect" is-selected-order="vm.orderSelected"></orders-list>
+                                    </md-tab-body>
+                                </md-tab>
+                            </md-tabs>
+                        </md-card-content>
+                    </md-card>
+                </div>
+                <div layout="column" class="height100" flex="66" ng-show="ctrl.checkMedia('gt-md')">
+                    <md-card ng-show="vm.orderClicked" class="height100">
+                        <md-card-header layout="column" layout-align="start start" scroll-watch="{from: 0, to: 3, stage: 'addresses list'}" sw-class="{ 'md-whiteframe-1dp': $percentage >= 100 }"
+                            class="pandBot-0">
+                            <h3 class="margin-0" hide show-gt-xs>
+                                <md-icon md-font-icon="icon-format-list-bulleted"></md-icon>
+                                Detalhes do {{(vm.orderClicked.orderNumber) ? 'Pedido' : 'Orçamento'}} Nº {{ (vm.orderClicked.orderNumber) ? vm.orderClicked.orderNumber
+                                : vm.orderClicked.number }}
+                            </h3>
+                        </md-card-header>
+                        <md-card-content class="overflow">
+                            <div ng-show="vm.orderClicked.orderNumber" layout="row" flex="33">
+                                <div layout="column" flex="100">
+                                    <h4 class="mBot0">
+                                        <md-icon md-font-icon="icon-checkbox-marked-circle"></md-icon>
+                                        Status do pedido
+                                    </h4>
+                                    <div class="container" ng-show="vm.orderClicked">
+                                        <div class="bs-wizard" layout="row">
+                                            <div ng-show="!status.internal" ng-repeat="(key, status) in vm.orderClicked.status track by $index" class="bs-wizard-step"
+                                                layout="column" flex="25" ng-class="{'disabled': !vm.orderClicked.status[key].time}">
+                                                <div class="text-center bs-wizard-stepnum">{{status.name}}</div>
+                                                <div class="progress">
+                                                    <div class="progress-bar"></div>
+                                                </div>
+                                                <a href="#" class="bs-wizard-dot" ng-mouseover="vm.hoverIn(key)" ng-mouseleave="vm.hoverIn(null)">
+                                                    <img ng-src="/assets/lojainteligente/{{vm.icons[key]}}" alt="pagamento" class="md-avatar">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-repeat="(key, status) in vm.orderClicked.status track by $index" class="slide-down">
+                                        <md-list-item class="md-3-line cursor-pointer" ng-show="vm.status == {{key}}">
+                                            <div class="md-list-item-text" layout="column">
+                                                <h3>{{ status.name }} | {{ status.time | date:"dd/MM/yyyy 'ás' HH:mm" }}</h3>
+                                                <h4>{{ status.message }}</h4>
+                                            </div>
+                                            <hr>
+                                        </md-list-item>
+                                    </div>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div layout="column">
+                                    <h4>
+                                        <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
+                                        Endereço
+                                    </h4>
+                                    <addresses-list addresses="[vm.orderClicked.shipping]" ng-show="vm.orderClicked.shipping.address" full="true"></addresses-list>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div layout="column">
+                                    <h4>
+                                        <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+                                        Carrinho ({{ vm.orderClicked.cart.itemsCount }})
+                                    </h4>
+                                    <div>
+                                        <div layout="row" layout-align="center center" class="basket-item slide-down" ng-repeat="(key, item) in vm.orderClicked.cart.items track by $index">
+                                            <div layout="row" layout-wrap flex>
+                                                <div layout="row" layout-align="start center" flex-xs="100" flex>
+                                                    <img ng-src="{{ item.picture || '/assets/images/no_image.jpg' }}" class="md-avatar" hide show-gt-xs flex="10">
+                                                    <p layout-padding flex="40">{{ item.name }}</p>
+                                                    <md-input-container flex="20">
+                                                        <label>Quant.</label>
+                                                        <input type="number" ng-model="item.quant" min="1" step="1" readonly="readonly">
+                                                    </md-input-container>
+                                                    <span class="price" flex>{{ item.total | currency }}</span>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <h3>
+                                        Total: {{ vm.orderClicked.cart.total | currency}}
+                                    </h3>
+                                    <h3 ng-show="vm.orderClicked.cart.discount">
+                                        Desconto: {{ vm.orderClicked.cart.discount | currency}}
+                                    </h3>
+                                </div>
+                            </div>
+                        </md-card-content>
+                        <md-card-footer>
+                            <div layout="column" class="width-100">
+                                <md-button class="width-100 order-button" ng-hide="vm.orderClicked.orderNumber" id="ButtonCart" aria-label="Concluir Compra"
+                                    ng-click="vm.finishOrder()">
+                                    Concluir Compra
+                                </md-button>
+                                <md-button class="width-100" ng-show="vm.showTicket()" id="ButtonCart" aria-label="Concluir Compra" ng-click="vm.goToTicket()">
+                                    Visualizar Boleto
+                                </md-button>
+                            </div>
+                        </md-card-footer>
+                    </md-card>
+                    <md-card ng-hide="vm.orderClicked" layout-padding class="height100">
+                        <div id="NotFound">Selecione um {{(vm.local == "orders") ? 'Pedido' : 'Orçamento'}} para visualizar os detalhes.</div>
+                    </md-card>
+                </div>
+            </md-tab-content>
+        </md-tab>
+    </md-tabs>
+    <div layout="column" class="full-height padding0" layout-align="start stretch" ng-show="ctrl.checkMedia('xs')">
+        <div hide show-xs id="MenuBottom" layout="row" flex="100">
+            <div layout="column" flex="33" layout-align="center center" ng-repeat="item in vm.menuItems">
+                <md-button class="md-grid-item-content" ng-click="vm.goToItemClicked(item.url)">
+                    <md-icon md-font-icon="{{item.icon}}"></md-icon>
+                    <div class="md-grid-text"> {{ item.name }} </div>
+                </md-button>
+            </div>
+        </div>
+        <div layout="row" layout-align="center start" class="height100">
+            <div layout="column" flex="100" flex-gt-xs="50" flex-gt-md="30" ng-show="ctrl.checkMedia('gt-xs') || vm.card == 'dados' || vm.card == 'enderecos'">
+                <md-card class="" ng-show="ctrl.checkMedia('gt-xs') || vm.card == 'dados'">
+                    <md-card-header layout="row" layout-align="space-between center" class="padding4">
+                        <h3>
+                            <md-icon md-font-icon="icon-account-box"></md-icon>
+                            Meus dados
+                        </h3>
+                        <div>
+                            <md-button class="md-icon-button" aria-label="Editar dados" ng-show="!vm.customerEditing" ng-click="vm.editPassword()">
+                                <md-tooltip md-direction="top">Alterar Senha</md-tooltip>
+                                <md-icon md-font-icon="icon-lock"></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button" aria-label="Editar dados" ng-click="vm.customerEdit('start')" ng-show="!vm.customerEditing">
+                                <md-tooltip md-direction="top">Editar dados</md-tooltip>
+                                <md-icon md-font-icon="icon-pencil"></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button" aria-label="Cancelar edição" ng-click="vm.customerEdit('cancel')" ng-show="vm.customerEditing">
+                                <md-tooltip md-direction="top">Cancelar edição</md-tooltip>
+                                <md-icon md-font-icon="icon-cancel"></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button md-raised md-primary" aria-label="Salvar dados" ng-click="vm.customerEdit('save')" ng-show="vm.customerEditing"
+                                ng-disabled="vm.vm.customerForm.$invalid">
+                                <md-tooltip md-direction="top">Salvar dados</md-tooltip>
+                                <md-icon md-font-icon="icon-content-save"></md-icon>
+                            </md-button>
+                        </div>
+                    </md-card-header>
+                    <md-card-content class="overflow padding4">
+                        <form layout="row" layout-wrap name="vm.customerForm" ng-submit="vm.customerForm.$valid && vm.customerUpdate()" novalidate>
+                            <md-input-container flex="50" class="mBot0 pandBot-0">
+                                <label>Nome</label>
+                                <input type="text" name="firstname" ng-model="vm.customer.profile.firstname" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="50" class="mBot0 pandBot-0">
+                                <label>Sobrenome</label>
+                                <input type="text" name="lastname" ng-model="vm.customer.profile.lastname" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="50" layout="row">
+                                <label>CPF</label>
+                                <input type="tel" inputmode="tel" x-inputmode="tel" name="document" ng-model="vm.customer.profile.document" ui-mask="{{ vm.documentMask }}"
+                                    mask-document="vm.documentMask" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="50" layout="row">
+                                <label>Celular</label>
+                                <input type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.customer.profile.phone" ui-mask="{{ vm.phoneMask }}"
+                                    mask-tel="vm.phoneMask" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="100" layout="row">
+                                <label>Email</label>
+                                <input type="text" name="email" ng-model="vm.customer.username" ng-readonly="true">
+                            </md-input-container>
+                        </form>
+                    </md-card-content>
+                </md-card>
+                <md-card class="card-my-data" ng-class="{'mTop0': ctrl.checkMedia('gt-xs') }" ng-show="ctrl.checkMedia('gt-xs') || vm.card == 'enderecos'">
+                    <md-card-header layout="row" layout-align="space-between center" class="padding4">
+                        <h3>
+                            <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
+                            Meus endereços
+                        </h3>
+                        <md-button class="md-icon-button md-raised md-primary" aria-label="Adicionar endereço" ng-click="vm.addressDialog('add', $event)">
+                            <md-tooltip md-direction="top">Novo endereço</md-tooltip>
+                            <md-icon md-font-icon="icon-plus"></md-icon>
+                        </md-button>
+                    </md-card-header>
+                    <md-card-content class="overflow padding4">
+                        <addresses-list addresses="vm.addresses" address-remove="vm.addressRemove" address-dialog="vm.addressDialog" full="true"
+                            select="vm.addressSelect" is-selected="vm.addressSelected"></addresses-list>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <div layout="column" flex="30" class="height100" ng-show="ctrl.checkMedia('gt-md')">
+                <md-card class="height100">
+                    <md-card-header layout="row" layout-align="space-between center" class="padding4">
+                        <h3 hide show-gt-xs>
+                            <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+                            Pedidos e Orçamentos
+                        </h3>
+                    </md-card-header>
+                    <md-card-content class="overflow height100 padding4">
+                        <md-tabs md-stretch-tabs="always" class="height100">
+                            <md-tab ng-click="vm.tabChange('orders')" label="Pedidos">
+                                <md-tab-body ng-show="vm.orders.length == 0" class="text-center" flex>
+                                    <p>Você não possui pedidos.</p>
+                                    <md-button class="md-button md-raised md-primary" ui-sref="home" aria-label="Comprar Já">Comprar Já</md-button>
+                                </md-tab-body>
+                                <md-tab-body ng-show="vm.orders.length" flex class="relative height100 pandTop-0 overflow">
+                                    <orders-list orders="vm.orders" full="true" select="vm.orderSelect" is-selected-order="vm.orderSelected"></orders-list>
+                                </md-tab-body>
+                            </md-tab>
+                            angularj
+                            <md-tab ng-click="vm.tabChange('carts')" label="Orçamentos">
+                                <md-tab-body ng-show="vm.carts.length == 0" class="text-center" flex>
+                                    <p class="w3-animate-left">Você não possui orçamentos.</p>
+                                    <md-button class="md-button md-raised md-primary" ui-sref="home" aria-label="Comprar Já">Comprar Já</md-button>
+                                </md-tab-body>
+                                <md-tab-body ng-show="vm.carts.length" flex class="relative height100 pandTop-0 overflow">
+                                    <orders-list orders="vm.carts" full="true" select="vm.orderSelect" is-selected-order="vm.orderSelected"></orders-list>
+                                </md-tab-body>
+                            </md-tab>
+                        </md-tabs>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <div layout="column" flex="40" class="height100" ng-show="ctrl.checkMedia('gt-md') && vm.card == 'pedidos'">
+                <md-card ng-show="vm.orderClicked" class="height100">
+                    <md-card-header layout="column" layout-align="start start" scroll-watch="{from: 0, to: 3, stage: 'addresses list'}" sw-class="{ 'md-whiteframe-1dp': $percentage >= 100 }"
+                        class="pandBot-0">
+                        <div layout="column" class="width-100">
+                            <md-button class="width-100" ng-hide="vm.orderClicked.orderNumber" id="ButtonCart" aria-label="Concluir Compra" ng-click="vm.finishOrder()">
+                                Concluir Compra
+                            </md-button>
+                            <md-button class="width-100" ng-show="vm.showTicket()" id="ButtonCart" aria-label="Concluir Compra" ng-click="vm.goToTicket()">
+                                Visualizar Boleto
+                            </md-button>
+                        </div>
+                        <h3 class="margin-0" hide show-gt-xs>
+                            <md-icon md-font-icon="icon-format-list-bulleted"></md-icon>
+                            Detalhes do {{(vm.orderClicked.orderNumber) ? 'Pedido' : 'Orçamento'}} Nº {{ (vm.orderClicked.orderNumber) ? vm.orderClicked.orderNumber
+                            : vm.orderClicked.number }}
+                        </h3>
+                    </md-card-header>
+                    <md-card-content class="overflow">
+                        <div ng-show="vm.orderClicked.orderNumber" layout="row" flex="33">
+                            <div layout="column" flex="100">
+                                <h4 class="mBot0">
+                                    <md-icon md-font-icon="icon-checkbox-marked-circle"></md-icon>
+                                    Status do pedido
+                                </h4>
+                                <div class="container" ng-show="vm.orderClicked">
+                                    <div class="bs-wizard" layout="row">
+                                        <div ng-show="!status.internal" ng-repeat="(key, status) in vm.orderClicked.status track by $index" class="bs-wizard-step"
+                                            layout="column" flex="25" ng-class="{'disabled': !vm.orderClicked.status[key].time}">
+                                            <div class="text-center bs-wizard-stepnum">{{status.name}}</div>
+                                            <div class="progress">
+                                                <div class="progress-bar"></div>
+                                            </div>
+                                            <a href="#" class="bs-wizard-dot" ng-mouseover="vm.hoverIn(key)" ng-mouseleave="vm.hoverIn(null)">
+                                                <img ng-src="/assets/lojainteligente/{{vm.icons[key]}}" alt="pagamento" class="md-avatar">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-repeat="(key, status) in vm.orderClicked.status track by $index" class="slide-down">
+                                    <md-list-item class="md-3-line cursor-pointer" ng-show="vm.status == {{key}}">
+                                        <div class="md-list-item-text" layout="column">
+                                            <h3>{{ status.name }} | {{ status.time | date:"dd/MM/yyyy 'ás' HH:mm" }}</h3>
+                                            <h4>{{ status.message }}</h4>
+                                        </div>
+                                        <hr>
+                                    </md-list-item>
+                                </div>
+                            </div>
+                        </div>
+                        <div layout="row">
+                            <div layout="column">
+                                <h4>
+                                    <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
+                                    Endereço
+                                </h4>
+                                <addresses-list addresses="[vm.orderClicked.shipping]" ng-show="vm.orderClicked.shipping.address" full="true"></addresses-list>
+                            </div>
+                        </div>
+                        <div layout="row">
+                            <div layout="column">
+                                <h4>
+                                    <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+                                    Carrinho ({{ vm.orderClicked.cart.itemsCount }})
+                                </h4>
+                                <div>
+                                    <div layout="row" layout-align="center center" class="basket-item slide-down" ng-repeat="(key, item) in vm.orderClicked.cart.items track by $index">
+                                        <div layout="row" layout-wrap flex>
+                                            <div layout="row" layout-align="start center" flex-xs="100" flex>
+                                                <img ng-src="{{ item.picture || '/assets/images/no_image.jpg' }}" class="md-avatar" hide show-gt-xs flex="10">
+                                                <p layout-padding flex="40">{{ item.name }}</p>
+                                                <md-input-container flex="20">
+                                                    <label>Quant.</label>
+                                                    <input type="number" ng-model="item.quant" min="1" step="1" readonly="readonly">
+                                                </md-input-container>
+                                                <span class="price" flex>{{ item.total | currency }}</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <quote-list items="vm.orderClicked.cart.items"></quote-list>
+                                </div>
+                                <h3>
+                                    Total: {{ vm.orderClicked.cart.total | currency}}
+                                </h3>
+                                <h3 ng-show="vm.orderClicked.cart.discount">
+                                    Desconto: {{ vm.orderClicked.cart.discount | currency}}
+                                </h3>
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card>
+                <md-card ng-hide="vm.orderClicked" layout-padding class="height100">
+                    <div id="NotFound">Selecione um {{(vm.local == "orders") ? 'Pedido' : 'Orçamento'}} para visualizar os detalhes.</div>
+                </md-card>
+            </div>
+            <div layout="column" flex="100" flex-gt-sm="60" ng-show="ctrl.checkMedia('sm') || ctrl.checkMedia('md')">
+                <div layout="column" ng-show="ctrl.checkMedia('sm') || vm.card == 'pedidos'">
+                    <md-card>
+                        <md-card-header layout="row" layout-align="space-between center" scroll-watch="{from: 0, to: 3, stage: 'addresses list'}"
+                            sw-class="{ 'md-whiteframe-1dp': $percentage >= 100 }">
+                            <h3 class="margin-0">
+                                <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+                                Pedidos e Orçamentos
+                            </h3>
+                            <div hide-gt-xs></div>
+                        </md-card-header>
+                        <md-card-content>
+                            <md-tabs md-stretch-tabs="always" md-selected="vm.tab" class="no-scroll-tabs">
+                                <md-tab ng-click="vm.tabChange('orders')" label="Pedidos">
+                                    <md-tab-body>
+                                        <md-card-content ng-show="vm.orders.length == 0" class="text-center" flex>
+                                            <p>Você não possui pedidos.</p>
+                                            <md-button class="md-button md-raised md-primary" ui-sref="home" aria-label="Comprar Já">Comprar Já</md-button>
+                                        </md-card-content>
+                                        <md-card-content ng-show="vm.orders.length" flex class="relative height100 pandTop-0 overflow">
+                                            <orders-list orders="vm.orders" ng-click="vm.openOrders(ev, vm.orderClicked)" full="true" select="vm.orderSelect"></orders-list>
+                                        </md-card-content>
+                                    </md-tab-body>
+                                </md-tab>
+                                <md-tab ng-click="vm.tabChange('carts')" label="Orçamentos">
+                                    <md-tab-body>
+                                        <md-card-content ng-show="vm.carts.length == 0" class="text-center" flex>
+                                            <p class="w3-animate-left">Você não possui orçamentos.</p>
+                                            <md-button class="md-button md-raised md-primary" ui-sref="home" aria-label="Comprar Já">Comprar Já</md-button>
+                                        </md-card-content>
+                                        <md-card-content ng-show="vm.carts.length" flex class="relative height100 pandTop-0 overflow">
+                                            <orders-list orders="vm.carts" ng-click="vm.openOrders(ev, vm.orderClicked)" full="true" select="vm.orderSelect"></orders-list>
+                                        </md-card-content>
+                                    </md-tab-body>
+                                </md-tab>
+                            </md-tabs>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+            <div layout="column" flex="100" flex-gt-xs="50" class="height100" ng-hide="vm.card != 'pedidos' || ctrl.checkMedia('gt-xs')">
+                <div layout="row" flex-gt-xs="100" ng-show="vm.card == 'pedidos'" class="height100">
+                    <div layout="column" flex="100">
+                        <md-card class="height100 card-my-data">
+                            <md-card-header layout="row" layout-align="space-between center" scroll-watch="{from: 0, to: 3, stage: 'addresses list'}"
+                                sw-class="{ 'md-whiteframe-1dp': $percentage >= 100 }">
+                                <h3 class="margin-0">
+                                    <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+                                    Pedidos e Orçamentos
+                                </h3>
+                                <div hide-gt-xs></div>
+                            </md-card-header>
+                            <md-card-content class="flex overflow pandTop-0">
+                                <md-tabs>
+                                    <md-tab ng-click="vm.tabChange('orders')" label="Pedidos">
+                                        <md-tab-body>
+                                            <md-card-content ng-show="vm.orders.length == 0" class="text-center" flex>
+                                                <p>Você não possui pedidos.</p>
+                                                <md-button class="md-button md-raised md-primary" ui-sref="home" aria-label="Comprar Já">Comprar Já</md-button>
+                                            </md-card-content>
+                                            <md-card-content ng-show="vm.orders.length" flex class="relative height100 pandTop-0 overflow">
+                                                <orders-list orders="vm.orders" ng-click="vm.openOrders(ev, vm.orderClicked)" full="true" select="vm.orderSelect"></orders-list>
+                                            </md-card-content>
+                                        </md-tab-body>
+                                    </md-tab>
+                                    <md-tab ng-click="vm.tabChange('carts')" label="Orçamentos">
+                                        <md-tab-body>
+                                            <md-card-content ng-show="vm.carts.length == 0" class="text-center" flex>
+                                                <p class="w3-animate-left">Você não possui orçamentos.</p>
+                                                <md-button class="md-button md-raised md-primary" ui-sref="home" aria-label="Comprar Já">Comprar Já</md-button>
+                                            </md-card-content>
+                                            <md-card-content ng-show="vm.carts.length" flex class="relative height100 pandTop-0 overflow">
+                                                <orders-list orders="vm.carts" ng-click="vm.openOrders(ev, vm.orderClicked)" full="true" select="vm.orderSelect"></orders-list>
+                                            </md-card-content>
+                                        </md-tab-body>
+                                    </md-tab>
+                                </md-tabs>
+                            </md-card-content>
+                        </md-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

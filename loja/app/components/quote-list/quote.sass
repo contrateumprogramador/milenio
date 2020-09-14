@@ -1,0 +1,108 @@
+// home.sass
+@import '../../variables.scss'
+
+$accent: #deba2c
+$grey: rgba(0, 0, 0, .2)
+$primary: #10367a
+$white: #fff
+
+#QuoteList
+	img
+		width: 150px
+		height: 150px
+		margin-right: 12px
+
+	md-list-item
+		margin: 14px 0
+
+	.md-list-item-text
+		margin: 0
+		.md-body-2
+			font-weight: bold
+
+		.md-caption
+			margin-left: 5px
+
+	.price-title
+		margin-right: 74px
+
+	.price
+		width: 270px
+		margin-left: 30px
+		text-align: center
+
+	.total
+		margin-left: 30px
+
+	.md-2-line
+		.md-secondary-container
+			width: 550px
+			margin-top: 0
+
+	.red
+		color: #FF4500
+	
+	.item-title
+		margin: 0
+
+	#Quant
+		span
+			font-weight: bold
+			min-width: 48px
+			text-align: center
+			line-height: 32px
+
+		#QuantBox
+			border: solid 2px $grey
+			border-radius: 20px
+
+		.md-button
+			height: 32px
+			min-height: 32px
+			min-width: 32px
+			margin: 0 4px
+			padding: 0
+			width: 32px
+
+			md-icon
+				font-size: 18px
+				font-weight: bold
+
+// Classes Auxiliares
+.mRight20
+	margin-right: 20px !important
+
+.color-transparent
+	color: transparent !important
+
+body.is-mobile
+	#QuoteList
+		img
+			width: 60px
+			height: 60px
+		
+		.md-list-item-text
+			margin: 0
+			
+			h3, .md-body-2, .md-caption
+				font-size: 12px
+		
+		.md-2-line
+			.md-secondary-container
+				width: auto
+			
+
+		.price-title
+			margin-right: 66px !important
+
+		#Quant
+			margin: 0 !important
+			padding: 0 !important
+
+			#QuantBox
+				margin-bottom: 4px
+body.is-ipad
+	#QuoteList
+		.md-2-line
+			.md-secondary-container
+				width: auto

@@ -1,0 +1,56 @@
+<md-dialog flex="33">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Enviar Carrinho {{vm.checkout.number}} por e-mail</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content layout="row" layout-wrap>
+            <md-input-container flex="20">
+                <md-checkbox ng-model="vm.complete" aria-label="Exibir">
+                    <md-tooltip>Essa opção envia os itens e demais informações sobre o carrinho</md-tooltip>
+                    Carrinho completo
+                </md-checkbox>
+            </md-input-container>
+            <md-input-container flex="80">
+                <label>Assunto</label>
+                <input type="text" name="subject" ng-model="vm.form.subject" required>
+                <div ng-messages="formAdd.subject.$error" ng-show="formAdd.subject.$touched" role="alert">
+                    <div ng-message="required">
+                        <span>Campo obrigatório.</span>
+                    </div>
+                </div>
+            </md-input-container>
+            <md-input-container flex="100">
+                <label>Mensagem</label>
+                <textarea ng-model="vm.form.message" aria-label="Mensagem"></textarea>
+            </md-input-container>
+            <md-input-container ng-show="vm.complete" flex="100">
+                <label>Detalhes dos itens</label>
+                <md-select ng-model="vm.form.attributes" multiple>
+                    <md-option ng-value="attribute" ng-repeat="attribute in vm.descriptions track by $index">{{attribute}}</md-option>
+                </md-select>
+            </md-input-container>            
+            <md-input-container ng-show="vm.complete" flex="100">
+                <text-angular ng-model="vm.form.observations"></text-angular>
+            </md-input-container>
+            <div flex="100" layout-align="space-between center">
+                <md-chips ng-model="vm.form.recipients" placeholder="Destinatários" md-separator-keys="vm.customKeys"></md-chips>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Enviar
+                <md-icon md-font-icon="icon-email"></md-icon>
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

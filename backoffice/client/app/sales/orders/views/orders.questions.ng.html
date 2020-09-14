@@ -1,0 +1,62 @@
+<md-dialog flex>
+    <form name="form" ng-submit="form.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Dúvidas mais frequentes</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content flex>
+            <md-tabs flex>
+                <md-tab label="Cores" ng-click="vm.getPaymentValue()">
+                    <h4 class="text-blue text-center">Referência das cores dos cards</h4>
+                    <div layout="row" layout-align="center center">
+                        <div layout-padding>
+                            <span class="user-avatar">O</span><br/>
+                        </div>
+                        <div layout-padding>
+                            <span class="user-avatar bg-green">TP</span><br/>
+                        </div>
+                        <div layout-padding>
+                            <span class="user-avatar bg-grey">C</span><br/>
+                        </div>
+                        <div layout-padding>
+                            <span class="user-avatar bg-yellow">NC</span><br/>
+                        </div>
+                        <div layout-padding>
+                            <span class="user-avatar bg-orange">AP</span><br/>
+                        </div>
+                        <div layout-padding>
+                            <span class="user-avatar bg-red">NP</span><br/>
+                        </div>
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <div layout-padding>
+                            <span class="text-blue text-center">Outros</span>
+                        </div>
+                        <div layout-padding>
+                            <span class="text-center" style="color: green">Pago</span><br/>
+                            <span class="text-center" style="color: green">Transação já Paga</span>
+                        </div>
+                        <div layout-padding>
+                            <span class="text-center" style="color: grey">Cancelado</span>
+                        </div>
+                        <div layout-padding>
+                            <span class="text-center" style="color: #D9D919">Pago e Não Capturado</span>
+                        </div>
+                        <div layout-padding>
+                            <span class="text-center" style="color: orange">Aguardando Pagamento</span>
+                        </div>
+                        <div layout-padding>
+                            <span class="text-center" style="color: red">Não Pago</span>
+                        </div>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+    </form>
+</md-dialog>

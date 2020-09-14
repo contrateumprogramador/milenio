@@ -1,0 +1,14 @@
+<div layout="column">
+	<div layout-padding>
+	    <milenio-title title-text="vm.section().name" description="vm.section().description"></milenio-title>
+	</div>
+    <div layout="row" ng-show="!ctrl.checkMedia('gt-sm')">
+    	<md-button class="md-raised button-filter" flex="100" flex-gt-xs="25" ng-click="ctrl.toggleSidenav('filters')"><i class="fa fa-filter" aria-hidden="true"></i> Filtrar</md-button>
+    </div>
+    <div layout="row">
+        <div id="Produtos" layout="column" layout-gt-xs="row" layout-align="space-between center">
+            <li-items-list items="vm.vitrine" order-by="vm.orderBy"></li-items-list>
+        </div>
+    </div>
+</div>
+

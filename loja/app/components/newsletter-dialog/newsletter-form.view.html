@@ -1,0 +1,29 @@
+<form name="vm.shippingForm" layout="column" layout-padding ng-submit="vm.shippingForm.$valid && vm.submit()" novalidate>
+    <h4 class="text-center">
+        <md-icon md-font-icon="icon-book-open"></md-icon>
+        Cadastre-se e receba nossa Newsletter
+    </h4>
+    <div layout-gt-xs="row" layout-wrap layout-align="space-around start" flex>
+        <md-input-container class="md-block" flex="100" flex-gt-xs="50">
+            <label>Nome:</label>
+            <input required type="text" name="firstname" ng-model="vm.form.firstname"/>
+        </md-input-container>
+        <md-input-container class="md-block" flex="100" flex-gt-xs="50">
+            <label>Sobrenome:</label>
+            <input required type="text" name="lastname" ng-model="vm.form.lastname"/>
+        </md-input-container>
+        <md-input-container class="md-block" flex="100" flex-gt-xs="50">
+            <label>E-mail:</label>
+            <input type="email" name="email" ng-model="vm.form.email" required>
+        </md-input-container>
+        <md-input-container class="md-block" flex="100" flex-gt-xs="50">
+            <label>Celular:</label>
+            <input type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.form.phone" ui-br-phone-number-mask mask-fix>
+        </md-input-container>
+        <div class="actions" layout="column" layout-align-gt-xs="end end" layout-align="center stretch">
+            <md-button class="md-raised md-primary margin0" ng-disabled="vm.shippingForm.$invalid || vm.progressLoading" aria-label="Receber Newsletter" ng-click="vm.newsletterRegister()">
+              Receber Newsletters
+            </md-button>
+        </div>
+    </div>
+</form>

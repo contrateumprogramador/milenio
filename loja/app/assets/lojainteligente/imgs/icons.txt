@@ -1,0 +1,4 @@
+Top Info Bar: Fuse Icons
+Lupa: Font Aewsone (search)
+User Icon: Font Aewsome (user-circle-o)
+

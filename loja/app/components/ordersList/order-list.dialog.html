@@ -1,0 +1,100 @@
+<md-dialog aria-label="Login" flex="100" flex-gt-xs="80">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <h2>
+                <p class="md-title">
+                    <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+                    {{(ctrlOrder.orderClicked.orderNumber) ? 'Pedido' : 'Orçamento'}}: Nº {{ (ctrlOrder.orderClicked.orderNumber) ? ctrlOrder.orderClicked.orderNumber : ctrlOrder.orderClicked.number }}
+                </p>
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrlOrder.cancel()">
+                <md-icon md-font-icon="icon-window-close" aria-label="Fechar"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content" style="padding: 5px">
+            <div layout="row" flex="33">
+                <div ng-show="ctrlOrder.orderClicked.orderNumber" layout="column" flex>
+                    <h4 class="mBot0">
+                        <md-icon md-font-icon="icon-checkbox-marked-circle"></md-icon>
+                        Status do Pedido
+                    </h4>
+                    <div class="container" ng-show="ctrlOrder.orderClicked">
+                        <div class="bs-wizard" layout="row" style="border-bottom:0;">
+                            <div ng-show="!status.internal" ng-repeat="(key, status) in ctrlOrder.orderClicked.status track by $index" class="bs-wizard-step" layout="column" flex="25" ng-class="{'disabled': !ctrlOrder.orderClicked.status[key].time}">
+                                <div class="text-center bs-wizard-stepnum">{{status.name}}</div>
+                                <div class="progress">
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <a href="#" class="bs-wizard-dot" ng-mouseover="ctrlOrder.hoverIn(key)" ng-mouseleave="ctrlOrder.hoverIn(null)">
+                                    <img ng-src="/assets/lojainteligente/{{ctrlOrder.icons[key]}}" alt="pagamento" class="md-avatar">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-repeat="(key, status) in ctrlOrder.orderClicked.status | orderBy:'-ctrlOrder.orderClicked.status.time' track by $index" class="slide-down">
+                        <md-list-item class="md-3-line cursor-pointer" ng-show="ctrlOrder.status == {{key}}">
+                            <div class="md-list-item-text" layout="column">
+                                <h3>{{ status.name }} | {{ status.time | date:"dd/MM/yyyy 'ás' HH:mm" }}</h3>
+                                <h4>{{ status.message }}</h4>
+                            </div>
+                        <hr>
+                        </md-list-item>
+                    </div>
+                </div>
+            </div>
+            <div layout="row" flex="33" ng-show="ctrlOrder.orderClicked.shipping.address">
+                <div layout="column" flex>
+                    <h4>
+                        <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
+                        Endereço
+                    </h4>
+                    <addresses-list addresses="[ctrlOrder.orderClicked.shipping]"
+                        full="true"></addresses-list>
+                </div>
+            </div>
+            <div layout="row" flex="33">
+                <div layout="column" flex>
+                    <h4>
+                        <md-icon md-font-icon="icon-wallet-travel"></md-icon>
+                        Carrinho ({{ ctrlOrder.orderClicked.cart.itemsCount }})
+                    </h4>
+                    <div style="overflow-y: scroll;">
+                        <div layout="row" layout-align="center center" class="basket-item slide-down" ng-repeat="(key, item) in ctrlOrder.orderClicked.cart.items track by item._id">
+                            <div layout="row" layout-wrap flex>
+                                <div layout="row" layout-align="start center" flex-xs="100" flex>
+                                    <img alt="{{ item.name }}" ng-src="{{ item.picture || '/assets/images/no-picture.jpg' }}" class="md-avatar" flex="10">
+                                    <p flex="40">{{ item.name }}</p>
+                                    <md-input-container flex="20">
+                                        <label>Quant.</label>
+                                        <input type="number" ng-model="item.quant" min="1" step="1" readonly="readonly">
+                                    </md-input-container>
+                                    <span class="price" flex>{{ item.total | currency }}</span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <h3 ng-show="ctrlOrder.orderClicked.shipping.address">
+                        Total: {{ ctrlOrder.orderClicked.cart.total | currency}}
+                    </h3>
+                    <h3 ng-if="ctrlOrder.orderClicked.cart.discount">
+                            Desconto: {{ (ctrlOrder.orderClicked.cart.discountType == '%') ? ctrlOrder.orderClicked.cart.discount + '%' : (ctrlOrder.orderClicked.cart.discount | currency)}}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-hide="ctrlOrder.orderClicked.orderNumber" class="md-button md-raised btn-cart" aria-label="Concluir Compra" ng-click="ctrlOrder.finishOrder()">
+            Concluir Compra
+            <md-icon class="btn-cart" md-font-icon="icon-wallet-travel"></md-icon>
+        </md-button>
+        <md-button ng-show="ctrlOrder.showTicket()" class="md-button md-raised btn-cart" aria-label="Concluir Compra" ng-click="ctrlOrder.goToTicket()">
+            Visualizar Boleto
+            <md-icon class="btn-cart" md-font-icon="icon-clipboard-text"></md-icon>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

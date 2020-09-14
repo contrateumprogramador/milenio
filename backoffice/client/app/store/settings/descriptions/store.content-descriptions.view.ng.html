@@ -1,0 +1,26 @@
+<form name="userAddForm" ng-submit="userAddForm.$valid && vm.save()">
+    <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+    <md-content layout-fill>
+      <h2 class="md-title text-blue text-center">Campos de Descrição</h2>
+      <div layout="row" layout-padding class="card-view" layout-wrap id="cardView" ng-repeat="(key, description) in vm.form.descriptions track by $index">
+          <md-input-container flex="100" flex-gt-xs="80">
+              <label>Título</label>
+              <input name="textArea" type="text" ng-model="vm.form.descriptions[key]">
+          </md-input-container>
+          <md-button class="md-fab md-mini" ng-if="key != 0" ng-click="vm.removeDescription(key)" aria-label="Retirar descrição">
+            <md-icon md-font-icon="icon-close"></md-icon>
+          </md-button>
+          <md-button class="md-fab md-mini md-primary" ng-click="vm.newDescription()" ng-if="key == vm.form.descriptions.length-1" aria-label="Nova descrição">
+            <md-icon md-font-icon="icon-plus"></md-icon>
+          </md-button>
+      </div>
+    </md-content>
+    <md-toolbar class="md-menu-toolbar bg-grey md-whiteframe-2dp slide-down">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+          <div></div>
+          <md-button class="md-raised md-accent" type="submit" ng-disabled="userAddForm.$invalid" aria-label="Adicionar">
+              Salvar
+          </md-button>
+        </div>
+    </md-toolbar>
+</form>

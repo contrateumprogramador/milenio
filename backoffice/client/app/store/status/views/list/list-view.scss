@@ -1,0 +1,64 @@
+@import '{}/client/core/scss/angular-material/_variables.scss';
+
+#adm-companies {
+
+    .list-view {
+
+        tr {
+
+            th, td {
+
+            }
+        }
+
+        > tbody {
+
+            tr {
+                cursor: pointer;
+                outline: none;
+
+                &.selected {
+                    background: #E3F2FD !important;
+                }
+
+                td {
+                    padding: 24px 8px;
+                    border-bottom: none;
+
+                    &.file-icon {
+                        padding: 24px;
+                        text-align: center;
+                    }
+
+                    &.name {
+                        font-weight: 500;
+                    }
+
+                    &.type {
+                        text-transform: capitalize;
+                    }
+
+                    &.owner {
+                        text-transform: capitalize;
+                    }
+
+                    &.last-modified {
+
+                    }
+
+                    &.show-details {
+                        text-align: center;
+                    }
+
+                    &.more {
+                        padding: 24px 16px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+}
+.selected{
+    background: #E3F2FD !important;
+}

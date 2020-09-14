@@ -1,0 +1,217 @@
+<div id="login-v2" layout="row" layout-align="center center">
+    <div layout="column" flex="100" flex-gt-sm="80" class="login-container">
+        <div
+            id="login-v2-form-wrapper"
+            layout="column"
+            layout-align="center start"
+            flex
+        >
+            <div id="login-v2-form">
+                <div class="logo-milenio">
+                    <span>Milênio Móveis</span>
+                </div>
+
+                <div class="title"><span>Acesse sua conta</span></div>
+                <div class="welcome-text">
+                    <p>Seja bem-vindo.</p>
+                    <p>
+                        Para acessar sua área exclusiva, entre com seu login e
+                        senha nos campos abaixo.
+                    </p>
+                </div>
+
+                <form
+                    name="loginForm"
+                    ng-submit="loginForm.$valid && vm.login(2231)"
+                    novalidate,
+                    ng-show="vm.step == 'login'"
+                >
+                    <p ng-show="vm.passwordSent">
+                        Confira em sua caixa de e-mail a sua nova senha
+                        temporária de acesso.
+                    </p>
+                    <md-input-container class="md-block" md-no-float>
+                        <label>E-mail</label>
+                        <input
+                            type="email"
+                            name="email"
+                            ng-model="vm.form.email"
+                            ng-pattern="/^.+@.+\..+$/"
+                            required
+                        />
+                        <div
+                            ng-messages="loginForm.email.$error"
+                            role="alert"
+                            multiple
+                        >
+                            <div ng-message="required">
+                                <span>E-mail é obrigatório</span>
+                            </div>
+                            <div ng-message="pattern">
+                                <span>Informe um e-mail válido</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" md-no-float>
+                        <label>Senha</label>
+                        <input
+                            type="password"
+                            name="password"
+                            ng-model="vm.form.password"
+                            required
+                        />
+                        <div
+                            ng-messages="loginForm.password.$error"
+                            role="alert"
+                        >
+                            <div ng-message="required">
+                                <span>Senha é obrigatória</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                    <div
+                        class="remember-forgot-password"
+                        layout="row"
+                        layout-sm="column"
+                        layout-align="space-between center"
+                    >
+                        <a
+                            ng-click="vm.step = 'passwordRecover'"
+                            class="forgot-password md-accent-color"
+                            >Esqueceu sua senha?</a
+                        >
+                    </div>
+
+                    <md-button
+                        type="submit"
+                        class="md-raised md-accent submit-button"
+                        aria-label="LOG IN"
+                        ng-disabled="loginForm.$invalid || loginForm.$pristine || vm.loading"
+                    >
+                        <span ng-show="!vm.loading">ENTRAR</span>
+                        <span ng-show="vm.loading">ACESSANDO...</span>
+                    </md-button>
+                </form>
+                <form
+                    name="changePasswordForm"
+                    ng-submit="changePasswordForm.$valid && vm.changePassword()"
+                    novalidate,
+                    ng-show="vm.step == 'changePassword'"
+                >
+                    <p class="no-margin">
+                        <strong>Seja muito bem vindo(a)!</strong><br />
+                        Este é seu primeiro acesso, para sua segurança defina
+                        uma nova senha.
+                    </p>
+                    <md-input-container class="md-block" md-no-float>
+                        <label>Nova senha</label>
+                        <input
+                            type="password"
+                            name="password"
+                            ng-model="vm.cpForm.password"
+                            required
+                        />
+                        <div
+                            ng-messages="changePasswordForm.password.$error"
+                            role="alert"
+                        >
+                            <div ng-message="required">
+                                <span>Senha é obrigatória</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" md-no-float>
+                        <label>Confirmar senha</label>
+                        <input
+                            type="password"
+                            name="passwordConfirm"
+                            ng-model="vm.cpForm.passwordConfirm"
+                            required
+                            compare-to="vm.cpForm.password"
+                        />
+                        <div
+                            ng-messages="changePasswordForm.password.$error"
+                            role="alert"
+                        >
+                            <div ng-message="required">
+                                <span>Senha é obrigatória</span>
+                            </div>
+                            <div ng-message="compareTo">
+                                <span>Confirmação deve ser igual a senha.</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                    <md-button
+                        type="submit"
+                        class="md-raised md-accent submit-button"
+                        aria-label="LOG IN"
+                        ng-disabled="changePasswordForm.$invalid || changePasswordForm.$pristine || vm.loading"
+                    >
+                        <span ng-show="!vm.loading">SALVAR E ENTRAR</span>
+                        <span ng-show="vm.loading">SALVANDO...</span>
+                    </md-button>
+                </form>
+                <form
+                    name="passwordRecoverForm"
+                    ng-submit="passwordRecoverForm.$valid && vm.passwordRecover()"
+                    novalidate,
+                    ng-show="vm.step == 'passwordRecover'"
+                >
+                    <p class="no-margin">
+                        <strong>Recuperar senha</strong><br />
+                        Informe seu e-mail que enviaremos uma nova senha para
+                        você acessar sua conta.
+                    </p>
+                    <md-input-container class="md-block" md-no-float>
+                        <label>E-mail</label>
+                        <input
+                            type="email"
+                            name="email"
+                            ng-model="vm.form.email"
+                            ng-pattern="/^.+@.+\..+$/"
+                            required
+                        />
+                        <div
+                            ng-messages="passwordRecoverForm.email.$error"
+                            role="alert"
+                            multiple
+                        >
+                            <div ng-message="required">
+                                <span>E-mail é obrigatório</span>
+                            </div>
+                            <div ng-message="pattern">
+                                <span>Informe um e-mail válido</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                    <md-button
+                        type="submit"
+                        class="md-raised md-accent submit-button"
+                        aria-label="LOG IN"
+                        ng-disabled="passwordRecoverForm.$invalid || vm.loading"
+                    >
+                        <span ng-show="!vm.loading">ENVIAR</span>
+                        <span ng-show="vm.loading">ENVIANDO...</span>
+                    </md-button>
+                    <div
+                        class="remember-forgot-password"
+                        layout="row"
+                        layout-sm="column"
+                        layout-align="space-between center"
+                    >
+                        <a
+                            ng-click="vm.step = 'login'"
+                            class="forgot-password md-accent-color"
+                            >Acessar a conta</a
+                        >
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

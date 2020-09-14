@@ -1,0 +1,22 @@
+<div layout="column" class="li-items-list flex-1">
+    <div id="ListGtSm" ng-if="vm.checkMedia('gt-sm') && !vm.scrollHorizontal">
+        <div layout="row" flex="100" ng-repeat="row in vm.items | limitTo:vm.limit track by $index">
+            <div layout="column" flex="{{ vm.flex }}" ng-repeat="item in row | filter: vm.search | orderBy: orderBy track by $index"
+                class="scale-fade">
+                <li-card-product item="item"></li-card-product>
+            </div>
+        </div>
+    </div>
+    <div layout="column" ng-if="!vm.checkMedia('gt-sm') && !vm.scrollHorizontal">
+        <div layout="column" flex="100" ng-repeat="item in vm.items | filter: vm.search | orderBy: orderBy | limitTo:vm.limit track by $index"
+            class="scale-fade" layout-align="start center">
+            <li-card-product item="item"></li-card-product>
+        </div>
+    </div>
+    <div layout="row" ng-if="vm.scrollHorizontal" class="li-items-list-horizontal">
+        <div layout="column" flex="100" ng-repeat="item in vm.items | filter: vm.search | orderBy: orderBy | limitTo:vm.limit track by $index"
+            class="scale-fade">
+            <li-card-product item="item"></li-card-product>
+        </div>
+    </div>
+</div>

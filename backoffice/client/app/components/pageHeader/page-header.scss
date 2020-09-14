@@ -1,0 +1,42 @@
+@import '{}/client/core/scss/angular-material/_variables.scss';
+.page-header {
+    padding: 0 !important;
+    position: relative;
+    .header-content {
+        height: 100%;
+        padding: 24px;
+        .breadcrumb {
+            text-transform: uppercase;
+            &>md-icon {
+                margin: 0;
+            }
+            span {
+                color: rgba(0, 0, 0, 0.54);
+                cursor: default;
+                font-weight: 500;
+                md-icon {
+                    cursor: default;
+                }
+                a {
+                    color: rgba(0, 0, 0, 0.54) !important;
+                    cursor: pointer;
+                }
+            }
+            .separator {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+        }
+        .title {
+            font-size: 34px;
+        }
+    }
+    .add-button {
+        position: absolute;
+        bottom: -32px;
+        right: 16px;
+    }
+    md-progress-linear {
+        margin-top: -5px;
+    }
+}

@@ -1,0 +1,29 @@
+<form name="userAddForm" ng-submit="userAddForm.$valid && vm.save()">
+    <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+    <md-content layout-fill>
+      <h2 class="md-title text-blue text-center">Templates de E-mail</h2>
+      <div layout="row" layout-wrap layout-padding>
+          <md-input-container flex="100">
+              <label>Assunto</label>
+              <input type="text" name="subject" ng-model="vm.form.mailTemplate.subject" required>
+              <div ng-messages="formAdd.subject.$error" ng-show="formAdd.subject.$touched" role="alert">
+                  <div ng-message="required">
+                      <span>Campo obrigatório.</span>
+                  </div>
+              </div>
+          </md-input-container>
+          <md-input-container flex="100">
+              <label>Mensagem</label>
+              <textarea ng-model="vm.form.mailTemplate.message" md-maxlength="300" md-select-on-focus></textarea>
+          </md-input-container>
+      </div>
+    </md-content>
+    <md-toolbar class="md-menu-toolbar bg-grey md-whiteframe-2dp slide-down">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+          <div></div>
+          <md-button class="md-raised md-accent" type="submit" ng-disabled="userAddForm.$invalid" aria-label="Adicionar">
+              Salvar
+          </md-button>
+        </div>
+    </md-toolbar>
+</form>

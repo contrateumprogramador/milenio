@@ -1,0 +1,58 @@
+<!-- LIST VIEW -->
+<table md-table md-row-select="options.rowSelection" ng-model="vm.selected" md-progress="promise" >
+    <thead md-head md-order="vm.order">
+        <tr md-row>
+            <th md-column>#</th>
+            <th md-column>Título</th>
+            <th md-column>De</th>
+            <th md-column>Até</th>
+            <th md-column>Frete Grátis a partir de</th>
+            <th md-column>Frete Mínimo / Fixo</th>
+            <th md-column>Percentual sobre pedido</th>
+            <th md-colum>Prioridade</th>
+        </tr>
+    </thead>
+    <tbody md-body>
+        <tr md-row md-select="zip" md-auto-select ng-repeat="(key, zip) in vm.companyShippings | orderBy : vm.order" ng-click="vm.select(zip)" ng-class="{'selected' : vm.selected === zip, 'base' : zip.base}">
+            <td md-cell>
+                <md-menu>
+                    <md-button aria-label="Mais" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                        <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                        <md-tooltip><span>Mais</span></md-tooltip>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button class="md-button" aria-label="Editar" ng-click="vm.edit($event, key, zip)">
+                                <md-icon md-font-icon="icon-pencil"></md-icon>
+                                Editar
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-hide="zip.base">
+                            <md-button class="md-button" aria-label="Excluir" ng-click="vm.remove($event, key, zip)">
+                                <md-icon md-font-icon="icon-trash"></md-icon>
+                                Excluir
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </td>
+            <td md-cell><strong>{{zip.title}}</strong></td>
+            <td md-cell>{{zip.zipcodes.start}}</td>
+            <td md-cell>{{zip.zipcodes.end}}</td>
+            <td md-cell>{{zip.minValue | currency: "R$ "}}</td>
+            <td md-cell>{{zip.price | currency: "R$ "}}</td>
+            <td md-cell>{{zip.percent || 0}} %</td>
+            <td md-cell>
+                <md-button aria-label="Aumentar" class="md-icon-button" ng-click="vm.changeRate(zip)">
+                    <md-icon md-font-icon="icon-arrow-up"></md-icon>
+                    <md-tooltip><span>Aumentar</span></md-tooltip>
+                </md-button>
+                <md-button aria-label="Diminuir" class="md-icon-button" ng-click="vm.changeRate(zip, 1)">
+                    <md-icon md-font-icon="icon-arrow-down"></md-icon>
+                    <md-tooltip><span>Diminuir</span></md-tooltip>
+                </md-button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- / LIST VIEW -->

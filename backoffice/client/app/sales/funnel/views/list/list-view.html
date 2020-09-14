@@ -1,0 +1,94 @@
+<md-toolbar ng-show="vm.selected && vm.role != 'affiliate'" layout="row" layout-align="end center">
+    <div flex>
+        <p class="text-center">Link: {{vm.selected.number}}/{{vm.selected.code}} - {{vm.selected.customer.firstname || "Não identificado"}}</p>
+    </div>
+    <md-button ng-if="vm.role != 'maintenance'" aria-label="comment" ng-click="vm.sendMail($event)" class="md-icon-button">
+        <md-tooltip>Enviar por e-mail</md-tooltip>
+        <md-icon md-font-icon="icon-email"></md-icon>
+    </md-button>
+    <md-button ng-if="vm.role != 'maintenance'" aria-label="comment" ng-click="vm.editCheckout($event)"
+        ng-hide="vm.selected.funnelStatus == 'Pagamento Iniciado' || vm.selected.funnelStatus == 'Ganho'"
+        class="md-icon-button">
+        <md-tooltip>Editar carrinho</md-tooltip>
+        <md-icon md-font-icon="icon-pencil"></md-icon>
+    </md-button>
+</md-toolbar>
+<md-button class="md-fab plus-checkout" ui-sref="app.funnel.manipulate" aria-label="Novo carrinho" ng-if="!$root.userIsInRole(['maintenance', 'affiliate'])">
+    <md-tooltip>Novo carrinho</md-tooltip>
+    <md-icon md-font-icon="icon-plus"></md-icon>
+</md-button>
+<div id="Funnel" class="funnel" layout-fill layout="row">
+    <div ng-repeat="column in vm.funnel track by $index" layout="column" flex="25">
+        <h2>
+            <md-icon md-font-icon="{{column.icon}}"></md-icon>
+            {{column.name}}
+        </h2>
+        <md-content flex cup-scroll="vm.scrollDown(column)" threshold="0" can-load="true">
+            <md-card class="cursor-pointer" ng-repeat="(key, item) in vm.list | orderBy : '-updatedAt' track by item._id" ng-if="vm.itemIsInColumn(item.funnelStatus, column.name) && !item.subnumber" ng-class="{'selected': vm.selected._id == item._id}" ng-click="vm.select(item, key+1, $event)">
+                <md-card-content>
+                    <div layout="row" layout-align="space-between center" layout-wrap>
+                        <h3 flex="75">
+                            <span class="user-avatar">{{ vm.customerAvatar(item) }}</span>
+                            {{ vm.customerName(item) }}
+                        </h3>
+                        <div layout="row">
+                            <md-button ng-click="vm.affiliateSend(item, $event)" aria-label="enviar por e-mail" class="md-icon-button" ng-if="vm.role == 'affiliate' && column.name == 'Carrinho Iniciado'">
+                                <md-tooltip>Enviar para o cliente</md-tooltip>
+                                <md-icon md-font-icon="icon-email"></md-icon>
+                            </md-button>
+                            <md-button ng-click="vm.editCheckout($event, item._id)" target="_blank" aria-label="enviar por e-mail" class="md-icon-button" ng-if="vm.role == 'affiliate' && column.name == 'Carrinho Iniciado'">
+                                <md-tooltip>Editar orçamento</md-tooltip>
+                                <md-icon md-font-icon="icon-pencil"></md-icon>
+                            </md-button>
+                            <md-button ng-href="{{ vm.cartLink(item, true) }}" target="_blank" aria-label="enviar por e-mail" class="md-icon-button" ng-if="vm.role == 'affiliate' && column.name != 'Carrinho Iniciado'">
+                                <md-tooltip>Visualizar orçamento</md-tooltip>
+                                <md-icon md-font-icon="icon-eye"></md-icon>
+                            </md-button>
+                        </div>
+                        <md-button aria-label="menu" class="md-icon-button" ng-if="vm.role == 'admin'" ng-show="item.sellers">
+                            <md-tooltip>
+                                Vendedores: <span ng-repeat="(key, name) in item.sellersNames track by $index">{{(key == item.sellersNames.length-1) ? name : name+', '}}</span>
+                            </md-tooltip>
+                            <md-icon md-font-icon="icon-account" md-menu-align-target></md-icon>
+                        </md-button>
+                        <md-button aria-label="menu" class="md-icon-button" ng-if="['admin','super-admin','salesman'].includes(vm.role) && item.affiliate">
+                            <md-tooltip>
+                                Decorador: {{ item.affiliate.firstname }} {{ item.affiliate.lastname }}</span>
+                            </md-tooltip>
+                            <md-icon md-font-icon="icon-clipboard-account" md-menu-align-target></md-icon>
+                        </md-button>
+                        <md-menu flex="10" ng-if="vm.role == 'admin' || vm.role == 'expedition'">
+                            <md-button aria-label="menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                            </md-button>
+                            <md-menu-content width="4">
+                                <md-menu-item ng-hide="column.name == 'Ganho'">
+                                    <md-button ng-click="vm.cartRemove(item)">
+                                        <md-icon md-font-icon="icon-cancel" md-menu-align-target></md-icon>
+                                        Remover Carrinho
+                                    </md-button>
+                                </md-menu-item>
+                                <md-divider ng-if="!column.name == 'Ganho'"></md-divider>
+                                <md-menu-item ng-if="vm.role != 'expedition'">
+                                    <md-button ng-click="vm.sponsorSellers($event, item)">
+                                        <md-icon md-font-icon="icon-account" md-menu-align-target></md-icon>
+                                        Vendedores Responsáveis
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                        <h3>
+                            Carrinho <strong>{{ vm.configNumber(item) }}</strong>
+                        </h3>
+                    </div>
+                </md-card-content>
+                <md-card-footer>
+                    <div layout="row" layout-align="space-between center">
+                        <div>{{ item.createdAt | date : 'dd/MM/yyyy HH:mm:ss' }}</div>
+                        <div><strong>{{ item.cart.total | currency }}</strong></div>
+                    </div>
+                </md-card-footer>
+            </md-card>
+        </md-content>
+    </div>
+</div>

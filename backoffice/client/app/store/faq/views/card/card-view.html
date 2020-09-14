@@ -1,0 +1,22 @@
+<div layout="row" class="card-view" layout-wrap as-sortable="vm.dragControlListeners" data-ng-model="vm.companyFaqs" id="faq-view">
+   <div ng-repeat="(key, faq) in vm.companyFaqs" data-as-sortable-item flex="25">
+      <md-card class="bg-blue" as-sortable-item-handle>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-title text-white">{{key+1}} - {{faq.question}}</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <md-button class="md-icon-button" aria-label="Mais" ng-click="vm.show(1, key)" ng-hide="vm.displaying[key]"><md-icon md-font-icon="icon-chevron-down"></md-icon></md-button>
+            <md-button class="md-icon-button" aria-label="Menos" ng-click="vm.show(0, key)" ng-show="vm.displaying[key]"><md-icon md-font-icon="icon-chevron-up"></md-icon></md-button>
+          </md-card-title-media>          
+        </md-card-title>
+        <md-card-content>
+          <p class="md-body-1 slide-down text-white" ng-show="vm.displaying[key]">{{faq.answer}}</p>
+        </md-card-content>        
+        <md-card-actions layout="row" layout-align="end center" ng-show="vm.displaying[key]" class="slide-down">
+          <md-button class="md-icon-button" aria-label="Editar" ng-click="vm.edit($event, key, faq)"><md-icon md-font-icon="icon-pencil"></md-icon></md-button>
+          <md-button class="md-icon-button" aria-label="Excluir" ng-click="vm.remove($event, key, faq)"><md-icon md-font-icon="icon-delete"></md-icon></md-button>
+        </md-card-actions>
+      </md-card>
+   </div>
+</div>

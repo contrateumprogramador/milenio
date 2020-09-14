@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html ng-app="mileniomoveis">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="fragment" content="!">
+    <base href="/">
+    <title ng-bind="$root.pageTitle || 'Milênio Móveis'">Milênio Móveis</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/icons/favicon.ico">
+    <meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+    <meta name="theme-color" content="#10367a">
+    <!-- Splash Screen Styles -->
+    <style type="text/css">
+        body {
+            margin: 0 !important;
+        }
+
+        body.ng-cloack {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        body.ng-cloak #App,
+        body.ng-cloak md-sidenav {
+            display: none;
+        }
+
+        body.ng-cloak>.splash-screen {
+            opacity: 1;
+            height: 100vh;
+        }
+
+        body>.splash-screen {
+            background: #fff;
+            height: 0;
+            overflow: hidden;
+            opacity: 0;
+            position: relative;
+            width: 100vw;
+            z-index: 1000;
+            transition: all .6s ease-in;
+            -webkit-transition: all .6s ease-in;
+            -moz-transition: all .6s ease-in;
+            -o-transition: all .6s ease-in;
+        }
+
+        .splash-screen-icon {
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTQuNSAxOTQuNSI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiMxMDM3N2E7fS5jbHMtMntmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5pY29uLW1pbGVuaW9fMjwvdGl0bGU+PGcgaWQ9IkxheWVyXzIiIGRhdGEtbmFtZT0iTGF5ZXIgMiI+PGcgaWQ9IkJHIj48cmVjdCBjbGFzcz0iY2xzLTEiIHdpZHRoPSIxOTQuNSIgaGVpZ2h0PSIxOTQuNSIgcng9IjE5LjQ1IiByeT0iMTkuNDUiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik03Ni45NCw4NC41MmExLjY3LDEuNjcsMCwwLDAtLjQtM0ExOTQuNDMsMTk0LjQzLDAsMCwxLDMyLjYyLDYyYTEuMzEsMS4zMSwwLDAsMC0xLjYxLjE2TDI3LjYxLDY1LjVhMS4xNywxLjE3LDAsMCwwLC4wNiwxLjc0QzM0LDcyLjQ5LDQ5LjY3LDc5LDYyLjg1LDgzYzAsMC0yNCwxNS42LTI4Ljc0LDI2Ljk0LTUuMTIsMTIuMzIuMTUsMTkuODEsMi4xMywyMmEyLjIsMi4yLDAsMCwwLDEuNTUuNzloOS4xMkM1Mi4wOCwxMzEuODIsMzIuNzUsMTE0LjE4LDc2Ljk0LDg0LjUyWiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTE2Ni44OSw2NS40OWwtMy40MS0zLjM0YTEuMzEsMS4zMSwwLDAsMC0xLjYxLS4xOCwxNzEuMjUsMTcxLjI1LDAsMCwxLTE4LjM2LDkuNzdBNzQuODEsNzQuODEsMCwwLDEsMTEzLDc4LjQ2YzkuMTktMy41NCwxNy43Ni03LjY2LDIyLjA5LTExLjIzYTEuMTcsMS4xNywwLDAsMCwuMDYtMS43NGwtMy40MS0zLjM0YTEuMzEsMS4zMSwwLDAsMC0xLjYxLS4xOCwxODMuMzEsMTgzLjMxLDAsMCwxLTMxLDE1QTc4LjIsNzguMiwwLDAsMSw4NCw3Mi4yMXEtMi44Mi0xLjI3LTUuNS0yLjZMNzcuMjIsNjl2MHEtNi43MS0zLjM3LTEyLjYtN2ExLjMxLDEuMzEsMCwwLDAtMS42MS4xOEw1OS42LDY1LjQ5YTEuMTcsMS4xNywwLDAsMCwuMDYsMS43NEM2Niw3Mi40OCw4MS42Niw3OSw5NC44NCw4M2MwLDAtMjQsMTUuNi0yOC43NCwyNi45NC01LjEyLDEyLjMyLjE1LDE5LjgxLDIuMTMsMjJhMi4yLDIuMiwwLDAsMCwxLjU1Ljc5SDc4LjljNC4zMi0uOS04LjQ3LTEzLjMsMTMtMzQuNjFhMzguOTQsMzguOTQsMCwwLDEsNi4xOS00LjIzYzI3LjkyLDI0LDEzLjEsMzgsMTcuNzEsMzguODRoOS4xMmEyLjIsMi4yLDAsMCwwLDEuNTUtLjc5YzItMi4xOCw3LjI1LTkuNjEsMi4xMy0yMS45NC0yLjc4LTYuNjktMTIuMjktMTQuODctMTkuNjEtMjAuNDYsMS41MS0uNDEsMy0uNzUsNC40NC0xYTIuNTgsMi41OCwwLDAsMSwuODksMCw0NC4xOCw0NC4xOCwwLDAsMSwxNi43NCw2LjM3YzI2LjMxLDIzLjMzLDEyLDM3LDE2LjUxLDM3Ljg4aDkuMTJhMi4yLDIuMiwwLDAsMCwxLjU1LS43OWMyLTIuMTgsNy4yNS05LjYxLDIuMTMtMjEuOTQtNC43MS0xMS4zNC0yOC43NC0yNy0yOC43NC0yNywxMy4xOS00LDI4LjgxLTEwLjUyLDM1LjE4LTE1Ljc3QTEuMTksMS4xOSwwLDAsMCwxNjYuODksNjUuNDlaIi8+PC9nPjwvZz48L3N2Zz4=);
+            border-radius: 12px;
+            box-shadow: 0 1px 25px 10px rgba(0, 0, 0, .1), 0 2px 2px 0 rgba(0, 0, 0, .1), 0 3px 1px -2px rgba(0, 0, 0, .1);
+            height: 120px;
+            left: 50%;
+            margin: -60px 0 0 -60px;
+            position: absolute;
+            top: 50%;
+            width: 120px;
+        }
+
+        .flip-animation {
+            -webkit-animation-name: spinner;
+            -webkit-animation-timing-function: linear;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-duration: 2s;
+            animation-name: spinner;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-duration: 2s;
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        /* WebKit and Opera browsers */
+
+        @-webkit-keyframes spinner {
+            from {
+                -webkit-transform: rotateY(0deg);
+            }
+            to {
+                -webkit-transform: rotateY(-360deg);
+            }
+        }
+
+        /* all other browsers */
+
+        @keyframes spinner {
+            from {
+                -moz-transform: rotateY(0deg);
+                -ms-transform: rotateY(0deg);
+                transform: rotateY(0deg);
+            }
+            to {
+                -moz-transform: rotateY(-360deg);
+                -ms-transform: rotateY(-360deg);
+                transform: rotateY(-360deg);
+            }
+        }
+    </style>
+    <!-- / Splash Screen Styles -->
+</head>
+
+<body class="ng-cloak" ng-controller="MainCtrl as ctrl" ng-class="ctrl.mediaClass()" layout-fill="">
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KZM38SH');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KZM38SH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Splash Screen -->
+    <div class="splash-screen">
+        <div class="splash-screen-icon flip-animation"></div>
+    </div>
+    <!-- / Splah Screen -->
+    <!-- Layout -->
+    <div id="App" layout="column" layout-fill="">
+        <div id="Affiliate" layout="row" layout-align="space-between center" ng-if="$root.affiliate">
+            <div><span>Oi {{ $root.affiliate.affiliate.firstname }},</span> crie um orçamento para o cliente <strong>{{ $root.affiliate.customer.firstname }} {{ $root.affiliate.customer.lastname }}</strong> adicionando produtos ao carrinho.</div>
+            <md-button ng-click="$root.affiliateLogout()">Sair do modo cliente</md-button>
+        </div>
+        <header layout="column" ng-mouseleave="ctrl.toggleSubHeader(false)">
+            <md-toolbar class="md-accent" id="Header">
+                <div id="HeaderMobile" layout="column" hide-gt-sm>
+                    <div layout="row" layout-aling="space-between center">
+                        <div layout="row" layout-align="start center" flex="33">
+                            <md-button id="IconMenu" class="md-icon-button" ng-click="ctrl.toggleSidenav( 'left')">
+                                <md-icon md-font-icon="icon-menu"></md-icon>
+                            </md-button>
+                            <md-button ng-hide="ctrl.user()" layout="row" layout-align="center center" class="btn-header
+                        md-icon-button" ng-click="ctrl.sign()" aria-label="area do cliente">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            </md-button>
+                            <md-button ng-show="ctrl.user()" layout="row" layout-align="center center" class="btn-header
+                        md-icon-button" ui-sref="user" aria-label="area do cliente">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            </md-button>
+                        </div>
+                        <div flex="33" class="logo" layout="column" flex="30" flex-gt-sm="15" layout-align="center
+                        center">
+                            <h2 class="logo-milenio" ui-sref="home">
+                                <span>Milênio Móveis</span>
+                            </h2>
+                        </div>
+                        <div flex="33">
+                            <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center center
+                       " ng-mouseenter="ctrl.toggleSidenav( 'cart', 'open')" aria-label="Cart">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span class="cart-count">{{ ctrl.cart().itemsCount }}</span>
+                            </md-button>
+                        </div>
+                    </div>
+                    <form class="search-form" name="ctrl.searchForm" ng-submit="ctrl.searchForm.$valid && ctrl.searchSubmit()
+                       " layout="row" layout-align="space-between center">
+                        <md-input-container flex>
+                            <label>O que você procura?</label>
+                            <input type="search" ng-keyup="ctrl.searchSubmit()" ng-model="ctrl.search" ng-minlength="3">
+                        </md-input-container>
+                        <md-button class="md-icon-button" type="submit" ng-disabled="ctrl.searchForm.$invalid">
+                            <md-icon-button>
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </md-icon-button>
+                        </md-button>
+                    </form>
+                </div>
+                <div hide show-gt-sm layout="row" flex="100" class="flex-1" layout-align="space-between center
+                       " layout-align-gt-sm="center center">
+                    <div class="logo" layout="column" flex="30" flex-gt-sm="15" layout-align="center center">
+                        <h2 class="logo-milenio" ui-sref="home">
+                            <span>Milênio Móveis</span>
+                        </h2>
+                    </div>
+                    <div layout="column" flex-gt-sm>
+                        <div layout="row" class="" layout-align="start center" layout-padding>
+                            <div flex id="HeaderActions" layout="row" layout-align="space-between center">
+                                <md-button hide show-gt-sm href="tel:1138158177" id="Phone" class="btn-header
+                       " hide show-gt-sm layout="row" layout-align="center center" aria-label="telefone">
+                                    <i class="fa fa-phone color-accent" aria-hidden="true" id="IconPhone"></i>
+                                    <span class="color-accent" id="Tel">(11) 3815-8177</span>
+                                </md-button>
+                                <form hide show-gt-sm id="SearchForm" class="search-form" name="ctrl.searchForm
+                       " ng-submit="ctrl.searchForm.$valid && ctrl.searchSubmit()" flex layout="row" layout-align="space-between center">
+                                    <md-input-container flex>
+                                        <label>O que você procura?</label>
+                                        <input type="text" ng-keyup="ctrl.searchTyping()" ng-focus="ctrl.toggleSubHeader(false)
+                       " ng-model="ctrl.search" ng-minlength="3">
+                                    </md-input-container>
+                                    <md-button class="md-icon-button" type="submit" ng-disabled="ctrl.searchForm.$invalid">
+                                        <md-icon-button>
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </md-icon-button>
+                                    </md-button>
+                                </form>
+                                <md-button hide show-gt-sm layout="row" ng-show="!ctrl.user()" layout-align="center center
+                       " class="btn-header" ng-click="ctrl.sign()" aria-label="area do cliente">
+                                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                    <spa>Entre ou
+                                        <span class="color-accent">Cadastre-se</span>
+                                        </span>
+                                </md-button>
+                                <md-menu hide show-gt-sm class="btn-header" ng-show="ctrl.user()">
+                                    <md-button layout="row" layout-align="center center" class="btn-header
+                       " ng-click="$mdMenu.open()" aria-label="area do cliente">
+                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                        <span class="color-accent">Olá, {{ ctrl.user().profile.firstname }}!</span>
+                                    </md-button>
+                                    <md-menu-content width="2">
+                                        <md-menu-item>
+                                            <md-button ng-click="ctrl.sign()">
+                                                <md-icon md-font-icon="icon-account-circle" class="icon"></md-icon>
+                                                Sua Conta
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="ctrl.sign(true)">
+                                                <md-icon md-font-icon="icon-account-circle" class="icon"></md-icon>
+                                                Seus Pedidos
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="ctrl.logout()">
+                                                <md-icon md-font-icon="icon-logout" class="icon"></md-icon>
+                                                Sair
+                                            </md-button>
+                                        </md-menu-item>
+                                    </md-menu-content>
+                                </md-menu>
+                                <span hide show-gt-xs hide-gt-sm style="width: 36px"></span>
+                                <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center
+                        center" ng-mouseenter="ctrl.toggleSidenav( 'cart', 'open')" aria-label="Cart">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    <span class="cart-count">{{ ctrl.cart().itemsCount }}</span>
+                                </md-button>
+                            </div>
+                        </div>
+                        <div class="row-menu" layout="row" layout-align="space-between center" hide show-gt-sm>
+                            <div ng-mouseenter="ctrl.toggleSubHeader( 'submenu', section)" ng-class="{ 'btn-active': ctrl.subMenu.name==section.name }"
+                                ng-repeat="section in ctrl.sections track by $index" layout="column" flex="33
+                       " layout-align="center center" class="border-right">
+                                <md-button ng-click="ctrl.toggleSubHeader(false)" ui-sref="section.showcase({sectionUrl: section.category})" ui-sref-opts="{reload:
+                        true}">
+                                    <md-icon md-svg-icon="{{section.icon}}"></md-icon>
+                                    <span hide show-gt-sm>{{section.name}}</span>
+                                </md-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-toolbar>
+            <md-progress-linear style="z-index: 9" ng-show="ctrl.loading" md-mode="indeterminate"></md-progress-linear>
+            <div id="SubHeader" class="slide-down" ng-class="{ 'sub-submenu': ctrl.subHeader=='submenu' ,
+                        'sub-search': ctrl.subHeader=='search' }" layout="column" layout-align="start center" ng-show="ctrl.subHeader">
+                <div layout="row" layout-align="center start">
+                    <div id="SubMenu" ng-show="ctrl.subHeader=='submenu'" layout-padding layout="row" layout-align="center
+                        start" flex="100" flex-gt-lg="80">
+                        <div class="submenu-title" layout="column" flex="15">
+                            <div>
+                                <md-icon md-svg-icon="{{ctrl.subMenu.icon}}"></md-icon>
+                                <h2>{{ ctrl.subMenu.name }}</h2>
+                            </div>
+                            <md-button ng-click="ctrl.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: ctrl.subMenu.category, tagUrl: 'todos'})
+                       " aria-label="Veja todos os produtos">
+                                Todos os produtos
+                            </md-button>
+                        </div>
+                        <ul flex="15">
+                            <li ng-repeat="item in ctrl.subMenuItems(0) track by $index">
+                                <md-button ng-click="ctrl.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: ctrl.subMenu.category,
+                        tagUrl: item.url})" aria-label="{{ item.name }}">
+                                    {{ item.name }}
+                                </md-button>
+                            </li>
+                        </ul>
+                        <ul flex="15">
+                            <li ng-repeat="item in ctrl.subMenuItems(1) track by $index">
+                                <md-button ng-click="ctrl.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: ctrl.subMenu.category,
+                        tagUrl: item.url})" aria-label="{{ item.name }}">
+                                    {{ item.name }}
+                                </md-button>
+                            </li>
+                        </ul>
+                        <div class="submenu-banner" layout="column" layout-align="center start" flex>
+                            <a ng-show="ctrl.subMenuBanner()" ng-click="ctrl.toggleSubHeader(false)" ng-href="{{ ctrl.subMenuBanner().link }}" title="{{ ctrl.subMenuBanner().title
+                        }}">
+                                <img ng-src="{{ ctrl.subMenuBanner().url }}" alt="{{ ctrl.subMenuBanner().title }}">
+                            </a>
+                        </div>
+                    </div>
+                    <div id="SubSearch" ng-show="ctrl.subHeader=='search'" layout-padding layout="column
+                       " layout-align="center center" flex="100" flex-gt-lg="80">
+                        <p ng-show="ctrl.searchLoading">Buscando produtos com"{{ ctrl.search }}"...</p>
+                        <p ng-show="!ctrl.searchLoading && !ctrl.searchItemsFiltered.length
+                       ">Nenhum produto encontrado com"{{ ctrl.search }}"</p>
+                        <li-items-list ng-show="!ctrl.searchLoading && ctrl.searchItemsFiltered.length" items="ctrl.searchItemsFiltered
+                       " row-size="5" col-flex="100" col-gt-xs="50" col-gt-sm="25"></li-items-list>
+                        <md-button class="search-more" ng-show="!ctrl.searchLoading && ctrl.searchItemsFiltered.length
+                       " ng-click="ctrl.searchSubmit()" aria-label="mais resultados">
+                            Ver mais resultados
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <md-content id="Content" flex sw-stage="content">
+            <div ui-view id="container" class="animate-slide-up"></div>
+            <footer>
+                <div layout="column" layout-gt-xs="row" layout-align="center center" layout-align-gt-xs="center start" layout-padding>
+                    <div layout="column" flex="100" flex-gt-xs="20" layout-align="center center
+                       " layout-align-gt-xs="start start" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+                        <h4 class="accent">MILÊNIO MÓVEIS</h4>
+                        <p>Rua Cunha Gago, 768 - Pinheiros</p>
+                        <p>São Paulo - SP</p>
+                        <p>(11) 3815-8177</p>
+                    </div>
+                    <div class="footer-links" layout="column" flex="100" flex-gt-xs="20" layout-align="center center
+                       " layout-align-gt-xs="start start" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+                        <h4 class="accent">ATENDIMENTO</h4>
+                        <md-button ui-sref="about" title="Sobre a Milênio Móveis" aria-label="Sobre" hide show-gt-xs>Sobre</md-button>
+                        <md-button href="http://blog.mileniomoveis.com.br" title="Blog sobre Móveis e Decorações da Milênio
+                        Móveis" target="_blank" aria-label="Blog">Blog</md-button>
+                        <md-button ui-sref="contact" title="" aria-label="Fale Conosco" show-gt-xs>Fale Conosco</md-button>
+                        <md-button ui-sref="contact" title="" aria-label="Localização" show-gt-xs>Localização</md-button>
+                        <md-button ng-repeat="term in $root.terms track by $index" ui-sref="policies({ url: term.url })" title="" aria-label="term.name" hide show-gt-xs>
+                            {{ term.name }}
+                        </md-button>
+                    </div>
+                    <div class="footer-links" layout="column" flex="100" flex-gt-xs="20" layout-align="center center
+                       " layout-align-gt-xs="start start" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}" ng-show="ctrl.checkMedia( 'gt-xs')">
+                        <h4 class="accent">PRODUTOS</h4>
+                        <md-button ng-repeat="section in $root.sections | orderBy: 'name' track by section._id
+                       " ui-sref="section.showcase({sectionUrl: section.url})" ui-sref-opts="{reload: true}" title="{{ section.name }}"
+                            aria-label="{{ section.name }}" hide show-gt-xs>{{ section.name }}</md-button>
+                    </div>
+                    <div layout="column" flex="100" flex-gt-xs="20" layout-align="center center
+                       " layout-align-gt-xs="start start" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+                        <h4 class="accent">SIGA NAS REDES SOCIAIS</h4>
+                        <div layout="row">
+                            <md-button ng-href="https://www.facebook.com/milenio.moveis.sp/" target="_blank" class="md-icon-button
+                        padding0 margin0">
+                                <md-icon id="IconFB" md-svg-icon="/assets/lojainteligente/imgs/facebook.svg"></md-icon>
+                            </md-button>
+                            <md-button ng-href="https://www.instagram.com/mileniomoveisexternos/" target="_blank
+                       " class="md-icon-button padding0 margin0">
+                                <md-icon md-svg-icon="/assets/lojainteligente/imgs/instagram.svg"></md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                    <div layout="column" flex="100" flex-gt-xs="20" layout-align="center center
+                       " layout-align-gt-xs="start start" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+                        <h4 class="accent">RECEBA NOSSA NEWSLETTER</h4>
+                        <md-input-container class="md-block" flex="100" ng-show="ctrl.user()">
+                            <input ng-model="user.email" type="email" placeholder="VOCÊ JÁ ESTA CADASTRADO
+                       " ng-required="true" disabled>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex="100" ng-click="ctrl.openNewsletter($event)
+                       " ng-show="!ctrl.user()">
+                            <input ng-model="user.email" type="email" placeholder="INSIRA SEU EMAIL" ng-required="true">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="column" layout-gt-xs="row" layout-align="center center" layout-align-gt-xs="center start" layout-padding>
+                    <div class="align-center" layout="column" flex="100" layout-align="center center
+                       " layout-align-gt-xs="start start" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+                        <h4 class="accent">FORMAS DE ENVIO</h4>
+                        <p>Parceiros logísticos da Milênio Móveis,</p>
+                        <p>Transporte próprio, Correios, dentre outros.</p>
+                    </div>
+                    <div layout="row" flex="100" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+                        <div layout="column" layout-align="center center" layout-align-gt-xs="center start">
+                            <h4 class="accent">SITE SEGURO</h4>
+                            <div layout="row" layout-align="space-around center">
+                                <img src="/assets/lojainteligente/imgs/godaddy.png" flex="50">
+                                <img src="/assets/lojainteligente/imgs/sitelock.png" flex="25">
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" flex="100" layout-align="start start" layout-align-gt-xs="end start
+                       " ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+                        <div layout="column">
+                            <h4 class="accent">FORMAS DE PAGAMENTO</h4>
+                            <div layout="row">
+                                <md-icon md-svg-icon="/assets/lojainteligente/imgs/visa.svg"></md-icon>
+                                <md-icon md-svg-icon="/assets/lojainteligente/imgs/amex.svg" class="mLeft20"></md-icon>
+                                <md-icon md-svg-icon="/assets/lojainteligente/imgs/mastercard.svg" class="mLeft20"></md-icon>
+                                <md-icon md-svg-icon="/assets/lojainteligente/imgs/diners-club.svg" class="mLeft20"></md-icon>
+                                <md-icon md-svg-icon="/assets/lojainteligente/imgs/elo.svg" class="mLeft20"></md-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" flex="100" layout-align="start start" layout-align-gt-xs="end start
+                       " ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+                        <md-button href="https://lojainteligente.com" target="_blank" title="Desenvolvido com LojaInteligente
+                       " aria-label="Loja Inteligente">
+                            <h2 class="logo-li">
+                                <span></span>
+                            </h2>
+                        </md-button>
+                    </div>
+                </div>
+                <div id="Info" layout="row" layout-align="center center" layout-padding>
+                    <p>
+                        Milênio Com. e Imp. Móveis Ltda
+                        <span hide show-gt-xs> | </span>
+                        <br hide-gt-xs> www.mileniomoveis.com.br
+                        <span hide show-gt-xs> | </span>
+                        <br hide-gt-xs> Rua Cunha Gago, 768/São Paulo - SP Cep: 05421-001
+                        <span hide show-gt-xs> | </span>
+                        <br hide-gt-xs> CNPJ:01.794.657/0001-30
+                        <span hide show-gt-xs> | </span>
+                        <br hide-gt-xs> IE: 114.933.663.111
+                        <span hide show-gt-xs> | </span>
+                        <br hide-gt-xs> Telefone: (11) 3815-8177
+                    </p>
+                </div>
+            </footer>
+        </md-content>
+    </div>
+    <!-- / Layout -->
+    <!-- SideNav Left : User Menu -->
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" layout="column">
+        <md-toolbar layout="row" layout-align="space-between center">
+            <h3>
+                Milênio Móveis
+            </h3>
+            <md-button class="md-icon-button" ng-click="ctrl.toggleSidenav( 'left')" aria-label="Fechar cesto">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </md-toolbar>
+        <md-content>
+            <div layout="column" layout-align="start stretch">
+                <md-button class="md-primary menu-title" aria-label="Informações">
+                    Produtos
+                </md-button>
+                <md-button ng-click="ctrl.openSectionFilters()" ui-sref="section.showcase({sectionUrl: item.category})
+                       " class="md-primary" aria-label="{{ item.name }}" ng-repeat="item in ctrl.sections">
+                    <md-icon md-svg-icon="{{ item.icon }}"></md-icon>
+                    {{ item.name }}
+                </md-button>
+                <md-button ng-click="ctrl.sign( 'sidenav')" class="md-primary" aria-label="Área do Cliente">
+                    Área do Cliente
+                </md-button>
+                <md-button ng-click="ctrl.goTo( 'about');" class="md-primary" aria-label="Sobre Nós">
+                    Sobre
+                </md-button>
+                <md-button href="http://blog.mileniomoveis.com.br" target="_blank" class="md-primary" aria-label="Blog">
+                    Blog
+                </md-button>
+                <md-button ng-click="ctrl.goTo( 'contact');" class="md-primary" aria-label="Fale Conosco">
+                    Fale Conosco
+                </md-button>
+                <md-button ng-click="ctrl.goTo( 'contact');" class="md-primary" aria-label="Localização">
+                    Localização
+                </md-button>
+                <md-button ng-click="ctrl.goTo( 'policies');" class="md-primary" aria-label="Política de Troca e Devolução">
+                    Política de Troca e Devolução
+                </md-button>
+                <md-button ng-click="ctrl.logout( 'sidenav')" class="md-primary" aria-label="Logout">
+                    Sair
+                </md-button>
+            </div>
+        </md-content>
+    </md-sidenav>
+    <md-sidenav id="SideNavFilter" class="md-sidenav-left md-whiteframe-z2" md-component-id="filters" layout="column">
+        <md-toolbar layout="row" layout-align="space-between center">
+            <h3>
+                Filtrar por:
+            </h3>
+            <md-button class="md-icon-button" ng-click="ctrl.toggleSidenav( 'filters')" aria-label="Fechar Filtros">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </md-toolbar>
+        <md-content>
+            <div layout="column" layout-align="start stretch">
+                <md-button class="menu-title" aria-label="Informações">
+                    <h3>Categorias</h3>
+                </md-button>
+                <md-button class="" ui-sref-active="active" ui-sref="section.tag({sectionUrl: ctrl.section().url, tagUrl:
+                        'todos'})" ng-click="ctrl.toggleSidenav( 'filters');">
+                    Todos os produtos
+                </md-button>
+                <md-button class="" ng-repeat="tag in ctrl.section().subSections | orderBy: 'name' track by $index
+                       " ng-if="tag.tagsGroup=='Categorias'" ui-sref-active="active" ui-sref="section.tag({sectionUrl: ctrl.section().url, tagUrl: tag.url})
+                       " ng-click="ctrl.toggleSidenav( 'filters');">
+                    {{ tag.name }}
+                </md-button>
+                <md-button class="menu-title" aria-label="Informações">
+                    <h3>Ambientes</h3>
+                </md-button>
+                <md-button class="" ui-sref-active="active" ng-repeat="tag in ctrl.section().subSections | orderBy:
+                        'name' track by $index" ng-if="tag.tagsGroup=='Ambientes'" ui-sref="section.tag({sectionUrl: ctrl.section().url, tagUrl: tag.url})"
+                    ng-click="ctrl.toggleSidenav( 'filters');">
+                    {{ tag.name }}
+                </md-button>
+            </div>
+        </md-content>
+    </md-sidenav>
+    <md-sidenav ng-mouseleave="(ctrl.checkMedia( 'gt-md')) ? ctrl.toggleSidenav( 'cart', 'close') : ''" id="SideNavCart" class="md-sidenav-right md-whiteframe-z2"
+        md-component-id="cart" layout="column">
+        <md-toolbar layout="row" layout-align="space-between center">
+            <h3>
+                Meu carrinho
+            </h3>
+            <md-button class="md-icon-button" ng-click="ctrl.toggleSidenav( 'cart', 'close')" aria-label="Fechar Carrinho">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </md-toolbar>
+        <md-content flex>
+            <quote-list items="ctrl.cart().items" parent=" 'SideNav'" cart-internal="ctrl.cart().internal"></quote-list>
+            </div>
+        </md-content>
+        <md-toolbar class="bg-white" layout-align="center stretch">
+            <md-button ng-if="!$root.affiliate" class="md-raised md-accent btn-cart" ng-click="ctrl.goTo( 'cart')">
+                Concluir Compra
+            </md-button>
+            <md-button ng-if="$root.affiliate" class="md-raised md-accent btn-cart" href="https://decor.mileniomoveis.com.br/funil">
+                Concluir orçamento
+            </md-button>
+        </md-toolbar>
+    </md-sidenav>
+    <!-- /SideNav Left : User Menu -->
+    <!-- Scripts -->
+    <script src="vendor.bundle.js"></script>
+    <script src="bundle.js"></script>
+    <!-- /Scripts -->
+    <!-- Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- /Fonts -->
+    <!-- Script ChatBot -->
+    <script type="text/javascript">
+        var width = window.innerWidth;
+        if (width > 768) {
+            window.$zopim || (function (d, s) {
+                var z = $zopim = function (c) {
+                    z._.push(c)
+                }, $ = z.s =
+                    d.createElement(s), e = d.getElementsByTagName(s)[0]; z.set = function (o) {
+                        z.set.
+                            _.push(o)
+                    }; z._ = []; z.set._ = []; $.async = !0; $.setAttribute('charset', 'utf-8');
+                $.src = '//v2.zopim.com/?2yly6pVu6xkosdPbrGpwJ1e7dIKUdJje'; z.t = +new Date; $.
+                    type = 'text/javascript'; e.parentNode.insertBefore($, e)
+            })(document, 'script');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<div class="message" ng-if="vm.tags.length === 0">Nenhuma Tag encontrada.</div>
+<div class="loading-threads" layout="column" layout-align="center center" ng-if="!vm.tags && vm.loadingTags">
+    <md-progress-circular class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+    <div>Selecione um Grupo para vizualizar as tags</div>
+</div>
+<div layout="row" class="tags-view" layout-wrap as-sortable="vm.dragControlListeners" data-ng-model="vm.tagsGroup.tags" id="cardView">
+   <div ng-repeat="(key, tag) in vm.tagsGroup.tags | orderBy: 'name' track by $index" data-as-sortable-item flex="20">
+      <md-card as-sortable-item-handle class="bg-blue">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-subhead text-white">{{ tag.name }} ({{tag.itemsCount || 0}})</span>
+            <span class="md-subhead slide-down text-white" ng-show="vm.displaying[key]">url: {{ tag.url }}</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <md-button class="md-icon-button" aria-label="Mais" ng-click="vm.show(1, key, tag)" ng-hide="vm.displaying[key]"><md-icon md-font-icon="icon-chevron-down"></md-icon></md-button>
+            <md-button class="md-icon-button" aria-label="Menos" ng-click="vm.show(0, key)" ng-show="vm.displaying[key]"><md-icon md-font-icon="icon-chevron-up"></md-icon></md-button>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center" ng-show="vm.displaying[key]" class="slide-down">
+          <md-button class="md-icon-button" aria-label="Excluir" ng-hide="tag.itemsCount > 0" ng-click="vm.remove($event, tag)"><md-icon md-font-icon="icon-delete"></md-icon></md-button>
+        </md-card-actions>
+      </md-card>
+   </div>
+</div>

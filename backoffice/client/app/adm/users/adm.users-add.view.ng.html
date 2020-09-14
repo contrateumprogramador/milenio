@@ -1,0 +1,116 @@
+<md-dialog aria-label="Formulário">
+    <form name="userAddForm" ng-submit="userAddForm.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Usuário</h2>
+                <h2 ng-show="vm.edit">Editar Usuário</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="row" layout-wrap>
+                <md-input-container flex="100" flex-gt-xs="50" ng-show="vm.companies.length" ng-readonly="vm.admin">
+                    <label>Empresa</label>
+                    <md-select ng-disabled="vm.admin" name="companyId" ng-model="vm.form.profile.company.companyId" required ng-change="vm.getPermissions()">
+                        <md-option ng-repeat="company in vm.companies track by company._id" ng-value="company._id">{{ company.name }}</md-option>
+                    </md-select>
+                    <div ng-messages="vm.userAddForm.companyId.$error" ng-show="vm.userAddForm.companyId.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <div flex="50" hide show-gt-xs ng-hide="vm.companies.length"></div>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <label>Permissão</label>
+                    <md-select name="role" ng-model="vm.form.roles" required>
+                        <md-option ng-repeat="role in vm.roles track by $index" value="{{ role.value }}">{{ role.label }}</md-option>
+                    </md-select>
+                    <div ng-messages="vm.userAddForm.role.$error" ng-show="vm.userAddForm.role.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <input type="text" name="firstname" ng-model="vm.form.profile.firstname" placeholder="Nome" required>
+                    <div ng-messages="vm.userAddForm.firstname.$error" ng-show="vm.userAddForm.firstname.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <input type="text" name="lastname" ng-model="vm.form.profile.lastname" placeholder="Sobrenome" required>
+                    <div ng-messages="vm.userAddForm.lastname.$error" ng-show="vm.userAddForm.lastname.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <input type="email" name="email" ng-model="vm.form.email" placeholder="E-mail" required>
+                    <div ng-messages="vm.userAddForm.email.$error" ng-show="vm.userAddForm.email.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <label>Telefone</label>
+                    <input type="text" name="phone" ng-model="vm.form.profile.phone" ui-br-phone-number>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <input type="password" name="password" ng-model="vm.form.password" minlength="6" placeholder="Senha" ng-required="!vm.edit">
+                    <div ng-messages="vm.userAddForm.password.$error" ng-show="vm.userAddForm.password.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                        <div ng-message="minlength">
+                            <span>Senha deve ter pelo menos 6 caracteres.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <input type="password" name="passwordConfirmation" ng-model="vm.form.passwordConfirmation" compare-to="vm.form.password" placeholder="Confirmar Senha"  ng-required="!vm.edit">
+                    <div ng-messages="vm.userAddForm.passwordConfirmation.$error" ng-show="vm.userAddForm.passwordConfirmation.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                        <div ng-message="compareTo">
+                            <span>Confirmação deve ser igual a senha.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <div ng-hide="vm.admin" layout="row" layout-align="space-between center">
+                  <md-chips ng-model="vm.form.profile.permissions" md-autocomplete-snap md-require-match="true">
+                    <md-autocomplete
+                        md-selected-item="vm.selectedItem"
+                        md-search-text="vm.searchText"
+                        md-items="item in vm.querySearch(vm.searchText)"
+                        md-item-text="item"
+                        placeholder="Permissões do usuário",
+                        md-min-length="2">
+                      <span md-highlight-text="vm.searchText">{{item}}</span>
+                    </md-autocomplete>
+                    <md-chip-template>
+                      <span>{{$chip}}</span>
+                    </md-chip-template>
+                  </md-chips>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="userAddForm.$invalid" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

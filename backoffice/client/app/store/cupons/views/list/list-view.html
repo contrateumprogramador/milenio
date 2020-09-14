@@ -1,0 +1,37 @@
+<!-- LIST VIEW -->
+<table md-table md-row-select="options.rowSelection" ng-model="vm.selected" md-progress="promise" >
+    <thead md-head md-order="vm.order">
+        <tr md-row>
+            <th md-column md-order-by="code">Código Promocional</th>
+            <th md-column md-order-by="discount">Valor Desconto</th>
+            <th md-column md-order-by="discountType">Tipo Desconto</th>
+            <th md-column md-order-by="expires">Vencimento</th>
+            <th md-column md-order-by="used">Usado/Limite</th>
+            <th md-column>Ações</th>
+        </tr>
+    </thead>
+    <tbody md-body>
+        <tr md-row md-select="cupom" md-auto-select ng-repeat="cupom in vm.cupons | orderBy : vm.order" ng-click="vm.select(cupom)" ng-class="{'selected' : vm.selected === cupom}">
+            <td md-cell><strong>{{cupom.code}}</strong></td>
+            <td md-cell ng-if="cupom.discountType == '%'">{{cupom.discount}} %</td>
+            <td md-cell ng-if="cupom.discountType == '$'">{{cupom.discount | currency: "R$ "}}</td>
+            <td md-cell>
+                <md-icon md-font-icon="icon-percent" ng-show="cupom.discountType == '%'" md-menu-align-target></md-icon>
+                <md-icon md-font-icon="icon-cash" ng-show="cupom.discountType == '$'" md-menu-align-target></md-icon>
+            </td>
+            <td md-cell ng-class="{'text-red' : vm.now >= cupom.expires}">{{cupom.expires | date : 'dd/MM/yyyy'}}</td>
+            <td md-cell ng-class="{'text-red' : cupom.used == cupom.limit}">{{cupom.used}}/<strong>{{cupom.limit}}</strong></td>            
+            <td md-cell>
+                <md-button ng-click="vm.edit($event, cupom)" md-class="md-icon-button" aria-label="Editar">
+                    <md-icon md-font-icon="icon-pencil" md-menu-align-target></md-icon>
+                    <md-tooltip><span>Editar</span></md-tooltip>
+                </md-button>            
+                <md-button ng-click="vm.remove($event, cupom)" md-class="md-icon-button" aria-label="Excluir">
+                    <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+                    <md-tooltip><span>Excluir</span></md-tooltip>
+                </md-button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- / LIST VIEW -->

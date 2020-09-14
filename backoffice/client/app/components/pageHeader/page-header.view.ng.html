@@ -1,0 +1,29 @@
+<div class="page-header header">
+    <div class="header-content" layout="column" layout-align="space-between">
+        <div layout="column" layout-align="end start" flex>
+            <div class="md-headline" ng-transclude></div>
+            <div ng-if="vm.form.code && vm.role != 'affiliate'">
+                Use o código para compartilhar o carrinho: /{{
+                    vm.form.number
+                }}/{{ vm.form.code }}
+            </div>
+        </div>
+    </div>
+    <!-- PROGRESS BAR -->
+    <md-progress-linear
+        class="md-accent"
+        ng-show="vm.progressLoading"
+        md-mode="indeterminate"
+    ></md-progress-linear>
+    <!-- PROGRESS BAR -->
+    <!-- ADD BUTTON -->
+    <md-button
+        ng-click="vm.addButton($event)"
+        class="add-button md-fab md-accent"
+        aria-label="Adicionar"
+        ng-if="vm.addButton"
+    >
+        <md-icon md-font-icon="icon-plus"></md-icon>
+    </md-button>
+    <!-- / ADD BUTTON -->
+</div>

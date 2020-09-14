@@ -1,0 +1,51 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div>
+        <div class="title">Outras Configurações</div>
+    </div>
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+
+    <div class="file-details">
+        <!-- <div class="preview file-icon" layout="row" layout-align="center center">
+            <i class="icon-{{vm.selected.type}} s48"></i>
+        </div> -->
+
+        <!-- <md-list class="offline-switch">
+            <md-list-item>
+                <p>Available Offline</p>
+                <md-switch class="md-secondary" ng-model="vm.selected.offline" aria-label="Toggle offline"
+                          ></md-switch>
+            </md-list-item>
+        </md-list> -->
+
+        <div layout="column" ng-class="{'selected' : this.$state == 'app.adm-configurations'}">
+            <md-button aria-label="Parcelamento" flex class="md-button md-primary raised" ui-sref="app.store-settings">
+                <md-icon md-font-icon="icon-cash-multiple"></md-icon>
+                Parcelamento
+            </md-button>
+            <md-button aria-label="Parcelamento" flex class="md-button md-primary raised" ui-sref="app.store-descriptions">
+                <md-icon md-font-icon="icon-clipboard-text"></md-icon>
+                Descrições
+            </md-button>
+            <md-button aria-label="Email" flex class="md-button md-primary raised" ui-sref="app.store-emails">
+                <md-icon md-font-icon="icon-email"></md-icon>
+                Templates de Email
+            </md-button>
+            <md-button aria-label="Email" flex class="md-button md-primary raised" ui-sref="app.store-billet">
+                <md-icon md-font-icon="icon-cash"></md-icon>
+                Boletos
+            </md-button>
+            <md-button aria-label="Selos" flex class="md-button md-primary raised" ui-sref="app.stamps">
+                <md-icon md-font-icon="icon-star-circle"></md-icon>
+                Selos
+            </md-button>
+        </div>
+
+    </div>
+
+</md-content>
+<!-- / SIDENAV CONTENT -->

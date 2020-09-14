@@ -1,0 +1,54 @@
+// milenio-title.sass
+@import '../../variables.scss'
+
+.milenio-title
+	.description
+		font-weight: normal
+		margin-top: 0
+		text-align: center
+
+	.divider
+		height: 2px
+
+	.divider-holder
+		min-width: 25% !important
+
+	.losango
+		background-color: transparent
+		border: 2px solid $accent
+		height: 13px !important
+		transform: rotate(45deg)
+		width: 14px !important
+
+	.md-display-2
+		line-height: 48px
+		margin: 0
+
+	span
+		font-size: 24px
+		line-height: 16px
+
+	.title
+		color: $accent
+		margin: 36px
+		text-align: center
+		text-transform: uppercase
+
+body.is-mobile
+	.milenio-title .title
+		margin: 36px auto
+
+	.md-display-2
+	    line-height: 33px !important
+	    font-size: 32px
+
+body.is-ipad
+	.md-display-2
+		line-height: 48px
+		margin: 0
+
+body.is-md
+	.md-display-2
+		line-height: 48px
+		margin: 0
+		

@@ -1,0 +1,45 @@
+<md-dialog aria-label="Mango (Fruit)" flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Pergunta</h2>
+                <h2 ng-show="vm.edit">Editar Pergunta</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="row" layout-wrap>
+                <md-input-container flex="100" flex-gt-xs="100">
+                    <label>Pergunta</label>
+                    <input type="text" name="question" ng-model="vm.form.question" required tabindex="1">
+                    <div ng-messages="formAdd.question.$error" ng-show="formAdd.question.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>                                  
+                <md-input-container flex="100">
+                    <label>Resposta</label>
+                    <textarea tabindex="2" ng-model="vm.form.answer" md-select-on-focus required></textarea>
+                    <div ng-messages="formAdd.answer.$error" ng-show="formAdd.answer.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>                    
+                </md-input-container>    
+            </div>                 
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

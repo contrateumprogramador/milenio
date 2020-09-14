@@ -1,0 +1,53 @@
+<md-dialog flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Seção</h2>
+                <h2 ng-show="vm.edit">Editar Seção</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+          <div class="md-dialog-content" layout="row" layout-wrap>
+            <md-input-container flex="50">
+                <label>Nova Seção</label>
+                <input type="text" ng-model="vm.form.name" ng-keyup="vm.setUrl()" required>
+            </md-input-container>
+            <md-input-container flex="50">
+                <label>URL</label>
+                <input type="text" ng-model="vm.form.url" ng-keyup="vm.typingUrl()" required>
+            </md-input-container>
+            <md-chips class="width100" ng-model="vm.form.subSections" md-autocomplete-snap md-require-match="true">
+              <md-autocomplete
+                  md-selected-item="vm.selectedTag"
+                  md-search-text="vm.searchText"
+                  md-items="item in vm.querySearch(vm.searchText, 'tags')"
+                  md-item-text="item.name"
+                  placeholder="Subseções",
+                  md-min-length="2">
+                <span md-highlight-text="vm.searchText">{{item.name}} ({{item.tagsGroup}})</span>
+              </md-autocomplete>
+              <md-chip-template>
+                <span>{{$chip.name}}</span>
+                <span>({{$chip.tagsGroup}})</span>
+              </md-chip-template>
+            </md-chips>
+            <md-input-container flex="100" flex-gt-xs="100">
+                <text-angular ng-model="vm.form.description"></text-angular>
+            </md-input-container>            
+          </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar" ng-disabled="vm.needSave">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

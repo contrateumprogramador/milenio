@@ -1,0 +1,755 @@
+<div id="proposals" class="page-layout simple right-sidenav" layout="row">
+    <div class="center" layout="column" flex>
+        <page-header
+            ><md-icon md-font-icon="icon-cart" class="icon"></md-icon
+            ><span ng-show="!vm.form._id">Adicionar</span
+            ><span ng-show="vm.form._id">Editar</span> Carrinho</page-header
+        >
+
+        <!-- CONTENT -->
+        <md-content class="content" flex>
+            <md-tabs
+                flex
+                class="height-100-p"
+                md-selected="vm.tab"
+                md-no-pagination="true"
+            >
+                <md-tab label="1- Dados do Cliente">
+                    <div layout="row" class="height-400">
+                        <div flex="50">
+                            <md-autocomplete
+                                md-selected-item="vm.form.customer"
+                                md-search-text-change="vm.searchCustomers(vm.searchText)"
+                                md-search-text="vm.searchText"
+                                md-selected-item-change="vm.select(customer)"
+                                md-items="customer in vm.exibedCustomers"
+                                md-item-text="customer.firstname"
+                                placeholder="Selecione um Cliente"
+                            >
+                                <md-item-template>
+                                    <span
+                                        md-highlight-text="vm.searchText"
+                                        md-highlight-flags="^i"
+                                        >{{ customer.firstname }}
+                                        {{ customer.lastname }}</span
+                                    >
+                                </md-item-template>
+                            </md-autocomplete>
+                        </div>
+                        <form
+                            name="vm.customerForm"
+                            layout="column"
+                            layout-padding
+                            ng-submit="vm.customerForm.$valid && vm.saveCustomer()"
+                            novalidate
+                        >
+                            <div flex="50" layout="row" layout-wrap>
+                                <md-input-container flex="100" flex-gt-xs="100">
+                                    <label>Email</label>
+                                    <input
+                                        name="email"
+                                        type="email"
+                                        ng-model="vm.form.customer.email"
+                                    />
+                                    <div
+                                        ng-messages="formAdd.email.$error"
+                                        ng-show="formAdd.email.$touched"
+                                        role="alert"
+                                    >
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <label>Nome</label>
+                                    <input
+                                        type="text"
+                                        name="firstname"
+                                        ng-model="vm.form.customer.firstname"
+                                        required
+                                    />
+                                    <div
+                                        ng-messages="formAdd.firstname.$error"
+                                        ng-show="formAdd.firstname.$touched"
+                                        role="alert"
+                                    >
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <label>Sobrenome</label>
+                                    <input
+                                        type="text"
+                                        name="lastname"
+                                        ng-model="vm.form.customer.lastname"
+                                    />
+                                    <div
+                                        ng-messages="formAdd.lastname.$error"
+                                        ng-show="formAdd.lastname.$touched"
+                                        role="alert"
+                                    >
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <label>CPF/CNPJ</label>
+                                    <input
+                                        type="text"
+                                        name="document"
+                                        ng-model="vm.form.customer.document"
+                                        ui-br-cpfcnpj-mask
+                                    />
+                                    <div
+                                        ng-messages="formAdd.document.$error"
+                                        ng-show="formAdd.document.$touched"
+                                        role="alert"
+                                    >
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                        <div ng-message="cpf">
+                                            <span>CPF inválido.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <label>Telefone</label>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        ng-model="vm.form.customer.phone"
+                                        ui-br-phone-number
+                                    />
+                                    <div
+                                        ng-messages="formAdd.phone.$error"
+                                        ng-show="formAdd.phone.$touched"
+                                        role="alert"
+                                    >
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                        </form>
+                    </div>
+                </md-tab>
+                <md-tab label="2- Dados de entrega">
+                    <div layout="row">
+                        <div flex="30">
+                            <div
+                                layout-gt-xs="row"
+                                layout-align="start center"
+                                flex
+                                layout-padding
+                            >
+                                <h4>
+                                    <md-icon
+                                        md-font-icon="icon-map-marker-circle"
+                                    ></md-icon>
+                                    Endereços do cliente
+                                </h4>
+                            </div>
+                            <md-content
+                                sw-stage="addresses list"
+                                id="AdressList"
+                            >
+                                <md-list class="addresses-list">
+                                    <div
+                                        ng-repeat="address in vm.addresses track by $index"
+                                        class="slide-down"
+                                    >
+                                        <md-list-item
+                                            class="md-3-line cursor-pointer"
+                                            ng-class="{ 'active-address': vm.isAddressSelected(address) }"
+                                            layout-padding
+                                            ng-click="vm.selectAddress(address)"
+                                        >
+                                            <div
+                                                class="md-list-item-text"
+                                                layout="column"
+                                            >
+                                                <h3>
+                                                    {{ address.title }} | CEP:
+                                                    {{
+                                                        address.zipcode | brCep
+                                                    }}
+                                                </h3>
+                                                <h4>
+                                                    {{ vm.getAddress(address) }}
+                                                </h4>
+                                                <h4>
+                                                    {{ address.city }},
+                                                    {{ address.state }}
+                                                </h4>
+                                                <p ng-show="address.obs">
+                                                    <b>Observação:</b>
+                                                    {{ address.obs }}
+                                                </p>
+                                            </div>
+                                        </md-list-item>
+                                    </div>
+                                </md-list>
+                            </md-content>
+                        </div>
+                        <div flex="70">
+                            <form
+                                name="vm.shippingForm"
+                                layout="column"
+                                layout-padding
+                                ng-submit="vm.shippingForm.$valid && vm.submit()"
+                                novalidate
+                            >
+                                <div
+                                    layout-gt-xs="row"
+                                    layout-align="space-around start"
+                                    flex
+                                >
+                                    <div
+                                        layout="column"
+                                        ng-class="{'flex-1': ctrl.checkMedia('gt-xs')}"
+                                        flex="100"
+                                    >
+                                        <h4>
+                                            <md-icon
+                                                md-font-icon="icon-map-marker-circle"
+                                            ></md-icon>
+                                            Endereço
+                                        </h4>
+                                        <div layout="row">
+                                            <md-input-container
+                                                flex="100"
+                                                flex-gt-xs="30"
+                                            >
+                                                <label>Título</label>
+                                                <input
+                                                    type="text"
+                                                    name="title"
+                                                    ng-model="vm.form.shipping.title"
+                                                />
+                                            </md-input-container>
+                                            <md-input-container
+                                                flex="100"
+                                                flex-gt-xs="20"
+                                            >
+                                                <label>CEP</label>
+                                                <input
+                                                    type="text"
+                                                    name="zipcode"
+                                                    ng-model="vm.form.shipping.zipcode"
+                                                    required
+                                                    ui-br-cep-mask
+                                                    ng-keyup="vm.getZipcodeAddress()"
+                                                />
+                                                <div
+                                                    ng-messages="vm.shippingForm.zipcode.$error"
+                                                    ng-show="vm.shippingForm.zipcode.$touched"
+                                                    role="alert"
+                                                >
+                                                    <div ng-message="required">
+                                                        <span
+                                                            >Campo
+                                                            obrigatório.</span
+                                                        >
+                                                    </div>
+                                                    <div ng-message="cep">
+                                                        <span
+                                                            >CEP inválido.</span
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </md-input-container>
+                                            <md-input-container flex="50">
+                                                <label>Endereço</label>
+                                                <input
+                                                    type="text"
+                                                    ng-model="vm.form.shipping.address"
+                                                    required
+                                                />
+                                            </md-input-container>
+                                        </div>
+                                        <div layout="row">
+                                            <md-input-container flex="50">
+                                                <label>Bairro</label>
+                                                <input
+                                                    type="text"
+                                                    ng-model="vm.form.shipping.district"
+                                                    required
+                                                />
+                                            </md-input-container>
+                                            <md-input-container flex="20">
+                                                <label>Número</label>
+                                                <input
+                                                    type="tel"
+                                                    inputmode="numeric"
+                                                    ng-model="vm.form.shipping.number"
+                                                    required
+                                                />
+                                            </md-input-container>
+                                            <md-input-container flex="30">
+                                                <label>Complemento</label>
+                                                <input
+                                                    type="text"
+                                                    ng-model="vm.form.shipping.complement"
+                                                />
+                                            </md-input-container>
+                                        </div>
+                                        <div layout="row">
+                                            <md-input-container flex="50">
+                                                <label>Cidade</label>
+                                                <input
+                                                    type="text"
+                                                    ng-model="vm.form.shipping.city"
+                                                    required
+                                                />
+                                            </md-input-container>
+                                            <md-input-container flex="50">
+                                                <label>Estado</label>
+                                                <input
+                                                    type="text"
+                                                    ng-model="vm.form.shipping.state"
+                                                    required
+                                                />
+                                            </md-input-container>
+                                        </div>
+                                        <md-input-container>
+                                            <label>Observações</label>
+                                            <textarea
+                                                ng-model="vm.form.shipping.obs"
+                                            ></textarea>
+                                        </md-input-container>
+                                        <div
+                                            layout-gt-sm="row"
+                                            layout-align="end stretch"
+                                            layout="column"
+                                            layout-padding
+                                            ng-show="vm.submit"
+                                        >
+                                            <md-button
+                                                class="btn-cart"
+                                                aria-label="continuar"
+                                                ng-disabled="vm.progressLoading || vm.shippingForm.$invalid"
+                                                ng-click="vm.submit($event, vm.form.shipping)"
+                                            >
+                                                Continuar
+                                                <md-icon
+                                                    md-font-icon="icon-arrow-right-bold-circle"
+                                                ></md-icon>
+                                            </md-button>
+                                        </div>
+                                        <div
+                                            class="actions"
+                                            layout="row"
+                                            layout-wrap
+                                            layout-align="end center"
+                                        >
+                                            <md-button
+                                                class="md-raised"
+                                                aria-label="Novo endereço"
+                                                ng-click="vm.newAddress()"
+                                                >Limpar</md-button
+                                            >
+                                            <md-button
+                                                class="md-raised"
+                                                aria-label="Excluir endereço"
+                                                ng-disabled="!vm.form.shipping._id"
+                                                ng-click="vm.removeAddress($event)"
+                                                >Excluir Endereço</md-button
+                                            >
+                                            <md-button
+                                                class="md-raised"
+                                                ng-show="vm.form.shipping._id"
+                                                aria-label="Atualizar endereço"
+                                                ng-click="vm.saveAddress()"
+                                                >Atualizar endereço</md-button
+                                            >
+                                            <md-button
+                                                class="md-raised "
+                                                aria-label="Salvar novo endereço"
+                                                ng-click="vm.saveAddress()"
+                                                ng-show="!vm.form.shipping._id"
+                                                >Salvar novo endereço</md-button
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="3- Itens do carrinho">
+                    <div layout="row">
+                        <div flex="50">
+                            <h2>Adicionar ítens</h2>
+                            <div layout="row">
+                                <md-input-container flex>
+                                    <label>Buscar por nome</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        ng-model="vm.search"
+                                        ng-keyup="vm.searchName()"
+                                    />
+                                </md-input-container>
+                            </div>
+                            <empty-alert
+                                header="Faça uma busca"
+                                show="vm.search && !vm.exibedItems.length"
+                            >
+                                Sua busca não retornou resultados
+                            </empty-alert>
+                            <md-table-pagination
+                                ng-show="vm.exibedItems.length"
+                                md-limit="vm.pagination.limit"
+                                md-page="vm.pagination.page"
+                                md-total="{{ vm.total }}"
+                                md-on-paginate="vm.changePage"
+                                mdLabel="vm.label"
+                                md-page-select
+                            ></md-table-pagination>
+                            <md-content
+                                ng-show="vm.exibedItems.length"
+                                flex
+                                layout-wrap
+                                class="column-overflow"
+                                id="AddCartItems"
+                            >
+                                <div
+                                    layout="row"
+                                    ng-repeat="(key, item) in vm.exibedItems track by $index"
+                                    class="md-3-line"
+                                >
+                                    <div
+                                        flex="90"
+                                        layout="row"
+                                        layout-padding
+                                        layout-align="start center"
+                                    >
+                                        <img
+                                            ng-src="{{
+                                                item.pictures[0] ||
+                                                    '/assets/produto-sem-imagem.png'
+                                            }}"
+                                            class="mini-mini-picture"
+                                        />
+                                        <span class="item-title"
+                                            >{{ item.name }}
+                                        </span>
+                                    </div>
+                                    <div flex="10" layout-align="center center">
+                                        <md-button
+                                            class="md-raised md-primary md-icon-button"
+                                            ng-click="vm.addToCart($event, item)"
+                                            aria-label="adicionar"
+                                        >
+                                            <md-tooltip
+                                                >Adicionar ao
+                                                carrinho</md-tooltip
+                                            >
+                                            <md-icon
+                                                md-font-icon="icon-plus"
+                                            ></md-icon>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </md-content>
+                        </div>
+                        <div flex="50">
+                            <div class="cart-items" flex>
+                                <div
+                                    layout="row"
+                                    class="items-header"
+                                    layout-padding
+                                >
+                                    <div flex="60" class="text-center">
+                                        Item
+                                    </div>
+                                    <md-divider></md-divider>
+                                    <div
+                                        flex="10"
+                                        layout="row"
+                                        layout-align="center center"
+                                        class="text-center"
+                                    >
+                                        Quant.
+                                    </div>
+                                    <md-divider></md-divider>
+                                    <div
+                                        flex="15"
+                                        layout="row"
+                                        layout-align="center center"
+                                        class="text-center"
+                                    >
+                                        Preço
+                                    </div>
+                                    <md-divider></md-divider>
+                                    <div
+                                        flex="15"
+                                        layout="row"
+                                        layout-align="center center"
+                                        class="text-center"
+                                    >
+                                        Total
+                                    </div>
+                                </div>
+                                <md-content
+                                    flex
+                                    layout-wrap
+                                    class="column-overflow"
+                                >
+                                    <div
+                                        ng-show="vm.form.cart.items.length"
+                                        class="height-50-p"
+                                        layout="row"
+                                        ng-repeat="(key, item) in vm.form.cart.items track by $index"
+                                    >
+                                        <div
+                                            flex="10"
+                                            layout="row"
+                                            layout-padding
+                                            layout-align="center center"
+                                        >
+                                            <md-button
+                                                class="md-icon-button no-padding"
+                                                ng-click="vm.removeFromCart($event, key)"
+                                                aria-label="Remover"
+                                                no-padding
+                                            >
+                                                <md-icon
+                                                    class="text-red"
+                                                    md-font-icon="icon-cancel"
+                                                ></md-icon>
+                                                <md-tooltip
+                                                    ><span
+                                                        >Remover do
+                                                        carrinho</span
+                                                    ></md-tooltip
+                                                >
+                                            </md-button>
+                                        </div>
+                                        <div
+                                            flex="50"
+                                            layout="row"
+                                            layout-padding
+                                            layout-align="start center"
+                                        >
+                                            <img
+                                                class="mini-mini-picture"
+                                                ng-show="item.pictures[0] || item.picture"
+                                                ng-src="{{
+                                                    item.pictures[0] ||
+                                                        item.picture
+                                                }}"
+                                            />
+                                            <div layout="column" flex>
+                                                <span class="cart-item-title"
+                                                    >{{ item.name }}
+                                                </span>
+                                                <span class="cart-item-title"
+                                                    ><strong>Opção:</strong>
+                                                    {{
+                                                        item.options.name
+                                                    }}</span
+                                                >
+                                                <span
+                                                    ng-repeat="customization in item.customizations track by $index"
+                                                    class="cart-item-title"
+                                                >
+                                                    <strong
+                                                        >{{
+                                                            customization.type
+                                                        }}:</strong
+                                                    >
+                                                    {{
+                                                        customization.option
+                                                            .name
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            flex="10"
+                                            layout="row"
+                                            layout-align="center center"
+                                        >
+                                            <md-input-container>
+                                                <input
+                                                    class="text-center"
+                                                    type="number"
+                                                    name="quant"
+                                                    ng-model="item.quant"
+                                                    ng-keyup="vm.refreshCart()"
+                                                    ng-change="vm.refreshCart()"
+                                                    min="1"
+                                                    aria-label="{{ item.name }}"
+                                                />
+                                            </md-input-container>
+                                        </div>
+                                        <div
+                                            flex="15"
+                                            layout="row"
+                                            layout-align="center center"
+                                        >
+                                            <span>{{
+                                                item.options.salesPrice ||
+                                                    item.options.price
+                                                    | currency: "R$ "
+                                            }}</span>
+                                        </div>
+                                        <div
+                                            flex="15"
+                                            layout="row"
+                                            layout-align="center center"
+                                        >
+                                            <span>{{
+                                                item.total | currency: "R$ "
+                                            }}</span>
+                                        </div>
+                                    </div>
+                                    <empty-alert
+                                        header="Seu carrinho está vazio. :("
+                                        show="!vm.form.cart.items.length"
+                                    >
+                                        Adicione itens ao carrinho!
+                                    </empty-alert>
+                                </md-content>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="4- Totais">
+                    <div layout="row" layout-padding>
+                        <div flex="10"></div>
+                        <form
+                            flex
+                            name="vm.totalForm"
+                            layout="column"
+                            layout-padding
+                            ng-submit="vm.totalForm.$valid && vm.submit()"
+                            novalidate
+                        >
+                            <div flex layout-wrap layout="row">
+                                <md-input-container flex="100" flex-gt-xs="20">
+                                    <md-select
+                                        ng-model="vm.form.cart.discountType"
+                                        placeholder="Tipo"
+                                        class="md-no-underline"
+                                    >
+                                        <md-option value="%"
+                                            >Percentual</md-option
+                                        >
+                                        <md-option value="$">Valor</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container
+                                    flex="100"
+                                    flex-gt-xs="30"
+                                    ng-show="vm.form.cart.discountType == '$'"
+                                >
+                                    <input
+                                        type="text"
+                                        ui-money-mask
+                                        name="discount"
+                                        ng-model="vm.form.cart.discount"
+                                        ng-keyup="vm.refreshCart()"
+                                        placeholder="Desconto"
+                                    />
+                                </md-input-container>
+                                <md-input-container
+                                    flex="100"
+                                    flex-gt-xs="30"
+                                    ng-show="vm.form.cart.discountType == '%'"
+                                >
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="100"
+                                        name="discount"
+                                        ng-model="vm.form.cart.discount"
+                                        ng-keyup="vm.refreshCart()"
+                                        placeholder="Desconto"
+                                    />
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <input
+                                        type="number"
+                                        name="parcelamento"
+                                        placeholder="Quatidade de Parcelas"
+                                        ng-model="vm.form.cart.installmentsMax"
+                                        min="1"
+                                        aria-label="Parcelamento"
+                                    />
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <input
+                                        type="number"
+                                        name="itemsCount"
+                                        ng-model="vm.form.cart.itemsCount"
+                                        placeholder="Quantidade de itens"
+                                        disabled
+                                    />
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <input
+                                        type="text"
+                                        ui-money-mask
+                                        name="itemsTotal"
+                                        ng-model="vm.form.cart.itemsTotal"
+                                        placeholder="Valor dos Itens"
+                                        disabled
+                                    />
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <input
+                                        type="text"
+                                        ui-money-mask
+                                        name="shippingPrice"
+                                        ng-model="vm.form.cart.shippingPrice"
+                                        placeholder="Valor do Frete"
+                                        ng-keyup="vm.refreshCart()"
+                                    />
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <input
+                                        type="text"
+                                        ui-money-mask
+                                        name="total"
+                                        ng-model="vm.form.cart.total"
+                                        ng-keyup="vm.refreshCart()"
+                                        placeholder="Valor Total"
+                                        disabled
+                                    />
+                                </md-input-container>
+                            </div>
+                        </form>
+                        <div flex="10"></div>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+        <!-- / CONTENT -->
+        <md-toolbar class="bg-grey" layout="row" layout-align="end center">
+            <md-button
+                class="md-primary md-raised"
+                ui-sref="app.funnel"
+                aria-label="Voltar"
+            >
+                <md-icon md-font-icon="icon-arrow-left"></md-icon>
+                Voltar
+            </md-button>
+            <md-button
+                class="md-primary md-raised"
+                aria-label="Salvar"
+                ng-click="vm.saveCheckout()"
+            >
+                <md-icon md-font-icon="icon-content-save"></md-icon>
+                Salvar
+            </md-button>
+        </md-toolbar>
+    </div>
+</div>

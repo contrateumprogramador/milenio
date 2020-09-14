@@ -1,0 +1,25 @@
+<!-- LIST VIEW -->
+<table md-table md-row-select="options.rowSelection" ng-model="vm.selected" md-progress="promise" >
+    <thead md-head md-order="vm.order">
+        <tr md-row>
+            <th md-column md-order-by="title">Título</th>
+            <th md-column md-order-by="url">URL</th>
+            <th md-column md-order-by="price">Preço</th>
+            <th md-column md-order-by="salesPrice">Preço promocional</th>
+            <th md-column>Status</th>
+        </tr>
+    </thead>
+    <tbody md-body>
+        <tr md-row md-select="item" md-auto-select ng-repeat="item in vm.items | orderBy : vm.order" ng-click="vm.select(item)" ng-class="{'selected' : vm.selected === item}">
+            <td md-cell><strong>{{item.title}}</strong></td>
+            <td md-cell>{{item.url}}</td>
+            <td md-cell>{{item.price | currency: "R$ "}}</td>
+            <td md-cell>{{item.salesPrice | currency: "R$ "}}</td>
+            <td md-cell>
+                <md-icon md-font-icon="icon-eye" ng-hide="item.oculted" md-menu-align-target></md-icon>
+                <md-icon md-font-icon="icon-eye-off" ng-show="item.oculted" md-menu-align-target></md-icon>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- / LIST VIEW -->

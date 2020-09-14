@@ -1,0 +1,269 @@
+<md-dialog aria-label="Adicionar">
+    <form name="vm.formAdd" ng-submit="vm.formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Empresa</h2>
+                <h2 ng-show="vm.edit">Editar Empresa</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Dados Cadastrais">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Empresa</label>
+                            <input type="text" name="name" ng-model="vm.form.name" required tabindex="1">
+                            <div ng-messages="vm.formAdd.name.$error" ng-show="vm.formAdd.name.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="30" ng-show="vm.plans.length">
+                            <label>Plano</label>
+                            <md-select name="plan" ng-model="vm.form.planId" required tabindex="2">
+                                <md-option ng-repeat="plan in vm.plans track by plan._id" value="{{ plan._id }}">{{
+                                    plan.name }}</md-option>
+                            </md-select>
+                            <div ng-messages="vm.formAdd.plan.$error" ng-show="vm.formAdd.plan.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="20">
+                            <label>CNPJ</label>
+                            <input type="text" name="document" ng-model="vm.form.document" ui-br-cnpj-mask tabindex="2">
+                            <div ng-messages="vm.formAdd.document.$error" ng-show="vm.formAdd.document.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                                <div ng-message="cnpj">
+                                    <span>CNPJ inválido.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Responsável</label>
+                            <input type="text" name="contact" ng-model="vm.form.contact" required tabindex="3">
+                            <div ng-messages="vm.formAdd.contact.$error" ng-show="vm.formAdd.contact.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Telefone</label>
+                            <input type="text" name="phone" ng-model="vm.form.phone" required ui-br-phone-number
+                                tabindex="4">
+                            <div ng-messages="vm.formAdd.phone.$error" ng-show="vm.formAdd.phone.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>E-mail</label>
+                            <input type="email" name="email" ng-model="vm.form.email" ng-keyup="vm.setEmail()" required
+                                tabindex="5">
+                            <div ng-messages="vm.formAdd.email.$error" ng-show="vm.formAdd.email.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Site</label>
+                            <input type="url" name="website" ng-model="vm.form.website" tabindex="6">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="30">
+                            <label>CEP</label>
+                            <input type="text" name="zipcode" ng-model="vm.form.address.zipcode" required
+                                ui-br-cep-mask ng-keyup="vm.getAddress()" tabindex="7">
+                            <div ng-messages="vm.formAdd.zipcode.$error" ng-show="vm.formAdd.zipcode.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                                <div ng-message="cep">
+                                    <span>CEP inválido.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Cidade</label>
+                            <input type="text" name="city" ng-model="vm.form.address.city" required readonly="">
+                            <div ng-messages="vm.formAdd.city.$error" ng-show="vm.formAdd.city.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="20">
+                            <label>Estado</label>
+                            <input type="text" name="state" ng-model="vm.form.address.state" required readonly="">
+                            <div ng-messages="vm.formAdd.state.$error" ng-show="vm.formAdd.state.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="40">
+                            <label>Endereço</label>
+                            <input type="text" name="street" ng-model="vm.form.address.street" required tabindex="8">
+                            <div ng-messages="vm.formAdd.street.$error" ng-show="vm.formAdd.street.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="10">
+                            <label>Número</label>
+                            <input type="text" name="number" ng-model="vm.form.address.number" required tabindex="9">
+                            <div ng-messages="vm.formAdd.number.$error" ng-show="vm.formAdd.number.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="20">
+                            <label>Complemento</label>
+                            <input type="text" name="complement" ng-model="vm.form.address.complement" tabindex="10">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Bairro</label>
+                            <input type="text" name="district" ng-model="vm.form.address.district" required tabindex="11">
+                            <div ng-messages="vm.formAdd.district.$error" ng-show="vm.formAdd.district.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                </md-tab>
+                <md-tab label="Gateway">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Usuário Checkout</label>
+                            <input type="text" name="username" ng-model="vm.form.username" ng-keyup="vm.setApiUser()"
+                                ng-readonly="vm.edit" required tabindex="1">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Usuário API</label>
+                            <input type="email" name="apiUser" ng-model="vm.form.apiUser" readonly="">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50" ng-hide="vm.edit">
+                            <input type="password" name="password" ng-model="vm.form.password" minlength="6"
+                                placeholder="Senha" tabindex="2">
+                            <div ng-messages="vm.formAdd.password.$error" ng-show="vm.formAdd.password.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                                <div ng-message="minlength">
+                                    <span>Senha deve ter pelo menos 6 caracteres.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50" ng-hide="vm.edit">
+                            <input type="password" name="passwordConfirmation" ng-model="vm.form.passwordConfirmation"
+                                compare-to="vm.form.password" placeholder="Confirmar Senha" tabindex="3">
+                            <div ng-messages="vm.formAdd.passwordConfirmation.$error" ng-show="vm.formAdd.passwordConfirmation.$touched"
+                                role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                                <div ng-message="compareTo">
+                                    <span>Confirmação deve ser igual a senha.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Token SuperPay</label>
+                            <input type="text" name="tokenSuperPay" ng-model="vm.form.gateway.tokenSuperPay" tabindex="4">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>URL de notificação</label>
+                            <input type="url" name="notification" ng-model="vm.form.gateway.notification" tabindex="5">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>URL de alteração de status</label>
+                            <input type="url" name="statusChange" ng-model="vm.form.gateway.statusChange" tabindex="6">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>URL cálculo de frete</label>
+                            <input type="url" name="calcShipping" ng-model="vm.form.gateway.calcShipping" tabindex="7">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Konduto chave privada</label>
+                            <input type="text" name="kondutoPrivateKey" ng-model="vm.form.gateway.konduto.privateKey"
+                                tabindex="8">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Konduto chave pública</label>
+                            <input type="text" name="kondutoPublicKey" ng-model="vm.form.gateway.konduto.publicKey"
+                                tabindex="9">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                            <md-checkbox ng-model="vm.form.gateway.homologacao" aria-label="Modo Homologação">
+                                Modo Homologação
+                            </md-checkbox>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                            <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="vm.form.gateway.cielo" name="cielo"
+                                aria-label="Cielo API 3.0">
+                                Cielo API 3.0
+                            </md-checkbox>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                            <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="vm.form.gateway.recurrence"
+                                name="recurrence" aria-label="Recorrência">
+                                Recorrência
+                            </md-checkbox>
+                        </md-input-container>
+                </md-tab>
+                <md-tab label="E-mails comerciais">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>E-mail padrão</label>
+                            <input type="email" name="main" ng-model="vm.form.mails.main" required>
+                            <div ng-messages="vm.formAdd.main.$error" ng-show="vm.formAdd.main.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>E-mail de contato</label>
+                            <input type="email" name="contact" ng-model="vm.form.mails.contact" required>
+                            <div ng-messages="vm.formAdd.contact.$error" ng-show="vm.formAdd.contact.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>E-mail comercial</label>
+                            <input type="email" name="comercial" ng-model="vm.form.mails.comercial" required>
+                            <div ng-messages="vm.formAdd.comercial.$error" ng-show="vm.formAdd.comercial.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="vm.formAdd.$invalid" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

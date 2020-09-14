@@ -1,0 +1,84 @@
+// home.sass
+@import '../variables.scss'
+
+$white: #fff
+$accent: #deba2c
+$primary: #10367a
+
+
+// Home
+#Search
+	margin-top: 18px
+
+	#SearchField
+		md-input-container
+			label
+				font-size: 30px
+
+		.md-input-focused
+			label
+				font-size: 24px !important
+
+			input
+				font-size: 26px
+				text-align: center
+
+	#Items
+		span
+			text-align: center
+			font-size: 20px
+			line-height: 1
+		p
+			text-align: center
+			font-size: 18px
+			color: gray
+			height: 50px
+
+		button
+			font-size: 12px
+
+		md-card-title-text
+			height: 110px
+
+	.description
+		text-align: center
+
+	.divider
+		background-color: $accent
+		width: 30%
+		height: 2px
+
+	.li-items-list
+		margin: 0 !important
+
+body.is-mobile
+	footer
+		margin-top: 0 !important
+
+	#Search	
+		margin-top: 0 !important
+
+		#SearchField
+			md-input-container
+				margin-top: 22px !important
+				margin-bottom: 0 !important
+
+				label
+					font-size: 18px
+
+body.is-ipad
+	#Search
+		margin-top: 0 !important
+
+		#SearchField
+			md-input-container
+				margin: 26px 0
+		
+body.is-md
+	#Search
+		margin-top: 0 !important
+
+		#SearchField
+				md-input-container
+					margin-top: 30px !important
+		

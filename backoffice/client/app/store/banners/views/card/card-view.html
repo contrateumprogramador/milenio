@@ -1,0 +1,35 @@
+<div ng-repeat="(index, group) in vm.companyBanners track by $index">
+  <md-toolbar layout="row" class="md-theme-light">
+    <h2 class="md-toolbar-tools">
+      <span>{{group.group}}</span>
+    </h2>
+    <md-button class="md-icon-button vertical-centered" ng-click="vm.removeGroup($event, group)">
+        <md-icon md-font-icon="icon-trash" aria-label="fechar janela"></md-icon>
+        <md-tooltip>Excluir Grupo</md-tooltip>
+    </md-button>
+  </md-toolbar>
+  <div layout="row" layout-padding class="card-view" layout-wrap as-sortable="vm.dragControlListeners" data-ng-model="group.banners" id="cardView">
+     <div ng-repeat="(key, banner) in group.banners" data-as-sortable-item flex="25">
+        <md-card as-sortable-item-handle>
+          <md-card-title>
+            <md-card-title-text>
+              <div class="md-subhead">
+                <img ng-src="{{banner.url}}"/>
+              </div><br/>
+              <span class="md-title">{{banner.title}}</span>
+              <md-button class="md-icon-button" aria-label="Mais" ng-click="vm.show(1, key, group.group)" ng-hide="vm.displaying[group.group][key]"><md-icon md-font-icon="icon-chevron-down"></md-icon></md-button>
+              <md-button class="md-icon-button" aria-label="Menos" ng-click="vm.show(0, key, group.group)" ng-show="vm.displaying[group.group][key]"><md-icon md-font-icon="icon-chevron-up"></md-icon></md-button>
+              <span class="md-subhead slide-down" ng-show="vm.displaying[group.group][key]">{{banner.description}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-actions layout="row" layout-align="end center" ng-show="vm.displaying[group.group][key]" class="slide-down">
+            <md-icon md-font-icon="icon-eye" ng-show="banner.active"></md-icon>
+            <md-icon md-font-icon="icon-eye-off" ng-hide="banner.active"></md-icon>
+            <md-button class="md-icon-button" aria-label="Editar" ng-click="vm.edit($event, banner, group.group, key)"><md-icon md-font-icon="icon-pencil"></md-icon></md-button>
+            <md-button class="md-icon-button" aria-label="Excluir" ng-click="vm.remove($event, banner, group.group, key)"><md-icon md-font-icon="icon-delete"></md-icon></md-button>
+          </md-card-actions>
+        </md-card>
+     </div>
+  </div>
+  <md-divider></md-divider>
+</div>

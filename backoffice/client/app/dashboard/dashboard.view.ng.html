@@ -1,0 +1,458 @@
+<div id="Dashboard" class="page-layout simple right-sidenav" layout="row">
+    <!-- CENTER -->
+    <div class="center" flex ms-scroll>
+        <page-header>
+            <div layout="row" layout-align="space-between center">
+                <div>
+                    Dashboard
+                    <small>{{ vm.date | date: "MMMM 'de' yyyy" }}</small>
+                    <md-button
+                        class="md-icon-button"
+                        ng-click="vm.dateChange(-1)"
+                    >
+                        <md-icon md-font-icon="icon-chevron-left"></md-icon>
+                    </md-button>
+                    <md-button
+                        class="md-icon-button"
+                        ng-click="vm.dateChange(1)"
+                        ng-disabled="vm.dateChangeDisableNextButton()"
+                    >
+                        <md-icon md-font-icon="icon-chevron-right"></md-icon>
+                    </md-button>
+                </div>
+                <div ng-show="vm.affiliate.name">
+                    <md-icon
+                        md-font-icon="icon-clipboard-account"
+                        class="icon"
+                    ></md-icon
+                    ><small>{{ vm.affiliate.name }}</small>
+                </div>
+            </div>
+        </page-header>
+
+        <!-- CONTENT -->
+        <div class="content" ng-hide="true">
+            <div
+                class="md-whiteframe-2dp"
+                layout="row"
+                flex="100"
+                layout-align="center center"
+            >
+                <p>Aguardando mais dados para compor o seu Dashboard</p>
+            </div>
+        </div>
+        <div class="content">
+            <!-- WIDGET GROUP -->
+            <div class="widget-group" layout="row" flex="100" layout-wrap>
+                <!-- WIDGET 1 -->
+                <ms-widget
+                    flippable="true"
+                    layout="column"
+                    flex="100"
+                    flex-gt-xs="50"
+                >
+                    <!-- Front -->
+                    <ms-widget-front class="white-bg">
+                        <div
+                            class="ph-8 pv-16 h-55"
+                            layout="row"
+                            layout-align="space-between center"
+                        >
+                            <div class="h3">Vendas</div>
+                        </div>
+                        <div
+                            class="pt-8 pb-32"
+                            layout="column"
+                            layout-align="center center"
+                        >
+                            <div
+                                ng-if="Roles.userIsInRole('affiliate')"
+                                class="light-blue-fg font-size-72 line-height-72"
+                            >
+                                {{ vm.stats.sales || 0 | currency }}
+                            </div>
+                            <div
+                                ng-if="!Roles.userIsInRole('affiliate')"
+                                class="light-blue-fg font-size-72 line-height-72"
+                            >
+                                {{ vm.stats.revenues || 0 | currency }}
+                            </div>
+                        </div>
+                        <div
+                            class="p-16 grey-50-bg border-top"
+                            layout="row"
+                            layout-align="start center"
+                        >
+                            <span class="h4 secondary-text text-truncate"
+                                >Mês anterior:
+                            </span>
+                            <span
+                                ng-if="Roles.userIsInRole('affiliate')"
+                                class="h4 ml-8"
+                                >{{ vm.statsLast.sales || 0 | currency }}</span
+                            >
+                            <span
+                                ng-if="!Roles.userIsInRole('affiliate')"
+                                class="h4 ml-8"
+                                >{{
+                                    vm.statsLast.revenues || 0 | currency
+                                }}</span
+                            >
+                        </div>
+                    </ms-widget-front>
+                    <!-- / Front -->
+                </ms-widget>
+                <!-- / WIDGET 1 -->
+                <ms-widget
+                    flippable="true"
+                    layout="column"
+                    flex="100"
+                    flex-gt-xs="50"
+                >
+                    <!-- Front -->
+                    <ms-widget-front class="white-bg">
+                        <div
+                            class="ph-8 pv-16 h-55"
+                            layout="row"
+                            layout-align="space-between center"
+                        >
+                            <div class="h3">Ticket Médio</div>
+                        </div>
+                        <div
+                            class="pt-8 pb-32"
+                            layout="column"
+                            layout-align="center center"
+                        >
+                            <div
+                                class="light-blue-fg font-size-72 line-height-72"
+                            >
+                                {{ vm.stats.avarageTicket || 0 | currency }}
+                            </div>
+                        </div>
+                        <div
+                            class="p-16 grey-50-bg border-top"
+                            layout="row"
+                            layout-align="start center"
+                        >
+                            <span class="h4 secondary-text text-truncate"
+                                >Mês anterior:
+                            </span>
+                            <span class="h4 ml-8">{{
+                                vm.statsLast.avarageTicket || 0 | currency
+                            }}</span>
+                        </div>
+                    </ms-widget-front>
+                    <!-- / Front -->
+                </ms-widget>
+            </div>
+            <!-- WIDGET GROUP -->
+            <div class="widget-group" layout="row" flex="100" layout-wrap>
+                <!-- WIDGET 1 -->
+                <ms-widget
+                    flippable="true"
+                    layout="column"
+                    flex="100"
+                    flex-gt-xs="33"
+                >
+                    <!-- Front -->
+                    <ms-widget-front class="white-bg">
+                        <div
+                            class="ph-8 pv-16 h-55"
+                            layout="row"
+                            layout-align="space-between center"
+                        >
+                            <div class="h3">&nbsp;</div>
+                        </div>
+                        <div
+                            class="pt-8 pb-32"
+                            layout="column"
+                            layout-align="center center"
+                        >
+                            <div ng-if="Roles.userIsInRole('affiliate')">
+                                <div
+                                    class="light-blue-fg font-size-72 line-height-72"
+                                >
+                                    {{
+                                        vm.stats.comissionsPending || 0
+                                            | currency
+                                    }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">
+                                    Comissões a Receber
+                                </div>
+                            </div>
+                            <div ng-if="!Roles.userIsInRole('affiliate')">
+                                <div
+                                    class="light-blue-fg font-size-72 line-height-72"
+                                >
+                                    {{ vm.stats.carts || 0 }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">
+                                    Carrinhos
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="p-16 grey-50-bg border-top"
+                            layout="row"
+                            layout-align="start center"
+                        >
+                            <span class="h4 secondary-text text-truncate"
+                                >Mês anterior:
+                            </span>
+                            <span
+                                ng-if="Roles.userIsInRole('affiliate')"
+                                class="h4 ml-8"
+                                >{{
+                                    vm.statsLast.comissionsPending || 0
+                                        | currency
+                                }}</span
+                            >
+                            <span
+                                ng-if="!Roles.userIsInRole('affiliate')"
+                                class="h4 ml-8"
+                                >{{ vm.statsLast.carts || 0 }}</span
+                            >
+                        </div>
+                    </ms-widget-front>
+                    <!-- / Front -->
+                </ms-widget>
+                <!-- / WIDGET 1 -->
+                <ms-widget
+                    flippable="true"
+                    layout="column"
+                    flex="100"
+                    flex-gt-xs="33"
+                >
+                    <!-- Front -->
+                    <ms-widget-front class="white-bg">
+                        <div
+                            class="ph-8 pv-16 h-55"
+                            layout="row"
+                            layout-align="space-between center"
+                        >
+                            <div class="h3">&nbsp;</div>
+                        </div>
+                        <div
+                            class="pt-8 pb-32"
+                            layout="column"
+                            layout-align="center center"
+                        >
+                            <div ng-if="Roles.userIsInRole('affiliate')">
+                                <div
+                                    class="light-blue-fg font-size-72 line-height-72"
+                                >
+                                    {{
+                                        vm.stats.comissionsPaid || 0 | currency
+                                    }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">
+                                    Comissões Recebidas
+                                </div>
+                            </div>
+                            <div ng-if="!Roles.userIsInRole('affiliate')">
+                                <div
+                                    class="light-blue-fg font-size-72 line-height-72"
+                                >
+                                    {{ vm.stats.sales || 0 }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">
+                                    Vendas
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="p-16 grey-50-bg border-top"
+                            layout="row"
+                            layout-align="start center"
+                        >
+                            <span class="h4 secondary-text text-truncate"
+                                >Mês anterior:
+                            </span>
+                            <span
+                                ng-if="Roles.userIsInRole('affiliate')"
+                                class="h4 ml-8"
+                                >{{
+                                    vm.statsLast.comissionsPaid || 0 | currency
+                                }}</span
+                            >
+                            <span
+                                ng-if="!Roles.userIsInRole('affiliate')"
+                                class="h4 ml-8"
+                                >{{ vm.statsLast.sales || 0 }}</span
+                            >
+                        </div>
+                    </ms-widget-front>
+                    <!-- / Front -->
+                </ms-widget>
+                <ms-widget
+                    flippable="true"
+                    layout="column"
+                    flex="100"
+                    flex-gt-xs="33"
+                >
+                    <!-- Front -->
+                    <ms-widget-front class="white-bg">
+                        <div
+                            class="ph-8 pv-16 h-55"
+                            layout="row"
+                            layout-align="space-between center"
+                        >
+                            <div class="h3">&nbsp;</div>
+                        </div>
+                        <div
+                            class="pt-8 pb-32"
+                            layout="column"
+                            layout-align="center center"
+                        >
+                            <div ng-if="Roles.userIsInRole('affiliate')">
+                                <div
+                                    class="light-blue-fg font-size-72 line-height-72"
+                                >
+                                    {{
+                                        vm.stats.comissionsTotal || 0 | currency
+                                    }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">
+                                    Total de Comissões
+                                </div>
+                            </div>
+                            <div ng-if="!Roles.userIsInRole('affiliate')">
+                                <div
+                                    class="light-blue-fg font-size-72 line-height-72"
+                                >
+                                    {{
+                                        vm.stats.conversionRate || 0
+                                            | percentage
+                                    }}
+                                </div>
+                                <div class="h3 secondary-text font-weight-500">
+                                    Taxa de Conversão
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="p-16 grey-50-bg border-top"
+                            layout="row"
+                            layout-align="start center"
+                        >
+                            <span class="h4 secondary-text text-truncate"
+                                >Mês anterior:
+                            </span>
+                            <span
+                                ng-if="Roles.userIsInRole('affiliate')"
+                                class="h4 ml-8"
+                                >{{
+                                    vm.statsLast.comissionsTotal || 0 | currency
+                                }}</span
+                            >
+                            <span
+                                ng-if="!Roles.userIsInRole('affiliate')"
+                                class="h4 ml-8"
+                                >{{
+                                    vm.statsLast.conversionRate || 0
+                                        | percentage
+                                }}</span
+                            >
+                        </div>
+                    </ms-widget-front>
+                    <!-- / Front -->
+                </ms-widget>
+            </div>
+            <div
+                ng-if="Roles.userIsInRole('affiliate')"
+                class="dashboard-statement"
+                layout="column"
+                layout-padding
+            >
+                <div layout="row">
+                    <h2>Comissões</h2>
+                </div>
+                <div
+                    layout="row"
+                    layout-align="center center"
+                    ng-show="!vm.statement.length"
+                >
+                    Você não possui vendas em
+                    {{ vm.date | date: "MMMM 'de' yyyy" }}.
+                </div>
+                <table ng-show="vm.statement.length" md-table>
+                    <thead md-head md-order="vm.order">
+                        <tr md-row>
+                            <th md-column>Data</th>
+                            <th md-column>Pedido N&deg;</th>
+                            <th md-column>Cliente</th>
+                            <th md-column>Comissão</th>
+                            <th md-column>Status</th>
+                            <th md-column ng-if="$root.userIsInRole(['admin'])">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr
+                            md-row
+                            ng-repeat="item in vm.statement track by $index"
+                        >
+                            <td md-cell>
+                                {{ item.createdAt | date: "dd/MM/yyyy" }}
+                            </td>
+                            <td md-cell>{{ item.checkout.orderNumber }}</td>
+                            <td md-cell>
+                                {{ item.customer.firstname }}
+                                {{ item.customer.lastname }}
+                            </td>
+                            <td md-cell>{{ item.comission | currency }}</td>
+                            <td md-cell>
+                                {{ vm.comissionStatus[item.status] }}
+                            </td>
+                            <td md-cell ng-if="$root.userIsInRole(['admin'])">
+                                <md-menu>
+                                    <md-button
+                                        aria-label="Ações"
+                                        class="md-icon-button"
+                                        ng-click="$mdOpenMenu($event)"
+                                    >
+                                        <md-icon
+                                            md-font-icon="icon-dots-vertical"
+                                        ></md-icon>
+                                        <md-tooltip
+                                            ><span>Ações</span></md-tooltip
+                                        >
+                                    </md-button>
+                                    <md-menu-content width="4">
+                                        <md-menu-item>
+                                            <md-button
+                                                ng-click="vm.comissionAction('pay', item, $event)"
+                                                ng-show="item.status == 'pending'"
+                                            >
+                                                <md-icon
+                                                    md-font-icon="icon-checkbox-marked"
+                                                    md-menu-align-target
+                                                ></md-icon>
+                                                Comissão Paga
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button
+                                                ng-click="vm.comissionAction('remove', item, $event)"
+                                            >
+                                                <md-icon
+                                                    md-font-icon="icon-trash"
+                                                    md-menu-align-target
+                                                ></md-icon>
+                                                Excluir Comissão
+                                            </md-button>
+                                        </md-menu-item>
+                                    </md-menu-content>
+                                </md-menu>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- / CONTENT -->
+    </div>
+    <!-- / CENTER -->
+</div>

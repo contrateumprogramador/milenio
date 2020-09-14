@@ -1,0 +1,19 @@
+<div layout="row" class="card-view" layout-wrap id="cardView">
+   <div ng-repeat="(key, zip) in vm.companyShippings" flex="20">
+      <md-card class="bg-blue">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-subhead text-white">{{zip.zipcodes.start}} - {{zip.zipcodes.end}}</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <md-button class="md-icon-button" aria-label="Mais" ng-click="vm.show(1, key)" ng-hide="vm.displaying[key]"><md-icon md-font-icon="icon-chevron-down"></md-icon></md-button>
+            <md-button class="md-icon-button" aria-label="Menos" ng-click="vm.show(0, key)" ng-show="vm.displaying[key]"><md-icon md-font-icon="icon-chevron-up"></md-icon></md-button>
+          </md-card-title-media>          
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center" ng-show="vm.displaying[key]" class="slide-down">
+          <md-button class="md-icon-button" aria-label="Editar" ng-click="vm.edit($event, key, zip)"><md-icon md-font-icon="icon-pencil"></md-icon></md-button>
+          <md-button class="md-icon-button" aria-label="Excluir" ng-click="vm.remove($event, key, zip)"><md-icon md-font-icon="icon-delete"></md-icon></md-button>
+        </md-card-actions>
+      </md-card>
+   </div>
+</div>

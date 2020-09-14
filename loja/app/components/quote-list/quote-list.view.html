@@ -1,0 +1,112 @@
+<md-list id="QuoteList">
+  <md-list-item class="noright" ng-hide="vm.parent" hide show-gt-sm>
+    <h3>Produto</h3>
+    <h4 class="md-secondary price-title">Quantidade</h4>
+    <h4 class="md-secondary price-title">Valor Unitário</h4>
+    <h4 class="md-secondary">Valor Total</h4>
+  </md-list-item>
+  <md-list-item class="md-2-line" ng-repeat="item in vm.items">
+    <div layout="column" layout-gt-xs="row" layout-align="start start">
+      <div layout="row">
+        <div layout="column">
+          <img alt="{{ item.name }}" ng-src="{{item.picture || '/assets/images/no_image.jpg'}}"/>
+        </div>
+        <div layout="column">
+          <h3 class="item-title">{{ item.name }}</h3>
+          <div class="md-list-item-text" ng-hide="vm.parent" hide show-gt-xs>
+            <div layout="row" ng-show="item.options.name != item.name">
+              <p class="md-body-2">Opção: </p>
+              <p class="md-caption">{{ item.options.name }}</p>
+            </div>
+            <div layout="row" ng-repeat="customization in item.customizations">
+              <p class="md-body-2">{{customization.type}}:</p>
+              <p class="md-caption">{{customization.option.name}}</p>
+            </div>
+            <div id="Quant" layout="column" layout-align="start start" hide-gt-sm>
+              <div id="QuantBox" layout="row" id="DivQuant">
+                  <md-button class="md-icon-button" aria-lebel="Reduzir quantidade" ng-click="vm.changeQuant(item, -1)" ng-disabled="vm.blocked">
+                      <md-icon md-font-icon="icon-minus" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+                  </md-button>
+                  <span>{{ item.quant}}</span>
+                  <md-button class="md-icon-button" aria-label="Aumentar quantidade" ng-click="vm.changeQuant(item, 1)" ng-disabled="vm.blocked">
+                      <md-icon md-font-icon="icon-plus" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+                  </md-button>
+              </div>
+            </div>
+          </div>
+          <div layout="row">
+            <div id="Quant" layout="column" layout-align="start start" ng-hide="!vm.parent">
+              <div id="QuantBox" layout="row" id="DivQuant">
+                  <md-button class="md-icon-button" aria-lebel="Reduzir quantidade" ng-click="vm.changeQuant(item, -1)" ng-disabled="vm.blocked">
+                      <md-icon md-font-icon="icon-minus" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+                  </md-button>
+                  <span>{{ item.quant}}</span>
+                  <md-button class="md-icon-button" aria-label="Aumentar quantidade" ng-click="vm.changeQuant(item, 1)" ng-disabled="vm.blocked">
+                      <md-icon md-font-icon="icon-plus" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+                  </md-button>
+              </div>
+            </div>
+            <md-button ng-hide="!vm.parent || vm.blocked" ng-disabled="vm.blocked" class="md-icon-button"  aria-lebel="Remover Item" ng-click="vm.itemRemove($event, item, $index)">
+                <md-tooltip md-direction="top">Remover Item</md-tooltip>
+                <md-icon md-font-icon="icon-trash"></md-icon>
+            </md-button>
+          </div>
+        </div>
+      </div>
+      <div layout="column" hide-gt-xs ng-hide="vm.parent">
+        <div layout="row" class="md-list-item-text" hide-gt-sm ng-show="item.options.name != item.name">
+          <p class="md-body-2">Opção: </p>
+          <p class="md-caption">{{ item.options.name }}</p>
+        </div>
+        <div layout="row" ng-repeat="customization in item.customizations" class="md-list-item-text" hide-gt-sm>
+          <p class="md-body-2">{{customization.type}}:</p>
+          <p class="md-caption">{{customization.option.name}}</p>
+        </div>
+        
+      </div>
+      <div class="md-list-item-text" hide-gt-xs>
+        <div layout="row" ng-hide="vm.parent || vm.checkMedia('gt-sm')" layout-align="space-between center">
+          <div layout="column">
+            <div id="Quant" layout="column" layout-align="start start">
+              <div id="QuantBox" layout="row" id="DivQuant">
+                  <md-button class="md-icon-button" aria-lebel="Reduzir quantidade" ng-click="vm.changeQuant(item, -1)" ng-disabled="vm.blocked">
+                      <md-icon md-font-icon="icon-minus" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+                  </md-button>
+                  <span>{{ item.quant}}</span>
+                  <md-button class="md-icon-button" aria-label="Aumentar quantidade" ng-click="vm.changeQuant(item, 1)" ng-disabled="vm.blocked">
+                      <md-icon md-font-icon="icon-plus" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+                  </md-button>
+              </div>
+            </div>
+            <p>Preço: {{item.total | currency}}</p>
+          </div>
+          <md-button class="md-icon-button" aria-lebel="Remover Item" ng-click="vm.itemRemove($event, item, $index)" ng-disabled="vm.parent || vm.blocked">
+            <md-tooltip md-direction="top">Remover Item</md-tooltip>
+            <md-icon md-font-icon="icon-trash" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+          </md-button>
+        </div>
+      </div>
+      <md-button class="md-icon-button md-secondary" ng-hide="vm.parent" ng-disabled="vm.blocked" aria-lebel="Editar Item" ng-click="vm.editDetails($event, item, $index)" hide show-gt-xs>
+        <md-tooltip md-direction="top">Editar</md-tooltip>
+        <md-icon md-font-icon="icon-pencil" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+      </md-button>
+      <md-button class="md-icon-button md-secondary mRight20" aria-lebel="Remover Item" ng-click="vm.itemRemove($event, item, $index)" hide show-gt-xs ng-hide="vm.parent" ng-disabled="vm.blocked">
+        <md-tooltip md-direction="top">Remover Item</md-tooltip>
+        <md-icon md-font-icon="icon-trash" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+      </md-button> 
+      <div id="Quant" layout="column" layout-align="center center" class="md-secondary" ng-hide="vm.parent" hide show-gt-sm>
+          <div id="QuantBox" layout="row" id="DivQuant">
+              <md-button class="md-icon-button" aria-lebel="Reduzir quantidade" ng-click="vm.changeQuant(item, -1)" ng-disabled="vm.blocked">
+                  <md-icon md-font-icon="icon-minus" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+              </md-button>
+              <span>{{ item.quant}}</span>
+              <md-button class="md-icon-button" aria-label="Aumentar quantidade" ng-click="vm.changeQuant(item, 1)" ng-disabled="vm.blocked">
+                  <md-icon md-font-icon="icon-plus" ng-class="{ 'color-transparent': vm.blocked } "></md-icon>
+              </md-button>
+          </div>
+      </div>
+      <p class="md-secondary price" ng-hide="vm.parent" hide show-gt-sm>{{item.options.salesPrice || item.options.price | currency}}</p>
+      <p class="md-secondary total" ng-hide="vm.parent" hide show-gt-sm>{{item.total | currency}}</p>
+    </div>
+  </md-list-item>
+</md-list>

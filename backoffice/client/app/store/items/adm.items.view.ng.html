@@ -1,0 +1,46 @@
+<div id="adm-companies" class="page-layout simple right-sidenav" layout="row">
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <page-header>
+          <div ng-hide="vm.listCustomizations"><md-icon md-font-icon="icon-dropbox" class="icon"></md-icon>Itens</div>
+          <div ng-show="vm.listCustomizations"><md-icon md-font-icon="icon-clipboard-text" class="icon"></md-icon>Customizações</div>
+        </page-header>
+
+        <!-- CONTENT ITENS -->
+        <md-content class="content" flex ms-scroll ng-hide="vm.listCustomizations">
+            <div layout="row" id="Search" layout-padding>
+              <md-input-container flex>
+                  <label>Buscar por nome</label>
+                  <input type="text" name="name" ng-model="vm.search.name" ng-keyup="vm.searchName()">
+              </md-input-container>
+            </div>
+            <div ng-include="'client/app/store/items/views/list/list-view.html'"></div>
+        </md-content>
+        <!-- / CONTENT ITENS -->
+
+        <!-- TOOLBAR -->
+        <md-content>
+          <div ng-include="'client/app/store/items/adm.items.toolbar.ng.html'"></div>
+        </md-content>
+        <!-- / TOOLBAR -->
+
+        <!-- CONTENT CUSTOMIZATIONS -->
+        <md-content class="content" flex ms-scroll ng-show="vm.listCustomizations">
+            <div ng-include="'client/app/store/items/customizations/adm.items-customizations.ng.html'"></div>
+        </md-content>
+        <!-- CONTENT CUSTOMIZATIONS -->
+
+    </div>
+    <!-- / CENTER -->
+
+    <!-- SIDENAV -->
+    <md-sidenav class="sidenav details-sidenav md-sidenav-right" md-is-locked-open="$mdMedia('gt-md')"
+                md-component-id="details-sidenav"
+                ng-include="'client/app/store/items/sidenavs/details/details-sidenav.html'" ms-scroll
+                ms-sidenav-helper ng-show="vm.listCustomizations">
+    </md-sidenav>
+    <!-- / SIDENAV -->
+
+</div>

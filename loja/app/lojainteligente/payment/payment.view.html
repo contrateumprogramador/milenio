@@ -1,0 +1,325 @@
+<div class="" layout="row" layout-align="center center" layout-padding>
+    <div id="PaymentComplete" class="box-new-order" ng-show="vm.paymentComplete">
+        Seu pedido foi realizado e estamos aguardando a confirmação de pagamento pelo banco.
+        <br>Assim que isso acontecer você será notificado.
+    </div>
+    <div ng-if="!vm.paymentComplete" id="CIpayment" class="" layout="column" flex="100" flex-gt-md="80" flex-gt-lg="70">
+        <md-tabs class="payment-tabs" md-center-tabs="true" md-selected="vm.tab" md-dynamic-height="true">
+            <md-tab md-on-select="vm.changeMethod('Cartão de Crédito')" ng-disabled="vm.progressLoading">
+                <md-tab-label>
+                    <h3>
+                        <span class="md-headline">Cartão de Crédito</span>
+                        <br>
+                        <span class="md-subhead">Até {{ vm.installments.length }}x sem juros</span>
+                    </h3>
+                </md-tab-label>
+                <md-tab-body>
+                    <div layout="row" layout-align="center stretch" flex="100">
+                        <div class="checkout-alert checkout-alert-error" ng-show="vm.errorMessageCC">
+                            <p>{{ vm.errorMessageCC }}</p>
+                        </div>
+                    </div>
+                    <div class="checkout-card-wrapper" layout-gt-xs="row" layout="column" layout-align="center stretch">
+                        <div flex-gt-sm="50" id="PayData">
+                            <h3>Dados do Pagamento</h3>
+                            <flippy class="fancy" flip="['custom:FLIP_CARD_IN','click']" flip-back="['custom:FLIP_CARD_OUT','click']" duration="700"
+                                timing-function="ease-in-out">
+                                <flippy-front class="card-infos">
+                                    <div layout="column" layout-align="end start" class="checkout-card card-front">
+                                        <div class="card-number" ng-class="{ 'card-focused': vm.isFocused('number') }">{{ vm.cc.number | creditCardNumber }}</div>
+                                        <div layout="column" class="card-infos">
+                                            <div class="card-name" ng-class="{ 'card-focused': vm.isFocused('name') }">{{ vm.payment.holder || 'NOME' }}</div>
+                                            <div layout="row" layout-align="start center" class="card-validity">
+                                                <span class="card-validity-label">Válido até</span>
+                                                <span class="card-validity-date">
+                                                    <span ng-class="{ 'card-focused': vm.isFocused('month') }">{{ vm.cc.expirationMonth | dateFilter }}</span> /
+                                                    <span ng-class="{ 'card-focused': vm.isFocused('year') }">{{ vm.cc.expirationYear | dateFilter : 'year' }}</span>
+                                                </span>
+                                                <div layout="column" layout-align="end end" flex class="card-brand" ng-class="vm.brandClass(vm.cc.brand)" ng-show="vm.brandClass(vm.cc.brand)"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </flippy-front>
+                                <flippy-back>
+                                    <div layout="column" layout-align="start start" class="checkout-card card-back">
+                                        <div class="card-black-stripe"></div>
+                                        <div layout="row" class="card-cvv-container">
+                                            <div class="card-white-stripe"></div>
+                                            <div class="card-cvv" ng-class="{ 'card-focused': vm.isFocused('cvv') }">
+                                                {{ vm.cc.cvv }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </flippy-back>
+                            </flippy>
+                        </div>
+                        <div flex-gt-sm="50">
+                            <form id="ccForm" class="checkout-form slide-down" layout="column" layout-padding name="vm.ccForm" novalidate ng-submit="vm.ccForm.$valid && vm.submit()">
+                                <md-button hide type="submit" aria-label="pagar" ng-disabled="vm.ccForm.$invalid || vm.progressLoading"></md-button>
+                                <div layout="column" ng-if="!vm.checkMedia('xs')">
+                                    <div>
+                                        <label class="radio-button">Parcelamento</label>
+                                        <!-- <md-select ng-model="vm.payment.installments">
+                                            <md-option ng-repeat="installment in vm.installments track by $index" ng-value="installment.times" ng-disabled="vm.progressLoading"
+                                                disabled>
+                                                {{ installment.times }}x de {{ installment.value | currency }} sem juros
+                                            </md-option>
+                                        </md-select> -->
+                                        <md-radio-group ng-model="vm.payment.installments">
+                                            <md-radio-button ng-repeat="installment in vm.installments | orderBy: 'times' track by $index" ng-value="installment.times" ng-disabled="vm.progressLoading">{{ installment.times }}x de {{ installment.value | currency }} sem juros</md-radio-button>
+                                        </md-radio-group>
+                                    </div>
+                                    <md-input-container>
+                                        <label>Número do Cartão</label>
+                                        <input type="text" name="ccNumber" auto-focus ng-model="vm.payment.number" focus-next="vm.cardLength" ng-focus="vm.focus('number')"
+                                            ng-blur="vm.focus(false)" ng-keyup="vm.cardChange('ccNumber')" cc-number cc-format
+                                            aria-label="Número do Cartão" cc-eager-type ng-required ng-readonly="vm.progressLoading">
+                                        <div ng-messages="vm.ccForm.ccNumber.$error" ng-show="vm.ccForm.ccNumber.$dirty && vm.ccForm.ccNumber.$invalid && !vm.isFocused('number')">
+                                            <div ng-messages="vm.ccForm.ccNumber.$error" ng-show="vm.ccForm.ccNumber.$dirty && vm.ccForm.ccNumber.$invalid && !vm.isFocused('number')">
+                                                <div ng-message="required">O número do cartão é obrigatório.</div>
+                                                <div ng-message="ccNumber">Número do cartão inválido.</div>
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Nome (como no cartão)</label>
+                                        <input type="text" name="ccName" ng-model="vm.payment.holder" ng-focus="vm.focus('name')" ng-blur="vm.focus(false)" credit-card-name
+                                            aria-label="Nome (como no cartão)" ng-required ng-readonly="vm.progressLoading">
+                                        <div ng-messages="vm.ccForm.ccName.$error" ng-show="vm.ccForm.ccName.$dirty && vm.ccForm.ccName.$invalid && !vm.isFocused('name')">
+                                            <div ng-message="required">O nome é obrigatório.</div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container ng-if="!vm.checkoutCustomer.document">
+                                        <label>CPF</label>
+                                        <input type="tel" inputmode="tel" x-inputmode="tel" ng-model="vm.document" aria-label="CPF" ng-required ng-readonly="vm.progressLoading"
+                                            ui-br-cpfcnpj-mask mask-fix>
+                                    </md-input-container>
+                                    <md-input-container ng-if="!vm.checkoutCustomer.phone">
+                                        <label>Celular</label>
+                                        <input type="tel" inputmode="tel" x-inputmode="tel" ng-model="vm.phone" aria-label="Celular" ng-required ng-readonly="vm.progressLoading"
+                                            ui-br-phone-number-mask mask-fix minlength="11">
+                                    </md-input-container>
+                                    <div layout="row" layout-align="start start" cc-exp class="no-padding">
+                                        <md-input-container flex="35" flex-sm="45">
+                                            <label>Validade Mês</label>
+                                            <input type="text" name="ccValidityMonth" focus-next="2" ng-focus="vm.focus('month')" ng-blur="vm.focus(false)" ng-model="vm.payment.expirationMonth"
+                                                ng-keyup="vm.cardChange('ccValidityMonth')" cc-exp-month aria-label="Validade mês"
+                                                ng-required ng-readonly="vm.progressLoading">
+                                            <div ng-messages="vm.ccForm.ccValidityMonth.$error" ng-show="vm.ccForm.ccValidityMonth.$dirty && vm.ccForm.ccValidityMonth.$invalid && !vm.isFocused('month')">
+                                                <div ng-message="required">O mês de validade é obrigatório.</div>
+                                                <div ng-message="ccExpMonth">Mês inválido.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="35" flex-sm="30">
+                                            <label>Ano</label>
+                                            <input type="text" name="ccValidityYear" focus-next="2" ng-focus="vm.focus('year')" ng-blur="vm.focus(false)" ng-model="vm.payment.expirationYear"
+                                                ng-keyup="vm.cardChange('ccValidityYear')" cc-exp-year aria-label="Validade ano"
+                                                ng-required ng-readonly="vm.progressLoading">
+                                            <div ng-messages="vm.ccForm.ccValidityYear.$error" ng-show="vm.ccForm.ccValidityYear.$dirty && vm.ccForm.ccValidityYear.$invalid && !vm.isFocused('year')">
+                                                <div ng-message="required">O ano de validade é obrigatório.</div>
+                                                <div ng-message="ccExpYear">Ano inválido.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="30" flex-sm="25">
+                                            <label>CVV</label>
+                                            <input type="text" name="ccCvv" ng-model="vm.payment.cvv" cc-cvc cc-type="vm.ccForm.ccNumber.$ccType" aria-label="CVV" ng-required
+                                                ng-focus="vm.flip('in'); vm.focus('cvv')" ng-blur="vm.flip('out'); vm.blur(false)"
+                                                ng-keyup="vm.cardChange('ccCvv')" ng-readonly="vm.progressLoading">
+                                            <div ng-messages="vm.ccForm.ccCvv.$error" ng-show="vm.ccForm.ccCvv.$dirty && vm.ccForm.ccCvv.$invalid && !vm.isFocused('cvv')">
+                                                <div ng-message="required">CVV é obrigatório.</div>
+                                                <div ng-message="ccCvv">CVV inválido.</div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+
+                                    <div class="checkout-error">
+                                        <div ng-show="vm.ccForm.ccValidityMonth.$dirty && !vm.ccForm.ccValidityYear.$invalid && vm.ccForm.ccValidityYear.$dirty && !vm.ccForm.ccValidityYear.$invalid && vm.ccForm.$error.ccExp && vm.payment.expirationYear">
+                                            <md-icon md-font-icon="icon-alert-circle"></md-icon>
+                                            Validade informada é inválida.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div layout="column" ng-if="vm.checkMedia('xs')">
+                                    <md-tabs md-selected="vm.formStep" md-no-pagination="true">
+                                        <md-tab md-on-select="vm.inputFocus('ccNumber')">
+                                            <md-tab-label></md-tab-label>
+                                            <md-tab-body>
+                                                <md-input-container>
+                                                    <label>Parcelamento</label>
+                                                    <md-select ng-model="vm.payment.installments" class="payment-installments">
+                                                        <md-option ng-repeat="installment in vm.installments track by $index" ng-value="installment.times" ng-readonly="vm.progressLoading">
+                                                            {{ installment.times }}x de {{ installment.value | currency }} sem juros
+                                                        </md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <md-input-container>
+                                                    <label>Número do Cartão</label>
+                                                    <input type="tel" inputmode="numeric" name="ccNumber" ng-model="vm.payment.number" focus-next="vm.cardLength" on-focus-next="vm.step"
+                                                        ng-focus="vm.focus('number')" ng-blur="vm.focus(false)" ng-keyup="vm.cardChange('ccNumber')"
+                                                        cc-number cc-format aria-label="Número do Cartão" cc-eager-type ng-required
+                                                        ng-readonly="vm.progressLoading">
+                                                    <div ng-messages="vm.ccForm.ccNumber.$error" ng-show="vm.ccForm.ccNumber.$dirty && vm.ccForm.ccNumber.$invalid && !vm.isFocused('number')">
+                                                        <div ng-message="required">O número do cartão é obrigatório.</div>
+                                                        <div ng-message="ccNumber">Número do cartão inválido.</div>
+                                                    </div>
+                                                </md-input-container>
+                                            </md-tab-body>
+                                        </md-tab>
+                                        <md-tab md-on-select="vm.inputFocus('ccName')">
+                                            <md-tab-label></md-tab-label>
+                                            <md-tab-body>
+                                                <md-input-container>
+                                                    <label>Nome (como no cartão)</label>
+                                                    <input type="text" name="ccName" ng-model="vm.payment.holder" ng-focus="vm.focus('name')" ng-blur="vm.focus(false)" credit-card-name
+                                                        aria-label="Nome (como no cartão)" ng-required ng-readonly="vm.progressLoading">
+                                                    <div ng-messages="vm.ccForm.ccName.$error" ng-show="vm.ccForm.ccName.$dirty && vm.ccForm.ccName.$invalid && !vm.isFocused('name')">
+                                                        <div ng-message="required">O nome é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+                                                <md-input-container ng-if="!vm.checkoutCustomer.document">
+                                                    <label>CPF</label>
+                                                    <input type="tel" inputmode="tel" x-inputmode="tel" name="ccDocument" ng-model="vm.document" ng-focus="vm.focus('document')"
+                                                        ng-blur="vm.focus(false)" aria-label="CPF" ng-required ng-readonly="vm.progressLoading"
+                                                        ui-br-cpfcnpj-mask mask-fix>
+                                                    <div ng-messages="vm.ccForm.ccDocument.$error" ng-show="vm.ccForm.ccDocument.$dirty && vm.ccForm.ccDocument.$invalid && !vm.isFocused('document')">
+                                                        <div ng-message="required">O CPF é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+                                                <md-input-container ng-if="!vm.checkoutCustomer.phone">
+                                                    <label>Celular</label>
+                                                    <input type="tel" inputmode="tel" x-inputmode="tel" ng-model="vm.phone" aria-label="Celular" ng-required ng-readonly="vm.progressLoading"
+                                                        ui-br-phone-number-mask mask-fix minlength="11">
+                                                </md-input-container>
+                                            </md-tab-body>
+                                        </md-tab>
+                                        <md-tab md-on-select="vm.inputFocus('ccValidityMonth')">
+                                            <md-tab-label></md-tab-label>
+                                            <md-tab-body>
+                                                <div layout="row" layout-align="start start" cc-exp class="no-padding">
+                                                    <md-input-container flex="35" flex-sm="45">
+                                                        <label>Validade Mês</label>
+                                                        <input type="tel" inputmode="numeric" name="ccValidityMonth" focus-next="2" ng-focus="vm.focus('month')" ng-blur="vm.focus(false)"
+                                                            ng-model="vm.payment.expirationMonth" ng-keyup="vm.cardChange('ccValidityMonth')"
+                                                            cc-exp-month aria-label="Validade mês" ng-required ng-readonly="vm.progressLoading">
+                                                        <div ng-messages="vm.ccForm.ccValidityMonth.$error" ng-show="vm.ccForm.ccValidityMonth.$dirty && vm.ccForm.ccValidityMonth.$invalid && !vm.isFocused('month')">
+                                                            <div ng-message="required">O mês de validade é obrigatório.</div>
+                                                            <div ng-message="ccExpMonth">Mês inválido.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                    <md-input-container flex="35" flex-sm="30">
+                                                        <label>Ano</label>
+                                                        <input type="tel" inputmode="numeric" name="ccValidityYear" focus-next="2" ng-focus="vm.focus('year')" ng-blur="vm.focus(false)"
+                                                            ng-model="vm.payment.expirationYear" ng-keyup="vm.cardChange('ccValidityYear')"
+                                                            cc-exp-year aria-label="Validade ano" ng-required ng-readonly="vm.progressLoading">
+                                                        <div ng-messages="vm.ccForm.ccValidityYear.$error" ng-show="vm.ccForm.ccValidityYear.$dirty && vm.ccForm.ccValidityYear.$invalid && !vm.isFocused('year')">
+                                                            <div ng-message="required">O ano de validade é obrigatório.</div>
+                                                            <div ng-message="ccExpYear">Ano inválido.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                    <md-input-container flex="30" flex-sm="25">
+                                                        <label>CVV</label>
+                                                        <input type="tel" inputmode="numeric" name="ccCvv" ng-model="vm.payment.cvv" cc-cvc cc-type="vm.ccForm.ccNumber.$ccType"
+                                                            aria-label="CVV" ng-required ng-focus="vm.flip('in'); vm.focus('cvv')"
+                                                            ng-blur="vm.flip('out'); vm.blur(false)" ng-keyup="vm.cardChange('ccCvv')"
+                                                            ng-readonly="vm.progressLoading">
+                                                        <div ng-messages="vm.ccForm.ccCvv.$error" ng-show="vm.ccForm.ccCvv.$dirty && vm.ccForm.ccCvv.$invalid && !vm.isFocused('cvv')">
+                                                            <div ng-message="required">CVV é obrigatório.</div>
+                                                            <div ng-message="ccCvv">CVV inválido.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                            </md-tab-body>
+                                        </md-tab>
+                                        <md-tab>
+                                            <md-tab-label></md-tab-label>
+                                            <md-tab-body>
+                                                <div class="checkout-alert checkout-alert-info">
+                                                    <p>Processando pagamento...</p>
+                                                </div>
+                                            </md-tab-body>
+                                        </md-tab>
+                                        <md-tab>
+                                            <md-tab-label></md-tab-label>
+                                            <md-tab-body>
+                                                <div class="checkout-alert checkout-alert-success">
+                                                    <p>Pagamento concluído</p>
+                                                </div>
+                                            </md-tab-body>
+                                        </md-tab>
+                                    </md-tabs>
+                                    <div class="checkout-actions" layout="row" layout-align="space-around stretch" ng-hide="vm.formStep > 2">
+                                        <md-button class="md-raised btn-cart" ng-click="vm.step(-1)" ng-disabled="!vm.formStep">Anterior</md-button>
+                                        <md-button class="md-raised btn-cart" ng-click="vm.step(1)" ng-disabled="vm.continueDisabled()" ng-hide="vm.formStep == 2">Continuar</md-button>
+                                        <md-button class="md-raised btn-cart" ng-click="vm.submit()" ng-disabled="vm.continueDisabled() || !vm.document || !vm.phone"
+                                            ng-show="vm.formStep == 2">Pagar</md-button>
+                                    </div>
+                                </div>
+                                <div layout="column" ng-if="!vm.checkMedia('xs')" layout-align="center stretch">
+                                    <md-button class="md-raised btn-cart" ng-disabled="vm.ccForm.$invalid || vm.progressLoading || !vm.document || !vm.phone"
+                                        ng-click="vm.submit()">
+                                        <span ng-hide="vm.progressLoading || vm.complete">Pagar</span>
+                                        <span ng-show="vm.progressLoading && !vm.complete">Processando pagamento...</span>
+                                        <span ng-show="vm.complete">Pagamento concluído</span>
+                                    </md-button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+            <md-tab md-on-select="vm.changeMethod('Boleto Bradesco')" ng-disabled="vm.progressLoading">
+                <md-tab-label>
+                    <h3>
+                        <span class="md-headline">Boleto Bancário</span>
+                        <br>
+                        <span class="md-subhead" ng-hide="vm.billetDiscount">À Vista com desconto</span>
+                        <span class="md-subhead" ng-show="vm.billetDiscount">À Vista com {{ vm.billetDiscount }}% de desconto</span>
+                    </h3>
+                </md-tab-label>
+                <md-tab-body>
+                    <div layout="row" layout-align="center start">
+                        <div layout="column" flex="80" flex-gt-sm="50">
+                            <div class="checkout-alert checkout-alert-error slide-down" ng-show="vm.errorMessageBoleto && vm.payment.number == ''">
+                                <p>{{ vm.errorMessageBoleto }}</p>
+                            </div>
+                            <h3 class="text-center md-body-1">
+                                Gere seu boleto para pagar sua compra no banco ou pela internet.
+                            </h3>
+                            <div layout="row">
+                                <md-input-container ng-if="!vm.checkoutCustomer.document" flex="100">
+                                    <label>CPF</label>
+                                    <input type="tel" inputmode="tel" x-inputmode="tel" ng-model="vm.document" aria-label="CPF" ng-required ng-readonly="vm.progressLoading"
+                                        ui-br-cpfcnpj-mask mask-fix>
+                                </md-input-container>
+                                <md-input-container ng-if="!vm.checkoutCustomer.phone" flex="100">
+                                    <label>Celular</label>
+                                    <input type="tel" inputmode="tel" x-inputmode="tel" ng-model="vm.phone" aria-label="Celular" ng-required ng-readonly="vm.progressLoading"
+                                        ui-br-phone-number-mask mask-fix minlength="11">
+                                </md-input-container>
+                            </div>
+                            <md-button class="md-raised btn-lg btn-cart c-bg-success" ng-disabled="vm.progressLoading || vm.complete || !vm.document || !vm.phone"
+                                ng-hide="vm.boletoUrl" ng-click="vm.submit('boleto')">
+                                <span ng-hide="vm.progressLoading || vm.complete">Gerar Boleto</span>
+                                <span ng-show="vm.progressLoading && !vm.complete">Gerando Boleto...</span>
+                            </md-button>
+                            <md-button ng-href="{{vm.boletoUrl}}" target="_blank" ng-click="vm.goToCart()" ng-mouseup="vm.checkoutComplete()" class="md-raised btn-lg btn-cart c-bg-success"
+                                ng-show="vm.boletoUrl" ng-disabled="vm.progressLoading">
+                                Visualizar Boleto
+                            </md-button>
+                            <p class="md-caption">
+                                <strong>
+                                    Sua compra só será concluída após a confirmação de pagamento pelo banco, o que pode levar até 3 dias úteis após o pagamento.
+                                    <br>
+                                    <br> Quanto antes você efetivar o pagamento do boleto, mais rápido receberá seus produtos.
+                                </strong>
+                            </p>
+                            <p class="md-caption">
+                                Você receberá um e-mail assim que recebermos a confirmação do pagamento .
+                            </p>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </div>
+</div>

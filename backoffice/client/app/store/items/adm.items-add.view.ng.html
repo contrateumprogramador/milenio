@@ -1,0 +1,390 @@
+<md-dialog aria-label="Mango (Fruit)" flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Item</h2>
+                <h2 ng-show="vm.edit">Editar Item</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="vm.tab">
+                <md-tab label="Dados Cadastrais">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Nome</label>
+                            <input type="text" name="name" ng-model="vm.form.name" ng-keyup="vm.setUrl()" required>
+                            <div ng-messages="formAdd.name.$error" ng-show="formAdd.name.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="30">
+                            <label>URL</label>
+                            <input name="url" type="text" ng-model="vm.form.url" ng-keyup="vm.typingUrl()" required>
+                            <div ng-messages="formAdd.url.$error" ng-show="formAdd.url.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="20">
+                            <md-checkbox ng-model="vm.form.active" aria-label="Exibir">
+                                Item ativo
+                            </md-checkbox>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="15">
+                            <label>Rank</label>
+                            <input type="number" name="rank" ng-model="vm.form.rank" min="0" max="10">
+                            <div ng-messages="formAdd.rank.$error" ng-show="formAdd.rank.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="20">
+                            <label>Estoque</label>
+                            <md-select ng-model="vm.form.stock">
+                                <md-option ng-repeat="option in vm.stockOptions" ng-value="option.value">
+                                    {{option.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="15">
+                            <label>Máximo</label>
+                            <input type="number" name="max" ng-model="vm.form.max">
+                        </md-input-container>
+                        <div flex="100" layout-align="space-between center">
+                            <md-chips class="width100" ng-model="vm.form.tags" md-autocomplete-snap md-require-match="true">
+                                <md-autocomplete md-selected-item="vm.selectedTag" md-search-text="vm.searchText"
+                                    md-items="item in vm.querySearch(vm.searchText, 'tagsList')" md-item-text="item.name"
+                                    placeholder="Tags do produto" , md-min-length="2">
+                                    <span md-highlight-text="vm.searchText">{{item.name}} ({{item.tagsGroup}})</span>
+                                </md-autocomplete>
+                                <md-chip-template>
+                                    <span>{{$chip.name}}</span>
+                                    <span>({{$chip.tagsGroup}})</span>
+                                </md-chip-template>
+                            </md-chips>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Google">
+                    <div layout="row" layout-wrap>
+                        <md-input-container flex="100">
+                            <md-checkbox ng-model="vm.form.googleShopping.active" aria-label="Exibir">
+                                Google ativo
+                            </md-checkbox>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>G:Brand</label>
+                            <input type="text" name="brand" ng-model="vm.form.googleShopping.data['g:brand']">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Tipo do produto</label>
+                            <input type="text" name="brand" ng-model="vm.form.googleShopping.data['g:product_type']">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="100">
+                            <label>Descrição</label>
+                            <textarea ng-model="vm.form.googleShopping.data.description" md-select-on-focus></textarea>
+                        </md-input-container>
+                        <div flex="100">
+                            <md-autocomplete md-selected-item="vm.form.googleShopping.data['g:google_product_category']"
+                                md-search-text-change="vm.searchGoogleCategory(vm.categorySearch)" md-search-text="vm.categorySearch"
+                                md-selected-item-change="vm.select(category)" md-items="category in vm.exibedCategories"
+                                md-item-text="category" placeholder="Selecione uma categoria">
+                                <md-item-template>
+                                    <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{category}}</span>
+                                </md-item-template>
+                            </md-autocomplete>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Descrições">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-tabs>
+                            <md-tab ng-repeat="description in vm.form.attributes" label="{{description.title}}">
+                                <text-angular ng-model="description.content"></text-angular>
+                            </md-tab>
+                        </md-tabs>
+                    </div>
+                </md-tab>
+                <md-tab label="Customização">
+                    <div class="md-dialog-content">
+                        <div flex="100" layout-wrap layout-padding>
+                            <h2 class="md-title text-blue text-center">Customização</h2>
+                            <div layout="row" layout-align="space-between center" layout-padding>
+                                <md-chips class="width100" ng-model="vm.form.customizations" md-autocomplete-snap
+                                    md-require-match="true">
+                                    <md-autocomplete md-selected-item="vm.selectedCustomization" md-search-text="vm.searchText"
+                                        md-items="item in vm.querySearch(vm.searchText, 'customizations')" md-item-text="item.type"
+                                        placeholder="Tipos de customização" , md-min-length="2">
+                                        <span md-highlight-text="vm.searchText">{{item.type}}</span>
+                                    </md-autocomplete>
+                                    <md-chip-template>
+                                        <span>{{$chip.type}}</span>
+                                    </md-chip-template>
+                                </md-chips>
+                            </div>
+                            <h4 class="text-blue text-center">Cada item abaixo é um tipo de personalização (Ex.: Cor,
+                                Material...)</h4>
+                            <md-divider></md-divider>
+                        </div>
+                        <div layout="row" layout-align="space-between">
+                            <md-content flex="{{100/vm.form.customizations.length}}" layout="column" ng-repeat="(key, customization) in vm.form.customizations"
+                                layout-padding>
+                                <div class="bg-grey">
+                                    <h2 class="text-white text-center">{{customization.type}}</h2>
+                                    <md-card ng-style="{'background-image': 'url(' + option.image + ')'}" ng-repeat="(key, option) in customization.options">
+                                        <h4 ng-class="{'border-dotted' : option.image}" class="text-blue bg-white option-title text-center">{{option.name}}</h4>
+                                    </md-card>
+                                </div>
+                            </md-content>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Preços/Subitens">
+                    <div class="md-dialog-content">
+                        <div flex="100" layout-wrap layout-padding>
+                            <h2 class="md-title text-blue text-center">Item Principal</h2>
+                            <md-divider></md-divider>
+                        </div>
+                        <div layout="row" layout-wrap>
+                            <div flex="40">
+                                <h2 class="md-title text-blue">
+                                    Parcelar Item:
+                                </h2>
+                            </div>
+                            <md-input-container flex="100" flex-gt-xs="25">
+                                <input type="text" ui-money-mask name="installments.min" ng-model="vm.form.installments.min"
+                                    placeholder="Valor Mínimo da Parcela">
+                                <div ng-messages="formAdd.installments.min.$error" ng-show="formAdd.installments.min.$touched"
+                                    role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="25">
+                                <label>Máximo de Parcelas</label>
+                                <input type="number" name="installments.maxInstallments" ng-model="vm.form.installments.maxInstallments"
+                                    min="1" max="100">
+                                <div ng-messages="formAdd.installments.maxInstallments.$error" ng-show="formAdd.installments.maxInstallments.$touched"
+                                    role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div layout="row" layout-wrap ng-repeat="(key, options) in vm.form.options" layout-padding>
+                            <md-input-container flex="100" flex-gt-xs="30">
+                                <label>Nome</label>
+                                <input type="text" name="name[key]" ng-model="vm.form.options[key].name" required>
+                                <div ng-messages="formAdd.name[key].$error" ng-show="formAdd.name[key].$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="20">
+                                <input type="text" ui-money-mask name="price[key]" ng-model="vm.form.options[key].price"
+                                    placeholder="Preço" required>
+                                <div ng-messages="formAdd.price[key].$error" ng-show="formAdd.price[key].$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="20">
+                                <input type="text" ui-money-mask name="salesPrice[key]" ng-model="vm.form.options[key].salesPrice"
+                                    placeholder="Preço promocional">
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="15">
+                                <input type="text" name="sku[key]" ng-model="vm.form.options[key].sku" placeholder="Referência"
+                                    required>
+                                <div ng-messages="formAdd.sku[key].$error" ng-show="formAdd.sku[key].$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-button class="md-fab md-mini" ng-if="key != 0" ng-click="vm.removePrice(key)"
+                                aria-label="Retirar sub item">
+                                <md-icon md-font-icon="icon-close"></md-icon>
+                            </md-button>
+                            <md-button class="md-fab md-mini md-primary" ng-click="vm.newPrice()" ng-if="key == vm.form.options.length-1"
+                                aria-label="Novo Sub-item">
+                                <md-icon md-font-icon="icon-plus"></md-icon>
+                            </md-button>
+                            <div flex="100" ng-if="key == 0" layout-wrap layout-padding>
+                                <h2 class="md-title text-blue text-center">Subitens</h2>
+                                <md-divider></md-divider>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Relacionados">
+                    <div class="md-dialog-content">
+                        <div flex="100" layout-wrap layout-padding>
+                            <h2 class="md-title text-blue text-center">Produtos Relacionados</h2>
+                            <div layout="row" layout-align="space-between center" layout-padding>
+                                <md-chips class="width100" md-max-chips="5" ng-model="vm.form.related"
+                                    md-autocomplete-snap md-require-match="true">
+                                    <md-autocomplete md-selected-item="vm.selectedItem" md-search-text="vm.searchText"
+                                        md-items="item in vm.querySearch(vm.searchText, 'items')" md-item-text="item.name"
+                                        placeholder="Itens" , md-min-length="2">
+                                        <span md-highlight-text="vm.searchText">{{item.name}}</span>
+                                    </md-autocomplete>
+                                    <md-chip-template>
+                                        <span>{{$chip.name}}</span>
+                                    </md-chip-template>
+                                </md-chips>
+                            </div>
+                            <md-divider></md-divider>
+                        </div>
+                        <div layout="row" layout-align="space-between">
+                            <md-content flex="20" layout="column" ng-repeat="(key, item) in vm.form.related track by $index"
+                                layout-padding>
+                                <md-card>
+                                    <md-card-title>
+                                        <md-card-title-text>
+                                            <span class="item-title md-subhead no-padding">
+                                                {{item.name}}
+                                            </span>
+                                        </md-card-title-text>
+                                    </md-card-title>
+                                    <md-card-content>
+                                        <div class="md-subhead no-padding" ng-show="item.pictures.length > 0"
+                                            no-padding>
+                                            <img ng-src="{{item.pictures[0]}}" alt="{{item.name}}" />
+                                        </div>
+                                    </md-card-content>
+                                </md-card>
+                            </md-content>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Imagens">
+                    <div layout="row">
+                        <div class="cropArea" ng-hide="vm.imageView == 1" flex="30" layout-padding>
+                            <drop-zone id="fileInput" name="imageUpload" uploadMultiple="true" options="vm.dropzoneOptions"
+                                tabindex="6">
+                            </drop-zone>
+                        </div>
+                        <md-content layout-padding layout-wrap flex>
+                            <h2 class="md-title text-blue text-center">Imagens do Item</h2>
+                            <div layout="row" class="image-view" layout-wrap as-sortable="vm.dragControlListeners"
+                                data-ng-model="vm.form.pictures" id="board">
+                                <div ng-repeat="picture in vm.form.pictures" data-as-sortable-item flex="25">
+                                    <md-card as-sortable-item-handle>
+                                        <md-card-title>
+                                            <md-card-title-media>
+                                                <img ng-src="{{picture}}" alt="Imagem não encontrada">
+                                            </md-card-title-media>
+                                        </md-card-title>
+                                        <md-card-actions layout="row" layout-align="end center" class="slide-down">
+                                            <md-button class="md-icon-button" ng-click="vm.removePicture(picture)"
+                                                aria-label="Excluir">
+                                                <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+                                            </md-button>
+                                        </md-card-actions>
+                                    </md-card>
+                                </div>
+                            </div>
+                        </md-content>
+                    </div>
+                </md-tab>
+                <md-tab label="Recorrência" ng-if="vm.company.gateway.recurrence">
+                    <div class="md-dialog-content">
+                        <div flex="100" layout-wrap layout-padding>
+                            <h2 class="md-title text-blue text-center">Recorrência</h2>
+                            <md-divider></md-divider>
+                        </div>
+                        <div layout="row" layout-wrap ng-repeat="(key, options) in vm.form.recurrence" layout-padding>
+                            <md-input-container flex="100" flex-gt-xs="30">
+                                <label>Periodicidade</label>
+                                <md-select ng-model="vm.form.recurrence[$index].periodicity">
+                                    <md-option ng-repeat="(value, name) in vm.recurrencePeriods" ng-value="value">
+                                        {{name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="20">
+                                <label>Preço Normal</label>
+                                <input type="text" ui-money-mask name="value[$index]" ng-model="vm.form.recurrence[$index].value"
+                                    placeholder="Preço Normal" ng-keyup="vm.calcRecurrenceTotal($index)" required>
+                                <div ng-messages="formAdd.value[$index].$error" ng-show="formAdd.value[$index].$touched"
+                                    role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="20">
+                                <label>Desconto (%)</label>
+                                <input required="" type="number" ng-keyup="vm.calcRecurrenceTotal($index)" step="any"
+                                    name="discount[$index]" ng-model="vm.form.recurrence[$index].discount" aria-label="Desconto">
+                                <div ng-messages="formAdd.discount[$index].$error" ng-show="formAdd.discount[$index].$touched"
+                                    role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="20">
+                                <label>Preço com Desconto</label>
+                                <input type="text" ui-money-mask name="total[$index]" ng-model="vm.form.recurrence[$index].total"
+                                    placeholder="Preço com Desconto" ng-readonly required>
+                                <div ng-messages="formAdd.total[$index].$error" ng-show="formAdd.total[$index].$touched"
+                                    role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-button class="md-fab md-mini" ng-click="vm.removeRecurrence(key)" aria-label="Remover recorrência">
+                                <md-icon md-font-icon="icon-close"></md-icon>
+                            </md-button>
+                        </div>
+                        <md-button class="md-fab md-mini md-primary" ng-click="vm.newRecurrence()" aria-label="Adicionar recorrência">
+                            <md-icon md-font-icon="icon-plus"></md-icon>
+                        </md-button>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar" ng-disabled="vm.needSave">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.loading"
+                aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+<style type="text/css">
+    .cropArea {
+        background: #FFF;
+        overflow: hidden;
+        width: 250px;
+        height: 350px;
+    }
+
+    .cropArea img-crop {
+        background: #FFF;
+    }
+
+    .dropzone {
+        border: 1px dashed;
+        width: 250px;
+        height: 300px;
+    }
+</style>

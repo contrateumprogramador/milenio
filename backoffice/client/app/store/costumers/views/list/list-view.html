@@ -1,0 +1,79 @@
+<!-- LIST VIEW -->
+<md-table-pagination
+    md-limit="vm.pagination.limit"
+    md-page="vm.pagination.page"
+    md-total="{{ vm.total }}"
+    md-on-paginate="vm.changePage"
+    mdLabel="vm.label"
+    md-page-select
+></md-table-pagination>
+<table
+    ng-show="vm.exibedCustomers.length"
+    md-table
+    md-row-select="options.rowSelection"
+    ng-model="vm.selected"
+    md-progress="promise"
+>
+    <thead md-head md-order="vm.order">
+        <tr md-row>
+            <th md-column md-order-by="name">Nome</th>
+            <th md-column md-order-by="email">Email</th>
+            <th md-column md-order-by="document">CPF/CNPJ</th>
+            <th md-column md-order-by="phone">Telefone</th>
+            <th md-column md-order-by="createdAt">Atualizado</th>
+            <th md-column ng-if="$root.userIsInRole(['affiliate'])">
+                Ações
+            </th>
+        </tr>
+    </thead>
+    <tbody md-body>
+        <tr
+            md-row
+            md-select="customer"
+            md-auto-select
+            ng-repeat="customer in vm.exibedCustomers | orderBy : vm.order track by $index"
+            ng-click="vm.select(customer)"
+            ng-class="{'selected' : vm.selected === customer}"
+        >
+            <td md-cell>
+                <strong
+                    >{{ customer.firstname || "Não identificado" }}
+                    {{ customer.lastname }}</strong
+                >
+            </td>
+            <td md-cell>{{ customer.email }}</td>
+            <td md-cell>{{ customer.document | brCpf }}</td>
+            <td md-cell>{{ customer.phone | brPhoneNumber }}</td>
+            <td md-cell>{{ customer.createdAt | date: "dd/MM/yyyy" }}</td>
+            <td md-cell ng-if="$root.userIsInRole(['affiliate'])">
+                <md-button
+                    class="md-icon-button md-raised md-primary"
+                    aria-label="Criar pedidos"
+                    ng-href="{{ vm.cartLink(customer) }}"
+                    target="_blank"
+                >
+                    <md-icon md-font-icon="icon-clipboard-text"></md-icon>
+                    <md-tooltip><span>Criar pedidos</span></md-tooltip>
+                </md-button>
+                <md-button
+                    class="md-icon-button md-raised md-primary"
+                    aria-label="Criar pedidos"
+                    ng-click="vm.edit($event)"
+                >
+                    <md-icon md-font-icon="icon-pencil"></md-icon>
+                    <md-tooltip><span>Editar cliente</span></md-tooltip>
+                </md-button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<empty-alert
+    header="Sua busca não retornou nenhum resultado"
+    show="!vm.exibedCustomers.length"
+>
+    Você pode adicionar Clientes clicando no botão '<md-icon
+        md-font-icon="icon-account-plus"
+    ></md-icon
+    >' acima.
+</empty-alert>
+<!-- / LIST VIEW -->

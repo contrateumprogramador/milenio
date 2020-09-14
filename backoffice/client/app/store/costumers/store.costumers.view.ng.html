@@ -1,0 +1,56 @@
+<div id="adm-companies" class="page-layout simple right-sidenav" layout="row">
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+        <page-header>
+            <div layout="row" layout-align="space-between center">
+                <div layout="row">
+                    <md-icon
+                        md-font-icon="icon-account-multiple"
+                        class="icon"
+                    ></md-icon
+                    >Clientes
+                </div>
+                <md-button
+                    aria-label="Adicionar Cliente"
+                    ng-click="vm.add($event)"
+                    class="md-raised md-primary"
+                >
+                    <md-icon md-font-icon="icon-plus"></md-icon>
+                    Adicionar Cliente
+                </md-button>
+            </div>
+        </page-header>
+
+        <!-- CONTENT -->
+        <md-content class="content" flex ms-scroll>
+            <div layout="row" layout-padding>
+                <md-input-container class="no-margin height-40" flex>
+                    <label>Buscar por nome</label>
+                    <input
+                        type="text"
+                        name="name"
+                        ng-model="vm.search"
+                        ng-keyup="vm.searchName()"
+                    />
+                </md-input-container>
+            </div>
+            <div
+                ng-include="'client/app/store/costumers/views/list/list-view.html'"
+            ></div>
+        </md-content>
+        <!-- / CONTENT -->
+    </div>
+    <!-- / CENTER -->
+
+    <!-- SIDENAV -->
+    <md-sidenav
+        class="sidenav details-sidenav md-sidenav-right"
+        md-is-locked-open="$mdMedia('gt-md') && !$root.userIsInRole('affiliate')"
+        md-component-id="details-sidenav"
+        ng-include="'client/app/store/costumers/sidenavs/details/details-sidenav.html'"
+        ms-scroll
+        ms-sidenav-helper
+    >
+    </md-sidenav>
+    <!-- / SIDENAV -->
+</div>

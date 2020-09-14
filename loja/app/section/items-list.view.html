@@ -1,0 +1,53 @@
+<div layout="column">
+    <div layout-padding>
+        <milenio-title title-text="vm.title"></milenio-title>
+    </div>
+    <div layout="column" layout-padding hide show-gt-sm>
+        <div class="items-filter border-light" layout="row" layout-xs="column" layout-align="space-between center" layout-align-xs="center stretch"
+            layou-padding>
+            <md-button class="md-raised button-filter" ng-click="ctrl.toggleSidenav('filters')" flex="100" flex-gt-xs="25" ng-show="!ctrl.checkMedia('gt-sm')">
+                <i class="fa fa-filter" aria-hidden="true"></i> Filtrar</md-button>
+            <div layout="row" layout-align="start start" class="mBot10" id="RowInput">
+                <md-icon class="icon-search" md-font-icon="icon-magnify"></md-icon>
+                <md-input-container flex="100">
+                    <label>Buscar</label>
+                    <input type="text" ng-model="vm.itemSearch" ng-keyup="vm.search()">
+                </md-input-container>
+            </div>
+            <md-input-container class="items-order">
+                <label>Ordernar por:</label>
+                <md-select ng-model="vm.orderBy" md-on-close="vm.reorder()">
+                    <md-option ng-value="order.value" ng-repeat="order in vm.order">{{ order.name }}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+    </div>
+    <div layout="column" layout-padding hide-gt-sm>
+        <div class="items-filter border-light" layout="row" layout-xs="column" layout-align="space-between center" layout-align-xs="center stretch"
+            layou-padding>
+            <div layout="row">
+                <md-button flex="50" class="md-raised button-filter" ng-click="ctrl.toggleSidenav('filters')" flex="100" flex-gt-xs="25"
+                    ng-show="!ctrl.checkMedia('gt-sm')">
+                    <i class="fa fa-filter" aria-hidden="true"></i> Filtrar</md-button>
+                <md-input-container flex="50" class="items-order">
+                    <label>Ordernar por:</label>
+                    <md-select ng-model="vm.orderBy" md-on-close="vm.reorder()">
+                        <md-option ng-value="order.value" ng-repeat="order in vm.order">{{ order.name }}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-align="start start" class="mBot10" id="RowInput">
+                <md-icon class="icon-search" md-font-icon="icon-magnify"></md-icon>
+                <md-input-container flex="100">
+                    <label>Buscar</label>
+                    <input type="text" ng-model="vm.itemSearch" ng-keyup="vm.search()">
+                </md-input-container>
+            </div>
+        </div>
+    </div>
+    <div layout="row">
+        <div id="Produtos" layout="column" layout-gt-xs="row" layout-align="space-between center">
+            <li-items-list items="vm.items"></li-items-list>
+        </div>
+    </div>
+</div>
