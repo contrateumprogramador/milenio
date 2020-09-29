@@ -32,7 +32,7 @@ module.exports = function(ngModule) {
 
                 // Vars
                 vm.itemsList = getItemsList();
-                vm.limit = 3;
+                vm.limit = 20;
 
                 angular
                     .element(document.querySelector("#Content"))
@@ -79,19 +79,7 @@ module.exports = function(ngModule) {
 
                 function prepareItems() {
                     vm.itemsList = getItemsList();
-
-                    if (vm.checkMedia("gt-sm")) {
-                        vm.flex = Math.round(100 / rowSize);
-                        vm.items = [];
-                        vm.lines = Math.ceil(vm.itemsList.length / rowSize); // Calcula número de linhas
-
-                        // Gera Array de linhas e items
-                        for (var i = 0; i < vm.lines; i++) {
-                            vm.items.push(vm.itemsList.splice(0, rowSize));
-                        }
-                    } else {
-                        vm.items = vm.itemsList;
-                    }
+                    vm.items = vm.itemsList;
                 }
             }
         };
