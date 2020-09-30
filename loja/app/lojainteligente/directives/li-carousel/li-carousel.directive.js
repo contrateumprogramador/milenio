@@ -17,26 +17,11 @@ module.exports = function(ngModule) {
                 vm.selected = 0;
                 vm.tabs = $scope.liContent || [];
                 vm.url = url;
+                vm.changeTab = changeTab;
 
                 $scope.$watch("liContent", function(newValue, oldValue, scope) {
                     vm.tabs = newValue;
                 });
-
-                // Functions
-                function change() {
-                    $timeout(function() {
-                        if (
-                            vm.selected < vm.tabs.length - 1
-                                ? vm.tabs.length - 1
-                                : 0
-                        ) {
-                            vm.selected++;
-                        } else {
-                            vm.selected = 0;
-                        }
-                        change();
-                    }, vm.interval);
-                }
 
                 function url(tab) {
                     return tab.urlMobile && $mdMedia("xs")
@@ -44,7 +29,12 @@ module.exports = function(ngModule) {
                         : tab.url;
                 }
 
-                if (vm.interval) change();
+                function changeTab(page){
+                    if (vm.selected < vm.tabs.length - 1 && page > 0)
+                        vm.selected += page;
+                    else if(vm.selected > 0 && page < 0)
+                        vm.selected--;
+                }
             }
         };
     });

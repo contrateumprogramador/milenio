@@ -1,7 +1,9 @@
 <md-card class="itemPreview item-preview">
     <div class="relative">
         <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id})" title="{{ vm.item.name }}">
-            <img ng-src="{{ vm.item.pictures[0]  || '/assets/images/no_image.jpg' }}" class="md-card-image" alt="{{ vm.item.name }}">
+            <img ng-src="{{ vm.item.pictures[0]  || '/assets/images/no_image.jpg' }}" class="md-card-image" 
+                onerror="this.src='/assets/images/no_image.jpg'" alt="{{ vm.item.name }}"
+            >
         </a>
         <li-stamp item="item"></li-stamp>
     </div>
