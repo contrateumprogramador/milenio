@@ -135,7 +135,7 @@ module.exports = function(ngModule) {
 
                 function getTag(url) {
                     const tag = lodash.find(vm.item.tags, { url });
-                    return tag.name;
+                    return lodash.get(tag, "name") || false;
                 }
             }
         };
