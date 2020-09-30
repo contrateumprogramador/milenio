@@ -1,4 +1,6 @@
 module.exports = function(ngModule) {
+    require("./li-product-details.sass");
+
     ngModule.directive("liProductDetails", function() {
         return {
             restrict: "EA",
@@ -6,6 +8,7 @@ module.exports = function(ngModule) {
             replace: true,
             scope: {
                 item: "=",
+                breadcumbs: "=",
                 image: "=",
                 checkoutItem: "=",
                 showTitle: "=",
@@ -26,6 +29,7 @@ module.exports = function(ngModule) {
                 var vm = this;
                 // Vars
                 vm.item = $scope.item;
+                vm.breadcumbs = $scope.breadcumbs;
                 vm.image = $scope.image;
                 vm.checkoutItem = $scope.checkoutItem;
                 vm.index = $scope.index;
@@ -44,6 +48,7 @@ module.exports = function(ngModule) {
                 vm.checkMedia = checkMedia;
                 vm.setCustomization = setCustomization;
                 vm.updateInstallments = updateInstallments;
+                vm.getTag = getTag;
 
                 // Customizações do item
                 Loja.Store.customizations(vm.item._id).then(function(r) {
@@ -126,6 +131,11 @@ module.exports = function(ngModule) {
                             vm.options
                         );
                     }, 100);
+                }
+
+                function getTag(url) {
+                    const tag = lodash.find(vm.item.tags, { url });
+                    return tag.name;
                 }
             }
         };

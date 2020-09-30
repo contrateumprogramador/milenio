@@ -26,6 +26,23 @@
         </h1>
     </div>
     <md-divider></md-divider>
+    <div layout="row" class="breadcumbs">
+        <span>
+            <a ui-sref="home">Início</a>
+            <i class="fa fa-chevron-right" aria-hidden="true"></i> 
+        </span>
+        <span ng-if="vm.breadcumbs[0]">
+            <a ui-sref="section.showcase({sectionUrl: vm.breadcumbs[0]})"> {{ vm.getTag(vm.breadcumbs[0]) }}</a>
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </span>
+        <span ng-if="vm.breadcumbs[1]">
+            <a ui-sref="section.tag({sectionUrl: vm.breadcumbs[0], tagUrl: vm.breadcumbs[1]})"> {{ vm.getTag(vm.breadcumbs[1]) }}</a>
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </span>
+        <span>
+            <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id})"> {{ vm.item.name }}</a>
+        </span>
+    </div>
     <div
         layout="column"
         layout-gt-xs="row"

@@ -15,7 +15,7 @@
                         </md-tabs>
                     </div>
                     <div flex="100" flex-gt-sm="55" layout-padding class="pTop0">
-                        <li-product-details item="vm.product"></li-product-details>
+                        <li-product-details item="vm.product" breadcumbs="vm.breadcumbs"></li-product-details>
                         <div id="Tabs" layout="column" flex="100">
                             <md-tabs md-border-bottom md-autoselect>
                                 <md-tab ng-repeat="tab in vm.tabDescriptions" label="{{tab.title}}">

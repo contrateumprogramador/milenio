@@ -1,6 +1,6 @@
 <md-card class="itemPreview item-preview">
     <div class="relative">
-        <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id})" title="{{ vm.item.name }}">
+        <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id, from: vm.from})" title="{{ vm.item.name }}">
             <img ng-src="{{ vm.item.pictures[0]  || '/assets/images/no_image.jpg' }}" class="md-card-image" 
                 onerror="this.src='/assets/images/no_image.jpg'" alt="{{ vm.item.name }}"
             >
@@ -9,7 +9,7 @@
     </div>
     <md-card-title>
         <md-card-title-text>
-            <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id})" title="{{ vm.item.name }}">
+            <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id, from: vm.from})" title="{{ vm.item.name }}">
                 <span class="md-headline" layout="row" layout-align="center center">{{ vm.item.name }}</span>
             </a>
         </md-card-title-text>

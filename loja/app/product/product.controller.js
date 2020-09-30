@@ -1,6 +1,6 @@
 module.exports = function(ngModule) {
     require('./product.sass');
-    ngModule.controller('ProductCtrl', function($document, $mdDialog, $rootScope, $scope, $state, $mdMedia, $location, Loja, toast, RelatedProducts, Product, itemCheckout) {
+    ngModule.controller('ProductCtrl', function($document, $mdDialog, $rootScope, $scope, $state, $mdMedia, $location, Loja, toast, RelatedProducts, Product, from, itemCheckout) {
         var vm = this;
 
         if (RelatedProducts)
@@ -10,6 +10,8 @@ module.exports = function(ngModule) {
         vm.product = Product || {};
         vm.relatedProducts = angular.copy(RelatedProducts) || [];
         vm.relatedsRowSize = (vm.relatedProducts.length < 4) ? 4 : vm.relatedProducts.length;
+        vm.breadcumbs = from.split("/");
+        vm.breadcumbs = vm.breadcumbs.slice(vm.breadcumbs.indexOf("mobiliario")+1);
 
         //Root Scope
         $rootScope.pageTitle =  vm.product.name + ' : Milênio Móveis';

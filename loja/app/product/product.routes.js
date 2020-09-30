@@ -2,7 +2,7 @@ module.exports = function(ngModule) {
     ngModule.config(function($stateProvider) {
         $stateProvider
             .state('product', {
-                url: '/movel/:productUrl/:productId',
+                url: '/movel/:productUrl/:productId?back=:from',
                 templateProvider: ['$q', function($q) {
                     var deferred = $q.defer();
 
@@ -39,6 +39,9 @@ module.exports = function(ngModule) {
                                 toast.message(err.data.message);
                             }
                         );
+                    },
+                    from: function($stateParams) {
+                        return $stateParams.from;
                     },
                     loadHomeCtrl: function($q, $ocLazyLoad) {
                         var deferred = $q.defer();
