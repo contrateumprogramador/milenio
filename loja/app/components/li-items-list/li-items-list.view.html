@@ -4,7 +4,7 @@
             <li-card-product item="item"></li-card-product>
         </div>
     </div>
-    <div layout="column" ng-if="!vm.checkMedia('gt-sm') && !vm.scrollHorizontal">
+    <div layout="row" ng-if="!vm.checkMedia('gt-sm') && !vm.scrollHorizontal">
         <div layout="column" flex="100" ng-repeat="item in vm.items | filter: vm.search | orderBy: orderBy | limitTo:vm.limit track by $index"
             class="scale-fade" layout-align="start center">
             <li-card-product item="item"></li-card-product>
