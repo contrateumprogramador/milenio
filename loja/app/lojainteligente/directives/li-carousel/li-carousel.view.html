@@ -13,8 +13,11 @@
 			</md-tab-body>
 		</md-tab>
 	</md-tabs>
-	<div layout="row">
-		botoes
+	<div layout="row" class="controls">
+		<div class="tik" ng-repeat="(key, tab) in vm.tabs track by $index" ng-click="vm.setTab(key)">
+			<i ng-show="key === vm.selected" class="fa fa-circle selected" aria-hidden="true"></i>
+			<i ng-hide="key === vm.selected" class="fa fa-circle" aria-hidden="true"></i>
+		</div>
 	</div>
 	<div class="carousel-button right" ng-click="vm.changeTab(1)" ng-hide="vm.tabs.length - 1 === vm.selected">
 		<i class="fa fa-chevron-right" aria-hidden="true"></i>

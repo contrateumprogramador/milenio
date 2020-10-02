@@ -1,5 +1,7 @@
 // li-carousel.sass
 .li-carousel
+	position: relative
+
 	.carousel-button
 		z-index: 9
 		position: absolute
@@ -27,6 +29,26 @@
 		background: #FFF
 		color: #000
 		border: 0
+
+	.controls
+		position: absolute
+		width: 100%
+		display: flex
+		justify-content: center
+		align-items: flex-end
+		height: 100%
+
+		.tik
+			cursor: pointer
+
+			md-icon[md-font-icon], i 
+				color: #d3d3d3
+
+			.selected
+				color: #000
+	
+		.tik:focus
+			outline: none
 
 .li-carousel-tabs
 	min-height: 30vw !important

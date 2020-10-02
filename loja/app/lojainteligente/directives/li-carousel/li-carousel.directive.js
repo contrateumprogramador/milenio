@@ -18,6 +18,7 @@ module.exports = function(ngModule) {
                 vm.tabs = $scope.liContent || [];
                 vm.url = url;
                 vm.changeTab = changeTab;
+                vm.setTab = setTab;
 
                 $scope.$watch("liContent", function(newValue, oldValue, scope) {
                     vm.tabs = newValue;
@@ -27,6 +28,10 @@ module.exports = function(ngModule) {
                     return tab.urlMobile && $mdMedia("xs")
                         ? tab.urlMobile
                         : tab.url;
+                }
+
+                function setTab(tab) {
+                    vm.selected = tab
                 }
 
                 function changeTab(page){
