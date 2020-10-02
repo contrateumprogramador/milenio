@@ -1,6 +1,6 @@
 <div class="li-carousel" layout="column">
 	<div class="carousel-button" ng-click="vm.changeTab(-1)" ng-hide="vm.selected === 0">
-		<i class="fa fa-arrow-left" aria-hidden="true"></i>
+		<i class="fa fa-chevron-left" aria-hidden="true"></i>
 	</div>
 	<md-tabs class="li-carousel-tabs" md-selected="vm.selected" md-no-pagination="true" md-swipe-content="true">
 		<md-tab ng-repeat="tab in vm.tabs track by $index">
@@ -13,7 +13,10 @@
 			</md-tab-body>
 		</md-tab>
 	</md-tabs>
+	<div layout="row">
+		botoes
+	</div>
 	<div class="carousel-button right" ng-click="vm.changeTab(1)" ng-hide="vm.tabs.length - 1 === vm.selected">
-		<i class="fa fa-arrow-right" aria-hidden="true"></i>
+		<i class="fa fa-chevron-right" aria-hidden="true"></i>
 	</div>
 </div>

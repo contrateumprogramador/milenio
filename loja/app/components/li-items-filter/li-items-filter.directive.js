@@ -1,11 +1,11 @@
 module.exports = function(ngModule) {
-    require("./li-items-list.sass");
+    require("./li-items-filter.sass");
 
     var removeDiacritics = require("diacritics").remove;
-    ngModule.directive("liItemsList", function() {
+    ngModule.directive("liItemsFilter", function() {
         return {
             restrict: "EA",
-            template: require("./li-items-list.view.html"),
+            template: require("./li-items-filter.view.html"),
             replace: true,
             scope: {
                 items: "=",
@@ -29,12 +29,22 @@ module.exports = function(ngModule) {
                 //Methods
                 vm.checkMedia = checkMedia;
                 vm.search = $rootScope.search;
-                vm.changeTab = changeTab;
 
                 // Vars
                 vm.itemsList = getItemsList();
-                vm.show = 5;
-                vm.limit = 0;
+                vm.limit = 3;
+
+                angular
+                    .element(document.querySelector("#Content"))
+                    .bind("scroll", function(e) {
+                        var top = e.srcElement.scrollTop;
+                        var limit = Math.ceil(top / 300);
+
+                        if (limit > vm.limit) {
+                            vm.limit = limit;
+                            $scope.$apply();
+                        }
+                    });
 
                 $scope.$watch("items", function(newValue, oldValue, scope) {
                     prepareItems();
@@ -69,12 +79,19 @@ module.exports = function(ngModule) {
 
                 function prepareItems() {
                     vm.itemsList = getItemsList();
-                    vm.items = vm.itemsList;
-                }
 
-                function changeTab(forward) {
-                    if(forward && vm.limit + vm.show < vm.items.length) vm.limit += vm.show;
-                    else if(!forward && vm.limit - vm.show >= 0) vm.limit -= vm.show;
+                    if (vm.checkMedia("gt-sm")) {
+                        vm.flex = Math.round(100 / rowSize);
+                        vm.items = [];
+                        vm.lines = Math.ceil(vm.itemsList.length / rowSize); // Calcula número de linhas
+
+                        // Gera Array de linhas e items
+                        for (var i = 0; i < vm.lines; i++) {
+                            vm.items.push(vm.itemsList.splice(0, rowSize));
+                        }
+                    } else {
+                        vm.items = vm.itemsList;
+                    }
                 }
             }
         };

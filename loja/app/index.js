@@ -114,6 +114,7 @@ require("./components/toast/toast.js")(ngModule); // Toast
 require("./components/milenio-title/milenio-title.directive.js")(ngModule); // Title
 require("./components/small-title/small-title.directive.js")(ngModule); // Small Title
 require("./components/li-items-list/li-items-list.directive.js")(ngModule); // Li Items
+require("./components/li-items-filter/li-items-filter.directive.js")(ngModule); // Li Items Filter
 require("./components/li-stamp/li-stamp.directive.js")(ngModule); // Li Stamp
 require("./components/addressesList/addresses-list.directive.js")(ngModule); // Addresses List
 require("./components/addressForm/address-form.directive.js")(ngModule); // Addresses Form

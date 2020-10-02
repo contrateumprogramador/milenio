@@ -1,8 +1,26 @@
 <div layout="column">
     <li-carousel id="HomeCarousel" li-content="vm.carousel" li-interval="5000"></li-carousel>
+    <div class="info-strip">
+        <div class="info-group">
+            <div class="circular-icon"><img src="/assets/images/cart.png" alt="cart"/></div>
+            <h2>Frete Grátis Brasil (Capitais)</h2>
+        </div>
+        <div class="info-group">
+            <div class="circular-icon"><i class="fa fa-barcode fa-4x" aria-hidden="true"></i></div>
+            <h2>10% À Vista</h2>
+        </div>
+        <div class="info-group">
+            <div class="circular-icon"><i class="fa fa-whatsapp" aria-hidden="true"></i></div>
+            <h2>Whatsapp</h2>
+        </div>
+        <div class="info-group">
+            <div class="circular-icon"><i class="fa fa-shield" aria-hidden="true"></i></div>
+            <h2>Site Seguro</h2>
+        </div>
+    </div>
     <div id="Home" layout="column">
         <div class="row-vitrine" layout="row" layout-align="center center" layout-padding>
-            <div class="row-vitrine" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
+            <div class="row-vitrine" layout="column" flex="100">
                 <milenio-title title-text="'Novos Produtos'" description="'Conheça os novos produtos que a milênio preparou para você decorar seu ambiente.'"></milenio-title>
                 <div id="NovosProd">
                     <li-items-list items="vm.newItems" row-size="5"></li-items-list>
@@ -17,14 +35,14 @@
             </div>
         </div>
         <div class="row-vitrine" layout="row" layout-align="center center" layout-padding>
-            <div class="row-vitrine" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
+            <div class="row-vitrine" layout="column" flex="100">
                 <milenio-title title-text="'Mais vendidos'" description="'Conheça os produtos mais vendidos da Milênio Móveis para você decorar seu ambiente.'"></milenio-title>
                 <div id="MaisVendidos">
                     <li-items-list items="vm.bestSellers" row-size="5"></li-items-list>
                 </div>
             </div>
         </div>
-        <div layout="row" layout-align="center center" id="RowBlocoBanners">
+        <!-- <div layout="row" layout-align="center center" id="RowBlocoBanners">
             <div layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
                 <div layout="row" flex ng-show="ctrl.checkMedia('gt-sm')">
                     <div layout="column" flex="33" layout-align-gt-sm="end end">
@@ -57,7 +75,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div layout="row">
             <div class="powr-social-feed" id="ec67950b_1601512968"></div>
         </div>

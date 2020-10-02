@@ -5,10 +5,28 @@
 	margin: auto
 	overflow-y:  auto
 	width: 100%
+	display: flex
+	align-items: center
+	justify-content: space-around
+
+	.carousel-button
+		z-index: 9
+		border-radius: 3vh
+		border: 1px solid #000
+		display: flex
+		justify-content: center
+		align-items: center
+		height: 5vh
+		width: 5vh
+		cursor: pointer
+
+		md-icon[md-font-icon], i 
+			width: auto
+			height: auto
 
 #ListGtSm
 	display: flex
-
+	overflow-x: hidden
 
 @media screen and (max-width: 1279px)
 	.li-items-list
