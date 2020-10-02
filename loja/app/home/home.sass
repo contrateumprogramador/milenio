@@ -212,6 +212,42 @@ $primary: #10367a
 			width: 100%
 
 
+body.is-mobile
+	.info-strip
+		flex-direction: column
+		height: auto
+
+		.info-group
+			justify-content: space-evenly
+			width: 100%
+			margin: 1vh 0
+
+			img
+				height: 2vh
+
+			h2
+				font-size: 1.5vh
+				font-weight: bold
+				word-wrap: break-word;
+				width: 50%
+
+			.circular-icon
+				border: 2px solid #000
+				border-radius: 6vh
+				width: 4vh
+				height: 4vh
+				display: flex
+				justify-content: center
+				align-items: center
+				margin: 0 1vw
+
+				md-icon[md-font-icon], i 
+					width: auto
+					height: auto
+					font-size: 2vh
+
+
+
 @media screen and (max-width: $layout-breakpoint-xs)
 	#ComoFunciona .list-item p
 		font-size: 14px
