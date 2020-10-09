@@ -28,6 +28,17 @@
 #ListGtSm
 	display: flex
 	overflow-x: hidden
+	max-width: 90%
+
+body.is-mobile
+	.li-items-list
+		.carousel-button
+			display: none;
+
+	#ListGtSm
+		overflow-x: auto
+		max-width: 100%
+
 
 @media screen and (max-width: 1279px)
 	.li-items-list

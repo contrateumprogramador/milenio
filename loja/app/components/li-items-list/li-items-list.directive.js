@@ -33,7 +33,7 @@ module.exports = function(ngModule) {
 
                 // Vars
                 vm.itemsList = getItemsList();
-                vm.show = vm.checkMedia("gt-sm") ? 5 : 1;
+                vm.show = vm.checkMedia("gt-sm") ? 5 : vm.itemsList.length;
                 vm.limit = 0;
 
                 $scope.$watch("items", function(newValue, oldValue, scope) {
