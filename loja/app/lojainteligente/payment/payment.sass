@@ -1,5 +1,6 @@
 // LojaInteligente Payment
 @import url('https://fonts.googleapis.com/css?family=Inconsolata:700')
+@import "../../variables.scss"
 
 $black: rgba(0, 0, 0, .86)
 $blue: rgb(33,150,243)
@@ -33,6 +34,9 @@ $yellow: rgba(255, 235, 59, .9)
 
         &.md-active
             background: rgba(0, 0, 0, .05)
+
+            h3
+              color: $accent
 
         h3
             margin: 0
@@ -83,9 +87,14 @@ $yellow: rgba(255, 235, 59, .9)
 
   md-radio-group
       font-size: 12px
+      display: flex
+      flex-wrap: wrap
+      width: 35vw
+      margin: 2vh 0
 
       md-radio-button
-          margin-bottom: 5px
+          margin: 1vh 0
+          width: 50%
 
           &.md-checked
               .md-off

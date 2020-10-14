@@ -54,7 +54,7 @@ module.exports = function(ngModule) {
         }
 
         // Vars
-        vm.carousel = HomeSecundario.concat(HomeSecundario) || [];
+        vm.carousel = Banners || [];
         vm.blocoBanners = BlocoBanners || [];
         vm.newItems = NewItems || [];
         vm.bestSellers = BestSellers || [];

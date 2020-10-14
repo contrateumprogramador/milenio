@@ -1,13 +1,15 @@
 // li-carousel.sass
+@import "../../../variables.scss"
+
 .li-carousel
 	position: relative
 
 	.carousel-button
 		z-index: 9
 		position: absolute
-		color: #000
+		color: $accent
 		border-radius: 5vh
-		border: 1px solid #000
+		border: 2px solid $accent
 		display: flex
 		justify-content: center
 		align-items: center
@@ -18,6 +20,7 @@
 		left: 2vw
 
 		md-icon[md-font-icon], i 
+			color: $accent
 			width: auto
 			height: auto
 
@@ -40,7 +43,7 @@
 				color: #d3d3d3
 
 			.selected
-				color: #000
+				color: $accent
 	
 		.tik:focus
 			outline: none

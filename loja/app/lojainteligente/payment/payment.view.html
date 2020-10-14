@@ -65,8 +65,8 @@
                                                 {{ installment.times }}x de {{ installment.value | currency }} sem juros
                                             </md-option>
                                         </md-select> -->
-                                        <md-radio-group ng-model="vm.payment.installments">
-                                            <md-radio-button ng-repeat="installment in vm.installments | orderBy: 'times' track by $index" ng-value="installment.times" ng-disabled="vm.progressLoading">{{ installment.times }}x de {{ installment.value | currency }} sem juros</md-radio-button>
+                                        <md-radio-group ng-model="vm.payment.installments" class="group-installments">
+                                            <md-radio-button class="radio-button" ng-repeat="installment in vm.installments | orderBy: 'times' track by $index" ng-value="installment.times" ng-disabled="vm.progressLoading">{{ installment.times }}x de {{ installment.value | currency }} sem juros</md-radio-button>
                                         </md-radio-group>
                                     </div>
                                     <md-input-container>
@@ -154,7 +154,7 @@
                                                 </md-input-container>
                                                 <md-input-container>
                                                     <label>Número do Cartão</label>
-                                                    <input type="tel" inputmode="numeric" name="ccNumber" ng-model="vm.payment.number" focus-next="vm.cardLength" on-focus-next="vm.step"
+                                                    <input type="tel" inputmode="numeric" name="ccNumber" ng-model="vm.payment.number" focus-next="vm.cardLength"
                                                         ng-focus="vm.focus('number')" ng-blur="vm.focus(false)" ng-keyup="vm.cardChange('ccNumber')"
                                                         cc-number cc-format aria-label="Número do Cartão" cc-eager-type ng-required
                                                         ng-readonly="vm.progressLoading">

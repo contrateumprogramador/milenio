@@ -38,14 +38,10 @@ module.exports = function(LojaInteligenteModule) {
         vm.installments = Installments || [];
         vm.payment = creditcard.init("payment");
         vm.paymentComplete = false;
-        vm.payment.installments = vm.installments
-            ? vm.installments[vm.installments.length - 1].times
-            : 0;
+        vm.payment.installments = 0;
         vm.billetDiscount =
             _.get(Loja.Store.settings(), "billet.discount.value") || false;
         vm.tab = 0;
-
-        console.log(vm.storeSettings);
 
         // Methods
         vm.brandClass = brandClass;
@@ -171,7 +167,7 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function continueDisabled() {
-            if (!vm.ccForm || !vm.ccForm.ccNumber) return true;
+            if (!vm.ccForm || !vm.ccForm.ccNumber || !vm.payment.installments) return true;
 
             switch (vm.formStep) {
                 case 0:
@@ -223,6 +219,17 @@ module.exports = function(LojaInteligenteModule) {
             $scope.$apply();
         }
 
+        function callGA() {
+            // Fazer integrações com o ga
+            // ga('ecommerce:addTransaction', {
+            //     'id': '1234',                     // Transaction ID. Required.
+            //     'affiliation': 'Acme Clothing',   // Affiliation or store name.
+            //     'revenue': '11.99',               // Grand Total.
+            //     'shipping': '5',                  // Shipping.
+            //     'tax': '1.29'                     // Tax.
+            // });
+        }
+
         function submit(method) {
             if (vm.document && vm.phone) {
                 Loja.Checkout.setCheckoutDocumentPhone(vm.document, vm.phone);
@@ -237,6 +244,8 @@ module.exports = function(LojaInteligenteModule) {
                 vm.payment.method = "Boleto Bradesco";
                 vm.payment.installments = 1;
             }
+
+            callGA();
 
             Loja.Checkout.pay(angular.copy(vm.payment)).then(
                 function(r) {
