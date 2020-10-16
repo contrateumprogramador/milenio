@@ -397,10 +397,30 @@ var LojaInteligenteModule = angular
                     "payment_completed"
                 ];
 
+            function callGA(ev, info) {
+                switch(ev) {
+                    case "checkout_started":
+                        ga('ec:setAction', 'begin_checkout');
+                    break;
+                    case "item_added":
+                        ga('ec:addProduct', { 'id': info.itemId,  'name': info.name });
+                        ga('ec:setAction', 'add_to_cart');
+                    break;
+                    case "item_removed":
+                        ga('ec:addProduct', { 'id': info.itemId,  'name': info.name });
+                        ga('ec:setAction', 'remove_from_cart');
+                    break;
+                    case "payment_completed":
+                        ga('ec:setAction','checkout', { 'step': 1,  'option': info.method });
+                    break;
+                }
+            }
+
             // Grava evento no 'checkout.events'
             function event(e, info) {
                 // Se evento exisitr
                 if (eventsNames.indexOf(e) > -1) {
+                    callGA(e, info);
                     if (checkout.events) {
                         checkout.events.push({
                             type: e,
