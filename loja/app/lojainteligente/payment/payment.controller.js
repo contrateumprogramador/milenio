@@ -38,7 +38,9 @@ module.exports = function(LojaInteligenteModule) {
         vm.installments = Installments || [];
         vm.payment = creditcard.init("payment");
         vm.paymentComplete = false;
-        vm.payment.installments = 0;
+        vm.payment.installments = vm.installments
+            ? vm.installments[vm.installments.length - 1].times
+            : 0;
         vm.billetDiscount =
             _.get(Loja.Store.settings(), "billet.discount.value") || false;
         vm.tab = 0;
@@ -167,7 +169,7 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function continueDisabled() {
-            if (!vm.ccForm || !vm.ccForm.ccNumber || !vm.payment.installments) return true;
+            if (!vm.ccForm || !vm.ccForm.ccNumber) return true;
 
             switch (vm.formStep) {
                 case 0:
