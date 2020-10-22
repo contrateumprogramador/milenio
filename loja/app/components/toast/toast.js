@@ -8,7 +8,7 @@ module.exports = function(ngModule){
             message: function(msg, duration) {
             	$mdToast.show(
                     $mdToast.simple()
-                    .content(msg)
+                    .textContent(msg)
                     .position('top right')
                     .hideDelay(duration || 4000)
                 );

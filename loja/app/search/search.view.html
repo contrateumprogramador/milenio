@@ -13,7 +13,7 @@
             <div ng-show="vm.items.length > 0 && vm.searchText && !vm.empty" class="" layout="column" flex="100" flex-gt-sm="90" flex-gt-lg="80">
                 <milenio-title title-text="'Resultados de Busca'" description=""></milenio-title>
                 <div id="NovosProd" layout="column" layout-gt-xs="row" layout-align="space-between center">
-                    <li-items-list items="vm.itemsFiltered" row-size="5" col-flex="100" col-gt-xs="50" col-gt-sm="25"></li-items-list>
+                    <li-items-filter items="vm.itemsFiltered" row-size="5" col-flex="100" col-gt-xs="50" col-gt-sm="25"></li-items-filter>
                 </div>
             </div>
             <div ng-show="vm.empty && !vm.loading" class="" layout="column" flex="100" flex-gt-sm="90" flex-gt-lg="80">
