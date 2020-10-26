@@ -40,7 +40,10 @@ if (Meteor.isServer) {
                         document: newCustomer.document || customer.document,
                         phone: newCustomer.phone
                             ? newCustomer.phone.match(/\d/g).join("")
-                            : customer.phone
+                            : customer.phone,
+                        phone2: newCustomer.phone2
+                            ? newCustomer.phone2.match(/\d/g).join("")
+                            : customer.phone2
                     }
                 };
 

@@ -1,5 +1,5 @@
 module.exports = {
-    endpoint: "http://localhost:3010",
+    endpoint: "https://api-staging.mileniomoveis.com.br",
     username: "mileniomoveis@lojainteligente.com",
     password: "Milenio@Api!540810",
     id: "kGXehqvKZ6mokabEb",

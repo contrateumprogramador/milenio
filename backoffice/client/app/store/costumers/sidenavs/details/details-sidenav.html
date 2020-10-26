@@ -55,6 +55,14 @@
             <i class="icon-{{vm.selected.type}} s48"></i>
         </div> -->
 
+        <dl>
+            <dt>Telefone 1</dt>
+            <dd>{{vm.selected.phone | brPhoneNumber}}</dd>
+            <dt>Telefone 2</dt>
+            <dd>{{vm.selected.phone2 | brPhoneNumber}}</dd>
+            <md-divider></md-divider>
+        </dl>
+
         <dl ng-repeat="address in vm.addresses">
             <dt>Endereço</dt>
             <dd>

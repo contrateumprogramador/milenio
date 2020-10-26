@@ -13,12 +13,24 @@
         <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
         <md-dialog-content style="height: 800px;">
             <div class="md-dialog-content" layout="row" layout-wrap>
-                <md-input-container flex="100" flex-gt-xs="100">
+                <md-input-container flex="100" flex-gt-xs="50">
                     <label>Email</label>
                     <input name="email" type="email" ng-model="vm.form.email" required>
                     <div ng-messages="formAdd.email.$error" ng-show="formAdd.email.$touched" role="alert">
                         <div ng-message="required">
                             <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50">
+                    <label>CPF/CNPJ</label>
+                    <input type="text" name="document" ng-model="vm.form.document" ui-br-cpfcnpj-mask required>
+                    <div ng-messages="formAdd.document.$error" ng-show="formAdd.document.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                        <div ng-message="cpf">
+                            <span>CPF inválido.</span>
                         </div>
                     </div>
                 </md-input-container>
@@ -41,25 +53,12 @@
                     </div>
                 </md-input-container>
                 <md-input-container flex="100" flex-gt-xs="50">
-                    <label>CPF/CNPJ</label>
-                    <input type="text" name="document" ng-model="vm.form.document" ui-br-cpfcnpj-mask required>
-                    <div ng-messages="formAdd.document.$error" ng-show="formAdd.document.$touched" role="alert">
-                        <div ng-message="required">
-                            <span>Campo obrigatório.</span>
-                        </div>
-                        <div ng-message="cpf">
-                            <span>CPF inválido.</span>
-                        </div>
-                    </div>
+                    <label>Telefone 1</label>
+                    <input type="text" name="phone" ng-model="vm.form.phone" ui-br-phone-number>
                 </md-input-container>
                 <md-input-container flex="100" flex-gt-xs="50">
-                    <label>Telefone</label>
-                    <input type="text" name="phone" ng-model="vm.form.phone" ui-br-phone-number>
-                    <div ng-messages="formAdd.phone.$error" ng-show="formAdd.phone.$touched" role="alert">
-                        <div ng-message="required">
-                            <span>Campo obrigatório.</span>
-                        </div>
-                    </div>
+                    <label>Telefone 2</label>
+                    <input type="text" name="phone2" ng-model="vm.form.phone2" ui-br-phone-number>
                 </md-input-container>
             </div>
         </md-dialog-content>
