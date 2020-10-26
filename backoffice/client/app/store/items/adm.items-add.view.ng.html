@@ -38,6 +38,10 @@
                                 Item ativo
                             </md-checkbox>
                         </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Código do produto</label>
+                            <input type="text" name="code" ng-model="vm.form.code">
+                        </md-input-container>
                         <md-input-container flex="100" flex-gt-xs="15">
                             <label>Rank</label>
                             <input type="number" name="rank" ng-model="vm.form.rank" min="0" max="10">
