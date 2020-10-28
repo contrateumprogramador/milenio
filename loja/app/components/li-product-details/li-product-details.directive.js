@@ -50,6 +50,9 @@ module.exports = function(ngModule) {
                 vm.updateInstallments = updateInstallments;
                 vm.getTag = getTag;
 
+                console.log(vm.item)
+
+
                 // Customizações do item
                 Loja.Store.customizations(vm.item._id).then(function(r) {
                     vm.customizations = r.data.data;

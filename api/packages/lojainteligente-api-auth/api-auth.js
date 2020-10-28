@@ -290,6 +290,7 @@ if (Meteor.isServer) {
             }, {
                 $set: {
                     phone: this.bodyParams.profile.phone,
+                    phone2: this.bodyParams.profile.phone2,
                     firstname: this.user.profile.firstname || this.user.profile.firstName,
                     lastname: this.user.profile.lastname || this.user.profile.lastName,
                     document: this.bodyParams.profile.document
@@ -369,6 +370,7 @@ if (Meteor.isServer) {
                             lastname: user.lastname,
                             document: user.document,
                             phone: user.phone,
+                            phone2: user.phone2
                         },
                         $push: {
                             companies: this.user.profile.company.companyId
@@ -382,7 +384,8 @@ if (Meteor.isServer) {
                         firstname: user.firstname,
                         lastname: user.lastname,
                         document: user.document,
-                        phone: user.phone
+                        phone: user.phone,
+                        phone2: user.phone2
                     });
                 }
 
@@ -391,6 +394,7 @@ if (Meteor.isServer) {
                     lastname: user.lastname,
                     document: user.document,
                     phone: user.phone,
+                    phone2: user.phone2,
                     customerId: customerId,
                     company: this.user.profile.company
                 };
@@ -399,6 +403,7 @@ if (Meteor.isServer) {
                 delete user.lastname;
                 delete user.document;
                 delete user.phone;
+                delete user.phone2;
 
                 // Adiciona Company.username no email do User
                 if (user.email.indexOf(':') == -1)

@@ -43,6 +43,9 @@
             <a ui-sref="product({productUrl: vm.item.url, productId: vm.item._id})"> {{ vm.item.name }}</a>
         </span>
     </div>
+    <div layout="row" class="code" ng-if="vm.item.code">
+        <h2>Código: {{ vm.item.code }}</h2>
+    </div>
     <div
         layout="column"
         layout-gt-xs="row"

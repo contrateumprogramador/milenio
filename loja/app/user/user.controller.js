@@ -30,7 +30,7 @@ module.exports = function(ngModule) {
         vm.actualOrder = $scope.$resolve.$stateParams.actualOrder;
 
         // Ctrl
-        $rootScope.pageTitle = "Área do Cliente : Móveis&Decor.com";
+        $rootScope.pageTitle = "Área do Cliente : Milênio Móveis";
 
         // Data
         vm.addresses = Addresses.data.data || [];

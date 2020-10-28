@@ -28,7 +28,7 @@
                             </md-button>
                         </div>
                     </md-card-header>
-                    <md-card-content class="overflow padding4">
+                    <md-card-content class="overflow padding4 user-form">
                         <form layout="row" layout-wrap name="vm.customerForm" ng-submit="vm.customerForm.$valid && vm.customerUpdate()" novalidate>
                             <md-input-container flex="50" class="mBot0 pandBot-0">
                                 <label>Nome</label>
@@ -48,7 +48,12 @@
                                 <input type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.customer.profile.phone" ui-mask="{{ vm.phoneMask }}"
                                     mask-tel="vm.phoneMask" ng-readonly="!vm.customerEditing">
                             </md-input-container>
-                            <md-input-container flex="100" layout="row">
+                            <md-input-container flex="50" layout="row">
+                                <label>Celular 2</label>
+                                <input type="tel" inputmode="tel" x-inputmode="tel" name="phone2" ng-model="vm.customer.profile.phone2" ui-mask="{{ vm.phoneMask }}"
+                                    mask-tel="vm.phoneMask" ng-readonly="!vm.customerEditing">
+                            </md-input-container>
+                            <md-input-container flex="50" layout="row">
                                 <label>Email</label>
                                 <input type="text" name="email" ng-model="vm.customer.username" ng-readonly="true">
                             </md-input-container>

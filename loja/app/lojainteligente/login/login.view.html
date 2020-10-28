@@ -74,6 +74,35 @@
                             </div>
                             <div layout="row">
                                 <md-input-container flex="50">
+                                    <label>Seu e-mail</label>
+                                    <input type="email" name="email" ng-model="vm.customer.email" required ng-readonly="true">
+                                    <div ng-messages="vm.loginForm.email.$error" ng-show="vm.loginForm.email.$touched" role="alert">
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                        <div ng-message="email">
+                                            <span>Informe um e-mail válido.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Seu CPF ou CNPJ</label>
+                                    <input type="tel" inputmode="tel" x-inputmode="tel" name="document" ng-model="vm.customer.document" required mask-fix ui-br-cpfcnpj-mask>
+                                    <div ng-messages="vm.signupForm.document.$error" ng-show="vm.signupForm.document.$touched" role="alert">
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                        <div ng-message="cpf">
+                                            <span>Informe um CPF válido.</span>
+                                        </div>
+                                        <div ng-message="cnpj">
+                                            <span>Informe um CNPJ válido.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div layout="row" ng-if="!vm.isCapture()">
+                                <md-input-container flex="50">
                                     <label>Celular</label>
                                     <input type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.customer.phone" required ui-br-phone-number-mask
                                         mask-fix>
@@ -87,31 +116,12 @@
                                     </div>
                                 </md-input-container>
                                 <md-input-container flex="50">
-                                    <label>Seu e-mail</label>
-                                    <input type="email" name="email" ng-model="vm.customer.email" required ng-readonly="true">
-                                    <div ng-messages="vm.loginForm.email.$error" ng-show="vm.loginForm.email.$touched" role="alert">
-                                        <div ng-message="required">
-                                            <span>Campo obrigatório.</span>
-                                        </div>
-                                        <div ng-message="email">
-                                            <span>Informe um e-mail válido.</span>
-                                        </div>
-                                    </div>
-                                </md-input-container>
-                            </div>
-                            <div layout="row" ng-if="!vm.isCapture()">
-                                <md-input-container flex>
-                                    <label>Seu CPF ou CNPJ</label>
-                                    <input type="tel" inputmode="tel" x-inputmode="tel" name="document" ng-model="vm.customer.document" required mask-fix ui-br-cpfcnpj-mask>
-                                    <div ng-messages="vm.signupForm.document.$error" ng-show="vm.signupForm.document.$touched" role="alert">
-                                        <div ng-message="required">
-                                            <span>Campo obrigatório.</span>
-                                        </div>
-                                        <div ng-message="cpf">
-                                            <span>Informe um CPF válido.</span>
-                                        </div>
-                                        <div ng-message="cnpj">
-                                            <span>Informe um CNPJ válido.</span>
+                                    <label>Celular 2</label>
+                                    <input type="tel" inputmode="tel" x-inputmode="tel" name="phone2" ng-model="vm.customer.phone2" ui-br-phone-number-mask
+                                        mask-fix>
+                                    <div ng-messages="vm.signupForm.phone2.$error" ng-show="vm.signupForm.phone2.$touched" role="alert">
+                                        <div ng-message="brPhoneNumber">
+                                            <span>Informe um celular válido.</span>
                                         </div>
                                     </div>
                                 </md-input-container>
