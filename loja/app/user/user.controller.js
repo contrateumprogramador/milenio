@@ -55,10 +55,6 @@ module.exports = function(ngModule) {
                 ? "99.999.999/9999-99"
                 : "999.999.999-99"; // Mascara de CPF/CNPJ
         vm.orderClicked = vm.orders[0] || false; // Pedido selecionado
-        vm.phoneMask =
-            vm.customer.profile.phone.length > 10
-                ? "(99) 99999-9999"
-                : "(99) 9999-9999"; // Mascara de Telefone
         vm.status = null;
         vm.icons = [
             "correct-symbol.png",

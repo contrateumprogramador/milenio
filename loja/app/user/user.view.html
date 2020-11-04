@@ -22,7 +22,7 @@
                                 <md-icon md-font-icon="icon-cancel"></md-icon>
                                 <span>Cancelar edição</span>
                             </md-button>
-                            <md-button aria-label="Salvar dados" ng-click="vm.customerEdit('save')" ng-show="vm.customerEditing" ng-disabled="vm.vm.customerForm.$invalid">
+                            <md-button aria-label="Salvar dados" ng-click="vm.customerEdit('save')" ng-show="vm.customerEditing" ng-disabled="vm.customerForm.$invalid">
                                 <md-icon md-font-icon="icon-content-save"></md-icon>
                                 <span>Salvar dados</span>
                             </md-button>
@@ -30,32 +30,67 @@
                     </md-card-header>
                     <md-card-content class="overflow padding4 user-form">
                         <form layout="row" layout-wrap name="vm.customerForm" ng-submit="vm.customerForm.$valid && vm.customerUpdate()" novalidate>
-                            <md-input-container flex="50" class="mBot0 pandBot-0">
+                            <md-input-container flex="50" layout="column">
                                 <label>Nome</label>
-                                <input type="text" name="firstname" ng-model="vm.customer.profile.firstname" ng-readonly="!vm.customerEditing">
+                                <input required type="text" name="firstname" ng-model="vm.customer.profile.firstname" ng-readonly="!vm.customerEditing">
+                                <div ng-messages="vm.customerForm.firstname.$error" ng-show="vm.customerForm.firstname.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
                             </md-input-container>
-                            <md-input-container flex="50" class="mBot0 pandBot-0">
+                            <md-input-container flex="50" layout="column">
                                 <label>Sobrenome</label>
-                                <input type="text" name="lastname" ng-model="vm.customer.profile.lastname" ng-readonly="!vm.customerEditing">
+                                <input required type="text" name="lastname" ng-model="vm.customer.profile.lastname" ng-readonly="!vm.customerEditing">
+                                <div ng-messages="vm.customerForm.lastname.$error" ng-show="vm.customerForm.lastname.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
                             </md-input-container>
-                            <md-input-container flex="50" layout="row">
-                                <label>CPF</label>
-                                <input type="tel" inputmode="tel" x-inputmode="tel" name="document" ng-model="vm.customer.profile.document" ui-mask="{{ vm.documentMask }}"
+                            <md-input-container flex="50" layout="column">
+                                <label ng-if="vm.customer.profile.document.length > 11">CNPJ</label>
+                                <label ng-hide="vm.customer.profile.document.length > 11">CPF</label>
+                                <input required type="tel" inputmode="tel" x-inputmode="tel" name="document" ng-model="vm.customer.profile.document" ui-mask="{{ vm.documentMask }}"
                                     mask-document="vm.documentMask" ng-readonly="!vm.customerEditing">
-                            </md-input-container>
-                            <md-input-container flex="50" layout="row">
-                                <label>Celular</label>
-                                <input type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.customer.profile.phone" ui-mask="{{ vm.phoneMask }}"
-                                    mask-tel="vm.phoneMask" ng-readonly="!vm.customerEditing">
-                            </md-input-container>
-                            <md-input-container flex="50" layout="row">
-                                <label>Celular 2</label>
-                                <input type="tel" inputmode="tel" x-inputmode="tel" name="phone2" ng-model="vm.customer.profile.phone2" ui-mask="{{ vm.phoneMask }}"
-                                    mask-tel="vm.phoneMask" ng-readonly="!vm.customerEditing">
+                                <div ng-messages="vm.customerForm.document.$error" ng-show="vm.customerForm.document.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                </div>
                             </md-input-container>
                             <md-input-container flex="50" layout="row">
                                 <label>Email</label>
-                                <input type="text" name="email" ng-model="vm.customer.username" ng-readonly="true">
+                                <input required type="text" name="email" ng-model="vm.customer.username" ng-readonly="true">
+                                <div ng-messages="vm.customerForm.email.$error" ng-show="vm.customerForm.email.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                    <div ng-message="email">
+                                        <span>Informe um e-mail válido.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="50" layout="column">
+                                <label>Celular</label>
+                                <input required type="tel" inputmode="tel" x-inputmode="tel" name="phone" ng-model="vm.customer.profile.phone" ui-br-phone-number-mask mask-fix ng-readonly="!vm.customerEditing">
+                                <div ng-messages="vm.customerForm.phone.$error" ng-show="vm.customerForm.phone.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span>Campo obrigatório.</span>
+                                    </div>
+                                    <div ng-message="brPhoneNumber">
+                                        <span>Informe um celular válido.</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="50" layout="column">
+                                <label>Celular 2</label>
+                                <input type="tel" inputmode="tel" x-inputmode="tel" name="phone2" ng-model="vm.customer.profile.phone2" ui-br-phone-number-mask mask-fix ng-readonly="!vm.customerEditing">
+                                <div ng-messages="vm.customerForm.phone2.$error" ng-show="vm.customerForm.phone2.$touched" role="alert">
+                                    <div ng-message="brPhoneNumber">
+                                        <span>Informe um celular válido.</span>
+                                    </div>
+                                </div>
                             </md-input-container>
                         </form>
                     </md-card-content>
