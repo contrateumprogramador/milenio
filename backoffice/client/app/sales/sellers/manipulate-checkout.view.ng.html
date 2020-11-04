@@ -44,23 +44,6 @@
                             novalidate
                         >
                             <div flex="50" layout="row" layout-wrap>
-                                <md-input-container flex="100" flex-gt-xs="100">
-                                    <label>Email</label>
-                                    <input
-                                        name="email"
-                                        type="email"
-                                        ng-model="vm.form.customer.email"
-                                    />
-                                    <div
-                                        ng-messages="formAdd.email.$error"
-                                        ng-show="formAdd.email.$touched"
-                                        role="alert"
-                                    >
-                                        <div ng-message="required">
-                                            <span>Campo obrigatório.</span>
-                                        </div>
-                                    </div>
-                                </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="50">
                                     <label>Nome</label>
                                     <input
@@ -70,9 +53,8 @@
                                         required
                                     />
                                     <div
-                                        ng-messages="formAdd.firstname.$error"
-                                        ng-show="formAdd.firstname.$touched"
-                                        role="alert"
+                                        ng-messages="vm.customerForm.firstname.$error"
+                                        ng-show="vm.customerForm.firstname.$touched"
                                     >
                                         <div ng-message="required">
                                             <span>Campo obrigatório.</span>
@@ -85,11 +67,11 @@
                                         type="text"
                                         name="lastname"
                                         ng-model="vm.form.customer.lastname"
+                                        required
                                     />
                                     <div
-                                        ng-messages="formAdd.lastname.$error"
-                                        ng-show="formAdd.lastname.$touched"
-                                        role="alert"
+                                        ng-messages="vm.customerForm.lastname.$error"
+                                        ng-show="vm.customerForm.lastname.$touched"
                                     >
                                         <div ng-message="required">
                                             <span>Campo obrigatório.</span>
@@ -97,17 +79,34 @@
                                     </div>
                                 </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="50">
+                                    <label>Email</label>
+                                    <input
+                                        name="email"
+                                        type="email"
+                                        ng-model="vm.form.customer.email"
+                                        required
+                                    />
+                                    <div
+                                        ng-messages="vm.customerForm.email.$error"
+                                        ng-show="vm.customerForm.email.$touched"
+                                    >
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>                                
+                                <md-input-container flex="100" flex-gt-xs="50">
                                     <label>CPF/CNPJ</label>
                                     <input
                                         type="text"
                                         name="document"
                                         ng-model="vm.form.customer.document"
                                         ui-br-cpfcnpj-mask
+                                        required
                                     />
                                     <div
-                                        ng-messages="formAdd.document.$error"
-                                        ng-show="formAdd.document.$touched"
-                                        role="alert"
+                                        ng-messages="vm.customerForm.document.$error"
+                                        ng-show="vm.customerForm.document.$touched"
                                     >
                                         <div ng-message="required">
                                             <span>Campo obrigatório.</span>
@@ -118,17 +117,35 @@
                                     </div>
                                 </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="50">
-                                    <label>Telefone</label>
+                                    <label>Celular</label>
                                     <input
                                         type="text"
                                         name="phone"
                                         ng-model="vm.form.customer.phone"
                                         ui-br-phone-number
+                                        required
                                     />
                                     <div
-                                        ng-messages="formAdd.phone.$error"
-                                        ng-show="formAdd.phone.$touched"
-                                        role="alert"
+                                        ng-messages="vm.customerForm.phone.$error"
+                                        ng-show="vm.customerForm.phone.$touched"
+                                    >
+                                        <div ng-message="required">
+                                            <span>Campo obrigatório.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="50">
+                                    <label>Celular 2</label>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        ng-model="vm.form.customer.phone2"
+                                        ui-br-phone-number
+                                        required
+                                    />
+                                    <div
+                                        ng-messages="vm.customerForm.phone2.$error"
+                                        ng-show="vm.customerForm.phone2.$touched"
                                     >
                                         <div ng-message="required">
                                             <span>Campo obrigatório.</span>
