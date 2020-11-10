@@ -14,7 +14,7 @@
         <md-dialog-content style="height: 800px;">
             <div class="md-dialog-content" layout="row" layout-wrap>
                 <md-input-container flex="100" flex-gt-xs="50">
-                    <label>Email</label>
+                    <label>Email *</label>
                     <input name="email" type="email" ng-model="vm.form.email" required>
                     <div ng-messages="formAdd.email.$error" ng-show="formAdd.email.$touched" role="alert">
                         <div ng-message="required">
@@ -23,7 +23,7 @@
                     </div>
                 </md-input-container>
                 <md-input-container flex="100" flex-gt-xs="50">
-                    <label>CPF/CNPJ</label>
+                    <label>CPF/CNPJ *</label>
                     <input type="text" name="document" ng-model="vm.form.document" ui-br-cpfcnpj-mask required>
                     <div ng-messages="formAdd.document.$error" ng-show="formAdd.document.$touched" role="alert">
                         <div ng-message="required">
@@ -35,7 +35,7 @@
                     </div>
                 </md-input-container>
                 <md-input-container flex="100" flex-gt-xs="50">
-                    <label>Nome</label>
+                    <label>Nome *</label>
                     <input type="text" name="firstname" ng-model="vm.form.firstname" required>
                     <div ng-messages="formAdd.firstname.$error" ng-show="formAdd.firstname.$touched" role="alert">
                         <div ng-message="required">
@@ -44,7 +44,7 @@
                     </div>
                 </md-input-container>
                 <md-input-container flex="100" flex-gt-xs="50">
-                    <label>Sobrenome</label>
+                    <label>Sobrenome *</label>
                     <input type="text" name="lastname" ng-model="vm.form.lastname" required>
                     <div ng-messages="formAdd.lastname.$error" ng-show="formAdd.lastname.$touched" role="alert">
                         <div ng-message="required">
@@ -53,8 +53,13 @@
                     </div>
                 </md-input-container>
                 <md-input-container flex="100" flex-gt-xs="50">
-                    <label>Telefone 1</label>
-                    <input type="text" name="phone" ng-model="vm.form.phone" ui-br-phone-number>
+                    <label>Telefone 1 *</label>
+                    <input type="text" name="phone" ng-model="vm.form.phone" ui-br-phone-number required>
+                    <div ng-messages="formAdd.phone.$error" ng-show="formAdd.phone.$touched" role="alert">
+                        <div ng-message="required">
+                            <span>Campo obrigatório.</span>
+                        </div>
+                    </div>
                 </md-input-container>
                 <md-input-container flex="100" flex-gt-xs="50">
                     <label>Telefone 2</label>

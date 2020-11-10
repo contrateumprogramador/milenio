@@ -397,21 +397,27 @@ var LojaInteligenteModule = angular
                     "payment_completed"
                 ];
 
-            function callGA(ev, info) {
+            function callGA(ev) {
                 switch(ev) {
-                    case "checkout_started":
-                        ga('ec:setAction', 'begin_checkout');
-                    break;
-                    case "item_added":
-                        ga('ec:addProduct', { 'id': info.itemId,  'name': info.name });
-                        ga('ec:setAction', 'add_to_cart');
-                    break;
-                    case "item_removed":
-                        ga('ec:addProduct', { 'id': info.itemId,  'name': info.name });
-                        ga('ec:setAction', 'remove_from_cart');
-                    break;
                     case "payment_completed":
-                        ga('ec:setAction','checkout', { 'step': 1,  'option': info.method });
+                        ga('ecommerce:addTransaction', {
+                            'id': checkout._id,
+                            'affiliation': 'Milênio Móveis',
+                            'revenue': checkout.cart.total,
+                            'shipping': checkout.cart.shippingPrice
+                        });
+                    
+                        checkout.cart.items.forEach((item) => {
+                            ga('ecommerce:addItem', {
+                                'id': checkout.number,
+                                'name': item.name,
+                                'sku': item.options ? item.options.sku : item._id,
+                                'price': item.options ? item.options.price : 0,
+                                'quantity': item.quant
+                            });
+                        });
+
+                        ga('ecommerce:send');
                     break;
                 }
             }

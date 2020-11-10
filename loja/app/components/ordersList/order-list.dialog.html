@@ -15,7 +15,7 @@
     </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content" style="padding: 5px">
-            <div layout="row" flex="33">
+            <div layout="row" flex="100">
                 <div ng-show="ctrlOrder.orderClicked.orderNumber" layout="column" flex>
                     <h4 class="mBot0">
                         <md-icon md-font-icon="icon-checkbox-marked-circle"></md-icon>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div layout="row" flex="33" ng-show="ctrlOrder.orderClicked.shipping.address">
+            <div layout="row" flex="100" ng-show="ctrlOrder.orderClicked.shipping.address">
                 <div layout="column" flex>
                     <h4>
                         <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
@@ -55,7 +55,7 @@
                         full="true"></addresses-list>
                 </div>
             </div>
-            <div layout="row" flex="33">
+            <div layout="row" flex="100">
                 <div layout="column" flex>
                     <h4>
                         <md-icon md-font-icon="icon-wallet-travel"></md-icon>

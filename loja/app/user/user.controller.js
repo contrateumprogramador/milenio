@@ -61,6 +61,7 @@ module.exports = function(ngModule) {
             "credit-card.png",
             "producing.png",
             "receipt.png",
+            "nfe.png",
             "delivery.png",
             "home.png"
         ];
@@ -402,6 +403,7 @@ module.exports = function(ngModule) {
                         "credit-card.png",
                         "producing.png",
                         "receipt.png",
+                        "nfe.png",
                         "delivery.png",
                         "home.png"
                     ];
