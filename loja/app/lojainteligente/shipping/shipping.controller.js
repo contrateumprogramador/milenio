@@ -151,6 +151,8 @@ module.exports = function(ngModule){
         }
 
         function submit(ev, form) {
+            vm.form = form;
+            
             if (!form._id){
                 addressSave();
                 Loja.Checkout.shipping(null, null, angular.copy(form));

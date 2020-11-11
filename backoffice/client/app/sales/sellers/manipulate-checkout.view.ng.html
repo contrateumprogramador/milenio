@@ -141,16 +141,7 @@
                                         name="phone"
                                         ng-model="vm.form.customer.phone2"
                                         ui-br-phone-number
-                                        required
                                     />
-                                    <div
-                                        ng-messages="vm.customerForm.phone2.$error"
-                                        ng-show="vm.customerForm.phone2.$touched"
-                                    >
-                                        <div ng-message="required">
-                                            <span>Campo obrigatório.</span>
-                                        </div>
-                                    </div>
                                 </md-input-container>
                             </div>
                         </form>
@@ -763,6 +754,7 @@
                 class="md-primary md-raised"
                 aria-label="Salvar"
                 ng-click="vm.saveCheckout()"
+                ng-disabled="vm.customerForm.$invalid"
             >
                 <md-icon md-font-icon="icon-content-save"></md-icon>
                 Salvar

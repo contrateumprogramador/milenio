@@ -68,7 +68,7 @@
                 S3.upload(
                     {
                         file: img,
-                        path: "banners"
+                        path: "posters"
                     },
                     function(err, r) {
                         if (err) {
