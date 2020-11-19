@@ -1,5 +1,7 @@
 "use strict";
 
+import moment from "moment";
+
 Meteor.publish("carts", function(customer, status, offset, limit) {
     function _getFunnelStatus() {
         return status != "Carrinho Iniciado"
@@ -13,7 +15,8 @@ Meteor.publish("carts", function(customer, status, offset, limit) {
         funnelStatus: _getFunnelStatus(),
         subnumber: {
             $exists: false
-        }
+        },
+        createdAt: { $gte: moment().subtract(3, 'days').toDate() }
     };
 
     if (Roles.userIsInRole(this.userId, "affiliate"))

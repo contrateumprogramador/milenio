@@ -344,9 +344,7 @@ if (Meteor.isServer) {
     // Maps to: /checkouts/get/:number/:code
     Api.addRoute(
         "get/:number/:code",
-        {
-            authRequired: false
-        },
+        { authRequired: false },
         {
             get: {
                 // Regras permitidas
@@ -356,7 +354,8 @@ if (Meteor.isServer) {
                     var checkout = Checkouts.findOne(
                         {
                             code: parseInt(this.urlParams.code),
-                            number: parseInt(this.urlParams.number)
+                            number: parseInt(this.urlParams.number),
+                            createdAt: { $gte: moment().subtract(3, 'days').toDate() }
                         },
                         {
                             fields: {

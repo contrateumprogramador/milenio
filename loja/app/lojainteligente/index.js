@@ -711,6 +711,8 @@ var LojaInteligenteModule = angular
                     ).then(function(r) {
                         if (typeof set == "undefined" || set)
                             API.Checkout.setCheckout(r.data.data);
+                    }, function(err) {
+                        $state.go("home");
                     });
                 },
                 // Retorna carrinho
