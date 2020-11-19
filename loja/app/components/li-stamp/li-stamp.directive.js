@@ -14,18 +14,28 @@ module.exports = function(ngModule) {
             controller: function($scope, $timeout, Loja) {
                 var vm = this;
 
-                vm.stamp = Loja.Store.stamp($scope.item);
-                vm.text = vm.stamp ? vm.stamp.texts[0] : "";
+                function exec() {
+                    vm.stamp = Loja.Store.stamp($scope.item);
+                    vm.text = vm.stamp ? vm.stamp.texts[0] : "";
 
-                function changeText(textIndex) {
-                    textIndex = textIndex ? 0 : 1;
-                    vm.text = vm.stamp.texts[textIndex];
-                    $timeout(function() {
-                        changeText(textIndex);
-                    }, 5000);
+                    function changeText(textIndex) {
+                        textIndex = textIndex ? 0 : 1;
+                        if(vm.stamp) {
+                            vm.text = vm.stamp.texts[textIndex];
+                            $timeout(function() {
+                                changeText(textIndex);
+                            }, 5000);
+                        }
+                    }
+
+                    if (vm.stamp && vm.stamp.texts.length > 1) changeText(1);
                 }
 
-                if (vm.stamp && vm.stamp.texts.length > 1) changeText(1);
+                exec();
+
+                $scope.$watch('item', function() {
+                    exec();
+                });
             }
         };
     });
