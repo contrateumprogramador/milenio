@@ -1,6 +1,6 @@
 <md-toolbar class="funnel-toolbar" ng-show="vm.role != 'affiliate'" layout="row" layout-align="end center">
-    <input placeholder="Buscar nome ou orçamento" type="search" name="search" ng-model="vm.search" ng-keyup="vm.searchName()">
-    <md-button aria-label="search" ng-click="vm.searchName(true)" class="md-icon-button">
+    <input placeholder="Buscar por cliente ou orçamento" type="search" name="search" ng-model="vm.search" ng-keyup="vm.searchName($event)">
+    <md-button aria-label="search" ng-click="vm.searchName($event, true)" class="md-icon-button">
         <md-tooltip>Buscar</md-tooltip>
         <md-icon md-font-icon="icon-magnify"></md-icon>
     </md-button>

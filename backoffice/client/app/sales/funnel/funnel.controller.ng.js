@@ -334,8 +334,8 @@ angular
             openForm("sellers", ev);
         }
 
-        function searchName(skip) {
-            if(skip || !vm.search.length) {
+        function searchName(event, skip) {
+            if(skip || !vm.search.length || event.keyCode === 13) {
                 subscribe()
                 subscribe(true)
             }

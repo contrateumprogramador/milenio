@@ -20,9 +20,6 @@ angular
         // Data
         vm.selectedDate = new Date();
         vm.selectedMonth = getMonth();
-        vm.cartSubscribe = vm.subscribe("sales", function() {
-            return [this.getReactively("customer"), vm.selectedDate];
-        });
 
         vm.helpers({
             list: () => Checkouts.find({})
@@ -34,6 +31,7 @@ angular
         vm.selected = {};
         vm.view = "sales";
         vm.role = Meteor.user().roles[0];
+        vm.search = ""        
 
         // Methods
         vm.avatarClass = avatarClass;
@@ -59,6 +57,9 @@ angular
         vm.showOrder = showOrder;
         vm.sponsorSellers = sponsorSellers;
         vm.statusPostSelected = statusPostSelected;
+        vm.searchName = searchName
+
+        subscribe();
 
         // Functions
 
@@ -126,8 +127,24 @@ angular
             vm.selectedDate = moment(vm.selectedDate).add(value, "month")._d;
             vm.selectedMonth = getMonth();
             vm.cartSubscribe.stop();
+            subscribe();
+        }
+
+        function subscribe() {
+            vm.searching = true
+            if(vm.cartSubscribe) vm.cartSubscribe.stop();
+
             vm.cartSubscribe = vm.subscribe("sales", function() {
-                return [this.getReactively("customer"), vm.selectedDate];
+                return [this.getReactively("customer"), vm.selectedDate, vm.search];
+            });
+
+            Tracker.autorun(() => {
+                const isReady = vm.cartSubscribe.ready();
+                if(isReady) {
+                    const currentState = angular.copy(vm.searching);
+                    vm.searching = false;
+                    if(currentState) $scope.$apply()
+                }
             });
         }
 
@@ -482,10 +499,10 @@ angular
             }
         }
 
-        $scope.$watch(
-            function() {
-                return vm.list;
-            },
-            function(newValue, oldValue, scope) {}
-        );
+        function searchName(event, skip) {
+            if(skip || !vm.search.length || event.keyCode === 13) {
+                subscribe()
+                subscribe(true)
+            }
+        }
     });

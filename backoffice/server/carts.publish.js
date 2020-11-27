@@ -78,7 +78,5 @@ Meteor.publish("carts", function(customer, status, offset, limit, search) {
         noReady: true
     });
 
-    console.log(where)
-
     return Checkouts.find(where, options);
 });

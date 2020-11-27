@@ -1,6 +1,11 @@
 "use strict";
 
-Meteor.publish("sales", function(customer, date) {
+Meteor.publish("sales", function(customer, date, search) {
+    //função para retirada dos %
+    function regex(value) {
+        return { $regex: new RegExp(value, "i") };
+    }
+
     var where = {
         orderNumber: {
             $exists: true
@@ -18,6 +23,14 @@ Meteor.publish("sales", function(customer, date) {
             )
         }
     };
+
+    if(search) {
+        where.$or = [
+            { "customer.firstname": regex(search) },
+            { "customer.lastname": regex(search) },
+            { "orderNumber": parseInt(search) }
+        ]
+    }
 
     if (customer) where["customer.customerId"] = customer._id;
 
