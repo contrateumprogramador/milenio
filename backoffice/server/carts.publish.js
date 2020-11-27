@@ -2,7 +2,12 @@
 
 import moment from "moment";
 
-Meteor.publish("carts", function(customer, status, offset, limit) {
+Meteor.publish("carts", function(customer, status, offset, limit, search) {
+    //função para retirada dos %
+    function regex(value) {
+        return { $regex: new RegExp(value, "i") };
+    }
+
     function _getFunnelStatus() {
         return status != "Carrinho Iniciado"
             ? status
@@ -13,11 +18,17 @@ Meteor.publish("carts", function(customer, status, offset, limit) {
 
     var where = {
         funnelStatus: _getFunnelStatus(),
-        subnumber: {
-            $exists: false
-        },
-        createdAt: { $gte: moment().subtract(3, 'days').toDate() }
+        subnumber: { $exists: false },
+        createdAt: { $gte: moment().subtract(3, 'days').toDate() },
     };
+
+    if(search) {
+        where.$or = [
+            { "customer.firstname": regex(search) },
+            { "customer.lastname": regex(search) },
+            { "number": parseInt(search) }
+        ]
+    }
 
     if (Roles.userIsInRole(this.userId, "affiliate"))
         where["affiliate.affiliateId"] = this.userId;
@@ -66,6 +77,8 @@ Meteor.publish("carts", function(customer, status, offset, limit) {
     Counts.publish(this, "numberOfCarts", Checkouts.find(where), {
         noReady: true
     });
+
+    console.log(where)
 
     return Checkouts.find(where, options);
 });

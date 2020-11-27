@@ -62,6 +62,7 @@ angular
         vm.view = "carts";
         vm.role = Meteor.user().roles[0];
         vm.search = ""
+        vm.searching = true
 
         // Methods
         vm.affiliateSend = affiliateSend;
@@ -283,7 +284,6 @@ angular
 
         function sendMail(ev) {
             Meteor.call("getCheckout", vm.selected._id, function(err, r) {
-                console.log(r);
                 vm.selected = r;
                 openForm("sendMail", ev);
             });
@@ -291,13 +291,15 @@ angular
 
         function subscribe(add, unique) {
             if (add) {
+                vm.searching = true
                 vm.funnel.forEach(function(column) {
                     column.sub = vm.subscribe("carts", function() {
                         return [
                             this.getReactively("customer"),
                             column.name,
                             column.offset,
-                            column.limit
+                            column.limit,
+                            vm.search
                         ];
                     });
                 });
@@ -312,10 +314,19 @@ angular
                         this.getReactively("customer"),
                         unique.name,
                         unique.offset,
-                        unique.limit
+                        unique.limit                        
                     ];
                 });
             }
+
+            Tracker.autorun(() => {
+                const isReady = vm.funnel[vm.funnel.length-1].sub.ready();
+                if(isReady) {
+                    const currentState = angular.copy(vm.searching);
+                    vm.searching = false;
+                    if(currentState) $scope.$apply()
+                }
+            });
         }
 
         function sponsorSellers(ev, checkout) {
@@ -323,12 +334,10 @@ angular
             openForm("sellers", ev);
         }
 
-        function searchName() {
-            console.log(vm.search)
+        function searchName(skip) {
+            if(skip || !vm.search.length) {
+                subscribe()
+                subscribe(true)
+            }
         }
-
-        $scope.$watch(
-            function() { return vm.list; },
-            function(newValue, oldValue, scope) {}
-        );
     });
