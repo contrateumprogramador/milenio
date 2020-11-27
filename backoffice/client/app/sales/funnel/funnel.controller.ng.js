@@ -8,7 +8,6 @@ angular
         $reactive,
         $scope,
         $state,
-        konduto,
         toast
     ) {
         $reactive(this).attach($scope);
@@ -52,23 +51,17 @@ angular
         ];
         subscribe(true);
 
-        vm.subscribe("payment", function() {
-            return [this.getReactively("cartId")];
-        });
-
         vm.helpers({
             list: () => Checkouts.find({}),
-            payment: () => Payments.find({})
         });
 
         // Vars
         vm.cartId = null;
-        vm.fraudStatus = null;
-        vm.fraudStatusList = konduto.statusList();
         vm.progressLoading = false;
         vm.selected = false;
         vm.view = "carts";
         vm.role = Meteor.user().roles[0];
+        vm.search = ""
 
         // Methods
         vm.affiliateSend = affiliateSend;
@@ -76,27 +69,19 @@ angular
         vm.cartLink = cartLink;
         vm.cartSelected = cartSelected;
         vm.cartRemove = cartRemove;
-        vm.checkKonduto = checkKonduto;
         vm.configNumber = configNumber;
         vm.customerAvatar = customerAvatar;
         vm.customerName = customerName;
         vm.editCheckout = editCheckout;
-        vm.fraudLink = fraudLink;
-        vm.fraudRecommendation = fraudRecommendation;
-        vm.fraudStatusClose = fraudStatusClose;
-        vm.fraudStatusOpen = fraudStatusOpen;
-        vm.fraudUpdate = fraudUpdate;
         vm.getDate = getDate;
-        vm.getLastPayment = getLastPayment;
         vm.is = is;
         vm.itemIsInColumn = itemIsInColumn;
-        vm.paymentCancel = paymentCancel;
-        vm.paymentCapture = paymentCapture;
         vm.sale = sale;
         vm.scrollDown = scrollDown;
         vm.select = select;
         vm.sendMail = sendMail;
         vm.sponsorSellers = sponsorSellers;
+        vm.searchName = searchName
 
         function affiliateSend(checkout, ev) {
             var confirm = $mdDialog
@@ -188,10 +173,6 @@ angular
             });
         }
 
-        function checkKonduto() {
-            return vm.payment.length && vm.payment[0].konduto;
-        }
-
         function configNumber(item) {
             return item.subnumber
                 ? item.number + " - " + item.subnumber
@@ -233,83 +214,11 @@ angular
             });
         }
 
-        function fraudLink() {
-            return checkKonduto() ? konduto.link(vm.payment[0].konduto) : "";
-        }
-
-        function fraudRecommendation() {
-            return checkKonduto()
-                ? konduto.recommendation(vm.payment[0].konduto)
-                : "";
-        }
-
-        function fraudStatusClose() {
-            var fraud = vm.payment[0].konduto;
-
-            if (fraud.order.status != vm.fraudStatus) {
-                var confirm = $mdDialog
-                    .confirm()
-                    .parent(angular.element(document.body))
-                    .title("Alterar Status Antifraude?")
-                    .content(
-                        'Confirma alteração do Status Antifraude para "' +
-                            konduto.status(fraud).toUpperCase() +
-                            '" neste pedido?'
-                    )
-                    .ariaLabel("Confirmar alteração de Status do Antifraude")
-                    .ok("Alterar")
-                    .cancel("Cancelar");
-
-                $mdDialog.show(confirm).then(function() {
-                    vm.progressLoading = true;
-
-                    Meteor.call(
-                        "kondutoPut",
-                        angular.copy(vm.payment[0]),
-                        function(err, r) {
-                            vm.progressLoading = false;
-
-                            if (err)
-                                toast.message(
-                                    "Erro ao alterar Status do Antifraude."
-                                );
-                            else
-                                toast.message("Status do Antifraude alterado.");
-                        }
-                    );
-                });
-            }
-        }
-
-        function fraudStatusOpen() {
-            vm.fraudStatus = vm.payment[0].konduto.order.status;
-        }
-
-        function fraudUpdate() {
-            Meteor.call(
-                "paymentUpdateKonduto",
-                angular.copy(vm.payment[0]._id),
-                function(err, r) {
-                    if (err) {
-                        toast.message(err.reason);
-                    } else {
-                        toast.message("Status Konduto atualizado.");
-                    }
-                }
-            );
-        }
-
         function getDate(item) {
             if (!item) return "";
 
             if (vm.view == "carts") return item.createdAt;
             else return getLastPayment(item);
-        }
-
-        function getLastPayment(item) {
-            return item && item.payments && item.payments.length
-                ? item.payments[item.payments.length - 1].createdAt
-                : "";
         }
 
         function is(view) {
@@ -355,66 +264,6 @@ angular
                 .then(function(answer) {
                     toast.message(answer);
                 });
-        }
-
-        function paymentCancel(ev) {
-            var confirm = $mdDialog
-                .confirm()
-                .parent(angular.element(document.body))
-                .title("Cancelar pagamento?")
-                .content(
-                    "Confirma o cancelamento do pagamento da venda " +
-                        vm.selected[0].number +
-                        "?"
-                )
-                .ariaLabel("Cancelar pagamento")
-                .ok("Cancelar")
-                .cancel("Voltar")
-                .targetEvent(ev);
-
-            $mdDialog.show(confirm).then(function() {
-                vm.progressLoading = true;
-
-                Meteor.call("paymentCancel", vm.payment[0]._id, function(
-                    err,
-                    r
-                ) {
-                    vm.progressLoading = false;
-
-                    if (err) toast.message(err.reason);
-                    else toast.message("Pagamento cancelado.");
-                });
-            });
-        }
-
-        function paymentCapture(ev) {
-            var confirm = $mdDialog
-                .confirm()
-                .parent(angular.element(document.body))
-                .title("Capturar pagamento?")
-                .content(
-                    "Confirma do pagamento da venda " +
-                        vm.selected[0].number +
-                        "?"
-                )
-                .ariaLabel("Capturar pagamento")
-                .ok("Capturar")
-                .cancel("Cancelar")
-                .targetEvent(ev);
-
-            $mdDialog.show(confirm).then(function() {
-                vm.progressLoading = true;
-
-                Meteor.call("paymentCapture", vm.payment[0]._id, function(
-                    err,
-                    r
-                ) {
-                    vm.progressLoading = false;
-
-                    if (err) toast.message(err.reason);
-                    else toast.message("Pagamento capturado.");
-                });
-            });
         }
 
         function scrollDown(column) {
@@ -474,10 +323,12 @@ angular
             openForm("sellers", ev);
         }
 
+        function searchName() {
+            console.log(vm.search)
+        }
+
         $scope.$watch(
-            function() {
-                return vm.list;
-            },
+            function() { return vm.list; },
             function(newValue, oldValue, scope) {}
         );
     });

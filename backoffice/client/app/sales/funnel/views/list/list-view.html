@@ -1,6 +1,11 @@
-<md-toolbar ng-show="vm.selected && vm.role != 'affiliate'" layout="row" layout-align="end center">
+<md-toolbar class="funnel-toolbar" ng-show="vm.role != 'affiliate'" layout="row" layout-align="end center">
+    <input placeholder="Buscar nome ou orçamento" type="search" name="search" ng-model="vm.search">
+    <md-button aria-label="search" ng-click="vm.searchName($event)" class="md-icon-button">
+        <md-tooltip>Buscar</md-tooltip>
+        <md-icon md-font-icon="search"></md-icon>
+    </md-button>
     <div flex>
-        <p class="text-center">Link: {{vm.selected.number}}/{{vm.selected.code}} - {{vm.selected.customer.firstname || "Não identificado"}}</p>
+        <p ng-show="vm.selected" class="text-center">Link: {{vm.selected.number}}/{{vm.selected.code}} - {{vm.selected.customer.firstname || "Não identificado"}}</p>
     </div>
     <md-button ng-if="vm.role != 'maintenance'" aria-label="comment" ng-click="vm.sendMail($event)" class="md-icon-button">
         <md-tooltip>Enviar por e-mail</md-tooltip>
@@ -17,7 +22,7 @@
     <md-tooltip>Novo carrinho</md-tooltip>
     <md-icon md-font-icon="icon-plus"></md-icon>
 </md-button>
-<div id="Funnel" class="funnel" layout-fill layout="row">
+<div id="Funnel" class="funnel" layout="row">
     <div ng-repeat="column in vm.funnel track by $index" layout="column" flex="25">
         <h2>
             <md-icon md-font-icon="{{column.icon}}"></md-icon>

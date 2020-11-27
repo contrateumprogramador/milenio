@@ -2,6 +2,11 @@
 
 #proposals {
 
+    .ov-hidden {
+        overflow: hidden;
+        background: rgba(6, 71, 137, 0.1);
+    }
+
     .list-view {
 
         tr {
