@@ -14,12 +14,13 @@ module.exports = function(ngModule) {
         // Data
         document.getElementById("searchText").focus();
         vm.searchText = $stateParams.search;
-        setTitle();
+        // setTitle();
         $scope.$parent.ctrl.search = vm.searchText;
 
         $scope.$parent.ctrl.searchTyping = typing;
 
         vm.itemsFiltered = [];
+        if(vm.searchText) getItems();
 
         // Vars
 
@@ -92,14 +93,5 @@ module.exports = function(ngModule) {
             var title = vm.searchText ? vm.searchText + " -" : "";
             $rootScope.pageTitle = "Busca: " + title + " Milênio Móveis";
         }
-
-        var timer;
-
-        $scope.$watch('vm.searchText', function () {
-            if (timer) $timeout.cancel(timer);
-            timer = $timeout(function() {
-                getItems();
-            }, 1000); // delay 250 ms
-        })
     });
 };
