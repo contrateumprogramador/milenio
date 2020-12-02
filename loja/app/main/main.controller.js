@@ -238,7 +238,7 @@ module.exports = function(ngModule) {
 
         function searchSubmit() {
             toggleSubHeader(false);
-            $state.go("search", { search: ctrl.search });
+            if(ctrl.search) $state.go("search", { search: ctrl.search });
         }
 
         function searchTyping() {

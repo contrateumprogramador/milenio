@@ -2,17 +2,12 @@ module.exports = function(ngModule) {
     require("./search.sass");
     var removeDiacritics = require("diacritics").remove;
     ngModule.controller("SearchCtrl", function(
-        $document,
         $filter,
-        $mdDialog,
         $rootScope,
         $scope,
-        $state,
         $stateParams,
-        $mdMedia,
-        $location,
-        Loja,
-        toast
+        $timeout,
+        Loja
     ) {
         var vm = this;
 
@@ -25,7 +20,6 @@ module.exports = function(ngModule) {
         $scope.$parent.ctrl.searchTyping = typing;
 
         vm.itemsFiltered = [];
-        if (vm.searchText) getItems();
 
         // Vars
 
@@ -98,5 +92,14 @@ module.exports = function(ngModule) {
             var title = vm.searchText ? vm.searchText + " -" : "";
             $rootScope.pageTitle = "Busca: " + title + " Milênio Móveis";
         }
+
+        var timer;
+
+        $scope.$watch('vm.searchText', function () {
+            if (timer) $timeout.cancel(timer);
+            timer = $timeout(function() {
+                getItems();
+            }, 1000); // delay 250 ms
+        })
     });
 };
