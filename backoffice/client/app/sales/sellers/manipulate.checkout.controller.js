@@ -228,12 +228,6 @@ angular
             else return 0;
         }
 
-        function concatenateName() {
-            vm.customers.forEach(function(customer) {
-                customer.name = customer.firstname + " " + customer.lastname;
-            });
-        }
-
         function refreshCart() {
             vm.form.cart.itemsCount = 0;
             vm.form.cart.itemsTotal = 0;
@@ -334,25 +328,17 @@ angular
         function searchCustomers(searchText) {
             if (searchText.length > 3) {
                 vm.progressLoading = true;
-                if (vm.customers.length == 0) {
-                    Meteor.call(
-                        "searchCustomers",
-                        configureString(searchText),
-                        "firstname",
-                        function(err, r) {
-                            vm.customers = r;
-                            vm.exibedCustomers = r;
-                            vm.progressLoading = false;
-                            concatenateName();
-                        }
-                    );
-                } else {
-                    vm.exibedCustomers = $filter("filter")(
-                        angular.copy(vm.customers),
-                        { name: configureString(searchText) }
-                    );
-                    vm.progressLoading = false;
-                }
+                Meteor.call(
+                    "searchCustomers",
+                    configureString(searchText),
+                    "firstname",
+                    function(err, r) {
+                        vm.customers = r;
+                        vm.exibedCustomers = r;
+                        vm.progressLoading = false;
+                        $scope.$apply();
+                    }
+                );
             } else {
                 vm.customers = [];
                 vm.exibedCustomers = [];

@@ -23,8 +23,8 @@
                                 md-search-text="vm.searchText"
                                 md-selected-item-change="vm.select(customer)"
                                 md-items="customer in vm.exibedCustomers"
-                                md-item-text="customer.firstname"
-                                placeholder="Selecione um Cliente"
+                                md-item-text="customer.firstname + ' ' + customer.lastname"
+                                placeholder="Selecione um Cliente (Nome ou CPF)"
                             >
                                 <md-item-template>
                                     <span

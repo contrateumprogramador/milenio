@@ -188,40 +188,21 @@
             });
         }
 
-        function concatenateName() {
-            vm.customers.forEach(function(customer) {
-                customer.name = customer.firstname + " " + customer.lastname;
-            });
-        }
-
         // busca um cliente pelo nome
         function searchName() {
             if (vm.search.length > 3) {
                 vm.progressLoading = true;
-                if (vm.customers.length == 0) {
-                    Meteor.call(
-                        "searchCustomers",
-                        configureString(vm.search),
-                        "firstname",
-                        function(err, r) {
-                            vm.customers = r;
-                            vm.total = r.length;
-                            vm.searchedCustomers = r;
-                            vm.progressLoading = false;
-                            concatenateName();
-                            updateCustomers();
-                            $scope.$apply();
-                        }
-                    );
-                } else {
-                    vm.searchedCustomers = $filter("filter")(
-                        angular.copy(vm.customers),
-                        { name: configureString(vm.search) }
-                    );
-                    vm.progressLoading = false;
-                    vm.total = vm.searchedCustomers.length;
-                    updateCustomers();
-                }
+                Meteor.call(
+                    "searchCustomers",
+                    configureString(vm.search),
+                    "firstname",
+                    function(err, r) {
+                        vm.total = r.length;
+                        vm.searchedCustomers = vm.customers = vm.exibedCustomers = r;
+                        vm.progressLoading = false;
+                        $scope.$apply();
+                    }
+                );
             } else {
                 vm.customers = [];
                 vm.searchedCustomers = [];
@@ -232,16 +213,6 @@
                     page: 1
                 };
             }
-        }
-
-        function updateCustomers(update) {
-            vm.exibedCustomers = angular
-                .copy(vm.searchedCustomers)
-                .splice(
-                    vm.pagination.page * vm.pagination.limit - 10,
-                    vm.pagination.limit
-                );
-            if (update) $scope.$apply();
         }
 
         // configura a string de busca

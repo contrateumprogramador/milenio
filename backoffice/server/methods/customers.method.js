@@ -148,7 +148,7 @@ if (Meteor.isServer) {
 
             return;
         },
-        searchCustomers: function(searchText, field) {
+        searchCustomers: function(searchText) {
             if (
                 !Roles.userIsInRole(Meteor.userId(), [
                     "admin",
@@ -166,8 +166,16 @@ if (Meteor.isServer) {
             if (!company)
                 throw new Meteor.Error(404, "Empresa não encontrada.");
 
-            var query = { companies: { $in: [company._id] } };
-            query[field] = regex(searchText);
+            var query = { 
+                companies: { $in: [company._id] },
+                $or: [
+                    { firstname: regex(searchText) },
+                    { lastname: regex(searchText) },
+                    { document: regex(searchText) }
+                ]
+            };
+
+            console.log(query);
 
             if (Roles.userIsInRole(Meteor.userId(), ["affiliate"]))
                 query.affiliateId = Meteor.userId();
