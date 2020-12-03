@@ -21,10 +21,10 @@
                 <md-icon md-font-icon="icon-magnify"></md-icon>
             </md-button>
 
-            <div ng-show="vm.selected" flex>
+            <div flex>
                 <h2 class="text-center">Carrinho: {{vm.selected.orderNumber}} - {{vm.selected.customer.firstname || "Não identificado"}}</h2>
             </div>
-            <md-button ng-show="vm.selected" aria-label="informação" class="md-icon-button" ng-click="vm.showOrder($event)">
+            <md-button aria-label="informação" class="md-icon-button" ng-click="vm.showOrder($event)">
                 <md-tooltip>Informações do pedido</md-tooltip>
                 <md-icon md-font-icon="icon-information"></md-icon>
             </md-button>

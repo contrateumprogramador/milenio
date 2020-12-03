@@ -442,6 +442,25 @@ if (Meteor.isServer) {
             }
 
             return;
+        },
+        "Checkout.updateCheckout": function(checkout) {
+            check(checkout, Object);
+
+            if (
+                !Roles.userIsInRole(Meteor.userId(), [
+                    "super-admin",
+                    "admin",
+                    "expedition",
+                    "salesman",
+                    "maintenance",
+                    "expedition"
+                ])
+            )
+                throw new Meteor.Error(403, "Sem permissão.");
+
+            Checkouts.update({ _id: checkout._id }, { $set: checkout });
+
+            return;
         }
     });
 

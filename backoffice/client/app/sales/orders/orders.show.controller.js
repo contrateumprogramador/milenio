@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('fuseapp')
-    .controller('OrdersShowCtrl', function($mdDialog, $reactive, $scope, $state, konduto, toast) {
+    .controller('OrdersShowCtrl', function($mdDialog, $reactive, $scope, $sce, konduto, toast) {
         $reactive(this).attach($scope);
 
         var vm = this;
@@ -26,8 +26,95 @@ angular.module('fuseapp')
         vm.getPaymentValue = getPaymentValue;
         vm.paymentStatus = paymentStatus;
         vm.updateKonduto = updateKonduto;
+        vm.getNfe = getNfe;
+        vm.removeNFe = removeNFe;
+        vm.updateShipping = updateShipping;
+
+        vm.dropzoneOptions = {
+            desktop: {
+                acceptedFiles: "application/pdf",
+                dictDefaultMessage:
+                    "<i class='icon-cloud-upload'></i><br>Clique para adicionar uma NFe",
+                accept: (file, done) => {
+                    initFileUpload(file, "nfe");
+                }
+            }
+        };
 
         // Functions
+        function imgUrl(url, remove) {
+            const imagesUrl = "https://imagens.mileniomoveis.com.br";
+
+            if (remove) return url.replace(imagesUrl, "");
+
+            return url.replace(
+                "https://s3-sa-east-1.amazonaws.com/mileniomoveis",
+                imagesUrl
+            );
+        }
+
+        function initFileUpload(document, property) {
+            function upload() {
+                S3.upload(
+                    {
+                        file: document,
+                        path: "nfes"
+                    },
+                    function(err, r) {
+                        if (err) {
+                            toast.message("Erro ao enviar imagem.");
+                        } else {
+                            vm.checkout[property] = imgUrl(r.secure_url);
+                            updateCheckout();                            
+                        }
+                    }
+                );
+            }
+
+            vm.progressLoading = true;
+            $scope.$apply();
+            if (vm.checkout.nfe) {
+                S3.delete(imgUrl(vm.checkout.nfe, true), function(err, r) {
+                    if (err) {
+                        toast.message("Erro ao excluir documento antigo.");
+                    } else {
+                        upload();
+                    }
+                });
+            } else {
+                upload();
+            }
+        }
+
+        function updateCheckout() {
+            Meteor.call("Checkout.updateCheckout", vm.checkout, (err, r) => {
+                vm.progressLoading = false;
+                $scope.$apply();
+                const viewer = document.getElementById("nfe");
+                viewer.src = vm.checkout.nfe;
+            });
+        }
+
+        function updateShipping() {
+            vm.progressLoading = true;
+            Meteor.call("Checkout.updateCheckout", vm.checkout, (err, r) => {
+                vm.progressLoading = false;
+                toast.message("Dados de entrega atualizados");
+                $scope.$apply();
+            });
+        }
+
+        function removeNFe() {
+            S3.delete(imgUrl(vm.checkout.nfe, true), function(err, r) {
+                if (err) {
+                    toast.message("Erro ao excluir documento antigo.");
+                } else {
+                    vm.checkout.nfe = false;
+                    updateCheckout();
+                }
+            });
+        }
+
         function cancel(argument) {
             $mdDialog.cancel();
         }
@@ -95,6 +182,10 @@ angular.module('fuseapp')
                     toast.message('Status Konduto atualizado.');
                 }
             });
+        }
+
+        function getNfe() {
+            return $sce.trustAsResourceUrl(`https://drive.google.com/viewerng/viewer?embedded=true&url=${vm.checkout.nfe}`);
         }
 
         function getPayment(){

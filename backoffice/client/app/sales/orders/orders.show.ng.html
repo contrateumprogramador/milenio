@@ -148,56 +148,65 @@
                                     Localização do Cliente
                                 </h3>
                             </div>
-                            <md-input-container flex="50">
-                                <label>Endereço</label>
-                                <input type="text" name="title" ng-model="vm.checkout.shipping.title" readonly />
-                            </md-input-container>
-                            <md-input-container flex="50">
-                                <label>Logradouro</label>
-                                <input type="text" name="address" ng-model="vm.checkout.shipping.address" readonly />
-                            </md-input-container>
-                            <md-input-container flex="50">
-                                <label>Bairro</label>
-                                <input type="text" name="district" ng-model="vm.checkout.shipping.district" readonly />
-                            </md-input-container>
-                            <md-input-container flex="30">
-                                <label>Complemento</label>
-                                <input type="text" name="complement" ng-model="vm.checkout.shipping.complement"
-                                    readonly />
-                            </md-input-container>
-                            <md-input-container flex="20">
-                                <label>Número</label>
-                                <input type="text" name="numero" ng-model="vm.checkout.shipping.number" readonly />
-                            </md-input-container>
-                            <md-input-container flex="30">
-                                <label>CEP</label>
-                                <input type="text" ui-br-cep-mask name="zipcode" ng-model="vm.checkout.shipping.zipcode"
-                                    readonly />
-                            </md-input-container>
-                            <md-input-container flex="50">
-                                <label>Cidade</label>
-                                <input type="text" name="city" ng-model="vm.checkout.shipping.city" readonly />
-                            </md-input-container>
-                            <md-input-container flex="20">
-                                <label>Estado</label>
-                                <input type="text" name="state" ng-model="vm.checkout.shipping.state" readonly />
-                            </md-input-container>
+                            <div layout="row" layout-wrap>
+                                <md-input-container flex="33">
+                                    <label>Endereço</label>
+                                    <input type="text" name="title" ng-model="vm.checkout.shipping.title" readonly />
+                                </md-input-container>
+                                <md-input-container flex="33">
+                                    <label>Logradouro</label>
+                                    <input type="text" name="address" ng-model="vm.checkout.shipping.address" readonly />
+                                </md-input-container>
+                                <md-input-container flex="33">
+                                    <label>Bairro</label>
+                                    <input type="text" name="district" ng-model="vm.checkout.shipping.district" readonly />
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Complemento</label>
+                                    <input type="text" name="complement" ng-model="vm.checkout.shipping.complement"
+                                        readonly />
+                                </md-input-container>
+                                <md-input-container flex="20">
+                                    <label>Número</label>
+                                    <input type="text" name="numero" ng-model="vm.checkout.shipping.number" readonly />
+                                </md-input-container>
+                                <md-input-container flex="30">
+                                    <label>CEP</label>
+                                    <input type="text" ui-br-cep-mask name="zipcode" ng-model="vm.checkout.shipping.zipcode"
+                                        readonly />
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Cidade</label>
+                                    <input type="text" name="city" ng-model="vm.checkout.shipping.city" readonly />
+                                </md-input-container>
+                                <md-input-container flex="20">
+                                    <label>Estado</label>
+                                    <input type="text" name="state" ng-model="vm.checkout.shipping.state" readonly />
+                                </md-input-container>
+                            </div>
                         </div>
                         <div flex="50">
-                            <div class="text-center" ng-show="vm.checkout.shipping.options.collect.day">
+                            <div class="text-center">
                                 <h3>
                                     <md-icon md-font-icon="icon-truck"></md-icon>
                                     Informações de Entrega
                                 </h3>
-                                <div ng-repeat="(key, option) in vm.checkout.shipping.options track by $index" class="slide-down">
-                                    <md-list-item class="md-3-line cursor-pointer">
-                                        <div class="md-list-item-text" layout="column">
-                                            <h3>{{ (key == "collect") ? "Coleta" : "Entrega" }}</h3>
-                                            <h4>Dia: {{ option.day }}</h4>
-                                            <p>Período: {{ option.time }}</p>
-                                        </div>
-                                    </md-list-item>
-                                </div>
+                            </div>
+                            <div layout="row" layout-wrap>
+                                <md-input-container flex="100">
+                                    <label>Nome da Transportadora</label>
+                                    <input type="text" name="companyName" ng-model="vm.checkout.shipping.companyName" />
+                                </md-input-container>
+                                <md-input-container flex="100">
+                                    <label>Código de Rastreio</label>
+                                    <input type="text" name="companyCode" ng-model="vm.checkout.shipping.companyCode" />
+                                </md-input-container>
+                            </div>
+                            <div layout="row">
+                                <md-button class="md-raised md-accent fullWidth" ng-disabled="vm.progressLoading" aria-label="Atualizar" ng-click="vm.updateShipping()">
+                                    Atualizar Informações de Entrega
+                                    <md-icon md-font-icon="icon-truck"></md-icon>
+                                </md-button>
                             </div>
                         </div>
                     </div>
@@ -333,6 +342,27 @@
                                     </h3>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Nota Fiscal">
+                    <div layout="row" class="nfe" layout-padding>
+                        <div layout="column" flex="50">
+                            <h3>Anexar Nota fiscal</h3>
+                            <div class="cropArea">
+                                <drop-zone id="fileInput" name="imageUpload" options="vm.dropzoneOptions.desktop">
+                                </drop-zone>
+                            </div>
+                        </div>
+                        <div layout="column" flex="50">
+                            <div layout="row">
+                                <h3>Nota Fiscal anexada</h3>
+                                <md-button class="md-icon-button" ng-disabled="vm.progressLoading || !vm.checkout.nfe" aria-label="Remover" ng-click="vm.removeNFe()">
+                                    <md-tooltip>Excluir nota fiscal</md-tooltip>
+                                    <md-icon md-font-icon="icon-delete"></md-icon>
+                                </md-button>
+                            </div>
+                            <embed id="nfe" ng-show="vm.checkout.nfe" ng-src="{{vm.getNfe()}}" width="500" height="350" type="application/pdf">
                         </div>
                     </div>
                 </md-tab>

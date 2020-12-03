@@ -473,10 +473,12 @@ angular
         }
 
         function showOrder(ev) {
-            Meteor.call("getCheckout", vm.selected._id, function(err, r) {
-                vm.selected = r;
-                openForm("show", ev);
-            });
+            if(vm.selected) {
+                Meteor.call("getCheckout", vm.selected._id, function(err, r) {
+                    vm.selected = r;
+                    openForm("show", ev);
+                });
+            }
         }
 
         function statusPostSelected() {
