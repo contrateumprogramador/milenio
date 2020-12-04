@@ -33,8 +33,6 @@ Meteor.publish("carts", function(customer, status, offset, limit, date, search) 
         },
     };
 
-    console.log(date)
-
     if(search) {
         where.$or = [
             { "customer.firstname": regex(search) },
