@@ -161,7 +161,7 @@
                             </h3>
                         </md-card-header>
                         <md-card-content class="overflow">
-                            <div ng-show="vm.orderClicked.orderNumber" layout="row" flex="33">
+                            <div ng-show="vm.orderClicked.orderNumber" layout="row" flex="100">
                                 <div layout="column" flex="100">
                                     <h4 class="mBot0">
                                         <md-icon md-font-icon="icon-checkbox-marked-circle"></md-icon>
@@ -192,13 +192,38 @@
                                     </div>
                                 </div>
                             </div>
+                            <div layout="row" ng-show="vm.orderClicked.nfe">
+                                <div layout="column" flex="30">
+                                    <h4>
+                                        <md-icon md-font-icon="icon-file-document"></md-icon>
+                                        Nota Fiscal
+                                    </h4>
+                                    <md-button class="width-100 order-button md-primary md-raised" aria-label="Nota Fiscal" ng-href="{{vm.orderClicked.nfe}}" target="_blank">
+                                        Clique para acessar sua NF-e
+                                    </md-button>
+                                </div>
+                            </div>
                             <div layout="row">
-                                <div layout="column">
+                                <div layout="column" flex="50">
                                     <h4>
                                         <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
                                         Endereço
                                     </h4>
                                     <addresses-list addresses="[vm.orderClicked.shipping]" ng-show="vm.orderClicked.shipping.address" full="true"></addresses-list>
+                                </div>
+                                <div layout="column" flex="50" ng-show="vm.orderClicked.shipping.companyName">
+                                    <h4>
+                                        <md-icon md-font-icon="icon-truck"></md-icon>
+                                        Transportadora
+                                    </h4>
+                                    <md-input-container flex="100">
+                                        <label>Nome da transportadora</label>
+                                        <input ng-model="vm.orderClicked.shipping.companyName" readonly>
+                                    </md-input-container>
+                                    <md-input-container flex="100">
+                                        <label>Código de Rastreio</label>
+                                        <input ng-model="vm.orderClicked.shipping.companyCode" readonly>
+                                    </md-input-container>
                                 </div>
                             </div>
                             <div layout="row">
@@ -455,13 +480,38 @@
                                 </div>
                             </div>
                         </div>
+                        <div layout="row" ng-show="vm.orderClicked.nfe">
+                            <div layout="column" flex="30">
+                                <h4>
+                                    <md-icon md-font-icon="icon-file-document"></md-icon>
+                                    Nota Fiscal
+                                </h4>
+                                <md-button class="width-100 order-button md-primary md-raised" aria-label="Nota Fiscal" ng-href="{{vm.orderClicked.nfe}}" target="_blank">
+                                    Clique para acessar sua NF-e
+                                </md-button>
+                            </div>
+                        </div>
                         <div layout="row">
-                            <div layout="column">
+                            <div layout="column" flex="50">
                                 <h4>
                                     <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
                                     Endereço
                                 </h4>
                                 <addresses-list addresses="[vm.orderClicked.shipping]" ng-show="vm.orderClicked.shipping.address" full="true"></addresses-list>
+                            </div>
+                            <div layout="column" flex="50" ng-show="vm.orderClicked.shipping.companyName">
+                                <h4>
+                                    <md-icon md-font-icon="icon-truck"></md-icon>
+                                    Transportadora
+                                </h4>
+                                <md-input-container flex="100">
+                                    <label>Nome da transportadora</label>
+                                    <input ng-model="vm.orderClicked.shipping.companyName" readonly>
+                                </md-input-container>
+                                <md-input-container flex="100">
+                                    <label>Código de Rastreio</label>
+                                    <input ng-model="vm.orderClicked.shipping.companyCode" readonly>
+                                </md-input-container>
                             </div>
                         </div>
                         <div layout="row">

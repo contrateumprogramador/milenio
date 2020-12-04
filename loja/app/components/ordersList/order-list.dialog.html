@@ -45,14 +45,40 @@
                     </div>
                 </div>
             </div>
-            <div layout="row" flex="100" ng-show="ctrlOrder.orderClicked.shipping.address">
+            <div layout="row" ng-show="ctrlOrder.orderClicked.nfe">
+                <div layout="column" flex="90">
+                    <h4>
+                        <md-icon md-font-icon="icon-file-document"></md-icon>
+                        Nota Fiscal
+                    </h4>
+                    <md-button class="width-100 order-button md-primary md-raised" aria-label="Nota Fiscal" ng-href="{{ctrlOrder.orderClicked.nfe}}" target="_blank">
+                        Clique para acessar sua NF-e
+                    </md-button>
+                </div>
+            </div>
+            <div layout="row">
                 <div layout="column" flex>
                     <h4>
                         <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
                         Endereço
                     </h4>
-                    <addresses-list addresses="[ctrlOrder.orderClicked.shipping]"
-                        full="true"></addresses-list>
+                    <addresses-list addresses="[ctrlOrder.orderClicked.shipping]" ng-show="ctrlOrder.orderClicked.shipping.address" full="true"></addresses-list>
+                </div>
+            </div>
+            <div layout="row">
+                <div layout="column" flex ng-show="ctrlOrder.orderClicked.shipping.companyName">
+                    <h4>
+                        <md-icon md-font-icon="icon-truck"></md-icon>
+                        Transportadora
+                    </h4>
+                    <md-input-container flex="100">
+                        <label>Nome da transportadora</label>
+                        <input ng-model="ctrlOrder.orderClicked.shipping.companyName" readonly>
+                    </md-input-container>
+                    <md-input-container flex="100">
+                        <label>Código de Rastreio</label>
+                        <input ng-model="ctrlOrder.orderClicked.shipping.companyCode" readonly>
+                    </md-input-container>
                 </div>
             </div>
             <div layout="row" flex="100">
@@ -62,18 +88,19 @@
                         Carrinho ({{ ctrlOrder.orderClicked.cart.itemsCount }})
                     </h4>
                     <div style="overflow-y: scroll;">
-                        <div layout="row" layout-align="center center" class="basket-item slide-down" ng-repeat="(key, item) in ctrlOrder.orderClicked.cart.items track by item._id">
-                            <div layout="row" layout-wrap flex>
-                                <div layout="row" layout-align="start center" flex-xs="100" flex>
-                                    <img alt="{{ item.name }}" ng-src="{{ item.picture || '/assets/images/no-picture.jpg' }}" class="md-avatar" flex="10">
-                                    <p flex="40">{{ item.name }}</p>
-                                    <md-input-container flex="20">
-                                        <label>Quant.</label>
-                                        <input type="number" ng-model="item.quant" min="1" step="1" readonly="readonly">
-                                    </md-input-container>
-                                    <span class="price" flex>{{ item.total | currency }}</span>
+                        <div layout="column" layout-align="center center" class="basket-item slid-down" ng-repeat="(key, item) in ctrlOrder.orderClicked.cart.items track by item._id">                            
+                            <img alt="{{ item.name }}" ng-src="{{ item.picture || '/assets/images/no-picture.jpg' }}" class="md-avatar">
+                            <div layout="row" layout-align="space-between center" flex="100" style="width:100%" layout-wrap>
+                                <div flex="60">
+                                    <p>{{ item.name }}</p>
+                                </div>         
+                                <div flex="40">
+                                    <p style="text-align: right;">{{item.quant}} X {{ item.total | currency }}</p>
                                 </div>
-                            </div>
+                                <div flex="100">
+                                    <md-divider></md-divider>
+                                </div>
+                            </div>                            
                             <hr>
                         </div>
                     </div>
