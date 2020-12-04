@@ -46,6 +46,7 @@ module.exports = function(ngModule) {
                         true,
                         vm.index
                     );
+
                     // Loja.Store.items(vm.item._id).then(function(response){
                     //     callDialog(ev, response.data.data);
                     // });

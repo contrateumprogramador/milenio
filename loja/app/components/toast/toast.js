@@ -10,7 +10,7 @@ module.exports = function(ngModule){
                     $mdToast.simple()
                     .textContent(msg)
                     .position('top right')
-                    .hideDelay(duration || 4000)
+                    .hideDelay(duration || 2000)
                 );
 
                 return;

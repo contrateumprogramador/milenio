@@ -4,7 +4,7 @@ module.exports = function(ngModule) {
         var vm = this;        
 
         //Root Scope
-        $rootScope.pageTitle =  vm.item.name + ' : Milênio Móveis';
+        // $rootScope.pageTitle =  vm.item.name + ' : Milênio Móveis';
 
         // Methods
         vm.cancel = cancel;
