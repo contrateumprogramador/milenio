@@ -48,8 +48,7 @@ angular
                 total: 0,
                 sub: null
             }
-        ];
-        subscribe(true);
+        ];        
 
         vm.helpers({
             list: () => Checkouts.find({}),
@@ -63,6 +62,8 @@ angular
         vm.role = Meteor.user().roles[0];
         vm.search = ""
         vm.searching = true
+        vm.selectedDate = new Date();
+        vm.selectedMonth = getMonth();
 
         // Methods
         vm.affiliateSend = affiliateSend;
@@ -70,6 +71,7 @@ angular
         vm.cartLink = cartLink;
         vm.cartSelected = cartSelected;
         vm.cartRemove = cartRemove;
+        vm.changeMonth = changeMonth;
         vm.configNumber = configNumber;
         vm.customerAvatar = customerAvatar;
         vm.customerName = customerName;
@@ -83,6 +85,8 @@ angular
         vm.sendMail = sendMail;
         vm.sponsorSellers = sponsorSellers;
         vm.searchName = searchName
+
+        subscribe(true);
 
         function affiliateSend(checkout, ev) {
             var confirm = $mdDialog
@@ -124,6 +128,28 @@ angular
 
         // Functions
         // Calcula total de cada etapa
+        function getMonth() {
+            var months = [
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abril",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
+            ];
+            return (
+                months[moment(vm.selectedDate).format("MM") - 1] +
+                "/" +
+                moment(vm.selectedDate).format("YYYY")
+            );
+        }
+
         function calcTotal(item, status) {
             vm.total[status] += item.cart.total;
         }
@@ -299,6 +325,7 @@ angular
                             column.name,
                             column.offset,
                             column.limit,
+                            vm.selectedDate,
                             vm.search
                         ];
                     });
@@ -314,7 +341,8 @@ angular
                         this.getReactively("customer"),
                         unique.name,
                         unique.offset,
-                        unique.limit                        
+                        unique.limit,
+                        vm.selectedDate
                     ];
                 });
             }
@@ -339,5 +367,12 @@ angular
                 subscribe()
                 subscribe(true)
             }
+        }
+
+        function changeMonth(value) {
+            vm.selectedDate = moment(vm.selectedDate).add(value, "month")._d;
+            vm.selectedMonth = getMonth();
+            subscribe();
+            subscribe(true);
         }
     });

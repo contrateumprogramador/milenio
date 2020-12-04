@@ -2,7 +2,7 @@
 
 import moment from "moment";
 
-Meteor.publish("carts", function(customer, status, offset, limit, search) {
+Meteor.publish("carts", function(customer, status, offset, limit, date, search) {
     //função para retirada dos %
     function regex(value) {
         return { $regex: new RegExp(value, "i") };
@@ -19,8 +19,21 @@ Meteor.publish("carts", function(customer, status, offset, limit, search) {
     var where = {
         funnelStatus: _getFunnelStatus(),
         subnumber: { $exists: false },
-        createdAt: { $gte: moment().subtract(3, 'days').toDate() },
+        createdAt: {
+            $gte: new Date(
+                moment(date)
+                    .startOf("month")
+                    .format()
+            ),
+            $lte: new Date(
+                moment(date)
+                    .endOf("month")
+                    .format()
+            )
+        },
     };
+
+    console.log(date)
 
     if(search) {
         where.$or = [
