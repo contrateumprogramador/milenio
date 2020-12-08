@@ -10,6 +10,7 @@
                         <th md-column>Estilo</th>
                         <th md-column>Texto 1</th>
                         <th md-column>Texto 2</th>
+                        <th md-column>Selo</th>
                         <th md-column>Descrição</th>
                     </tr>
                 </thead>
@@ -38,6 +39,12 @@
                             <md-input-container>
                                 <label>Texto 2</label>
                                 <input name="text2" ng-model="vm.form.stamps.general.texts[1]">
+                            </md-input-container>
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Selo</label>
+                                <input name="seal" ng-model="vm.form.stamps.general.seal">
                             </md-input-container>
                         </td>
                         <td md-cell>
@@ -71,6 +78,12 @@
                             <md-input-container>
                                 <label>Texto 2</label>
                                 <input name="text1" ng-model="vm.form.stamps.sections[key].texts[1]">
+                            </md-input-container>
+                        </td>
+                        <td md-cell>
+                            <md-input-container>
+                                <label>Selo</label>
+                                <input name="seal" ng-model="vm.form.stamps.sections[key].seal">
                             </md-input-container>
                         </td>
                         <td md-cell>

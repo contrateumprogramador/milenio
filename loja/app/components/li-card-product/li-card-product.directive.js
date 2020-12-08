@@ -14,10 +14,8 @@ module.exports = function(ngModule) {
             controller: function(
                 $mdDialog,
                 $location,
-                $rootScope,
                 $scope,
-                Loja,
-                itemCheckout
+                Loja
             ) {
                 var vm = this;
 
@@ -32,9 +30,11 @@ module.exports = function(ngModule) {
                 vm.quantity = vm.checkoutItem ? vm.checkoutItem.quant : 1;
                 vm.addToCart = addToCart;
                 vm.from = $location.path();
+                vm.stamp = Loja.Store.stamp(vm.item);
 
                 $scope.$watch("item", function(newValue, oldValue, scope) {
                     vm.item = newValue;
+                    vm.stamp = Loja.Store.stamp(vm.item);
                 });
 
                 function addToCart(ev) {
