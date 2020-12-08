@@ -87,7 +87,6 @@ if (Meteor.isServer) {
             });
         },
         sendCartMail: function(body, checkout, complete) {
-            console.log(checkout);
             var company = Companies.findOne({ _id: checkout.companyId });
 
             // configura o email para envio

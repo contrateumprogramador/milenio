@@ -38,9 +38,15 @@ angular.module('fuseapp')
             checkout.customer.phone = "("+checkout.customer.phone.substr(0,2)+")"+checkout.customer.phone.substr(2,5)+"-"+checkout.customer.phone.substr(7,11);
             checkout.shipping.zipcode = checkout.shipping.zipcode.substr(0,5)+"-"+checkout.shipping.zipcode.substr(5,8);
             checkout.cart.items.forEach(function(item){
-                item.options.price = $filter('currency')(item.options.price);
+                item.options.price = $filter('currency')((item.options.salesPrice) ? item.options.salesPrice : item.options.price);
                 item.total = $filter('currency')(item.total);
             });
+
+            if(checkout.cart.discountType === "%")
+                checkout.cart.discount = $filter('currency')((checkout.cart.discount / 100) * checkout.cart.itemsTotal);
+            else
+                checkout.cart.discount = $filter('currency')(checkout.cart.discount);
+
             checkout.cart.itemsTotal = $filter('currency')(checkout.cart.itemsTotal);
             checkout.cart.shippingPrice = $filter('currency')(checkout.cart.shippingPrice);
             checkout.cart.total = $filter('currency')(checkout.cart.total);
