@@ -24,6 +24,7 @@ module.exports = function(ngModule) {
 
                 // Functions
                 function newsletterRegister() {
+                    console.log(vm.form)
                     Loja.Auth.newsletterRegister(angular.copy(vm.form)).then(function(){
                         
                     }, function(){

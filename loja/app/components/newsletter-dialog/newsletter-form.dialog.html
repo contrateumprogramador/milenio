@@ -12,7 +12,14 @@
         </div>
     </md-toolbar>
     <md-progress-linear md-mode="indeterminate" ng-show="ctrl.loading"></md-progress-linear>
-    <md-dialog-content>
-        <newsletter-form newsletter="vm.newsletter"></newsletter-form>
-    </md-dialog-content>
+    <form name="vm.shippingForm" layout="column" ng-submit="vm.shippingForm.$valid && vm.submit()" novalidate>
+        <md-dialog-content>
+            <newsletter-form newsletter="vm.newsletter"></newsletter-form>
+        </md-dialog-content>
+        <md-dialog-actions>
+            <md-button class="md-raised md-primary margin0" ng-disabled="vm.shippingForm.$invalid || vm.progressLoading" aria-label="Receber Newsletter" ng-click="vm.newsletterRegister()">
+                Receber Newsletters
+            </md-button>
+        </md-dialog-actions>
+    </form>
 </md-dialog>

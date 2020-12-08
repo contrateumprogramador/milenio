@@ -76,8 +76,11 @@
                 </div>
             </div>
         </div> -->
-        <div layout="row">
-            <div class="powr-social-feed" id="ec67950b_1601512968"></div>
+        <milenio-title title-text="'Siga-nos no Instagram'" description="'@mileniomoveisexternos'"></milenio-title>
+        <div layout="row" class="insta-feed">
+            <a ng-repeat="picture in vm.instaFeed" ng-href="{{picture.permalink}}" target="_blank">
+                <img ng-src="{{picture.media_url}}" />
+            </a>
         </div>
     </div>
 </div>

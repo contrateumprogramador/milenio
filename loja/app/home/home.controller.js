@@ -1,18 +1,15 @@
 module.exports = function(ngModule) {
     require("./home.sass");
     ngModule.controller("HomeCtrl", function(
-        $document,
+        $http,
         $mdDialog,
         $rootScope,
         $scope,
         $state,
         $location,
-        $mdMedia,
-        Loja,
         Banners,
         BlocoBanners,
         Coupon,
-        toast,
         NewItems,
         BestSellers,
         HomeSecundario,
@@ -91,6 +88,16 @@ module.exports = function(ngModule) {
                 ecomm_pagetype: "home",
                 listProducts: dataLayerProducts
             }
+        });
+
+        $http({
+            method: "GET",
+            url: "https://graph.instagram.com/me/media?fields=permalink,media_url",
+            params: {
+                access_token: "IGQVJWamVXd2JyYzd2R3E2eElxR0IxcWhRZAkJvYmRLUVRsMURYaHJoREhSX05yMFBQR3FWUWlVSWxocVliYU1pZAXhqRC1ocmh4RjA4dWtOeFg2d1YzbGF5SXVDbmVQR0NfYWtWdkF3"
+            }
+        }).then((response) => {
+            vm.instaFeed = response.data.data;
         });
     });
 };
