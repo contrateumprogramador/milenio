@@ -211,30 +211,31 @@ if (Meteor.isServer) {
     // Functions E-mail
 
     function configureStatus(order, company, cancel) {
-        var dateFormat = "DD/MM/YYYY HH:mm:ss",
-            body = {},
-            status = {};
+        const dateFormat = "DD/MM/YYYY HH:mm:ss";
+        let status = {};
+        const response = {
+            company: company.name,
+            firstname: order.customer.firstname,
+            orderNumber: order.orderNumber
+        };
 
         order.status.forEach(function(stat) {
             if (stat.time) status = stat;
         });
 
-        // se não for cancelamento, puxa todos os dados
-        body = !cancel
-            ? {
-                  company: company.name,
-                  firstname: order.customer.firstname,
-                  orderNumber: order.orderNumber,
-                  orderStatus: status.name,
-                  orderMessage: status.message,
-                  orderTime: moment(status.time).format(dateFormat)
-              }
-            : {
-                  company: company.name,
-                  firstname: order.customer.firstname,
-                  orderNumber: order.orderNumber
-              };
+        if(!cancel) {
+            response.orderStatus = status.name
+            response.orderMessage = status.message
+            response.orderTime = moment(status.time).format(dateFormat)
+        }
 
-        return body;
+        if(status.name === "Emissão da NF") {
+            response.nfe = order.nfe || "";
+        } else if(status.name === "Em Transporte") {
+            response.shippingName = order.shipping.companyName || ""
+            response.shippingCode = order.shipping.companyCode || ""
+        }
+
+        return response;
     }
 }
