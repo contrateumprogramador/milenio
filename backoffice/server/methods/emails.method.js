@@ -47,6 +47,7 @@ if (Meteor.isServer) {
 
             // configura os parâmetros a serem enviados
             body = configureStatus(order, company, cancel);
+            const id = (cancel) ? "order-cancel" : "alteracao-status";
 
             // configura o email para envio
             body.linkSite = company.website;
@@ -68,7 +69,7 @@ if (Meteor.isServer) {
 
                     if (mail) recipients.push(mail);
                 });
-            }
+            }            
 
             recipients.forEach(function(mail) {
                 //configura todo o body da requisição
@@ -76,7 +77,7 @@ if (Meteor.isServer) {
                     "configureRequest",
                     body,
                     mail,
-                    "alteracao-status",
+                    id,
                     company.mails.comercial,
                     function(err, r) {
                         if (err) {

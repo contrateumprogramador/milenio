@@ -127,7 +127,9 @@ if (Meteor.isServer) {
             }
 
             Meteor.defer(function() {
-                Meteor.call("paymentStatus", company, payment.checkoutId, 13);
+                try {
+                    Meteor.call("paymentStatus", company, payment.checkoutId, 13);   
+                } catch (ex) {}
                 Meteor.call(
                     "changeStatusMail",
                     Checkouts.findOne(id),
