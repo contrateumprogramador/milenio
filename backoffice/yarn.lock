@@ -408,10 +408,10 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-highcharts@^5.0.14:
-  version "5.0.15"
-  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-5.0.15.tgz#a9af11538a85b85f300e66f7a0e048a7ef8ab381"
-  integrity sha512-+LTe57ntLyWgkjsHzLmvRspM3FVKtds7iDswOTwuTAmZD3FtG1I/DqHiVSRjX92RQmQMZ1M7dcoRb7T648m1xA==
+highcharts@^8.2.2:
+  version "8.2.2"
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-8.2.2.tgz#3eb1a694cff013d3385c3ca8e58e69a27be52cab"
+  integrity sha512-F63TXO7RxsvTcpO/KOubQZWualYpCMyCTuKtoWbt7KCsfQ3Kl7Fr6HEyyJdjkYl+XlnmnKlSRi9d3HjLK9Q0wg==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -509,7 +509,7 @@ isarray@^1.0.0, isarray@~1.0.0:
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
   integrity sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
 
-lodash@^4.17.11:
+lodash@^4.17.20:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
