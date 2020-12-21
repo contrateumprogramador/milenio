@@ -47,7 +47,20 @@ if (Meteor.isServer) {
 
             // configura os parâmetros a serem enviados
             body = configureStatus(order, company, cancel);
-            const id = (cancel) ? "order-cancel" : "alteracao-status";
+
+            let id;
+
+            if(cancel) id = "order-cancel";
+            else if(body.orderStatus === "Pagamento Confirmado") id = "pagamento-confirmado"
+            else id = "alteracao-status"
+
+            if(id === "pagamento-confirmado") {
+                var payment = Payments.findOne({ checkoutId: checkout._id });
+                if (!payment) throw new Meteor.Error(404, "Pagamento não encontrado.");
+
+                body.checkout = maskCheckout(order);
+                body.cardBrand = payment.credit_card.brand
+            }
 
             // configura o email para envio
             body.linkSite = company.website;
@@ -238,5 +251,35 @@ if (Meteor.isServer) {
         }
 
         return response;
+    }
+
+    function toMoney(value) {
+        return value.toLocaleString('pt-BR', { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' });
+    }
+
+    function maskCheckout(checkout){
+        checkout.updatedAt = moment(checkout.updatedAt).format('DD/MM/YYYY');
+        checkout.customer.phone = "("+checkout.customer.phone.substr(0,2)+")"+checkout.customer.phone.substr(2,5)+"-"+checkout.customer.phone.substr(7,11);
+        checkout.shipping.zipcode = checkout.shipping.zipcode.substr(0,5)+"-"+checkout.shipping.zipcode.substr(5,8);
+        checkout.cart.items.forEach(function(item){
+            item.options.price = toMoney((item.options.salesPrice) ? item.options.salesPrice : item.options.price);
+            item.total = toMoney(item.total);
+            
+            var customizations = [];
+            Object.keys(item.customizations).forEach(function(key) {
+                customizations.push(item.customizations[key]);
+            });
+            item.customizations = customizations;
+        });
+
+        if(checkout.cart.discountType === "%")
+            checkout.cart.discount = toMoney((checkout.cart.discount / 100) * checkout.cart.itemsTotal);
+        else
+            checkout.cart.discount = toMoney(checkout.cart.discount);
+
+        checkout.cart.itemsTotal = toMoney(checkout.cart.itemsTotal);
+        checkout.cart.shippingPrice = toMoney(checkout.cart.shippingPrice);
+        checkout.cart.total = toMoney(checkout.cart.total);
+        return checkout;
     }
 }
