@@ -43,7 +43,7 @@ module.exports = function(LojaInteligenteModule) {
             : 0;
         vm.billetDiscount =
             _.get(Loja.Store.settings(), "billet.discount.value") || false;
-        vm.tab = 0;
+        vm.tab = 0;        
 
         // Methods
         vm.brandClass = brandClass;
@@ -252,7 +252,7 @@ module.exports = function(LojaInteligenteModule) {
                     if (vm.payment.method == "Boleto Bradesco") {
                         vm.boletoUrl = r.data.data.transaction.urlPagamento;
                     } else {
-                        toast.message("Pagamento concluído!");
+                        toast.message("Obrigado por comprar na Milenio Móveis, em breve você recebera um telefonema da empresa parceira Konduto para confirmação de alguns dados, por favor confirme para podermos dar continuidade em seu pedido", 6000);
                         if (Loja.Auth.me())
                             $state.go("user", { actualOrder: true });
                         else vm.paymentComplete = true;
