@@ -61,10 +61,19 @@ module.exports = function(LojaInteligenteModule) {
         vm.submit = submit;
 
         //////////////
+        function limitInstallments(limit) {
+            if(!limit) vm.installments = Installments;
+            else {
+                vm.installments = Installments.filter((installment) => installment.times <= 6);
+            }
+        }
+
         function brandClass(brand) {
             if (!vm.ccForm || !vm.ccForm.ccNumber) return;
 
             var ccNumber = vm.ccForm.ccNumber.$$rawModelValue;
+
+            limitInstallments();
 
             if (ccNumber && ccNumber.length >= 4) {
                 switch (brand) {
@@ -73,6 +82,7 @@ module.exports = function(LojaInteligenteModule) {
                     case "MasterCard":
                         return "card-mastercard";
                     case "American Express":
+                        limitInstallments(true);
                         return "card-amex";
                     case "Elo":
                     case "Maestro":
