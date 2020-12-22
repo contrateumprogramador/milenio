@@ -65,15 +65,14 @@ module.exports = function(LojaInteligenteModule) {
             if(!limit) vm.installments = Installments;
             else {
                 vm.installments = Installments.filter((installment) => installment.times <= 6);
+                if(vm.payment.installments > 6) vm.payment.installments = 1;
             }
         }
 
         function brandClass(brand) {
             if (!vm.ccForm || !vm.ccForm.ccNumber) return;
 
-            var ccNumber = vm.ccForm.ccNumber.$$rawModelValue;
-
-            limitInstallments();
+            var ccNumber = vm.ccForm.ccNumber.$$rawModelValue;            
 
             if (ccNumber && ccNumber.length >= 4) {
                 switch (brand) {
@@ -81,8 +80,7 @@ module.exports = function(LojaInteligenteModule) {
                         return "card-visa";
                     case "MasterCard":
                         return "card-mastercard";
-                    case "American Express":
-                        limitInstallments(true);
+                    case "American Express":                        
                         return "card-amex";
                     case "Elo":
                     case "Maestro":
@@ -136,7 +134,11 @@ module.exports = function(LojaInteligenteModule) {
                         vm.payment.brand = vm.cc.brand;
                     } else {
                         vm.cc.number = "0000000000000000";
+                        vm.payment.brand = "";
                     }
+
+                    if(vm.payment.brand === "American Express") limitInstallments(true);
+                    else limitInstallments();
 
                     break;
                 case "ccValidityMonth":

@@ -1,7 +1,7 @@
 <div class="" layout="row" layout-align="center center" layout-padding>
     <div id="PaymentComplete" class="box-new-order" ng-show="vm.paymentComplete">
-        Seu pedido foi realizado e estamos aguardando a confirmação de pagamento pelo banco.
-        <br>Assim que isso acontecer você será notificado.
+        Obrigado por comprar na Milenio Móveis, em breve você recebera um telefonema da empresa parceira Konduto para confirmação de alguns dados.
+        <br>Por favor confirme para podermos dar continuidade em seu pedido.
     </div>
     <div ng-if="!vm.paymentComplete" id="CIpayment" class="" layout="column" flex="100" flex-gt-md="80" flex-gt-lg="70">
         <md-tabs class="payment-tabs" md-center-tabs="true" md-selected="vm.tab" md-dynamic-height="true">
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="checkout-card-wrapper" layout-gt-xs="row" layout="column" layout-align="center stretch">
-                        <div flex-gt-sm="50" id="PayData">
+                        <div flex-gt-sm="50" id="PayData" class="pay-block">
                             <h3>Dados do Pagamento</h3>
                             <flippy class="fancy" flip="['custom:FLIP_CARD_IN','click']" flip-back="['custom:FLIP_CARD_OUT','click']" duration="700"
                                 timing-function="ease-in-out">
@@ -53,7 +53,7 @@
                                 </flippy-back>
                             </flippy>
                         </div>
-                        <div flex-gt-sm="50">
+                        <div flex-gt-sm="50" class="pay-block">
                             <form id="ccForm" class="checkout-form slide-down" layout="column" layout-padding name="vm.ccForm" novalidate ng-submit="vm.ccForm.$valid && vm.submit()">
                                 <md-button hide type="submit" aria-label="pagar" ng-disabled="vm.ccForm.$invalid || vm.progressLoading"></md-button>
                                 <div layout="column" ng-if="!vm.checkMedia('xs')">
