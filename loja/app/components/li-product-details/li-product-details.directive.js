@@ -50,8 +50,6 @@ module.exports = function(ngModule) {
                 vm.updateInstallments = updateInstallments;
                 vm.getTag = getTag;
 
-                console.log(vm.item)
-
 
                 // Customizações do item
                 Loja.Store.customizations(vm.item._id).then(function(r) {
@@ -86,7 +84,11 @@ module.exports = function(ngModule) {
                 }
 
                 function changeQuant(value) {
-                    vm.quantity += value;
+                    if(vm.item.stock === 1)
+                        if(vm.quantity + value <= vm.item.max)
+                            vm.quantity += value;
+                    else
+                        vm.quantity += value;
 
                     if (vm.quantity < 1) vm.quantity = 1;
                 }

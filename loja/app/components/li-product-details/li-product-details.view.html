@@ -46,6 +46,9 @@
     <div layout="row" class="code" ng-if="vm.item.code">
         <h2>Código: {{ vm.item.code }}</h2>
     </div>
+    <div layout="row" class="stock" ng-if="vm.item.stock === 1">
+        <h2>Quantidade em estoque: {{ vm.item.max }}</h2>
+    </div>
     <div
         layout="column"
         layout-gt-xs="row"

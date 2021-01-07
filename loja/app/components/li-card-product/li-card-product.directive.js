@@ -31,6 +31,7 @@ module.exports = function(ngModule) {
                 vm.addToCart = addToCart;
                 vm.from = $location.path();
                 vm.stamp = Loja.Store.stamp(vm.item);
+                vm.disableButton = disableButton
 
                 $scope.$watch("item", function(newValue, oldValue, scope) {
                     vm.item = newValue;
@@ -74,6 +75,11 @@ module.exports = function(ngModule) {
                         });
                     } else options = vm.item.options[0];
                     return options;
+                }
+
+                function disableButton() {
+                    return vm.item.stock === -1 ||
+                        (vm.item.stock === 1 && !vm.item.max)
                 }
             }
         };
