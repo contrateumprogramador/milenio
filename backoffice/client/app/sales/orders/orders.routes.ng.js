@@ -12,16 +12,18 @@ angular.module("fuseapp").config(function($stateProvider) {
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(user._id, [
-                            "super-admin",
-                            "admin",
-                            "salesman",
-                            "maintenance",
-                            "expedition",
-                            "affiliate"
-                        ]);
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(user._id, [
+                                "super-admin",
+                                "admin",
+                                "salesman",
+                                "maintenance",
+                                "expedition",
+                                "affiliate"
+                            ]);
+                        });
+                    }
                 },
                 Status: function($q, toast) {
                     return $q(function(resolve, reject) {
@@ -52,13 +54,15 @@ angular.module("fuseapp").config(function($stateProvider) {
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(user._id, [
-                            "super-admin",
-                            "admin",
-                            "salesman"
-                        ]);
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(user._id, [
+                                "super-admin",
+                                "admin",
+                                "salesman"
+                            ]);
+                        });
+                    }
                 }
             }
         });

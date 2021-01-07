@@ -18,9 +18,11 @@ function config($stateProvider, $translatePartialLoaderProvider, msApiProvider, 
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(Meteor.userId(), ['admin', 'manager']);
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(Meteor.userId(), ['admin', 'manager']);
+                        });
+                    }
                 },
                 Terms: function($q, toast){
                     return $q(function(resolve, reject) {

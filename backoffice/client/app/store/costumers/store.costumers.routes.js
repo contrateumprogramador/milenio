@@ -21,14 +21,16 @@ function config(
         },
         resolve: {
             user: function($auth) {
-                return $auth.awaitUser(function(user) {
-                    return Roles.userIsInRole(Meteor.userId(), [
-                        "admin",
-                        "salesman",
-                        "expedition",
-                        "affiliate"
-                    ]);
-                });
+                if (Roles.subscription.ready()) {
+                    return $auth.awaitUser(function(user) {
+                        return Roles.userIsInRole(Meteor.userId(), [
+                            "admin",
+                            "salesman",
+                            "expedition",
+                            "affiliate"
+                        ]);
+                    });
+                }
             },
             CustomersList: function($q, toast) {
                 return $q(function(resolve, reject) {

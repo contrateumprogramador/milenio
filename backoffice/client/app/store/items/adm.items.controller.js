@@ -78,8 +78,7 @@
                     vm.exibedItems = r.items;
                     vm.total = r.total;
 
-                    if(!first)
-                        $scope.$apply();
+                    $scope.$apply();
                 });
             }
         }

@@ -18,9 +18,11 @@ function config($stateProvider, $translatePartialLoaderProvider, msApiProvider, 
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(Meteor.userId(), 'super-admin');
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(Meteor.userId(), 'super-admin');
+                        });
+                    }
                 },
                 CompaniesList: function($q, toast) {
                     return $q(function(resolve, reject) {

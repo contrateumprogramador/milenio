@@ -21,9 +21,11 @@ function config(
         },
         resolve: {
             user: function($auth) {
-                return $auth.awaitUser(function(user) {
-                    return Roles.userIsInRole(Meteor.userId(), ["admin"]);
-                });
+                if (Roles.subscription.ready()) {
+                    return $auth.awaitUser(function(user) {
+                        return Roles.userIsInRole(Meteor.userId(), ["admin"]);
+                    });
+                }
             },
             List: function($q, toast) {
                 return $q(function(resolve, reject) {

@@ -287,6 +287,7 @@ angular
                 fromParams,
                 error
             ) {
+                console.log("erro", error)
                 switch (error) {
                     case "NOT_FOUND":
                     case "AUTH_REQUIRED":

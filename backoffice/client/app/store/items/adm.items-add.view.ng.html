@@ -59,8 +59,8 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <md-input-container flex="100" flex-gt-xs="15">
-                            <label>Máximo</label>
+                        <md-input-container flex="100" flex-gt-xs="25" ng-show="vm.form.stock === 1">
+                            <label>Quantidade em estoque</label>
                             <input type="number" name="max" ng-model="vm.form.max">
                         </md-input-container>
                         <div flex="100" layout-align="space-between center">

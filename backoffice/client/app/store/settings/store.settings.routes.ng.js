@@ -13,9 +13,11 @@ angular.module("fuseapp").config(function($stateProvider) {
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(Meteor.userId(), ["admin"]);
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(Meteor.userId(), ["admin"]);
+                        });
+                    }
                 },
                 Configurations: function($q, toast) {
                     return $q(function(resolve, reject) {
@@ -43,9 +45,11 @@ angular.module("fuseapp").config(function($stateProvider) {
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(Meteor.userId(), ["admin"]);
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(Meteor.userId(), ["admin"]);
+                        });
+                    }
                 },
                 Configurations: function($q, toast) {
                     return $q(function(resolve, reject) {
@@ -73,9 +77,11 @@ angular.module("fuseapp").config(function($stateProvider) {
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(Meteor.userId(), ["admin"]);
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(Meteor.userId(), ["admin"]);
+                        });
+                    }
                 },
                 Configurations: function($q, toast) {
                     return $q(function(resolve, reject) {
@@ -115,9 +121,11 @@ angular.module("fuseapp").config(function($stateProvider) {
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(Meteor.userId(), ["admin"]);
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(Meteor.userId(), ["admin"]);
+                        });
+                    }
                 },
                 Configurations: function($q, toast) {
                     return $q(function(resolve, reject) {
@@ -145,9 +153,11 @@ angular.module("fuseapp").config(function($stateProvider) {
             },
             resolve: {
                 user: function($auth) {
-                    return $auth.awaitUser(function(user) {
-                        return Roles.userIsInRole(Meteor.userId(), ["admin"]);
-                    });
+                    if (Roles.subscription.ready()) {
+                        return $auth.awaitUser(function(user) {
+                            return Roles.userIsInRole(Meteor.userId(), ["admin"]);
+                        });
+                    }
                 },
                 Configurations: function($q, toast) {
                     return $q(function(resolve, reject) {
