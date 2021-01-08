@@ -795,10 +795,23 @@ if (Meteor.isServer) {
             };
         }
 
+        //Executa atualização do estoque dos itens pronta entrega
+        stockControl(checkout.cart.items)
+
         return {
             status: "success",
             data: payment
         };
+    }
+
+    function stockControl(items) {
+        Object.keys(items).forEach(function(key) {
+            var item = items[key];
+
+            if(item.stock === 1) {
+                Items.update({ _id: item._id }, { $inc: { max: -item.quant } })
+            }
+        });
     }
 
     function kondutoPost(kondutoKey, payment, cart, customer) {
