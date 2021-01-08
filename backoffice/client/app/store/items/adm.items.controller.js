@@ -38,7 +38,7 @@
         vm.selectedItem = null;
         vm.searchText = null;
         vm.loading = false;
-        changePage(true);
+        changePage();
 
         // Methods
         vm.add = add;
@@ -61,7 +61,7 @@
             openForm((vm.listCustomizations) ? 'addCustomization' : 'addItem', ev);
         }
 
-        function changePage(first){
+        function changePage(){
             vm.pagination = {
                 skip: vm.pagination.page*vm.pagination.limit-10,
                 limit: vm.pagination.limit,
@@ -73,6 +73,8 @@
                     vm.pagination.page*vm.pagination.limit-10,
                     vm.pagination.limit
                 );
+
+                $scope.$apply();
             } else {
                 Meteor.call('itemsList', vm.pagination, function(err, r){
                     vm.exibedItems = r.items;
@@ -204,20 +206,13 @@
         function searchName(){
             if(vm.search.name.length > 3){
                 vm.progressLoading = true;
-                if(vm.items.length == 0){
-                    Meteor.call('searchItems', configureString(vm.search.name), function(err, r){
-                        vm.items = r;
-                        vm.total = r.length;
-                        vm.searchedItems = r;
-                        vm.progressLoading = false;
-                        changePage(true);
-                    });
-                } else {
-                    vm.searchedItems = $filter('filter')(angular.copy(vm.items), { name_nd: configureString(vm.search.name) });
+                Meteor.call('searchItems', configureString(vm.search.name), function(err, r){
+                    vm.items = r;
+                    vm.total = r.length;
+                    vm.searchedItems = r;
                     vm.progressLoading = false;
-                    vm.total = vm.searchedItems.length;
-                    changePage(true);
-                }
+                    changePage();
+                });
             } else {
                 cleanItems();
                 changePage();
