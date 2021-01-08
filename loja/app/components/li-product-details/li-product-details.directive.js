@@ -49,6 +49,7 @@ module.exports = function(ngModule) {
                 vm.setCustomization = setCustomization;
                 vm.updateInstallments = updateInstallments;
                 vm.getTag = getTag;
+                vm.isIndisponible = isIndisponible
 
 
                 // Customizações do item
@@ -57,6 +58,10 @@ module.exports = function(ngModule) {
                 });
 
                 // Functions
+                function isIndisponible() {
+                    return vm.item.stock === -1 || (vm.item.stock === 1 && !vm.item.max)
+                }
+
                 /** Chama a função no backend para adicionar o item ao carrinho
                  */
                 function addToCart() {
@@ -84,9 +89,9 @@ module.exports = function(ngModule) {
                 }
 
                 function changeQuant(value) {
-                    if(vm.item.stock === 1)
-                        if(vm.quantity + value <= vm.item.max)
-                            vm.quantity += value;
+                    if(vm.item.stock === 1) {
+                        if(vm.quantity + value <= vm.item.max) vm.quantity += value;
+                    }
                     else
                         vm.quantity += value;
 

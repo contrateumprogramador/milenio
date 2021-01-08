@@ -50,7 +50,13 @@ module.exports = function(ngModule){
                 }
 
                 function changeQuant(item, value){
-                  item.quant += value;
+                  console.log(item)
+                  if(item.stock === 1) {
+                    if(item.quant + value <= item.max) item.quant += value;
+                  }
+                  else
+                      item.quant += value;
+
                   Loja.Checkout.itemQuantChange(item, item.quant);
                   if (!vm.parent)
                       vm.refreshCart();

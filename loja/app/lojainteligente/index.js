@@ -824,6 +824,8 @@ var LojaInteligenteModule = angular
                                 picture: item.pictures[0] || "",
                                 url: item.url,
                                 installments: item.installments,
+                                stock: item.stock,
+                                max: item.max,
                                 code: item.code,
                                 total:
                                     (option.salesPrice || option.price) * quant

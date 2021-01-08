@@ -47,7 +47,7 @@
         <h2>Código: {{ vm.item.code }}</h2>
     </div>
     <div layout="row" class="stock" ng-if="vm.item.stock === 1">
-        <h2>Quantidade em estoque: {{ vm.item.max }}</h2>
+        <h2>Quantidade em estoque: {{ vm.item.max ? vm.item.max : "Esgotado" }}</h2>
     </div>
     <div
         layout="column"
@@ -55,7 +55,7 @@
         layout-align="center center"
         class="margins"
         ng-class="{'layout-wrap': vm.checkMedia('md'), 'flex-1': !vm.checkMedia('gt-md')}"
-        ng-hide="vm.item.stock == -1"
+        ng-hide="vm.isIndisponible()"
     >
         <div
             id="Price"
@@ -148,7 +148,7 @@
     <div
         layout="row"
         layout-align="center center"
-        ng-hide="vm.item.stock != -1"
+        ng-show="vm.isIndisponible()"
     >
         <div id="SemEstoque">Produto Indisponível</div>
     </div>
