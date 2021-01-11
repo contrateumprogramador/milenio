@@ -52,10 +52,9 @@ module.exports = function(ngModule) {
                 name: "Madeira"
             },
             {
-                category: "condominio",
-                icon: "/assets/lojainteligente/imgs/condominio.svg",
-                name: "Condomínio"
-            }
+                category: "area-interna",
+                icon: "/assets/lojainteligente/imgs/sofa.svg",
+                name: "Área Interna"
         ];
 
         ctrl.user = Loja.Auth.me;

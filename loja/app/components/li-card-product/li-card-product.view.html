@@ -27,9 +27,6 @@
         <p class="installments" ng-show="vm.item.stock != -1">
             Até {{ vm.installments.times }}x de {{ vm.installments.value | currency }}
         </p>
-        <p class="installments" ng-show="vm.item.stock === 1">
-            {{ vm.item.max ? vm.item.max + ' em estoque' : "Esgotado" }}
-        </p>
     </md-card-content>
     <md-card-actions layout="column" layout-align="start">
         <md-button ng-click="vm.addToCart()" class="md-raised btn-cart" ng-disabled="vm.disableButton()">{{ vm.disableButton() ? 'Produto Indisponível' : 'Adicionar ao carrinho' }}</md-button>
