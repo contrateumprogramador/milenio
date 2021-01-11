@@ -55,6 +55,7 @@ module.exports = function(ngModule) {
                 category: "area-interna",
                 icon: "/assets/lojainteligente/imgs/sofa.svg",
                 name: "Área Interna"
+            }
         ];
 
         ctrl.user = Loja.Auth.me;

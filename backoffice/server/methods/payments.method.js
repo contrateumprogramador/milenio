@@ -163,6 +163,8 @@ if (Meteor.isServer) {
                 }
             );
 
+            refreshStock(payment)
+
             return;
         },
         paymentStatus: function(company, cartId, status) {
@@ -279,6 +281,17 @@ if (Meteor.isServer) {
             return;
         }
     });
+
+    function refreshStock(payment) {
+        const checkout = Checkouts.findOne(payment.checkoutId, { fields: { "cart.items": 1 } })
+
+        checkout.cart.items.forEach((item) => {
+            if(item.stock === 1)
+                Items.update(item._id, { $inc: { max: item.quant } })
+        })
+
+        return;
+    }
 
     function _SuperPaySettings(company) {
         var r = company.gateway.homologacao
