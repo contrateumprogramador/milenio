@@ -38,9 +38,13 @@
                                 Item ativo
                             </md-checkbox>
                         </md-input-container>
-                        <md-input-container flex="100" flex-gt-xs="30">
+                        <md-input-container flex="100" flex-gt-xs="25">
                             <label>Código do produto</label>
                             <input type="text" name="code" ng-model="vm.form.code">
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="20">
+                            <label>Fornecedor</label>
+                            <input type="text" name="provider" ng-model="vm.form.provider">
                         </md-input-container>
                         <md-input-container flex="100" flex-gt-xs="15">
                             <label>Rank</label>
@@ -59,7 +63,7 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <md-input-container flex="100" flex-gt-xs="25" ng-show="vm.form.stock === 1">
+                        <md-input-container flex="100" flex-gt-xs="20" ng-show="vm.form.stock === 1">
                             <label>Quantidade em estoque</label>
                             <input type="number" name="max" ng-model="vm.form.max">
                         </md-input-container>

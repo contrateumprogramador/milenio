@@ -210,7 +210,10 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function goToCart(state) {
+            Loja.Checkout.resetCart()
+
             if (Loja.Auth.me()) $state.go("user", { actualOrder: true });
+            else vm.paymentComplete = true;
         }
 
         function inputFocus(name) {
@@ -255,9 +258,7 @@ module.exports = function(LojaInteligenteModule) {
                         vm.boletoUrl = r.data.data.transaction.urlPagamento;
                     } else {
                         toast.message("Obrigado por comprar na Milenio Móveis, em breve você recebera um telefonema da empresa parceira Konduto para confirmação de alguns dados, por favor confirme para podermos dar continuidade em seu pedido", 6000);
-                        if (Loja.Auth.me())
-                            $state.go("user", { actualOrder: true });
-                        else vm.paymentComplete = true;
+                        goToCart()
                     }
                     vm.payment = [];
                 },
