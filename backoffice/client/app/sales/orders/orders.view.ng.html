@@ -5,7 +5,7 @@
 
         <!-- CONTENT -->
         <md-toolbar class="superior-bar" layout="row" layout-align="end center">
-            <div flex>
+            <div flex ng-hide="vm.customer">
                 <md-button class="md-icon-button" aria-label="Botão Menos" ng-click="vm.changeMonth(-1)">
                     <md-icon md-font-icon="icon-chevron-left"></md-icon>
                 </md-button>
@@ -15,8 +15,8 @@
                 {{vm.selectedMonth}}
             </div>
 
-            <input placeholder="Buscar por cliente ou pedido" type="search" name="search" ng-model="vm.search" ng-keyup="vm.searchName($event)">
-            <md-button aria-label="search" ng-click="vm.searchName($event, true)" class="md-icon-button">
+            <input ng-hide="vm.customer" placeholder="Buscar por cliente ou pedido" type="search" name="search" ng-model="vm.search" ng-keyup="vm.searchName($event)">
+            <md-button ng-hide="vm.customer" aria-label="search" ng-click="vm.searchName($event, true)" class="md-icon-button">
                 <md-tooltip>Buscar</md-tooltip>
                 <md-icon md-font-icon="icon-magnify"></md-icon>
             </md-button>

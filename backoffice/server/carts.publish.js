@@ -44,7 +44,10 @@ Meteor.publish("carts", function(customer, status, offset, limit, date, search) 
     if (Roles.userIsInRole(this.userId, "affiliate"))
         where["affiliate.affiliateId"] = this.userId;
 
-    if (customer) where["customer.customerId"] = customer._id;
+    if (customer) {
+        where["customer.customerId"] = customer._id;
+        delete where['createdAt']
+    }
 
     var options = {
         fields: {

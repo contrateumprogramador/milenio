@@ -85,6 +85,7 @@ angular
         vm.sendMail = sendMail;
         vm.sponsorSellers = sponsorSellers;
         vm.searchName = searchName
+        vm.customer = this.getReactively("customer")
 
         subscribe(true);
 

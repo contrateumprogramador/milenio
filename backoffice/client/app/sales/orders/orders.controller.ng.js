@@ -8,14 +8,14 @@ angular
         $scope,
         $state,
         konduto,
-        Status,
         toast
     ) {
         $reactive(this).attach($scope);
 
         var vm = this;
 
-        vm.status = Status || [];
+        vm.status = [];
+        getStatus()
 
         // Data
         vm.selectedDate = new Date();
@@ -31,7 +31,8 @@ angular
         vm.selected = {};
         vm.view = "sales";
         vm.role = Meteor.user().roles[0];
-        vm.search = ""        
+        vm.search = ""
+        vm.customer = this.getReactively("customer")
 
         // Methods
         vm.avatarClass = avatarClass;
@@ -62,6 +63,11 @@ angular
         subscribe();
 
         // Functions
+        function getStatus() {
+            Meteor.call("statusList", function(err, r) {
+                if(!err) vm.status = r[0].status
+            });
+        }
 
         function avatarClass(item) {
             switch (item.payment.status) {

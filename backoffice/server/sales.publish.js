@@ -32,7 +32,10 @@ Meteor.publish("sales", function(customer, date, search) {
         ]
     }
 
-    if (customer) where["customer.customerId"] = customer._id;
+    if (customer) {
+        where["customer.customerId"] = customer._id;
+        delete where["payment.time"];
+    }
 
     if (Roles.userIsInRole(this.userId, "affiliate"))
         where["affiliate.affiliateId"] = this.userId;

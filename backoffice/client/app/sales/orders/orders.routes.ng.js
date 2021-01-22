@@ -24,21 +24,6 @@ angular.module("fuseapp").config(function($stateProvider) {
                             ]);
                         });
                     }
-                },
-                Status: function($q, toast) {
-                    return $q(function(resolve, reject) {
-                        var array = [];
-                        Meteor.call("statusList", function(err, r) {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                r[0].status.forEach(function(status) {
-                                    array.push(status);
-                                });
-                                resolve(array);
-                            }
-                        });
-                    });
                 }
             },
             bodyClass: "orders"
