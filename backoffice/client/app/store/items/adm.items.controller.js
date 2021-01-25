@@ -137,14 +137,20 @@
         function openForm(action, ev, edit) {
             var controller,
                 templateUrl,
-                locals;
+                locals,
+                isAdd = false;
 
             switch(action) {
                 case 'addItem':
+                    controller = 'AdmItemsAddCtrl as vm';
+                    templateUrl = 'client/app/store/items/adm.items-add.view.ng.html';
+                    isAdd = true
+                    locals = {}
+                    break;
                 case 'editItem':
                     controller = 'AdmItemsAddCtrl as vm';
                     templateUrl = 'client/app/store/items/adm.items-add.view.ng.html';
-                    locals = (action == 'editItem') ? { edit: angular.copy(vm.selected) } : {};
+                    locals = { edit: angular.copy(vm.selected) };
                     break;
                 case 'info':
                     controller = 'AdmInfoCtrl as vm';
@@ -160,19 +166,56 @@
             }
 
             $mdDialog.show({
-                    controller: controller,
-                    templateUrl: templateUrl,
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: false,
-                    fullscreen: true,
-                    locals: locals,
-                    bindToController: true
-                })
-                .then(function(answer) {
-                    getList();
+                controller: controller,
+                templateUrl: templateUrl,
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: false,
+                fullscreen: true,
+                locals: locals,
+                bindToController: true
+            })
+            .then(function(answer) {
+                getList();
+                if(isAdd) {
+                    toast.message(answer.message);
+                    askNewProduct(ev, answer.previousProduct)
+                } else {
                     toast.message(answer);
-                });
+                }
+            });
+        }
+
+        function addNewProduct(ev, previousProduct) {
+            $mdDialog.show({
+                controller: 'AdmItemsAddCtrl as vm',
+                templateUrl: 'client/app/store/items/adm.items-add.view.ng.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: false,
+                fullscreen: true,
+                locals: { previousProduct },
+                bindToController: true
+            })
+            .then(function(answer) {
+                getList();
+                toast.message(answer.message);
+                askNewProduct(ev, answer.previousProduct)
+            });
+        }
+
+        function askNewProduct(ev, previousProduct) {
+            var confirm = $mdDialog.confirm()
+                  .title('Adicionar novo produto')
+                  .textContent("Deseja continuar adicionando produtos?")
+                  .ariaLabel('Adicionar produtos')
+                  .targetEvent(ev)
+                  .ok('Continuar')
+                  .cancel('Cancelar');
+
+            $mdDialog.show(confirm).then(function() {
+                addNewProduct(ev, previousProduct);
+            });
         }
 
         function remove(ev, item){

@@ -49,7 +49,7 @@
             if (vm.edit.installments) vm.installments = true;
         }
 
-        vm.form = vm.edit || {
+        vm.form = vm.edit || vm.previousProduct || {
             tags: [],
             pictures: [],
             active: true,
@@ -100,10 +100,8 @@
         vm.searchGoogleCategory = searchGoogleCategory;
         vm.typingUrl = typingUrl;
         vm.querySearch = querySearch;
-        vm.select = select;
 
         //Functions
-
         function calcRecurrenceTotal(index) {
             const recurrence = vm.form.recurrence[index],
                 discount = (recurrence.value * recurrence.discount) / 100;
@@ -285,17 +283,28 @@
             var message = vm.edit
                 ? "Item editado com sucesso"
                 : "Item inserido com sucesso";
+
             vm.form.name_nd = angular.lowercase(
                 Diacritics.remove(vm.form.name)
             );
-            Meteor.call(method, angular.copy(vm.form), function(err, r) {
+            
+            const copy = angular.copy(vm.form)
+
+            Meteor.call(method, copy, function(err, r) {
                 vm.loading = false;
                 if (err) {
                     toast.message(err.reason);
                 } else {
                     vm.form = {};
                     vm.needSave = false;
-                    $mdDialog.hide(message);
+                    if(!vm.edit) {
+                        $mdDialog.hide({
+                            message,
+                            previousProduct: copy
+                        });
+                    } else {
+                        $mdDialog.hide(message);
+                    }
                 }
             });
         }
