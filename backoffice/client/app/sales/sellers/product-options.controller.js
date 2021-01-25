@@ -45,6 +45,7 @@ angular
                 name_nd: item.name_nd,
                 options: vm.option || {},
                 picture: item.pictures[0] || "",
+                code: item.code,
                 url: item.url,
                 installments: item.installments || {}
             };
