@@ -321,6 +321,7 @@ if (Meteor.isServer) {
                         stock: 1,
                         max: 1,
                         rank: 1,
+                        code: 1,
                         recurrence: 1
                     };
 
