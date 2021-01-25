@@ -4,16 +4,7 @@
             <div class="" layout="column" flex="100" flex-gt-sm="90" flex-gt-lg="80">
                 <h1 class="md-display-1 product-title" hide-gt-sm layout-padding layout="row" layout-align="center center">{{ vm.product.name }}</h1>
                 <div layout="row" layout-wrap layout-align="space-around">
-                    <div id="TabImage" layout="column" flex="100" flex-gt-sm="45" ng-class="{'flex-1': ctrl.checkMedia('gt-sm')}">
-                        <md-tabs md-swipe-content="true" md-dynamic-height="true" md-align-tabs="bottom">
-                            <md-tab ng-repeat="image in vm.product.pictures track by $index">
-                                <img ng-src="{{ image }}" alt="vm.product.name">
-                                <md-tab-body>
-                                    <img ng-src="{{ image }}" alt="{{ vm.product.name }}" width="100%">
-                                </md-tab-body>
-                            </md-tab>
-                        </md-tabs>
-                    </div>
+                    <li-product-carousel item="vm.product"></li-product-carousel>
                     <div flex="100" flex-gt-sm="55" layout-padding class="pTop0">
                         <li-product-details item="vm.product" breadcumbs="vm.breadcumbs"></li-product-details>
                         <div id="Tabs" layout="column" flex="100">

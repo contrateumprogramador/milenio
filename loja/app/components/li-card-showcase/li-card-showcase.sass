@@ -1,0 +1,108 @@
+// li-card-product.sass
+@import '../../variables.scss'
+
+.item-showcase
+	background: transparent
+	border: solid 1px rgba(0, 0, 0, 0.1)
+	box-shadow: none
+	max-width: 300px
+	position: relative
+	cursor: pointer
+
+	.seal
+		position: absolute
+		z-index: 2
+		top: -9px
+		left: -9px
+		color: #ffffff
+
+		svg
+			width: 50px
+
+		p
+			position: absolute
+			top: 10px
+			left: 12px
+			margin: 0
+			z-index: 2
+			font-size: 12px
+			text-align: center
+
+	.stamp-black
+		color: #ff8400
+		svg
+			color: #000
+
+	.stamp-blue
+		svg
+			color: #007bff
+
+	.stamp-green
+		svg
+			color: #28a745
+	
+	.stamp-orange
+		svg
+			color: #ff8400
+	
+	.stamp-red
+		svg
+			color: #dc3545
+	
+	.stamp-yellow
+		color: #212529
+		svg
+			color: #ffc107
+
+	.relative .li-stamp
+		bottom: -4px
+		left: 24px
+		position: absolute
+		right: 24px
+
+	a
+		text-decoration: none
+		color: black
+
+	img
+		width: 100%
+
+	md-card-content
+		height: 84px
+		padding: 8px 8px 0 8px !important
+		text-align: center
+
+		.installments
+			font-size: 14px
+			margin: 0
+			text-align: left
+
+		.price
+			font-size: 21px
+			margin: 0
+
+			.line-through
+				font-size: 18px
+
+	md-card-title-text
+		a
+			height: 56px
+
+		.md-headline
+			font-size: 16px
+			line-height: 18px
+			text-align: center
+
+	md-card-title
+		padding: 8px
+
+	.btn-cart
+		background-color: $primary !important
+		border-radius: 5px
+		color: $white !important
+		font-size: 10px
+		width: 100%
+
+body.is-mobile
+	.item-showcase
+		min-width: 300px

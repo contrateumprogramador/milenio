@@ -103,6 +103,7 @@ module.exports = function(ngModule) {
             })
             .state('section.tag', {
                 url: '/:sectionUrl/:tagUrl',
+                params: { environment: false },
                 views: {
                     'content@section': {
                         templateProvider: ['$q', function($q) {

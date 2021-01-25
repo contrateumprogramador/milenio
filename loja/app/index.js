@@ -108,6 +108,7 @@ require("./main/main.controller.js")(ngModule); // Main Controller
 require("./components/li-card-product/li-card-add-dialog.controller.js")(
     ngModule
 ); // Title
+require("./components/li-card-showcase/li-card-showcase-dialog.controller.js")(ngModule); // Showcase Dialog
 
 // Components
 require("./components/toast/toast.js")(ngModule); // Toast
@@ -120,6 +121,8 @@ require("./components/addressesList/addresses-list.directive.js")(ngModule); // 
 require("./components/addressForm/address-form.directive.js")(ngModule); // Addresses Form
 require("./components/ordersList/orders-list.directive.js")(ngModule); // Addresses Form
 require("./components/li-card-product/li-card-product.directive.js")(ngModule); // Card Product
+require("./components/li-card-showcase/li-card-showcase.directive.js")(ngModule); // Card Showcase
+require("./components/li-product-carousel/li-product-carousel.directive.js")(ngModule); // Product Carousel
 require("./components/newsletter-dialog/newsletter-form.directive.js")(
     ngModule
 ); // Newsletter Form

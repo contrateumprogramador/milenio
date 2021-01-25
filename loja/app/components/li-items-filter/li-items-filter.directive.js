@@ -10,6 +10,7 @@ module.exports = function(ngModule) {
             scope: {
                 items: "=",
                 rowSize: "=",
+                environment: "=",
                 orderBy: "=",
                 scrollHorizontal: "="
             },
@@ -29,6 +30,7 @@ module.exports = function(ngModule) {
                 //Methods
                 vm.checkMedia = checkMedia;
                 vm.search = $rootScope.search;
+                vm.environment = $scope.environment
 
                 // Vars
                 vm.itemsList = getItemsList();

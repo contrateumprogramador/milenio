@@ -1,0 +1,10 @@
+<div id="TabImage" layout="column" flex="100" flex-gt-sm="{{ vm.insideDialog ? 100 : 45 }}" ng-class="{'flex-1': ctrl.checkMedia('gt-sm')}">
+    <md-tabs md-swipe-content="true" md-dynamic-height="true" md-align-tabs="bottom">
+        <md-tab ng-repeat="image in vm.item.pictures track by $index">
+            <img ng-src="{{ image }}" alt="vm.item.name">
+            <md-tab-body>
+                <img ng-src="{{ image }}" alt="{{ vm.item.name }}" width="100%">
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+</div>

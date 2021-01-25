@@ -1,0 +1,88 @@
+module.exports = function(ngModule) {
+    require("./li-card-showcase.sass");
+
+    ngModule.directive("liCardShowcase", function() {
+        return {
+            restrict: "EA",
+            template: require("./li-card-showcase.view.html"),
+            replace: true,
+            scope: {
+                item: "=",
+                index: "="
+            },
+            controllerAs: "vm",
+            controller: function(
+                $mdDialog,
+                $location,
+                $scope,
+                Loja
+            ) {
+                var vm = this;
+
+                vm.installments = Loja.Store.itemInstallments($scope.item);
+                vm.item = $scope.item;
+                vm.checkoutItem = $scope.checkoutItem;
+                vm.index = $scope.index;
+                vm.customization = vm.checkoutItem
+                    ? vm.checkoutItem.customizations
+                    : {};
+                vm.options = selectOptions();
+                vm.quantity = vm.checkoutItem ? vm.checkoutItem.quant : 1;
+                vm.addToCart = addToCart;
+                vm.from = $location.path();
+                vm.stamp = Loja.Store.stamp(vm.item);
+                vm.disableButton = disableButton
+                vm.openShowcase = openShowcase
+
+                $scope.$watch("item", function(newValue, oldValue, scope) {
+                    vm.item = newValue;
+                    vm.stamp = Loja.Store.stamp(vm.item);
+                });
+
+                function addToCart(ev) {
+                    Loja.Checkout.itemAdd(
+                        angular.copy(vm.item),
+                        1,
+                        {},
+                        vm.item.options[0] || {},
+                        true,
+                        vm.index
+                    );
+
+                    // Loja.Store.items(vm.item._id).then(function(response){
+                    //     openShowcase(ev, response.data.data);
+                    // });
+                }
+
+                function selectOptions() {
+                    var options = {};
+                    if (vm.checkoutItem) {
+                        vm.item.options.forEach(function(option, key) {
+                            if (option.name == vm.checkoutItem.options.name)
+                                options = vm.item.options[key];
+                        });
+                    } else options = vm.item.options[0];
+                    return options;
+                }
+
+                function openShowcase(ev) {
+                    $mdDialog.show({
+                        controller: "CardShowcaseDialogCtrl as vm",
+                        template: require("./li-card-showcase-dialog.view.html"),
+                        parent: angular.element(document.body),
+                        locals: { item: vm.item },
+                        bindToController: true,
+                        targetEvent: ev,
+                        clickOutsideToClose: false,
+                        fullscreen: true
+                    });
+                }
+
+                function disableButton() {
+                    return vm.item.stock === -1 ||
+                        (vm.item.stock === 1 && !vm.item.max)
+                }
+            }
+        };
+    });
+};

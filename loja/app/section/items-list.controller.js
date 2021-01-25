@@ -11,6 +11,7 @@ module.exports = function(ngModule) {
         vm.section = $scope.$parent.vm.section;
         vm.tag = getTag;
         vm.myPagingFunction = myPagingFunction;
+        vm.environment = $stateParams.environment
 
         // Vars
         vm.orderBy = '';

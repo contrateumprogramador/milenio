@@ -1,0 +1,14 @@
+<md-dialog id="Product" aria-label="Detalhes da Decoração" flex="100" flex-gt-xs="50">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <h2>Detalhes da Decoração</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="vm.cancel()">
+                <md-icon md-font-icon="icon-window-close" aria-label="Fechar"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+      <li-product-carousel inside="true" item="vm.item"></li-product-carousel>
+    </md-dialog-content>
+  </md-dialog>

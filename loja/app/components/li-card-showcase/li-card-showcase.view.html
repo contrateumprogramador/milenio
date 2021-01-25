@@ -1,0 +1,21 @@
+<md-card class="itemPreview item-showcase" ng-click="vm.openShowcase()">
+    <div class="relative">
+        <a title="{{ vm.item.name }}">
+            <img ng-src="{{ vm.item.pictures[0]  || '/assets/images/no_image.jpg' }}" class="md-card-image" 
+                onerror="this.src='/assets/images/no_image.jpg'" alt="{{ vm.item.name }}"
+            >
+        </a>
+        <li-stamp item="item"></li-stamp>
+    </div>
+    <md-card-title>
+        <md-card-title-text>
+            <a title="{{ vm.item.name }}">
+                <span class="md-headline" layout="row" layout-align="center center">{{ vm.item.name }}</span>
+            </a>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <p class="installments">Localização: {{ vm.item.place || "-" }}</p>
+        <p class="installments">Decorador: {{ vm.item.decorator || "-" }}</p>
+    </md-card-content>
+</md-card>
