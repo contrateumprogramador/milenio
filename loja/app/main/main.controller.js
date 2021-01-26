@@ -314,7 +314,7 @@ module.exports = function(ngModule) {
             )
                 return [];
 
-            var limit = 9,
+            var limit = 6,
                 start = number * limit;
 
             var categories = (

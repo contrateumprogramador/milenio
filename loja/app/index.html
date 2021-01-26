@@ -165,29 +165,30 @@
             <md-toolbar class="md-accent" id="Header">
                 <div id="HeaderMobile" layout="column" hide-gt-sm>
                     <div layout="row" layout-aling="space-between center">
-                        <div layout="row" layout-align="start center" flex="33">
+                        <div layout="row" layout-align="start center" flex="15">
                             <md-button id="IconMenu" class="md-icon-button" ng-click="ctrl.toggleSidenav( 'left')">
                                 <md-icon md-font-icon="icon-menu"></md-icon>
                             </md-button>
-                            <md-button ng-hide="ctrl.user()" layout="row" layout-align="center center" class="btn-header
-                        md-icon-button" ng-click="ctrl.sign()" aria-label="area do cliente">
-                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                            </md-button>
-                            <md-button ng-show="ctrl.user()" layout="row" layout-align="center center" class="btn-header
-                        md-icon-button" ui-sref="user" aria-label="area do cliente">
-                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                            </md-button>
                         </div>
-                        <div flex="33" class="logo" layout="column" flex="30" flex-gt-sm="15" layout-align="center
+                        <div flex="55" class="logo" layout="column" flex="30" flex-gt-sm="15" layout-align="center
                         center">
                             <h2 class="logo-milenio" ui-sref="home">
                                 <span>Milênio Móveis</span>
                             </h2>
                         </div>
-                        <div flex="33">
-                            <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center center
-                       " ng-mouseenter="ctrl.toggleSidenav( 'cart', 'open')" aria-label="Cart">
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <div flex="15" layout="row" layout-align="center center">
+                            <md-button ng-hide="ctrl.user()" layout="row" layout-align="center center" class="btn-header
+                                md-icon-button" ng-click="ctrl.sign()" aria-label="area do cliente">
+                                <img src="assets/icons/fi_user.svg"/>
+                            </md-button>
+                            <md-button ng-show="ctrl.user()" layout="row" layout-align="center center" class="btn-header
+                                md-icon-button" ui-sref="user" aria-label="area do cliente">
+                                <img src="assets/icons/fi_user.svg"/>
+                            </md-button>
+                        </div>
+                        <div flex="15" layout="row" layout-align="center center">
+                            <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center center" aria-label="Cart">
+                                <img src="assets/icons/fi_shopping-cart.svg"/>
                                 <span class="cart-count">{{ ctrl.cart().itemsCount }}</span>
                             </md-button>
                         </div>
@@ -205,19 +206,29 @@
                         </md-button>
                     </form>
                 </div>
+                <div class="row-menu" layout="row" layout-align="space-between center" hide-gt-sm>
+                    <div ng-class="{ 'btn-active': ctrl.subMenu.name==section.name }"
+                        ng-repeat="section in ctrl.sections track by $index" layout="column" flex="50" layout-align="center center" class="border-right">
+                        <md-button ng-click="ctrl.toggleSubHeader(false)" ui-sref="section.showcase({sectionUrl: section.category})" ui-sref-opts="{reload:
+                true}">
+                            <md-icon md-svg-icon="{{section.icon}}"></md-icon>
+                            <span>{{section.name}}</span>
+                        </md-button>
+                    </div>
+                </div>
                 <div hide show-gt-sm layout="row" flex="100" class="flex-1" layout-align="space-between center
                        " layout-align-gt-sm="center center">
-                    <div class="logo" layout="column" flex="30" flex-gt-sm="15" layout-align="center center">
-                        <h2 class="logo-milenio" ui-sref="home">
-                            <span>Milênio Móveis</span>
-                        </h2>
-                    </div>
                     <div layout="column" flex-gt-sm>
                         <div layout="row" class="" layout-align="start center" layout-padding>
+                            <div class="logo" layout="column" flex="30" flex-gt-sm="15" layout-align="center center">
+                                <h2 class="logo-milenio" ui-sref="home">
+                                    <span>Milênio Móveis</span>
+                                </h2>
+                            </div>
                             <div flex id="HeaderActions" layout="row" layout-align="space-between center">
                                 <md-button hide show-gt-sm href="tel:1138158177" id="Phone" class="btn-header
                        " hide show-gt-sm layout="row" layout-align="center center" aria-label="telefone">
-                                    <i class="fa fa-phone color-accent" aria-hidden="true" id="IconPhone"></i>
+                                    <img src="assets/icons/fi_phone.svg" class="margin-icon"/>
                                     <span class="color-accent" id="Tel">(11) 3815-8177</span>
                                 </md-button>
                                 <form hide show-gt-sm id="SearchForm" class="search-form" name="ctrl.searchForm
@@ -227,7 +238,7 @@
                                         <input type="text" ng-keyup="ctrl.searchTyping()" ng-focus="ctrl.toggleSubHeader(false)
                        " ng-model="ctrl.search" ng-minlength="3">
                                     </md-input-container>
-                                    <md-button class="md-icon-button" type="submit" ng-disabled="ctrl.searchForm.$invalid" aria-label="buscar">
+                                    <md-button class="md-icon-button icon-search" type="submit" ng-disabled="ctrl.searchForm.$invalid" aria-label="buscar">
                                         <md-icon-button>
                                             <i class="fa fa-search" aria-hidden="true"></i>
                                         </md-icon-button>
@@ -235,16 +246,19 @@
                                 </form>
                                 <md-button hide show-gt-sm layout="row" ng-show="!ctrl.user()" layout-align="center center
                        " class="btn-header" ng-click="ctrl.sign()" aria-label="area do cliente">
-                                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                    <spa>Entre ou
+                                    <img src="assets/icons/fi_user.svg" class="margin-icon"/>
+                                    <span>Entre ou
                                         <span class="color-accent">Cadastre-se</span>
-                                        </span>
+                                    </span>
                                 </md-button>
                                 <md-menu hide show-gt-sm class="btn-header" ng-show="ctrl.user()">
                                     <md-button layout="row" layout-align="center center" class="btn-header
                        " ng-click="$mdMenu.open()" aria-label="area do cliente">
-                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                        <span class="color-accent">Olá, {{ ctrl.user().profile.firstname }}!</span>
+                                        <img src="assets/icons/fi_user.svg"/>
+                                        <div class="menu-message">
+                                            <p class="hello">Olá,</p>
+                                            <p class="color-accent">{{ ctrl.user().profile.firstname }}!</p>
+                                        </div>
                                     </md-button>
                                     <md-menu-content width="2">
                                         <md-menu-item>
@@ -268,9 +282,9 @@
                                     </md-menu-content>
                                 </md-menu>
                                 <span hide show-gt-xs hide-gt-sm style="width: 36px"></span>
-                                <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center
-                        center" ng-mouseenter="ctrl.toggleSidenav( 'cart', 'open')" aria-label="Cart">
-                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center center" aria-label="Cart">
+                                    <span>Meu carrinho</span>
+                                    <img src="assets/icons/fi_shopping-cart.svg"/>
                                     <span class="cart-count">{{ ctrl.cart().itemsCount }}</span>
                                 </md-button>
                             </div>
@@ -302,7 +316,7 @@
                             </div>
                             <md-button ng-click="ctrl.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: ctrl.subMenu.category, tagUrl: 'todos'})
                        " aria-label="Veja todos os produtos">
-                                Todos os produtos
+                                Ver todos os produtos
                             </md-button>
                         </div>
                         <ul flex="15">
@@ -315,6 +329,14 @@
                         </ul>
                         <ul flex="15">
                             <li ng-repeat="item in ctrl.subMenuItems(1) track by $index">
+                                <md-button ng-click="ctrl.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: ctrl.subMenu.category,
+                        tagUrl: item.url})" aria-label="{{ item.name }}">
+                                    {{ item.name }}
+                                </md-button>
+                            </li>
+                        </ul>
+                        <ul flex="15">
+                            <li ng-repeat="item in ctrl.subMenuItems(2) track by $index">
                                 <md-button ng-click="ctrl.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: ctrl.subMenu.category,
                         tagUrl: item.url})" aria-label="{{ item.name }}">
                                     {{ item.name }}
@@ -470,14 +492,6 @@
         </md-toolbar>
         <md-content>
             <div layout="column" layout-align="start stretch">
-                <md-button class="md-primary menu-title" aria-label="Informações">
-                    Produtos
-                </md-button>
-                <md-button ng-click="ctrl.openSectionFilters()" ui-sref="section.showcase({sectionUrl: item.category})
-                       " class="md-primary" aria-label="{{ item.name }}" ng-repeat="item in ctrl.sections">
-                    <md-icon md-svg-icon="{{ item.icon }}"></md-icon>
-                    {{ item.name }}
-                </md-button>
                 <md-button ng-click="ctrl.sign( 'sidenav')" class="md-primary" aria-label="Área do Cliente">
                     Área do Cliente
                 </md-button>
