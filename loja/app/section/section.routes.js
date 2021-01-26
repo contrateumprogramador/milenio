@@ -103,7 +103,6 @@ module.exports = function(ngModule) {
             })
             .state('section.tag', {
                 url: '/:sectionUrl/:tagUrl',
-                params: { environment: false },
                 views: {
                     'content@section': {
                         templateProvider: ['$q', function($q) {
@@ -139,6 +138,53 @@ module.exports = function(ngModule) {
                             tags += ',' + $stateParams.tagUrl;
 
                         return Loja.Store.items({ 'tags.url': tags }).then(
+                            function(r) {
+                                return r.data.data;
+                            },
+                            function(err) {
+                                toast.message(err.data.message);
+                            }
+                        );
+                    }
+                }
+            })
+            .state('section.environment', {
+                url: '/:sectionUrl/:tagUrl/:environment',
+                views: {
+                    'content@section': {
+                        templateProvider: ['$q', function($q) {
+                            var deferred = $q.defer();
+
+                            require.ensure(['../section/items-list.view.html'], function() {
+                                var template = require('../section/items-list.view.html');
+                                deferred.resolve(template);
+                            });
+
+                            return deferred.promise;
+                        }],
+                        controller: 'SectionItemsListCtrl as vm'
+                    }
+                },
+                resolve: {
+                    loadSectionItemsListCtrl: function($q, $ocLazyLoad) {
+                        var deferred = $q.defer();
+
+                        require.ensure([], function() {
+                            var module = require('../section/items-list.controller.js')(ngModule);
+                            $ocLazyLoad.load({ name: 'mileniomoveis' });
+                            deferred.resolve(module);
+                        });
+
+                        return deferred.promise;
+                    },
+                    Items: function(Loja, toast, $stateParams) {
+                        var tags = $stateParams.sectionUrl;
+
+                        // Se exisitir filtro, retorna os Itens da Seção com a Tag Filtrada
+                        if ($stateParams.tagUrl && $stateParams.tagUrl != 'todos')
+                            tags += ',' + $stateParams.tagUrl;
+
+                        return Loja.Store.environments({ 'tags.url': tags }).then(
                             function(r) {
                                 return r.data.data;
                             },

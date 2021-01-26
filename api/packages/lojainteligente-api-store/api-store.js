@@ -329,6 +329,7 @@ if (Meteor.isServer) {
                     var adicionalQuery = {
                         $or: [{ active: true }, { active: 1 }]
                     };
+
                     var query = getQuery(
                         params,
                         fields,
@@ -359,6 +360,70 @@ if (Meteor.isServer) {
                     }
                 }
             }, // end GET
+            options: function() {
+                return {};
+            }
+        }
+    );
+
+    Api.addRoute(
+        "environments",
+        { authRequired: false },
+        {
+            get: {
+                action: function() {
+                    // seta o usuário logado
+                    setUser(this);
+
+                    var params = this.queryParams,
+                        companyId = this.user.profile.company.companyId,
+                        fields = [
+                            "name",
+                            "name_nd",
+                            "url",
+                            "tags",
+                            "tags.name",
+                            "tags.url"
+                        ]
+
+                    // configura o parâmetro tag corretamente
+                    if (params.tag) params["tags.name"] = params.tag;
+
+                    // gera a query de busca
+                    var adicionalQuery = {
+                        $or: [{ active: true }, { active: 1 }]
+                    };
+                    
+                    var query = getQuery(
+                        params,
+                        fields,
+                        companyId,
+                        adicionalQuery
+                    );
+
+                    var env = Environments.find(query).fetch();
+
+                    console.log(query);
+
+                    // se encontrou pelo menos um item que possui tag, ou não existe parâmetro, retorna
+                    if (env.length > 0) {
+                        return {
+                            status: "success",
+                            data: env
+                        };
+                    } else {
+                        // se não, retorna erro
+                        return {
+                            statusCode: 404,
+                            body: {
+                                status: "fail",
+                                message:
+                                    "Não existe ambientes com os parâmetros solicitados."
+                            }
+                        };
+                    }
+                }
+            },
             options: function() {
                 return {};
             }

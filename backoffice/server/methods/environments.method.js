@@ -10,6 +10,8 @@ if (Meteor.isServer) {
 
             env.companyId = Meteor.user().profile.company.companyId
 
+            env.affiliate = appendAffiliate(env)
+
             Environments.insert(env);
 
             return;
@@ -63,11 +65,25 @@ if (Meteor.isServer) {
             if(!env)
                 throw new Meteor.Error(403, 'Ambiente não encontrado.');
 
+            newEnv.affiliate = appendAffiliate(newEnv)
+
             Environments.update({ _id: env._id }, { $set: newEnv }); 
 
             return;                                              
         }
     });
+
+    function appendAffiliate(env) {
+        const affiliate = Meteor.users.findOne({ _id: env.affiliate._id })
+
+        if(!affiliate)
+            throw new Meteor.Error(403, 'Decorador não encontrado.');         
+
+        return {
+            _id: affiliate._id,
+            name: affiliate.profile.firstname + " " + affiliate.profile.lastname
+        }
+    }
 
     //função para retirada dos %
     function regex(value) {

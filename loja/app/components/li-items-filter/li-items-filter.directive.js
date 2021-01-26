@@ -73,9 +73,11 @@ module.exports = function(ngModule) {
                  */
                 function getItemsList() {
                     var items = angular.copy($scope.items) || [];
-                    lodash.remove(items, function(o) {
-                        return o.options.length == 0;
-                    });
+                    if(!vm.environment) {
+                        lodash.remove(items, function(o) {
+                            return o.options.length == 0;
+                        });
+                    }
                     return items;
                 }
 

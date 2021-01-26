@@ -188,6 +188,16 @@ Meteor.methods({
             $set: user
         });
 
+        updateEnvironments(data, _id)
+
         return;
     }
 });
+
+function updateEnvironments(data, _id) {
+    Environments.update(
+        { "affiliate._id": _id }, 
+        { $set: { "affiliate.name": data.firstname + " " + data.lastname } }, 
+        { multi: true }
+    )
+}

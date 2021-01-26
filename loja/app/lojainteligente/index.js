@@ -1303,6 +1303,17 @@ var LojaInteligenteModule = angular
                 useCoupon: function(id) {
                     return req("PUT", "/store/coupons/" + id + "/use");
                 },
+                environments: function(data) {
+                    var params = {},
+                    url = "/store/environments";
+
+                    if (data) {
+                        if (typeof data == "string") url += "/" + data;
+                        if (typeof data == "object") params = data;
+                    }
+
+                    return req("GET", url, null, params);
+                },
                 faq: function(id) {
                     var url = "/store/faq";
 

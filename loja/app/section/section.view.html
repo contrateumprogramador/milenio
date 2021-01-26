@@ -10,17 +10,17 @@
                                 <h3>Categorias</h3>
                             </md-list-item>
                             <md-list-item>
-                                <md-button ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: 'todos', environment: false })">Todos os produtos</md-button>
+                                <md-button ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: 'todos' })">Todos os produtos</md-button>
                             </md-list-item>
                             <md-list-item ng-repeat="tag in vm.section().subSections | orderBy: 'name' track by $index" ng-if="tag.tagsGroup == 'Categorias'">
-                                <md-button ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url, environment: false })">{{ tag.name }}</md-button>
+                                <md-button ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url })">{{ tag.name }}</md-button>
                             </md-list-item>
                             <md-divider></md-divider>
                             <md-list-item class="list-title">
                                 <h3>Ambientes</h3>
                             </md-list-item>
                             <md-list-item ui-sref-active="active" ng-repeat="tag in vm.section().subSections | orderBy: 'name' track by $index" ng-if="tag.tagsGroup == 'Ambientes'">
-                                <md-button ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url, environment: true })">{{ tag.name }}</md-button>
+                                <md-button ui-sref="section.environment({sectionUrl: vm.section().url, tagUrl: tag.url, environment: 'ambientes' })">{{ tag.name }}</md-button>
                             </md-list-item>
                         </md-list>                        
                     </div>
