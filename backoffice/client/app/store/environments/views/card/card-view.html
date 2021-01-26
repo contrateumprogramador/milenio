@@ -1,0 +1,41 @@
+<!-- LIST VIEW -->
+<md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.loading"></md-progress-linear>
+<md-table-container>
+  <md-table-pagination md-limit="vm.pagination.limit" md-page="vm.pagination.page" md-total="{{vm.total}}" md-on-paginate="vm.changePage"
+    mdLabel="vm.label" md-page-select></md-table-pagination>
+</md-table-container>
+<div layout="row" layout-padding class="card-view" layout-wrap id="cardView">
+  <div ng-repeat="(key, env) in vm.exibedEnvironments | orderBy : -createdAt track by $index" flex="20">
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="env-title md-subhead no-padding">
+            {{env.name}}
+          </span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <div class="md-subhead" flex="100" layout="center start" no-padding>
+          <img class="center" ng-src="{{env.pictures[0] || '/assets/produto-sem-imagem.png'}}" />
+        </div>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center" class="slide-down">
+        <md-icon md-font-icon="icon-eye" ng-show="env.active"></md-icon>
+        <md-icon md-font-icon="icon-eye-off" ng-hide="env.active"></md-icon>
+        <md-button class="md-icon-button" ng-click="vm.edit($event, env)" aria-label="Editar">
+          <md-icon md-font-icon="icon-pencil"></md-icon>
+          <md-tooltip>
+            <span>Editar</span>
+          </md-tooltip>
+        </md-button>
+        <md-button ng-if="vm.role == 'admin' || vm.role == 'expedition'" ng-click="vm.remove($event, env)" class="md-icon-button">
+          <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+          <md-tooltip>
+            <span>Excluir</span>
+          </md-tooltip>
+        </md-button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</div>
+<!-- / LIST VIEW -->

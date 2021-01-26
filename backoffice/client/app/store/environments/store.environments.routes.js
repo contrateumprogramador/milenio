@@ -8,25 +8,25 @@ angular
 function config($stateProvider, $translatePartialLoaderProvider, msApiProvider, msNavigationServiceProvider) {
     // State
     $stateProvider
-        .state('app.store-faq', {
-            url: '/loja/faq',
+        .state('app.store-environments', {
+            url: '/loja/ambientes',
             views: {
                 'content@app': {
-                    templateUrl: 'client/app/store/faq/store.faq.view.ng.html',
-                    controller: 'StoreFaqCtrl as vm'
+                    templateUrl: 'client/app/store/environments/store.environments.view.ng.html',
+                    controller: 'StoreEnvironmentsCtrl as vm'
                 }
             },
             resolve: {
                 user: function($auth) {
                     if (Roles.subscription.ready()) {
                         return $auth.awaitUser(function(user) {
-                            return Roles.userIsInRole(Meteor.userId(), ['admin', 'manager']);
+                            return Roles.userIsInRole(Meteor.userId(), ['admin', 'manager', 'expedition']);
                         });
                     }
                 },
-                CompanyFaqs: function($q, toast){
+                Environments: function($q, toast){
                     return $q(function(resolve, reject) {
-                        Meteor.call('faqsList', function(err, r) {
+                        Meteor.call('Environments.list', { skip: 0, limit: 20 }, function(err, r) {
                             if (err) {
                                 toast.message(err.reason);
                                 reject('NO_DATA');
@@ -37,6 +37,6 @@ function config($stateProvider, $translatePartialLoaderProvider, msApiProvider, 
                     });
                 }
             },
-            bodyClass: 'store-faq'
+            bodyClass: 'store-environment'
         });
 }

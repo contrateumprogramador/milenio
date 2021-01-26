@@ -180,15 +180,16 @@ angular
             }
         });
 
-        msNavigationServiceProvider.saveItem("store.faq", {
-            title: "FAQs",
-            icon: "icon-forum",
+        msNavigationServiceProvider.saveItem("store.environments", {
+            title: "Ambientes",
+            icon: "icon-bank",
             weight: 1,
-            state: "app.store-faq",
+            state: "app.store-environments",
             hidden: function() {
                 return !Roles.userIsInRole(Meteor.userId(), [
                     "admin",
-                    "manager"
+                    "maintenance",
+                    "expedition"
                 ]);
             }
         });

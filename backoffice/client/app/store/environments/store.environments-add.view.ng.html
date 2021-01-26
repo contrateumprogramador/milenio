@@ -1,0 +1,114 @@
+<md-dialog aria-label="Mango (Fruit)" flex="66">
+    <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-hide="vm.edit">Adicionar Ambiente</h2>
+                <h2 ng-show="vm.edit">Editar Ambiente</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()">
+                    <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="vm.tab">
+                <md-tab label="Dados Gerais">
+                    <div class="md-dialog-content" layout="row" layout-wrap>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Nome</label>
+                            <input type="text" name="name" ng-model="vm.form.name" ng-keyup="vm.setUrl()" required>
+                            <div ng-messages="formAdd.name.$error" ng-show="formAdd.name.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="30">
+                            <label>URL</label>
+                            <input name="url" type="text" ng-model="vm.form.url" ng-keyup="vm.typingUrl()" required>
+                            <div ng-messages="formAdd.url.$error" ng-show="formAdd.url.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="20">
+                            <md-checkbox ng-model="vm.form.active" aria-label="Exibir">
+                                Ambiente ativo
+                            </md-checkbox>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Decorador</label>
+                            <md-select ng-model="vm.form.affiliate._id">
+                                <md-option ng-repeat="option in vm.affiliates" ng-value="option._id">
+                                    {{option.profile.firstname}} {{option.profile.lastname}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Localização</label>
+                            <input type="text" name="place" ng-model="vm.form.place" required>
+                            <div ng-messages="formAdd.place.$error" ng-show="formAdd.place.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <div flex="100" layout-align="space-between center">
+                            <md-chips class="width100" ng-model="vm.form.tags" md-autocomplete-snap md-require-match="true">
+                                <md-autocomplete md-selected-item="vm.selectedTag" md-search-text="vm.searchText"
+                                    md-items="item in vm.querySearch(vm.searchText, 'tagsList')" md-item-text="item.name"
+                                    placeholder="Tags do ambiente" , md-min-length="2">
+                                    <span md-highlight-text="vm.searchText">{{item.name}} ({{item.tagsGroup}})</span>
+                                </md-autocomplete>
+                                <md-chip-template>
+                                    <span>{{$chip.name}}</span>
+                                    <span>({{$chip.tagsGroup}})</span>
+                                </md-chip-template>
+                            </md-chips>
+                        </div>
+                    </div>
+                </md-tab>
+                <md-tab label="Imagens">
+                    <div layout="row">
+                        <div class="cropArea" ng-hide="vm.imageView == 1" flex="30" layout-padding>
+                            <drop-zone id="fileInput" name="imageUpload" uploadMultiple="true" options="vm.dropzoneOptions"
+                                tabindex="6">
+                            </drop-zone>
+                        </div>
+                        <md-content layout-padding layout-wrap flex>
+                            <h2 class="md-title text-blue text-center">Imagens do Ambiente</h2>
+                            <div layout="row" class="image-view" layout-wrap as-sortable="vm.dragControlListeners"
+                                data-ng-model="vm.form.pictures" id="board">
+                                <div ng-repeat="picture in vm.form.pictures" data-as-sortable-item flex="25">
+                                    <md-card as-sortable-item-handle>
+                                        <md-card-title>
+                                            <md-card-title-media>
+                                                <img ng-src="{{picture}}" alt="Imagem não encontrada">
+                                            </md-card-title-media>
+                                        </md-card-title>
+                                        <md-card-actions layout="row" layout-align="end center" class="slide-down">
+                                            <md-button class="md-icon-button" ng-click="vm.removePicture(picture)"
+                                                aria-label="Excluir">
+                                                <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
+                                            </md-button>
+                                        </md-card-actions>
+                                    </md-card>
+                                </div>
+                            </div>
+                        </md-content>
+                    </div>
+                </md-tab>
+            </md-tabs>           
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()" aria-label="Cancelar">
+                Cancelar
+            </md-button>
+            <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.progressLoading" aria-label="Adicionar">
+                Salvar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

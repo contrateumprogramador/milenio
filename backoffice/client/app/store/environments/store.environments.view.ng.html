@@ -1,0 +1,22 @@
+<div id="adm-companies" class="page-layout simple left-sidenav" layout="row">
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <page-header><md-icon md-font-icon="icon-bank" class="icon"></md-icon>Ambientes</page-header>
+
+        <!-- CONTENT -->
+        <md-content class="content" flex ms-scroll>
+            <div layout="row" id="Search" layout-padding>
+                <md-input-container flex>
+                    <label>Buscar por nome</label>
+                    <input type="text" name="name" ng-model="vm.search.name" ng-keyup="vm.searchName()">
+                </md-input-container>
+            </div>
+            <div ng-include="'client/app/store/environments/views/card/card-view.html'"></div>
+        </md-content>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->      
+</div>
