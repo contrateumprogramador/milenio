@@ -14,8 +14,6 @@ module.exports = function(ngModule) {
             controller: function($scope) {
                 var vm = this;
 
-                console.log($scope.inside)
-
                 vm.item = $scope.item;
                 vm.insideDialog = $scope.inside;
             }

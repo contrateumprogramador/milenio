@@ -113,6 +113,7 @@ require("./components/li-card-showcase/li-card-showcase-dialog.controller.js")(n
 // Components
 require("./components/toast/toast.js")(ngModule); // Toast
 require("./components/milenio-title/milenio-title.directive.js")(ngModule); // Title
+require("./components/li-header/li-header.directive.js")(ngModule); // Top Bar
 require("./components/small-title/small-title.directive.js")(ngModule); // Small Title
 require("./components/li-items-list/li-items-list.directive.js")(ngModule); // Li Items
 require("./components/li-items-filter/li-items-filter.directive.js")(ngModule); // Li Items Filter
