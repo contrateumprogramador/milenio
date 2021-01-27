@@ -17,7 +17,8 @@ module.exports = function(ngModule) {
             ) {
                 var vm = this;
                 const Loja = $scope.loja
-
+                
+                vm.loja = Loja
                 vm.user = Loja.Auth.me;
                 vm.cart = Loja.Checkout.cart;
 
@@ -55,6 +56,7 @@ module.exports = function(ngModule) {
                     }
                 ];
 
+                vm.cartOpen = false;
                 vm.cartSideNavIsOpen = false;
                 vm.search = "";
                 vm.searchEmpty = true;
@@ -75,6 +77,7 @@ module.exports = function(ngModule) {
                 vm.sign = sign;
                 vm.subMenuBanner = subMenuBanner;
                 vm.subMenuItems = subMenuItems;
+                vm.toogleCart = toogleCart;
                 vm.toggleSidenav = toggleSidenav;
                 vm.toggleSubHeader = toggleSubHeader;
                 vm.goTo = goTo;
@@ -254,6 +257,10 @@ module.exports = function(ngModule) {
                         if (from == "sidenav" && checkMedia("xs"))
                             toggleSidenav("left");
                     });
+                }
+
+                function toogleCart() {
+                    vm.cartOpen = !vm.cartOpen
                 }
 
                 function toggleSidenav(component, action) {

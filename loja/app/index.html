@@ -312,29 +312,6 @@
             </div>
         </md-content>
     </md-sidenav>
-    <md-sidenav ng-mouseleave="(ctrl.checkMedia( 'gt-md')) ? ctrl.toggleSidenav( 'cart', 'close') : ''" id="SideNavCart" class="md-sidenav-right md-whiteframe-z2"
-        md-component-id="cart" layout="column">
-        <md-toolbar layout="row" layout-align="space-between center">
-            <h3>
-                Meu carrinho
-            </h3>
-            <md-button class="md-icon-button" ng-click="ctrl.toggleSidenav( 'cart', 'close')" aria-label="Fechar Carrinho">
-                <md-icon md-font-icon="icon-close"></md-icon>
-            </md-button>
-        </md-toolbar>
-        <md-content flex>
-            <quote-list items="ctrl.cart().items" parent=" 'SideNav'" cart-internal="ctrl.cart().internal"></quote-list>
-            </div>
-        </md-content>
-        <md-toolbar class="bg-white" layout-align="center stretch">
-            <md-button ng-if="!$root.affiliate" class="md-raised md-accent btn-cart" ng-click="ctrl.goTo( 'cart')">
-                Concluir Compra
-            </md-button>
-            <md-button ng-if="$root.affiliate" class="md-raised md-accent btn-cart" href="https://decor.mileniomoveis.com.br/funil">
-                Concluir orçamento
-            </md-button>
-        </md-toolbar>
-    </md-sidenav>
     <!-- /SideNav Left : User Menu -->
     <!-- Scripts -->
     <script src="vendor.bundle.js"></script>

@@ -119,11 +119,12 @@
                             </md-menu-content>
                         </md-menu>
                         <span hide show-gt-xs hide-gt-sm style="width: 36px"></span>
-                        <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center center" aria-label="Cart">
+                        <md-button ng-click="vm.toogleCart()" class="btn-header-cart" layout="row" layout-align="center center" aria-label="Cart">
                             <span>Meu carrinho</span>
                             <img src="assets/icons/fi_shopping-cart.svg"/>
                             <span class="cart-count">{{ vm.cart().itemsCount }}</span>
                         </md-button>
+                        <li-cart-baloon loja="vm.loja" cart="vm.cartOpen" toogle="vm.toogleCart()"></li-cart-baloon>
                     </div>
                 </div>
                 <div class="row-menu" layout="row" layout-align="space-between center" hide show-gt-sm>
