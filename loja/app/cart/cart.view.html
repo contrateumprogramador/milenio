@@ -8,8 +8,11 @@
         <div layout="row" class="title-top">
             <milenio-title
                 flex="100"
-                title-text="'Meu Orçamento'"
+                title-text="'Checkout'"
             ></milenio-title>
+        </div>
+        <div layout="row" class="title-top">
+            <li-steps active="1"></li-steps>
         </div>
         <div ng-if="!vm.cart.itemsCount">
             <small-title
@@ -30,8 +33,8 @@
                 cart-internal="vm.cart.internal"
             ></quote-list>
         </div>
-        <md-divider ng-if="vm.cart.itemsCount"></md-divider>
-        <div ng-if="vm.cart.itemsCount" layout="row">
+        <!-- <md-divider ng-if="vm.cart.itemsCount"></md-divider> -->
+        <!-- <div ng-if="vm.cart.itemsCount" layout="row">
             <div
                 layout="column"
                 flex="80"
@@ -125,8 +128,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div
+        </div> -->
+        <!-- <div
             ng-if="vm.cart.itemsCount"
             layout-gt-sm="row"
             layout-align="end stretch"
@@ -156,7 +159,7 @@
             >
                 Concluir Compra
             </md-button>
-        </div>
+        </div> -->
     </div>
 </div>
 <div id="RowConcluir" layout="column" layout-align="center stretch" hide-gt-sm>
