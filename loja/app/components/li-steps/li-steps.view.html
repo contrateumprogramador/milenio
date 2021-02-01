@@ -1,21 +1,21 @@
 <div class="steps">
     <div class="step">
         <h2>Orçamento</h2>
-        <div class="image-container">
+        <div class="image-container stepActive">
             <img src="../../assets/icons/list-ul.svg" alt="Orçamento">
         </div>
     </div>
-    <div class="lineProgress"></div>
+    <div class='lineProgress lineActive'></div>
     <div class="step">
         <h2>Localização</h2>
-        <div class="image-container">
+        <div ng-class='vm.getStepClass(2)'>
             <img src="../../assets/icons/map-pin.svg" alt="Localização">
         </div>
     </div>
-    <div class="lineProgress"></div>
+    <div ng-class='vm.activeStep >= 2 ? "lineProgress lineActive" : "lineProgress"'></div>
     <div class="step">
         <h2>Pagamento</h2>
-        <div class="image-container">
+        <div ng-class='vm.getStepClass(3)'>
             <img src="../../assets/icons/money-bill-wave-solid 1.svg" alt="Pagamento">
         </div>
     </div>

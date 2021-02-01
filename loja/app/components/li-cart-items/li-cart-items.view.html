@@ -1,0 +1,33 @@
+<div class="li-cart-items">
+  <table cellspacing="0">
+    <tr>
+      <th colspan="2">Produto</th>
+      <th>Quant.</th>
+      <th>Valor Unit.</th>
+      <th>Valor Total</th>
+    </tr>
+    <tr class="item" ng-repeat="item in vm.items track by $index">
+      <td>
+        <img ng-src="{{item.picture || '/assets/images/no_image.jpg'}}" alt="{{item.name}}">
+      </td>
+      <td class="info">
+        <h1>{{item.name}}</h1>
+        <div layout="row" ng-show="item.options.name != item.name">
+          <p class="sub-option">
+            <span>Opção:</span> {{ item.options.name }}
+          </p>
+        </div>
+        <div layout="row" ng-repeat="customization in item.customizations">
+          <p class="sub-option">
+            <span>{{customization.type}}:</span> {{customization.option.name}}
+          </p>
+        </div>
+      </td>
+      <td>
+        <li-counter item="item" refresh-cart="vm.refreshCart"></li-counter>
+      </td>
+      <td class="values">{{item.options.salesPrice || item.options.price | currency}}</td>
+      <td class="values">{{item.total | currency}}</td>
+    </tr>
+  </table>
+</div>

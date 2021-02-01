@@ -5,14 +5,17 @@
 ></md-progress-linear>
 <div class="" layout="row" layout-align="center center">
     <div id="Cart" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
-        <div layout="row" class="title-top">
+        <div layout="row">
             <milenio-title
                 flex="100"
                 title-text="'Checkout'"
             ></milenio-title>
         </div>
-        <div layout="row" class="title-top">
+        <div layout="row">
             <li-steps active="1"></li-steps>
+        </div>
+        <div layout="row" class="title-top">
+            <h2>Produtos:</h2>
         </div>
         <div ng-if="!vm.cart.itemsCount">
             <small-title
@@ -27,11 +30,11 @@
             </div>
         </div>
         <div ng-show="vm.cart.itemsCount" id="RowTable">
-            <quote-list
+            <li-cart-items
                 items="vm.cart.items"
                 refresh-cart="vm.refreshCart"
                 cart-internal="vm.cart.internal"
-            ></quote-list>
+            ></li-cart-items>
         </div>
         <!-- <md-divider ng-if="vm.cart.itemsCount"></md-divider> -->
         <!-- <div ng-if="vm.cart.itemsCount" layout="row">

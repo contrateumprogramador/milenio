@@ -14,6 +14,12 @@ module.exports = function(ngModule) {
                 var vm = this;
 
                 vm.activeStep = $scope.active
+
+                vm.getStepClass = getStepClass
+
+                function getStepClass(step) {
+                    return vm.activeStep >= step ? "image-container stepActive" : "image-container"
+                }
             }
         };
     });
