@@ -10,7 +10,7 @@ module.exports = function(ngModule) {
         vm.product = Product || {};
         vm.relatedProducts = angular.copy(RelatedProducts) || [];
         vm.relatedsRowSize = (vm.relatedProducts.length < 4) ? 4 : vm.relatedProducts.length;
-        vm.breadcumbs = from.split("/");
+        vm.breadcumbs = from ? from.split("/") : [];
         vm.breadcumbs = vm.breadcumbs.slice(vm.breadcumbs.indexOf("mobiliario")+1);
 
         //Root Scope
