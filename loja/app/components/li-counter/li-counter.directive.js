@@ -11,7 +11,7 @@ module.exports = function(ngModule) {
                 refreshCart: '='
             },
             controllerAs: "vm",
-            controller: function($mdDialog, $scope, Loja) {
+            controller: function($mdDialog, $scope, Loja, toast) {
                 var vm = this;
 
                 vm.changeQuant = changeQuant
@@ -29,6 +29,7 @@ module.exports = function(ngModule) {
                     }
   
                     Loja.Checkout.itemQuantChange(item, item.quant);
+                    
                     if (!vm.parent)
                         vm.refreshCart();
                 }

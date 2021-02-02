@@ -120,6 +120,7 @@ require("./components/small-title/small-title.directive.js")(ngModule); // Small
 require("./components/li-items-list/li-items-list.directive.js")(ngModule); // Li Items
 require("./components/li-cart-items/li-cart-items.directive.js")(ngModule); // Li Cart Items
 require("./components/li-counter/li-counter.directive.js")(ngModule); // Li Counter
+require("./components/suspended-summary/suspended-summary.directive.js")(ngModule); // Suspended Menu
 require("./components/li-items-filter/li-items-filter.directive.js")(ngModule); // Li Items Filter
 require("./components/li-stamp/li-stamp.directive.js")(ngModule); // Li Stamp
 require("./components/addressesList/addresses-list.directive.js")(ngModule); // Addresses List

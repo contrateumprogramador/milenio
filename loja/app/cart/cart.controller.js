@@ -17,8 +17,6 @@ module.exports = function(ngModule) {
     ) {
         var vm = this;
 
-        if ($mdSidenav("cart").isOpen()) $mdSidenav("cart").toggle();
-
         // Vars
         vm.cart = Cart;
         vm.installments = vm.cart.internal
@@ -26,17 +24,7 @@ module.exports = function(ngModule) {
                   times: vm.cart.installmentsMax,
                   value: vm.cart.total / vm.cart.installmentsMax
               }
-            : Installments;
-        vm.shippings = Loja.Checkout.getShippings;
-        vm.zipcode = vm.shippings() ? vm.shippings().zipcode : "";
-        vm.zipcodeDisabled = false;
-
-        if (Loja.Checkout.isInternal()) {
-            vm.zipcode =
-                vm.cart.zipcode || Loja.Checkout.checkoutShipping().zipcode;
-            vm.zipcodeDisabled = vm.zipcode ? true : false;
-            console.log(vm.zipcodeDisabled);
-        }
+            : Installments;        
 
         //Root Scope
         $rootScope.pageTitle = "Orçamento : Milênio Móveis";
@@ -46,55 +34,10 @@ module.exports = function(ngModule) {
 
         // Methods
         vm.clearCart = clearCart;
-        vm.getZip = getZip;
-        vm.goToCheckout = goToCheckout;
         vm.itemRemove = itemRemove;
         vm.refreshCart = refreshCart;
 
         // Functions
-        function goToCheckout(state) {
-            if (Loja.Checkout.isInternal()) {
-                Loja.Checkout.budget($stateParams.number, $stateParams.code);
-            }
-
-            if (!vm.zipcode) {
-                toast.message("Informe seu CEP para continuar.");
-                angular
-                    .element(document.querySelector("#ZipText"))
-                    .scrollTopAnimated(550);
-                document.getElementById("ZipText").focus();
-            } else if (Loja.Auth.me()) {
-                if (state == "quote") {
-                    $mdDialog
-                        .show(
-                            $mdDialog
-                                .alert()
-                                .clickOutsideToClose(false)
-                                .title("Seu orçamento foi enviado com sucesso.")
-                                .textContent(
-                                    "Entraremos em contato via telefone ou e-mail em até de 2 dias úteis. Seu orçamento ficará salvo na sua área do cliente."
-                                )
-                                .ariaLabel("Orçamento Salvo")
-                                .ok("OK")
-                        )
-                        .finally(function() {
-                            //Ao fechar o dialog, o carrinho é resetado.
-                            Loja.Checkout.resetCart();
-                            // Redireciona para a tela do usuário selecionando o último orçamento
-                            $state.go("user", { actual: true });
-                        });
-                } else {
-                    $state.go(state, { actual: true });
-                }
-            } else {
-                // Se o usuário não estiver logado, é solicitado o login
-                if (Loja.Checkout.isInternal()) {
-                    $state.go("checkout", { actual: true });
-                } else {
-                    Loja.Auth.sign(state);
-                }
-            }
-        }
 
         function clearCart(ev) {
             var confirm = $mdDialog
@@ -112,23 +55,6 @@ module.exports = function(ngModule) {
                 },
                 function() {}
             );
-        }
-
-        function getZip() {
-            if (vm.zipcode) {
-                vm.loading = true;
-                Loja.Store.shipping(vm.zipcode).then(
-                    function(response) {
-                        Loja.Checkout.shipping(response.data.data, vm.zipcode);
-                        refreshCart();
-                        vm.loading = false;
-                    },
-                    function(err) {
-                        vm.loading = false;
-                        toast.message(err.data.message);
-                    }
-                );
-            }
         }
 
         function itemRemove(ev, item) {

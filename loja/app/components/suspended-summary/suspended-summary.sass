@@ -1,0 +1,43 @@
+@import '../../variables.scss'
+
+.suspended-summary
+    position: fixed
+    right: 5rem
+    top: 30%
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.12)
+    -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.12)
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.12)
+    padding: 2rem
+    border-radius: 6px
+    z-index: 0
+
+    p
+        margin-top: 0
+
+    .shipping
+        font-size: 17px
+
+        span
+            font-weight: bold
+
+    .total
+        font-size: 21px
+
+        span
+            font-weight: bold
+
+    .installments
+        font-size: 14px
+        text-align: center
+
+body.is-mobile
+    .suspended-summary
+        position: relative
+        -webkit-box-shadow: none
+        -moz-box-shadow: none
+        box-shadow: none
+        right: 0
+        top: 0
+
+        .installments
+            text-align: left

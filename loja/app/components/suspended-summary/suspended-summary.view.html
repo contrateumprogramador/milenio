@@ -1,0 +1,78 @@
+<div class="suspended-summary">
+    <div layout="row" layout-align="center center" layout-align-xs="space-between center">
+        <p>Frete:</p>
+        <md-input-container>
+            <input
+                placeholder="Digite o CEP"
+                type="tel"
+                inputmode="tel"
+                x-inputmode="tel"
+                id="ZipText"
+                name="zipcode"
+                ng-model="vm.zipcode"
+                ui-br-cep-mask
+                mask-fix
+                required
+                ng-keyup="vm.getZip()"
+                autocomplete="off"
+                ng-disabled="vm.zipcodeDisabled"
+            />
+        </md-input-container>
+    </div>
+    <div layout="column">
+        <div layout="row">
+            <p
+                class="shipping"
+                ng-show="vm.zipcode || vm.cart.shippingPrice"
+            >
+                <span>Frete: </span>
+                {{
+                    vm.cart.shippingPrice > 0
+                        ? (vm.cart.shippingPrice | currency)
+                        : "Grátis"
+                }}
+            </p>
+        </div>
+        <div
+            layout="row"
+            ng-show="vm.cart.discountType && vm.cart.discount"
+        >
+            <div layout="column" flex="40">
+                <h3 class="text-right">Desconto:</h3>
+            </div>
+            <div layout="column" flex="60" layout-align="center end">
+                <h4
+                    class="md-subhead margin0 mLeft20"
+                    ng-show="vm.cart.discountType == '%'"
+                >
+                    {{ vm.cart.discount }} {{ vm.cart.discountType }}
+                </h4>
+                <h4
+                    class="md-subhead margin0 mLeft20"
+                    ng-show="vm.cart.discountType == '$'"
+                >
+                    {{ vm.cart.discount | currency }}
+                </h4>
+            </div>
+        </div>
+        <div layout="row">
+            <p class="total text-right">
+                <span>Total:</span>
+                {{ vm.cart.total | currency }}
+            </p>
+        </div>
+        <div layout="row">
+            <div layout="column" flex="100" layout-align="center center" layout-align-xs="start start">
+                <p class="installments margin0">
+                    até {{ vm.installments.times }}x de
+                    {{ vm.installments.value | currency }} sem juros
+                </p>
+            </div>
+        </div>
+    </div>
+    <div layout="row" layout-align-xs="center center">
+        <md-button ng-click="vm.goToCheckout('shipping')" class="yellow-button" aria-label="Cart" ng-disabled="vm.progressLoading || $root.affiliate">
+            <span>Concluir compra</span>
+        </md-button>
+    </div>
+</div>
