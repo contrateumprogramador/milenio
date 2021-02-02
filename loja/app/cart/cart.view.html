@@ -11,12 +11,13 @@
                 title-text="'Checkout'"
             ></milenio-title>
         </div>
-        <div layout="row">
-            <li-steps active="1"></li-steps>
-        </div>
         <suspended-summary 
             installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart"
         ></suspended-summary>
+        <md-divider hide-gt-xs></md-divider>
+        <div layout="row">
+            <li-steps active="1"></li-steps>
+        </div>
         <div
             ng-if="vm.cart.itemsCount"
             layout-gt-sm="row"
@@ -30,7 +31,7 @@
                 >
             </p>
         </div>
-        <div layout="row" class="title-top">
+        <div layout="row" class="title-top" hide-xs>
             <h2>Produtos:</h2>
         </div>
         <div ng-if="!vm.cart.itemsCount">
@@ -56,5 +57,9 @@
                 Limpar Carrinho
             </md-button>
         </div>
+        <md-divider hide-gt-xs></md-divider>
+        <suspended-summary hide-gt-xs
+            installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart"
+        ></suspended-summary>
     </div>
 </div>

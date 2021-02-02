@@ -1,22 +1,30 @@
-<div class="steps" hide-xs>
-    <div class="step">
-        <h2>Orçamento</h2>
-        <div class="image-container stepActive">
-            <img src="../../assets/icons/list-ul.svg" alt="Orçamento">
+<div class="steps-content">
+    <div class="steps" hide-xs>
+        <div class="step">
+            <h2>Orçamento</h2>
+            <div class="image-container stepActive">
+                <img src="../../assets/icons/list-ul.svg" alt="Orçamento">
+            </div>
+        </div>
+        <div class='lineProgress lineActive'></div>
+        <div class="step">
+            <h2>Localização</h2>
+            <div ng-class='vm.getStepClass(2)'>
+                <img src="../../assets/icons/map-pin.svg" alt="Localização">
+            </div>
+        </div>
+        <div ng-class='vm.activeStep >= 2 ? "lineProgress lineActive" : "lineProgress"'></div>
+        <div class="step">
+            <h2>Pagamento</h2>
+            <div ng-class='vm.getStepClass(3)'>
+                <img src="../../assets/icons/money-bill-wave-solid 1.svg" alt="Pagamento">
+            </div>
         </div>
     </div>
-    <div class='lineProgress lineActive'></div>
-    <div class="step">
-        <h2>Localização</h2>
-        <div ng-class='vm.getStepClass(2)'>
-            <img src="../../assets/icons/map-pin.svg" alt="Localização">
-        </div>
-    </div>
-    <div ng-class='vm.activeStep >= 2 ? "lineProgress lineActive" : "lineProgress"'></div>
-    <div class="step">
-        <h2>Pagamento</h2>
-        <div ng-class='vm.getStepClass(3)'>
-            <img src="../../assets/icons/money-bill-wave-solid 1.svg" alt="Pagamento">
+    <div class="mobile-steps" hide-gt-xs>
+        <div class="step">
+            <img src="../../assets/icons/list-ul-gold.svg" alt="Orçamento">
+            <h2>Orçamento</h2>
         </div>
     </div>
 </div>

@@ -26,11 +26,11 @@
                 ng-show="vm.zipcode || vm.cart.shippingPrice"
             >
                 <span>Frete: </span>
-                {{
+                <span>{{
                     vm.cart.shippingPrice > 0
                         ? (vm.cart.shippingPrice | currency)
                         : "Grátis"
-                }}
+                }}</span>
             </p>
         </div>
         <div
@@ -58,7 +58,7 @@
         <div layout="row">
             <p class="total text-right">
                 <span>Total:</span>
-                {{ vm.cart.total | currency }}
+                <span>{{ vm.cart.total | currency }}</span>
             </p>
         </div>
         <div layout="row">

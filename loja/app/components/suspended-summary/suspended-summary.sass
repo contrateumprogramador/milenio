@@ -16,14 +16,20 @@
 
     .shipping
         font-size: 17px
+        display: flex
+        justify-content: space-between
+        width: 100%
 
         span
             font-weight: bold
 
     .total
         font-size: 21px
+        display: flex
+        justify-content: space-between
+        width: 100%
 
-        span
+        span:first-child
             font-weight: bold
 
     .installments
@@ -41,3 +47,14 @@ body.is-mobile
 
         .installments
             text-align: left
+
+        .shipping
+            font-size: 17px
+
+        .total, .shipping
+            display: flex
+            justify-content: space-between
+            width: 100%
+
+        .total
+            font-size: 21px
