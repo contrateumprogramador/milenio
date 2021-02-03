@@ -11,7 +11,7 @@ module.exports = function(ngModule) {
                 refreshCart: '='
             },
             controllerAs: 'vm',
-            controller: function($mdDialog, $scope, $state, Loja, toast) {
+            controller: function($mdDialog, $mdMedia, $scope, $state, $window, Loja, toast) {
                 var vm = this;
 
                 vm.installments = $scope.installments
@@ -97,6 +97,26 @@ module.exports = function(ngModule) {
                             }
                         );
                     }
+                }
+
+                if ($mdMedia("gt-md")) {
+                    const cartContainer = document.getElementById('Content')
+
+                    cartContainer.onscroll = function (){
+                        const menu = document.querySelector('.suspended-summary')
+                        const footer = document.querySelector('#Footer')
+    
+                        if(menu) {
+                            var offset = cartContainer.scrollTop + menu.offsetHeight;
+                            var height = footer.offsetTop;
+    
+                            if (offset >= (height - menu.offsetHeight)) {
+                                menu.style = "position:absolute;top:"+(height - menu.offsetHeight - 50)+"px;"
+                            } else {
+                                menu.style = "position:fixed"
+                            }
+                        }
+                    };
                 }
             }
         };

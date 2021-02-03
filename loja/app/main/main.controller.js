@@ -126,7 +126,7 @@ module.exports = function(ngModule) {
             // console.log(document.querySelector("#container"))
             angular
                 .element(document.querySelector("#Content"))
-                // .scrollToElementAnimated(document.querySelector("#container"));
+                .scrollToElementAnimated(document.querySelector("#container"));
             window.dataLayer.push({
                 event: "pageView",
                 action: toParams.sectionUrl

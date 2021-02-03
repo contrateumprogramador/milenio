@@ -39,18 +39,18 @@ module.exports = function(ngModule) {
                 });
 
                 function addToCart(ev) {
-                    Loja.Checkout.itemAdd(
-                        angular.copy(vm.item),
-                        1,
-                        {},
-                        vm.item.options[0] || {},
-                        true,
-                        vm.index
-                    );
+                    // Loja.Checkout.itemAdd(
+                    //     angular.copy(vm.item),
+                    //     1,
+                    //     {},
+                    //     vm.item.options[0] || {},
+                    //     true,
+                    //     vm.index
+                    // );
 
-                    // Loja.Store.items(vm.item._id).then(function(response){
-                    //     callDialog(ev, response.data.data);
-                    // });
+                    Loja.Store.items(vm.item._id).then(function(response){
+                        callDialog(ev, response.data.data);
+                    });
                 }
 
                 function callDialog(ev, item) {
