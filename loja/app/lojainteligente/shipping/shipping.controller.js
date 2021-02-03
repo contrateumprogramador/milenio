@@ -41,7 +41,6 @@ module.exports = function(ngModule){
         vm.selectAddress = selectAddress;
         vm.submit = submit;
 
-
         // Functions
         function addAddress() {
             vm.form = {
@@ -94,7 +93,7 @@ module.exports = function(ngModule){
                     ctrl.addressSelected = vm.addressSelected;
 
                     function selectAddress(address) {
-                        vm.form = angular.copy(address);
+                        vm.selectAddress(address)
                         ctrl.cancel();
                     }
 
@@ -158,6 +157,11 @@ module.exports = function(ngModule){
 
         function submit(ev, form) {
             vm.form = form;
+
+            if(!vm.form) {
+                toast.message("Informe o endereço de entrega")
+                return;
+            }
 
             (!form._id) ? addressSave() : addressUpdate();
 

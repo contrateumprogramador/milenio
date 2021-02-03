@@ -119,6 +119,7 @@ require("./components/li-cart-baloon/li-cart-baloon.directive.js")(ngModule); //
 require("./components/small-title/small-title.directive.js")(ngModule); // Small Title
 require("./components/li-items-list/li-items-list.directive.js")(ngModule); // Li Items
 require("./components/li-cart-items/li-cart-items.directive.js")(ngModule); // Li Cart Items
+require("./components/li-checkout-buttons/li-checkout-buttons.directive.js")(ngModule); // Li Checkout Buttons
 require("./components/li-counter/li-counter.directive.js")(ngModule); // Li Counter
 require("./components/suspended-summary/suspended-summary.directive.js")(ngModule); // Suspended Menu
 require("./components/li-items-filter/li-items-filter.directive.js")(ngModule); // Li Items Filter

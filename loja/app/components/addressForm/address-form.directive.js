@@ -118,6 +118,7 @@ module.exports = function(ngModule) {
 
                 function addressUpdate() {
                     Loja.Customer.addressUpdate(vm.form._id, angular.copy(vm.form)).then(function(r) {
+                        toast.message('Endereço Alterado com sucesso.');
                         saved('update', angular.copy(vm.form));
                     }, error);
                 }

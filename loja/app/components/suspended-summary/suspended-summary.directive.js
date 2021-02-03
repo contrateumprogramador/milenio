@@ -44,6 +44,7 @@ module.exports = function(ngModule) {
                 vm.goToCheckout = goToCheckout
                 vm.getZip = getZip
                 vm.getLabelButton = getLabelButton
+                vm.checkMedia = checkMedia
 
                 //Functions
                 function goToCheckout(state) {
@@ -88,6 +89,10 @@ module.exports = function(ngModule) {
                             Loja.Auth.sign(state);
                         }
                     }
+                }
+
+                function checkMedia(size) {
+                    return $mdMedia(size);
                 }
 
                 function getZip() {

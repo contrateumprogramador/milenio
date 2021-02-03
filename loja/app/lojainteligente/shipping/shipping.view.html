@@ -1,18 +1,18 @@
 <md-progress-linear style="z-index: 9" ng-show="vm.progressLoading" md-mode="indeterminate"></md-progress-linear>
-<div layout="row">
+<div layout="row" class="title-top">
     <milenio-title flex="100" title-text="'Checkout'"></milenio-title>
 </div>
+<li-checkout-buttons submit="vm.submit" form="vm.form"></li-checkout-buttons>
 <div layout="row">
     <li-steps active="2"></li-steps>
 </div>
-<div id="Shipping" layout="row" layout-align="flex-start center">
-    <div layout="column" flex="30" flex-sm="35" hide show-gt-xs class="height100">
+<div id="Shipping" layout="row" layout-align="flex-start center" layout-xs="column">
+    <div layout="column" flex="100" flex-sm="35" hide show-gt-xs class="height100">
         <div flex class="relative address-list" layout-padding>
             <md-card-header layout="row" layout-align="space-between center"
-                scroll-watch="{from: 0, to: 3, stage: 'addresses list'}"                
-            >
+                scroll-watch="{from: 0, to: 3, stage: 'addresses list'}">
                 <h3 class="margin-0">
-                    Seus endereços
+                    Seus endereços:
                 </h3>
                 <md-button class="md-icon-button md-raised md-primary" aria-label="Adicionar endereço"
                     ng-click="vm.addAddress()" ng-disabled="vm.cart.internal">
@@ -31,16 +31,15 @@
             <div layout="column" hide-gt-xs class="menu-addresses"
                 scroll-watch="{from: 0, to: 3, stage: 'address form'}"
                 sw-class="{ 'md-whiteframe-1dp': $percentage >= 100 }">
-                <div layout="row" layout-align="space-between center" class="padding-0">
-                    <h3 class="label" ng-click="vm.addressListDialog($event)">
-                        Meus endereços
+                <div layout="row" layout-padding>
+                    <h3 class="label my-addresses">
+                        Seus endereços:
                     </h3>
-                    <md-button ng-click="vm.addressListDialog($event)" class="md-icon-button"
+                </div>
+                <div layout="row" layout-align="space-around center" class="padding-0">
+                    <md-button ng-click="vm.addressListDialog($event)" class="select-address"
                         aria-label="Selecionar Endereço">
-                        <md-tooltip md-delay="400" md-direction="top" md-autohide="true">
-                            Selecionar Endereço
-                        </md-tooltip>
-                        <md-icon md-svg-icon="../../assets/lojainteligente/imgs/menu-arrow.svg"></md-icon>
+                        <span>Selecionar Endereço</span>
                     </md-button>
                     <md-button class="md-icon-button md-raised md-primary" aria-label="Adicionar endereço"
                         ng-click="vm.addAddress()">
@@ -51,32 +50,22 @@
             <md-content class="bg-white" flex sw-stage="address form">
                 <md-card-header>
                     <div layout="row" flex="100">
-                        <div flex="50">
-                            <h3 class="">
-                                Endereço<span hide-xs> de entrega</span>
-                            </h3>
+                        <div flex="50" layout-padding>
+                            <h3 class="address-title">Endereço:</h3>
                         </div>
                     </div>
                 </md-card-header>
                 <!-- Directive: address-form -->
-                <address-form address="vm.form" after-save="vm.afterSave" form="vm.shippingForm"
-                    internal="vm.cart.internal"></address-form>
+                <address-form address="vm.form" after-save="vm.afterSave" form="vm.shippingForm" internal="vm.cart.internal"></address-form>
                 <!-- /Directive: address-form -->
-                <!-- <div layout-gt-sm="row" layout-align="start stretch" layout-align-gt-sm="end stretch" layout="column"
-                    ng-show="vm.submit" id="RowConcluir">
-                    <md-button class="btn-cart" aria-label="continuar"
-                        ng-disabled="vm.progressLoading || vm.shippingForm.$invalid"
-                        ng-click="vm.submit($event, vm.form)">
-                        Continuar
-                        <md-icon md-font-icon="icon-arrow-right-bold-circle"></md-icon>
-                    </md-button>
-                </div> -->
             </md-content>
         </div>
     </div>
-    <div layout="column" flex="100" flex-gt-sm="30">
-        <suspended-summary
-            installments="vm.installments" cart="vm.cart" submit="vm.submit" form="vm.form"
-        ></suspended-summary>
+    <div layout="column" flex="100" flex-gt-sm="30" class="width-100">
+        <md-divider hide-gt-xs></md-divider>
+        <suspended-summary installments="vm.installments" cart="vm.cart" submit="vm.submit" form="vm.form">
+        </suspended-summary>
+        <md-divider hide-gt-xs></md-divider>
     </div>
 </div>
+<li-checkout-buttons submit="vm.submit" form="vm.form"></li-checkout-buttons>
