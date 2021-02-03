@@ -1,41 +1,16 @@
-<form
-    name="vm.shippingForm"
-    layout="column"
-    layout-padding
-    ng-submit="vm.shippingForm.$valid && vm.submit()"
-    novalidate
->
-    <div layout-gt-xs="row" layout-align="space-around start" flex>
-        <div
-            layout="column"
-            ng-class="{'flex-1': ctrl.checkMedia('gt-xs')}"
-            flex="100"
-        >
-            <h4>
-                <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
-                Endereço
-            </h4>
+<form name="vm.shippingForm" layout="column" layout-padding ng-submit="vm.shippingForm.$valid && vm.submit()"
+    novalidate>
+    <div layout-gt-xs="row" layout-align="space-around start" flex class="address-form">
+        <div layout="column" ng-class="{'flex-1': ctrl.checkMedia('gt-xs')}" flex="100">
+            <h4>Endereço</h4>
             <div layout="row">
                 <md-input-container flex="50">
                     <label>CEP:</label>
-                    <input
-                        type="tel"
-                        name="zipcode"
-                        inputmode="tel"
-                        x-inputmode="tel"
-                        ng-model="vm.form.zipcode"
-                        ui-br-cep-mask
-                        mask-fix
-                        required
-                        ng-keyup="vm.addressByZipcode()"
-                        autocomplete="off"
-                        ng-disabled="vm.internal"
-                    />
-                    <div
-                        ng-messages="vm.shippingForm.zipcode.$error"
-                        ng-show="vm.shippingForm.zipcode.$touched"
-                        role="alert"
-                    >
+                    <input type="tel" name="zipcode" inputmode="tel" x-inputmode="tel" ng-model="vm.form.zipcode"
+                        ui-br-cep-mask mask-fix required ng-keyup="vm.addressByZipcode()" autocomplete="off"
+                        ng-disabled="vm.internal" />
+                    <div ng-messages="vm.shippingForm.zipcode.$error" ng-show="vm.shippingForm.zipcode.$touched"
+                        role="alert">
                         <div ng-message="zipcodeInvalid">
                             <span>Região não atendida.</span>
                         </div>
@@ -43,18 +18,9 @@
                 </md-input-container>
                 <md-input-container flex="50">
                     <label>Endereço</label>
-                    <input
-                        type="text"
-                        name="address"
-                        ng-model="vm.form.address"
-                        ng-disabled="vm.internal"
-                        required
-                    />
-                    <div
-                        ng-messages="vm.shippingForm.address.$error"
-                        ng-show="vm.shippingForm.address.$touched"
-                        role="alert"
-                    >
+                    <input type="text" name="address" ng-model="vm.form.address" ng-disabled="vm.internal" required />
+                    <div ng-messages="vm.shippingForm.address.$error" ng-show="vm.shippingForm.address.$touched"
+                        role="alert">
                         <div ng-message="required">
                             <span>Informe o endreço</span>
                         </div>
@@ -64,67 +30,31 @@
             <div layout="row">
                 <md-input-container flex="50">
                     <label>Bairro</label>
-                    <input
-                        type="text"
-                        name="district"
-                        ng-model="vm.form.district"
-                        ng-disabled="vm.internal"
-                        required
-                    />
-                    <div
-                        ng-messages="vm.shippingForm.bairro.$error"
-                        ng-show="vm.shippingForm.bairro.$touched"
-                        role="alert"
-                    >
+                    <input type="text" name="district" ng-model="vm.form.district" ng-disabled="vm.internal" required />
+                    <div ng-messages="vm.shippingForm.bairro.$error" ng-show="vm.shippingForm.bairro.$touched"
+                        role="alert">
                         <div ng-message="required">
                             <span>Informe o bairro</span>
                         </div>
                     </div>
                 </md-input-container>
-                <md-input-container flex="20">
+                <md-input-container flex="50">
                     <label>Número</label>
-                    <input
-                        type="tel"
-                        name="number"
-                        inputmode="numeric"
-                        ng-model="vm.form.number"
-                        ng-disabled="vm.internal"
-                        required
-                    />
-                    <div
-                        ng-messages="vm.shippingForm.number.$error"
-                        ng-show="vm.shippingForm.number.$touched"
-                        role="alert"
-                    >
+                    <input type="tel" name="number" inputmode="numeric" ng-model="vm.form.number"
+                        ng-disabled="vm.internal" required />
+                    <div ng-messages="vm.shippingForm.number.$error" ng-show="vm.shippingForm.number.$touched"
+                        role="alert">
                         <div ng-message="required">
                             <span>Informe o número</span>
                         </div>
                     </div>
                 </md-input-container>
-                <md-input-container flex="30">
-                    <label>Complemento</label>
-                    <input
-                        type="text"
-                        ng-model="vm.form.complement"
-                        ng-disabled="vm.internal"
-                    />
-                </md-input-container>
             </div>
             <div layout="row">
                 <md-input-container flex="50">
                     <label>Cidade</label>
-                    <input
-                        type="text"
-                        name="city"
-                        ng-model="vm.form.city"
-                        ng-disabled="vm.internal"
-                        required
-                    />
-                    <div
-                        ng-messages="vm.shippingForm.city.$error"
-                        ng-show="vm.shippingForm.city.$touched"
-                        role="alert"
-                    >
+                    <input type="text" name="city" ng-model="vm.form.city" ng-disabled="vm.internal" required />
+                    <div ng-messages="vm.shippingForm.city.$error" ng-show="vm.shippingForm.city.$touched" role="alert">
                         <div ng-message="required">
                             <span>Informe a cidade</span>
                         </div>
@@ -132,73 +62,32 @@
                 </md-input-container>
                 <md-input-container flex="50">
                     <label>Estado</label>
-                    <input
-                        type="text"
-                        name="state"
-                        ng-model="vm.form.state"
-                        ng-disabled="vm.internal"
-                        required
-                    />
-                    <div
-                        ng-messages="vm.shippingForm.state.$error"
-                        ng-show="vm.shippingForm.state.$touched"
-                        role="alert"
-                    >
+                    <input type="text" name="state" ng-model="vm.form.state" ng-disabled="vm.internal" required />
+                    <div ng-messages="vm.shippingForm.state.$error" ng-show="vm.shippingForm.state.$touched"
+                        role="alert">
                         <div ng-message="required">
                             <span>Informe o estado</span>
                         </div>
                     </div>
                 </md-input-container>
             </div>
+            <div layout="row">
+                <md-input-container flex="50">
+                    <label>Complemento</label>
+                    <input type="text" ng-model="vm.form.complement" ng-disabled="vm.internal" />
+                </md-input-container>
+            </div>
             <md-input-container>
                 <label>Observações</label>
-                <textarea
-                    ng-model="vm.form.obs"
-                    ng-disabled="vm.internal"
-                ></textarea>
+                <textarea ng-model="vm.form.obs" ng-disabled="vm.internal"></textarea>
             </md-input-container>
-            <div
-                class="actions"
-                layout="row"
-                layout-wrap
-                layout-align="end center"
-            >
-                <md-button
-                    class="md-raised md-primary"
-                    ng-show="vm.form._id"
+            <div class="actions" layout="row" layout-wrap layout-align="end center">
+                <md-button class="md-raised md-primary" ng-show="vm.form._id"
                     ng-disabled="vm.shippingForm.$invalid || vm.progressLoading || vm.internal"
-                    aria-label="Atualizar endereço"
-                    ng-click="vm.addressUpdate()"
-                    >Atualizar endereço</md-button
-                >
-                <md-button
-                    class="md-raised md-primary"
-                    ng-disabled="vm.shippingForm.$invalid || vm.progressLoading"
-                    aria-label="Salvar novo endereço"
-                    ng-click="vm.addressSave()"
-                    ng-show="!vm.form._id"
-                    >Salvar novo endereço</md-button
-                >
-            </div>
-            <div
-                layout-gt-sm="row"
-                layout-align="start stretch"
-                layout-align-gt-sm="end stretch"
-                layout="column"
-                ng-show="vm.submit"
-                id="RowConcluir"
-            >
-                <md-button
-                    class="btn-cart"
-                    aria-label="continuar"
-                    ng-disabled="vm.progressLoading || vm.shippingForm.$invalid"
-                    ng-click="vm.submit($event, vm.form)"
-                >
-                    Continuar
-                    <md-icon
-                        md-font-icon="icon-arrow-right-bold-circle"
-                    ></md-icon>
-                </md-button>
+                    aria-label="Atualizar endereço" ng-click="vm.addressUpdate()">Atualizar endereço</md-button>
+                <md-button class="md-raised md-primary" ng-disabled="vm.shippingForm.$invalid || vm.progressLoading"
+                    aria-label="Salvar novo endereço" ng-click="vm.addressSave()" ng-show="!vm.form._id">Salvar novo
+                    endereço</md-button>
             </div>
         </div>
     </div>

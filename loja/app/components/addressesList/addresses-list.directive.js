@@ -1,4 +1,6 @@
 module.exports = function(ngModule){
+    require("./addresses-list.sass");
+
     ngModule.directive('addressesList', function() {
         return {
             restrict: 'E',

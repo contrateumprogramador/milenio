@@ -1,5 +1,5 @@
 <div class="suspended-summary">
-    <div layout="row" layout-align="center center" layout-align-xs="space-between center">
+    <div layout="row" layout-align="center center" layout-align-xs="space-between center" ng-if="vm.refreshCart">
         <p>Frete:</p>
         <md-input-container>
             <input
@@ -23,7 +23,7 @@
         <div layout="row">
             <p
                 class="shipping"
-                ng-show="vm.zipcode || vm.cart.shippingPrice"
+                ng-show="vm.zipcode || vm.cart.shippingPrice || !vm.refreshCart"
             >
                 <span>Frete: </span>
                 <span>{{
@@ -71,8 +71,8 @@
         </div>
     </div>
     <div layout="row" layout-align-xs="center center">
-        <md-button ng-click="vm.goToCheckout('shipping')" class="yellow-button" aria-label="Cart" ng-disabled="vm.progressLoading || $root.affiliate">
-            <span>Concluir compra</span>
+        <md-button ng-click="vm.submit ? vm.submit($event, vm.form) : vm.goToCheckout('shipping')" class="yellow-button" aria-label="Cart" ng-disabled="vm.progressLoading || $root.affiliate">
+            <span>{{vm.getLabelButton()}}</span>
         </md-button>
     </div>
 </div>

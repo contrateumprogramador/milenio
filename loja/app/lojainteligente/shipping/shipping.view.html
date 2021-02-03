@@ -1,71 +1,82 @@
 <md-progress-linear style="z-index: 9" ng-show="vm.progressLoading" md-mode="indeterminate"></md-progress-linear>
-<div class="" layout="row" layout-align="center center">
-    <div class="" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
-        <div id="Shipping" layout="row" layout-align="center start" flex class="shipping-content height100 relative">
-            <div layout="column" flex="100" flex-gt-lg="80" class="height100 margin-auto">
-                <div layout="row" layout-align="space-between start" flex class="height100">
-                    <div layout="column" flex="30" flex-sm="40" hide show-gt-xs class="height100">
-                        <div flex class="relative" layout-padding>
-                            <md-card-header layout="row" layout-align="space-between center" scroll-watch="{from: 0, to: 3, stage: 'addresses list'}" sw-class="{ 'md-whiteframe-1dp': $percentage >= 100 }">
-                                <h3 class="margin-0">
-                                    <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
-                                    Meus endereços
-                                </h3>
-                                <md-button class="md-icon-button md-raised md-primary" aria-label="Adicionar endereço" ng-click="vm.addAddress()" ng-disabled="vm.cart().internal">
-                                    <md-icon md-font-icon="icon-plus"></md-icon>
-                                </md-button>
-                            </md-card-header>
-                            <md-card-content>
-                                <!-- Directive: adress-list -->
-                                <addresses-list addresses="vm.addresses" address-remove="vm.addressRemove" address-dialog="" full="true" select="vm.selectAddress" is-selected="vm.addressSelected" internal="vm.cart().internal"></addresses-list>
-                                <!-- /Directive: address-list -->
-                            </md-card-content>
-                        </div>
-                    </div>
-                    <div layout="column" flex="100" flex-sm="60" flex-gt-xs="70" class="height100">
-                        <div layout="column" class="height-100">
-                            <div layout="column" hide-gt-xs class="menu-addresses" scroll-watch="{from: 0, to: 3, stage: 'address form'}" sw-class="{ 'md-whiteframe-1dp': $percentage >= 100 }">
-                                <div layout="row" layout-align="space-between center" class="padding-0">
-                                    <h3 class="label" ng-click="vm.addressListDialog($event)">
-                                        <md-icon md-font-icon="icon-map-marker-circle"></md-icon>
-                                        Meus endereços
-                                    </h3>
-                                    <md-button ng-click="vm.addressListDialog($event)" class="md-icon-button" aria-label="Selecionar Endereço">
-                                        <md-tooltip md-delay="400" md-direction="top" md-autohide="true">
-                                            Selecionar Endereço
-                                        </md-tooltip>
-                                        <md-icon md-svg-icon="../../assets/lojainteligente/imgs/menu-arrow.svg"></md-icon>
-                                    </md-button>
-                                    <md-button class="md-icon-button md-raised md-primary" aria-label="Adicionar endereço" ng-click="vm.addAddress()">
-                                        <md-icon md-font-icon="icon-plus"></md-icon>
-                                    </md-button>
-                                </div>
-                            </div>
-                            <md-content class="bg-white" flex sw-stage="address form">
-                                <md-card-header>
-                                    <div layout="row" flex="100">
-                                        <div flex="50">
-                                            <h3 class="">
-                                                <md-icon md-font-icon="icon-calendar-clock"></md-icon>
-                                                Endereço<span hide-xs> de entrega</span>
-                                            </h3>
-                                        </div>
-                                        <div flex="50">
-                                            <h3>
-                                                <md-icon md-font-icon="icon-truck"></md-icon>
-                                                <span hide-xs>Frete</span>: {{(vm.cart().shippingPrice) ? (vm.cart().shippingPrice | currency) : "Grátis"}}
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </md-card-header>
-                                <!-- Directive: address-form -->
-                                <address-form address="vm.form" after-save="vm.afterSave" form="vm.shippingForm" submit="vm.submit" internal="vm.cart().internal"></address-form>
-                                <!-- /Directive: address-form -->
-                            </md-content>
-                        </div>
-                    </div>
+<div layout="row">
+    <milenio-title flex="100" title-text="'Checkout'"></milenio-title>
+</div>
+<div layout="row">
+    <li-steps active="2"></li-steps>
+</div>
+<div id="Shipping" layout="row" layout-align="flex-start center">
+    <div layout="column" flex="30" flex-sm="35" hide show-gt-xs class="height100">
+        <div flex class="relative address-list" layout-padding>
+            <md-card-header layout="row" layout-align="space-between center"
+                scroll-watch="{from: 0, to: 3, stage: 'addresses list'}"                
+            >
+                <h3 class="margin-0">
+                    Seus endereços
+                </h3>
+                <md-button class="md-icon-button md-raised md-primary" aria-label="Adicionar endereço"
+                    ng-click="vm.addAddress()" ng-disabled="vm.cart.internal">
+                    <md-icon md-font-icon="icon-plus"></md-icon>
+                </md-button>
+            </md-card-header>
+            <!-- Directive: adress-list -->
+            <addresses-list addresses="vm.addresses" address-remove="vm.addressRemove" address-dialog="" full="true"
+                select="vm.selectAddress" is-selected="vm.addressSelected" internal="vm.cart.internal">
+            </addresses-list>
+            <!-- /Directive: address-list -->
+        </div>
+    </div>
+    <div layout="column" flex="100" flex-sm="35" flex-gt-xs="70" class="height100">
+        <div layout="column" class="height-100">
+            <div layout="column" hide-gt-xs class="menu-addresses"
+                scroll-watch="{from: 0, to: 3, stage: 'address form'}"
+                sw-class="{ 'md-whiteframe-1dp': $percentage >= 100 }">
+                <div layout="row" layout-align="space-between center" class="padding-0">
+                    <h3 class="label" ng-click="vm.addressListDialog($event)">
+                        Meus endereços
+                    </h3>
+                    <md-button ng-click="vm.addressListDialog($event)" class="md-icon-button"
+                        aria-label="Selecionar Endereço">
+                        <md-tooltip md-delay="400" md-direction="top" md-autohide="true">
+                            Selecionar Endereço
+                        </md-tooltip>
+                        <md-icon md-svg-icon="../../assets/lojainteligente/imgs/menu-arrow.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button md-raised md-primary" aria-label="Adicionar endereço"
+                        ng-click="vm.addAddress()">
+                        <md-icon md-font-icon="icon-plus"></md-icon>
+                    </md-button>
                 </div>
             </div>
+            <md-content class="bg-white" flex sw-stage="address form">
+                <md-card-header>
+                    <div layout="row" flex="100">
+                        <div flex="50">
+                            <h3 class="">
+                                Endereço<span hide-xs> de entrega</span>
+                            </h3>
+                        </div>
+                    </div>
+                </md-card-header>
+                <!-- Directive: address-form -->
+                <address-form address="vm.form" after-save="vm.afterSave" form="vm.shippingForm"
+                    internal="vm.cart.internal"></address-form>
+                <!-- /Directive: address-form -->
+                <!-- <div layout-gt-sm="row" layout-align="start stretch" layout-align-gt-sm="end stretch" layout="column"
+                    ng-show="vm.submit" id="RowConcluir">
+                    <md-button class="btn-cart" aria-label="continuar"
+                        ng-disabled="vm.progressLoading || vm.shippingForm.$invalid"
+                        ng-click="vm.submit($event, vm.form)">
+                        Continuar
+                        <md-icon md-font-icon="icon-arrow-right-bold-circle"></md-icon>
+                    </md-button>
+                </div> -->
+            </md-content>
         </div>
+    </div>
+    <div layout="column" flex="100" flex-gt-sm="30">
+        <suspended-summary
+            installments="vm.installments" cart="vm.cart" submit="vm.submit" form="vm.form"
+        ></suspended-summary>
     </div>
 </div>

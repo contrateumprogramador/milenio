@@ -25,6 +25,23 @@ module.exports = function(LojaInteligenteModule) {
                         }
                     );
                 },
+                Installments: function($q, Loja, toast) {
+                    return $q(function(resolve, reject) {
+                        var items = Loja.Checkout.cart().items,
+                            firstItem = {};
+                        Object.keys(items).forEach(function(item, key) {
+                            if (key == 0) firstItem = items[item];
+                        });
+                        Loja.Checkout.itemInstallments(firstItem).then(
+                            function(response) {
+                                resolve(response);
+                            },
+                            function(err) {
+                                reject(err);
+                            }
+                        );
+                    });
+                },
                 loadShippingCtrl: function($q, $ocLazyLoad) {
                     var deferred = $q.defer();
 

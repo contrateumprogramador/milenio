@@ -22,9 +22,17 @@
         </div>
     </div>
     <div class="mobile-steps" hide-gt-xs>
-        <div class="step">
+        <div class="step" ng-if="vm.activeStep === 1">
             <img src="../../assets/icons/list-ul-gold.svg" alt="Orçamento">
             <h2>Orçamento</h2>
+        </div>
+        <div class="step" ng-if="vm.activeStep === 2">
+            <img src="../../assets/icons/map-pin-gold.svg" alt="Localização">
+            <h2>Localização</h2>
+        </div>
+        <div class="step" ng-if="vm.activeStep === 3">
+            <img src="../../assets/icons/money-bill-wave-solid-gold.svg" alt="Pagamento">
+            <h2>Pagamento</h2>
         </div>
     </div>
 </div>

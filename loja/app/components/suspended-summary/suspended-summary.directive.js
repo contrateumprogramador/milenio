@@ -8,7 +8,9 @@ module.exports = function(ngModule) {
             scope: {
                 cart: '=',
                 installments: '=',
-                refreshCart: '='
+                refreshCart: '=',
+                submit: '=',
+                form: '='
             },
             controllerAs: 'vm',
             controller: function($mdDialog, $mdMedia, $scope, $state, $window, Loja, toast) {
@@ -17,9 +19,15 @@ module.exports = function(ngModule) {
                 vm.installments = $scope.installments
                 vm.cart = $scope.cart
                 vm.refreshCart = $scope.refreshCart
+                vm.submit = $scope.submit
+                vm.form = $scope.form
 
                 $scope.$watch('cart', function(newValue) {
                     vm.cart = newValue;
+                });
+
+                $scope.$watch('form', function(newValue) {
+                    vm.form = newValue;
                 });
 
                 vm.shippings = Loja.Checkout.getShippings;
@@ -34,7 +42,8 @@ module.exports = function(ngModule) {
 
                 //Methods
                 vm.goToCheckout = goToCheckout
-                vm.getZip = getZip;
+                vm.getZip = getZip
+                vm.getLabelButton = getLabelButton
 
                 //Functions
                 function goToCheckout(state) {
@@ -86,7 +95,6 @@ module.exports = function(ngModule) {
                         vm.loading = true;
                         Loja.Store.shipping(vm.zipcode).then(
                             function(response) {
-                                console.log(response.data.data)
                                 Loja.Checkout.shipping(response.data.data, vm.zipcode);
                                 vm.refreshCart();
                                 vm.loading = false;
@@ -97,6 +105,12 @@ module.exports = function(ngModule) {
                             }
                         );
                     }
+                }
+
+                function getLabelButton() {
+                    if(vm.submit) return "Próximo"
+
+                    return "Concluir compra"
                 }
 
                 if ($mdMedia("gt-md")) {

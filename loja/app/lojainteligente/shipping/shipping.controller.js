@@ -1,6 +1,6 @@
 module.exports = function(ngModule){
     require('./shipping.sass');
-    ngModule.controller('ShippingCtrl', function($mdDialog, $rootScope, $scope, $state, Addresses, Loja, toast) {
+    ngModule.controller('ShippingCtrl', function($mdDialog, $rootScope, $scope, $state, Addresses, Installments, Loja, toast) {
         var layout = $scope.$parent.layout,
         vm = this;
 
@@ -18,9 +18,15 @@ module.exports = function(ngModule){
         $rootScope.pageTitle = 'Checkout : Milênio Móveis';
 
         // Data
-        vm.cart = Loja.Checkout.cart;
+        vm.cart = Loja.Checkout.cart();
+        vm.installments = vm.cart.internal
+            ? {
+                  times: vm.cart.installmentsMax,
+                  value: vm.cart.total / vm.cart.installmentsMax
+              }
+            : Installments;
         vm.checkoutShipping = Loja.Checkout.checkoutShipping(); 
-        vm.addresses = (vm.cart().internal) ? vm.checkoutShipping : (Addresses.data.data || []);
+        vm.addresses = (vm.cart.internal) ? vm.checkoutShipping : (Addresses.data.data || []);
         vm.shippings = Loja.Checkout.getShippings;
 
         // Vars
@@ -67,7 +73,7 @@ module.exports = function(ngModule){
         }
 
         function addressUpdate() {
-            if (!vm.cart().internal){
+            if (!vm.cart.internal){
                 Loja.Customer.addressUpdate(vm.form._id, angular.copy(vm.form)).then(function(r) {
                 });
             }
@@ -131,7 +137,7 @@ module.exports = function(ngModule){
         }
 
         function addressSelected(address) {
-            if (vm.form && !vm.cart().internal){
+            if (vm.form && !vm.cart.internal){
                 vm.selected = true;
                 return (vm.form._id == address._id);
             }
@@ -152,31 +158,23 @@ module.exports = function(ngModule){
 
         function submit(ev, form) {
             vm.form = form;
-            
-            if (!form._id){
-                addressSave();
-                Loja.Checkout.shipping(null, null, angular.copy(form));
 
-                Loja.Checkout.payment(ev, function() {
-                    $rootScope.goTo = 'pedidos';
-                    $state.go('user');
-                });
-            }else{
-                addressUpdate();
-                Loja.Checkout.shipping(null, null, angular.copy(form));
+            (!form._id) ? addressSave() : addressUpdate();
 
-                Loja.Checkout.payment(ev, function() {
-                    $rootScope.goTo = 'pedidos';
-                    $state.go('user');
-                });
-            }
+            Loja.Checkout.shipping(null, null, angular.copy(form));
+
+            Loja.Checkout.payment(ev, function() {
+                $rootScope.goTo = 'pedidos';
+                $state.go('user');
+            });
         }
 
         function selectAddress(address) {
-            if (!vm.cart().internal){
+            if (!vm.cart.internal){
                 vm.form = angular.copy(address);
                 Loja.Store.shipping(vm.form.zipcode).then(function(first){
                     Loja.Checkout.shipping(first.data.data, vm.form.zipcode);
+                    vm.cart = Loja.Checkout.cart();
                 }, function(err) {
                     toast.message(err.data.message);
                 });

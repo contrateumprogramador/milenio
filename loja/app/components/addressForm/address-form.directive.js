@@ -1,4 +1,6 @@
 module.exports = function(ngModule) {
+    require("./address-form.sass");
+
     ngModule.directive('addressForm', function() {
         return {
             restrict: 'E',
@@ -24,7 +26,6 @@ module.exports = function(ngModule) {
                 vm.addressByZipcode = addressByZipcode;
                 vm.addressSave = addressSave;
                 vm.addressUpdate = addressUpdate;
-                vm.submit = $scope.submit;
                 vm.checkMedia = checkMedia;
 
                 if (vm.internal){
