@@ -38,15 +38,28 @@
                                 Ambiente ativo
                             </md-checkbox>
                         </md-input-container>
-                        <md-input-container flex="100" flex-gt-xs="30">
-                            <label>Decorador</label>
-                            <md-select ng-model="vm.form.affiliate._id">
-                                <md-option ng-repeat="option in vm.affiliates" ng-value="option._id">
-                                    {{option.profile.firstname}} {{option.profile.lastname}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                        <md-input-container flex="100" flex-gt-xs="50">
+                        <md-autocomplete flex="30" required
+                            class="environments"
+                            md-selected-item="vm.form.affiliate"
+                            md-search-text-change="vm.querySearch(vm.searchAffiliates, 'affiliates')"
+                            md-search-text="vm.searchAffiliates"
+                            md-selected-item-change="vm.select(affiliate)"
+                            md-items="affiliate in vm.querySearch(vm.searchAffiliates, 'affiliates')"
+                            md-item-text="affiliate.name ? affiliate.name : affiliate.profile.firstname + ' ' + affiliate.profile.lastname"
+                            placeholder="Decorador"
+                            md-require-match=""
+                            md-clear-button=false
+                        >
+                            <md-item-template>
+                                <span
+                                    md-highlight-text="vm.searchAffiliates"
+                                    md-highlight-flags="^i"
+                                >
+                                    {{ affiliate.name ? affiliate.name : affiliate.profile.firstname + " " + affiliate.profile.lastname }}
+                                </span>
+                            </md-item-template>
+                        </md-autocomplete>
+                        <md-input-container flex="100" flex-gt-xs="50" class="localization">
                             <label>Localização</label>
                             <input type="text" name="place" ng-model="vm.form.place" required>
                             <div ng-messages="formAdd.place.$error" ng-show="formAdd.place.$touched" role="alert">
