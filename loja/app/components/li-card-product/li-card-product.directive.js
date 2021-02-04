@@ -36,6 +36,7 @@ module.exports = function(ngModule) {
                 $scope.$watch("item", function(newValue, oldValue, scope) {
                     vm.item = newValue;
                     vm.stamp = Loja.Store.stamp(vm.item);
+                    vm.installments = Loja.Store.itemInstallments(vm.item);
                 });
 
                 function addToCart(ev) {
