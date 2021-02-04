@@ -10,7 +10,8 @@ module.exports = function(ngModule) {
                 installments: '=',
                 refreshCart: '=',
                 submit: '=',
-                form: '='
+                form: '=',
+                payment: '='
             },
             controllerAs: 'vm',
             controller: function($mdDialog, $mdMedia, $scope, $state, $window, Loja, toast) {
@@ -21,6 +22,8 @@ module.exports = function(ngModule) {
                 vm.refreshCart = $scope.refreshCart
                 vm.submit = $scope.submit
                 vm.form = $scope.form
+                vm.payment = $scope.payment
+                vm.address = Loja.Checkout.checkoutShipping()
 
                 $scope.$watch('cart', function(newValue) {
                     vm.cart = newValue;
@@ -45,6 +48,7 @@ module.exports = function(ngModule) {
                 vm.getZip = getZip
                 vm.getLabelButton = getLabelButton
                 vm.checkMedia = checkMedia
+                vm.getAddress = getAddress
 
                 //Functions
                 function goToCheckout(state) {
@@ -91,6 +95,17 @@ module.exports = function(ngModule) {
                     }
                 }
 
+                function getAddress(address) {
+                    var r = address.address + ', ' + address.number;
+        
+                    if (address.complement)
+                        r += ' ' + address.complement;
+        
+                    r += ' - ' + address.district;
+        
+                    return r;
+                }
+
                 function checkMedia(size) {
                     return $mdMedia(size);
                 }
@@ -113,8 +128,8 @@ module.exports = function(ngModule) {
                 }
 
                 function getLabelButton() {
-                    if(vm.submit) return "Próximo"
-
+                    if(vm.payment) return "Pagar"
+                    else if(vm.submit) return "Próximo"
                     return "Concluir compra"
                 }
 
@@ -123,6 +138,7 @@ module.exports = function(ngModule) {
 
                     cartContainer.onscroll = function (){
                         const menu = document.querySelector('.suspended-summary')
+                        const address = document.querySelector('.suspended-address')
                         const footer = document.querySelector('#Footer')
     
                         if(menu) {
@@ -131,8 +147,10 @@ module.exports = function(ngModule) {
     
                             if (offset >= (height - menu.offsetHeight)) {
                                 menu.style = "position:absolute;top:"+(height - menu.offsetHeight - 50)+"px;"
+                                if(address) address.style = "position:absolute;top:"+(height - menu.offsetHeight - 250)+"px;"
                             } else {
                                 menu.style = "position:fixed"
+                                if(address) address.style = "position:fixed"
                             }
                         }
                     };
