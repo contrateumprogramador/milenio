@@ -27,7 +27,6 @@ module.exports = function(ngModule) {
                 Policies: function(Loja, toast, $stateParams) {
                     return Loja.Store.terms({ url: $stateParams.url }).then(
                         function(r) {
-                            console.log(r);
                             return r.data.data;
                         },
                         function(err) {

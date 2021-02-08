@@ -1,5 +1,5 @@
-module.exports = function(ngModule) {    
-    ngModule.controller("MainCtrl", function(
+module.exports = function (ngModule) {
+    ngModule.controller("MainCtrl", function (
         $window,
         $document,
         $filter,
@@ -18,7 +18,9 @@ module.exports = function(ngModule) {
         itemCheckout
     ) {
         var ctrl = this;
-        $mdToast.show({ hideDelay: 40000 });
+        $mdToast.show({
+            hideDelay: 40000
+        });
         // Data
 
         // Vars
@@ -33,19 +35,19 @@ module.exports = function(ngModule) {
 
         // LojaInteligente
         Loja.loading(
-            function() {
+            function () {
                 ctrl.loading = true;
             },
-            function() {
+            function () {
                 ctrl.loading = false;
             }
         );
 
         Loja.Store.terms({}).then(
-            function(r) {
+            function (r) {
                 $rootScope.terms = r.data.data;
             },
-            function(err) {
+            function (err) {
                 toast.message(err.data.message);
             }
         );
@@ -60,15 +62,17 @@ module.exports = function(ngModule) {
         function affiliateLogout() {
             delete $rootScope.affiliate;
             Loja.Checkout.resetCart();
-            $state.go("home", {}, { reload: true });
+            $state.go("home", {}, {
+                reload: true
+            });
         }
 
         // Carrega as Seções da Loja
         Loja.Store.sections().then(
-            function(r) {
+            function (r) {
                 $rootScope.sections = r.data.data;
             },
-            function(err) {
+            function (err) {
                 toast.message(err.data.message);
             }
         );
@@ -89,7 +93,7 @@ module.exports = function(ngModule) {
         function openNewsletter(ev) {
             $mdDialog
                 .show({
-                    controller: function($mdDialog) {
+                    controller: function ($mdDialog) {
                         var ctrl = this;
                         ctrl.newsletter = {
                             firstname: "",
@@ -98,7 +102,7 @@ module.exports = function(ngModule) {
                             phone: ""
                         };
 
-                        ctrl.cancel = function() {
+                        ctrl.cancel = function () {
                             $mdDialog.cancel();
                         };
                     },
@@ -109,13 +113,13 @@ module.exports = function(ngModule) {
                     clickOutsideToClose: false,
                     fullscreen: true
                 })
-                .then(function(answer) {
+                .then(function (answer) {
                     toast.message("Você está cadastrado em nossa Newsletter!");
                 });
         }
 
         // Ao mudar de state
-        $rootScope.$on("$stateChangeSuccess", function(
+        $rootScope.$on("$stateChangeSuccess", function (
             event,
             toState,
             toParams,
@@ -134,14 +138,33 @@ module.exports = function(ngModule) {
         });
 
         $scope.$watch(
-            function() {
+            function () {
                 return ctrl.title;
             },
-            function(title, oldValue, scope) {
-                $rootScope.pageTitle = title.title
-                    ? title.title + " | Milênio Móveis"
-                    : "Milênio Móveis";
+            function (title, oldValue, scope) {
+                $rootScope.pageTitle = title.title ?
+                    title.title + " | Milênio Móveis" :
+                    "Milênio Móveis";
             }
         );
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        if(!getCookie("confirmTerms")) {
+            ctrl.showCookiesConfirm = true;
+        }
     });
 };

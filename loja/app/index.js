@@ -112,6 +112,7 @@ require("./components/li-card-showcase/li-card-showcase-dialog.controller.js")(n
 
 // Components
 require("./components/toast/toast.js")(ngModule); // Toast
+require("./components/cookies-confirm/cookies-confirm.directive.js")(ngModule); // Cookies Confirm
 require("./components/milenio-title/milenio-title.directive.js")(ngModule); // Title
 require("./components/li-header/li-header.directive.js")(ngModule); // Top Bar
 require("./components/li-steps/li-steps.directive.js")(ngModule); // Order Steps
