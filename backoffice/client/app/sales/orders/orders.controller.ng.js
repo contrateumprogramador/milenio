@@ -22,7 +22,8 @@ angular
         vm.selectedMonth = getMonth();
 
         vm.helpers({
-            list: () => Checkouts.find({})
+            list: () => Checkouts.find({}),
+            payments: () => Payments.find({})
         });
 
         // Vars
@@ -47,6 +48,7 @@ angular
         vm.customerAvatar = customerAvatar;
         vm.customerName = customerName;
         vm.getDate = getDate;
+        vm.getTotal = getTotal;
         vm.getLastPayment = getLastPayment;
         vm.is = is;
         vm.makeDelivery = makeDelivery;
@@ -136,12 +138,27 @@ angular
             subscribe();
         }
 
+        function getTotal(checkout) {
+            const payment = this.getReactively("payments").find(
+                payment => payment.checkoutId === checkout._id
+            )
+
+            return payment ? payment.transaction.valor / 100 : checkout.cart.total
+        }
+
         function subscribe() {
             vm.searching = true
-            if(vm.cartSubscribe) vm.cartSubscribe.stop();
+            if(vm.cartSubscribe) {
+                vm.cartSubscribe.stop();
+                vm.paymentsSubscribe.stop();
+            }
 
             vm.cartSubscribe = vm.subscribe("sales", function() {
                 return [this.getReactively("customer"), vm.selectedDate, vm.search];
+            });
+
+            vm.paymentsSubscribe = vm.subscribe("payments", function() {
+                return [this.getReactively("list")];
             });
 
             Tracker.autorun(() => {

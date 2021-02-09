@@ -1,27 +1,16 @@
 'use strict'
 
-Meteor.publish('payment', function(checkoutId) {
+Meteor.publish('payments', function(checkouts) {
+    checkouts = checkouts.map((checkout) => checkout._id)
+
     var where = {
-        checkoutId: checkoutId
+        checkoutId: { $in: checkouts }
     };
 
     var options = {
-    	limit: 1,
     	sort: {
     		createdAt: -1
     	}
-    }
-
-    if (!Roles.userIsInRole(this.userId, 'super-admin')) {
-        var user = Meteor.users.findOne({
-            _id: this.userId
-        }, {
-            fields: {
-                'profile.company.companyId': 1
-            }
-        });
-
-        where.companyId = user.profile.company.companyId;
     }
 
     return Payments.find(where, options);

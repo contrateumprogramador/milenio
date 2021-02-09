@@ -212,12 +212,12 @@
                 <md-card-footer>
                     <div layout="row" layout-align="space-between center">
                         <div>
-                            {{
-                                item.payment.time | date: "dd/MM/yyyy HH:mm:ss"
-                            }}
+                            {{item.payment.time | date: "dd/MM/yyyy HH:mm:ss"}}
                         </div>
                         <div ng-if="!item.subnumber">
-                            <strong>{{ item.cart.total | currency }}</strong>
+                            <strong>
+                                {{ vm.getTotal(item) | currency }}
+                            </strong>
                         </div>
                     </div>
                 </md-card-footer>
