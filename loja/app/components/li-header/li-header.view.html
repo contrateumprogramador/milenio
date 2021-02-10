@@ -213,6 +213,11 @@
         </md-toolbar>
         <md-content>
             <div layout="column" layout-align="start stretch">
+                <md-button ng-click="vm.openSectionFilters()" ui-sref="section.showcase({sectionUrl: item.category})
+                       " class="md-primary" aria-label="{{ item.name }}" ng-repeat="item in vm.sections">
+                    <md-icon md-svg-icon="{{ item.icon }}"></md-icon>
+                    {{ item.name }}
+                </md-button>
                 <md-button ng-click="vm.sign( 'sidenav')" class="md-primary" aria-label="Área do Cliente">
                     Área do Cliente
                 </md-button>
@@ -237,4 +242,39 @@
             </div>
         </md-content>
     </md-sidenav>
+        <!-- SideNav Left : User Menu -->
+        <md-sidenav id="SideNavFilter" class="md-sidenav-left md-whiteframe-z2" md-component-id="filters" layout="column">
+            <md-toolbar layout="row" layout-align="space-between center">
+                <h3>
+                    Filtrar por:
+                </h3>
+                <md-button class="md-icon-button" ng-click="vm.toggleSidenav('filters')" aria-label="Fechar Filtros">
+                    <md-icon md-font-icon="icon-close"></md-icon>
+                </md-button>
+            </md-toolbar>
+            <md-content>
+                <div layout="column" layout-align="start stretch">
+                    <md-button class="menu-title" aria-label="Informações">
+                        <h3>Categorias</h3>
+                    </md-button>
+                    <md-button class="" ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl:
+                            'todos'})" ng-click="vm.toggleSidenav( 'filters');">
+                        Todos os produtos
+                    </md-button>
+                    <md-button class="" ng-repeat="tag in vm.section().subSections | orderBy: 'name' track by $index
+                           " ng-if="tag.tagsGroup=='Categorias'" ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})
+                           " ng-click="vm.toggleSidenav( 'filters');">
+                        {{ tag.name }}
+                    </md-button>
+                    <md-button class="menu-title" aria-label="Informações">
+                        <h3>Ambientes</h3>
+                    </md-button>
+                    <md-button class="" ui-sref-active="active" ng-repeat="tag in vm.section().subSections | orderBy:
+                            'name' track by $index" ng-if="tag.tagsGroup=='Ambientes'" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})"
+                        ng-click="vm.toggleSidenav( 'filters');">
+                        {{ tag.name }}
+                    </md-button>
+                </div>
+            </md-content>
+        </md-sidenav>
 </header>

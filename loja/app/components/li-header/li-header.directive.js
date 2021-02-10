@@ -9,14 +9,16 @@ module.exports = function(ngModule) {
             template: require("./li-header.view.html"),
             replace: true,
             scope: {
-                loja: "="
+                loja: "=",
+                toggleSidenav: "="
             },
             controllerAs: "vm",
             controller: function(
-                $filter, $mdMedia, $mdSidenav, $state, $scope, $rootScope, $timeout, lodash
+                $filter, $mdMedia, $mdSidenav, $state, $scope, $stateParams, $rootScope, $timeout, lodash
             ) {
                 var vm = this;
                 const Loja = $scope.loja
+                vm.toggleSidenav = $scope.toggleSidenav
                 
                 vm.loja = Loja
                 vm.user = Loja.Auth.me;
@@ -57,7 +59,6 @@ module.exports = function(ngModule) {
                 ];
 
                 vm.cartOpen = false;
-                vm.cartSideNavIsOpen = false;
                 vm.search = "";
                 vm.searchEmpty = true;
                 vm.searchItems = [];
@@ -78,7 +79,6 @@ module.exports = function(ngModule) {
                 vm.subMenuBanner = subMenuBanner;
                 vm.subMenuItems = subMenuItems;
                 vm.toogleCart = toogleCart;
-                vm.toggleSidenav = toggleSidenav;
                 vm.toggleSubHeader = toggleSubHeader;
                 vm.goTo = goTo;
                 vm.logout = logout;
@@ -112,9 +112,9 @@ module.exports = function(ngModule) {
                 getSubMenuBanners();
 
                 function openSectionFilters() {
-                    toggleSidenav("left");
+                    vm.toggleSidenav("left");
                     $timeout(function() {
-                        toggleSidenav("filters");
+                        vm.toggleSidenav("filters");
                     }, 1000);
                 }
 
@@ -178,7 +178,7 @@ module.exports = function(ngModule) {
                     }
         
                     if (from == "sidenav" && checkMedia("xs"))
-                        toggleSidenav("left");
+                        vm.toggleSidenav("left");
                 }
 
                 
@@ -234,7 +234,7 @@ module.exports = function(ngModule) {
                     var states = ["about", "contact", "location", "policies"];
                     if (states.indexOf(category) > -1) {
                         $state.go(category);
-                        toggleSidenav("left");
+                        vm.toggleSidenav("left");
                     } else if (category == "cart") {
                         /**
                          * Oculta o menu 'cart', e direciona para o carrinho.
@@ -247,7 +247,7 @@ module.exports = function(ngModule) {
                             { sectionUrl: category },
                             { reload: true }
                         );
-                        toggleSidenav("left");
+                        vm.toggleSidenav("left");
                     }
                 }
         
@@ -255,33 +255,12 @@ module.exports = function(ngModule) {
                     Loja.Auth.logout().then(function(r) {
                         $state.go("home");
                         if (from == "sidenav" && checkMedia("xs"))
-                            toggleSidenav("left");
+                            vm.toggleSidenav("left");
                     });
                 }
 
                 function toogleCart() {
                     vm.cartOpen = !vm.cartOpen
-                }
-
-                function toggleSidenav(component, action) {
-                    if (component == "cart") {
-                        if ($state.$current.name == "cart" && !vm.cartSideNavIsOpen)
-                            return;
-        
-                        if (action == "open" && !vm.cartSideNavIsOpen) {
-                            vm.cartSideNavIsOpen = true;
-                            $mdSidenav(component).open();
-                        }
-        
-                        if (action == "close") {
-                            $mdSidenav(component).close();
-                            $timeout(function() {
-                                vm.cartSideNavIsOpen = false;
-                            }, 1000);
-                        }
-                    } else {
-                        $mdSidenav(component).toggle();
-                    }
                 }
 
                 function checkMedia(size) {

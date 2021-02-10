@@ -161,7 +161,7 @@
             <div><span>Oi {{ $root.affiliate.affiliate.firstname }},</span> crie um orçamento para o cliente <strong>{{ $root.affiliate.customer.firstname }} {{ $root.affiliate.customer.lastname }}</strong> adicionando produtos ao carrinho.</div>
             <md-button ng-click="$root.affiliateLogout()">Sair do modo cliente</md-button>
         </div>
-        <li-header loja="ctrl.loja"></li-header>
+        <li-header loja="ctrl.loja" toggle-sidenav="ctrl.toggleSidenav"></li-header>
         <md-content id="Content" flex sw-stage="content">
             <div ui-view id="container" class="animate-slide-up"></div>
             <cookies-confirm show-cookies-confirm="ctrl.showCookiesConfirm"></cookies-confirm>
@@ -278,41 +278,6 @@
         </md-content>
     </div>
     <!-- / Layout -->
-    <!-- SideNav Left : User Menu -->
-    <md-sidenav id="SideNavFilter" class="md-sidenav-left md-whiteframe-z2" md-component-id="filters" layout="column">
-        <md-toolbar layout="row" layout-align="space-between center">
-            <h3>
-                Filtrar por:
-            </h3>
-            <md-button class="md-icon-button" ng-click="ctrl.toggleSidenav( 'filters')" aria-label="Fechar Filtros">
-                <md-icon md-font-icon="icon-close"></md-icon>
-            </md-button>
-        </md-toolbar>
-        <md-content>
-            <div layout="column" layout-align="start stretch">
-                <md-button class="menu-title" aria-label="Informações">
-                    <h3>Categorias</h3>
-                </md-button>
-                <md-button class="" ui-sref-active="active" ui-sref="section.tag({sectionUrl: ctrl.section().url, tagUrl:
-                        'todos'})" ng-click="ctrl.toggleSidenav( 'filters');">
-                    Todos os produtos
-                </md-button>
-                <md-button class="" ng-repeat="tag in ctrl.section().subSections | orderBy: 'name' track by $index
-                       " ng-if="tag.tagsGroup=='Categorias'" ui-sref-active="active" ui-sref="section.tag({sectionUrl: ctrl.section().url, tagUrl: tag.url})
-                       " ng-click="ctrl.toggleSidenav( 'filters');">
-                    {{ tag.name }}
-                </md-button>
-                <md-button class="menu-title" aria-label="Informações">
-                    <h3>Ambientes</h3>
-                </md-button>
-                <md-button class="" ui-sref-active="active" ng-repeat="tag in ctrl.section().subSections | orderBy:
-                        'name' track by $index" ng-if="tag.tagsGroup=='Ambientes'" ui-sref="section.tag({sectionUrl: ctrl.section().url, tagUrl: tag.url})"
-                    ng-click="ctrl.toggleSidenav( 'filters');">
-                    {{ tag.name }}
-                </md-button>
-            </div>
-        </md-content>
-    </md-sidenav>
     <!-- /SideNav Left : User Menu -->
     <!-- Scripts -->
     <script src="vendor.bundle.js"></script>

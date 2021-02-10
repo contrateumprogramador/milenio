@@ -27,6 +27,7 @@ module.exports = function (ngModule) {
         ctrl.loading = false;
         ctrl.title = {};
         ctrl.loja = Loja
+        ctrl.cartSideNavIsOpen = false;
 
         $rootScope.packages = [];
         $rootScope.pageTitle = "Milenio Móveis";
@@ -56,6 +57,7 @@ module.exports = function (ngModule) {
         ctrl.checkMedia = checkMedia;
         ctrl.mediaClass = mediaClass;
         ctrl.openNewsletter = openNewsletter;
+        ctrl.toggleSidenav = toggleSidenav;
 
         $rootScope.affiliateLogout = affiliateLogout;
 
@@ -88,6 +90,27 @@ module.exports = function (ngModule) {
             else if ($mdMedia("md")) return "is-md";
 
             return;
+        }
+
+        function toggleSidenav(component, action) {
+            if (component == "cart") {
+                if ($state.$current.name == "cart" && !ctrl.cartSideNavIsOpen)
+                    return;
+
+                if (action == "open" && !ctrl.cartSideNavIsOpen) {
+                    ctrl.cartSideNavIsOpen = true;
+                    $mdSidenav(component).open();
+                }
+
+                if (action == "close") {
+                    $mdSidenav(component).close();
+                    $timeout(function() {
+                        ctrl.cartSideNavIsOpen = false;
+                    }, 1000);
+                }
+            } else {
+                $mdSidenav(component).toggle();
+            }
         }
 
         function openNewsletter(ev) {
