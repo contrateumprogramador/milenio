@@ -1,8 +1,9 @@
 module.exports = function(ngModule){
     require('./shipping.sass');
-    ngModule.controller('ShippingCtrl', function($mdDialog, $rootScope, $scope, $state, Addresses, Installments, Loja, toast) {
+    ngModule.controller('ShippingCtrl', function($mdDialog, $rootScope, $scope, $state, $timeout, Addresses, Installments, Loja, toast) {
         var layout = $scope.$parent.layout,
-        vm = this;
+            vm = this,
+            focused = false;
 
         //controla o loading
         Loja.loading(
@@ -38,8 +39,13 @@ module.exports = function(ngModule){
         vm.addressRemove = addressRemove;
         vm.addressSelected = addressSelected;
         vm.afterSave = afterSave;
+        vm.focus = focus;
         vm.selectAddress = selectAddress;
+        vm.inputFocus = inputFocus;
+        vm.isFocused = isFocused;
         vm.submit = submit;
+
+        inputFocus("number")
 
         // Functions
         function addAddress() {
@@ -66,8 +72,23 @@ module.exports = function(ngModule){
             };
         }
 
+        function focus(v) {
+            focused = v;
+        }
+
+        function inputFocus(name) {
+            $timeout(function() {
+                angular.element(document.getElementsByName(name)[0]).focus();
+            }, 500);
+        }
+
+        function isFocused(v) {
+            return v == focused;
+        }
+
         function addressSave() {
             Loja.Customer.addressCreate(angular.copy(vm.form)).then(function(r) {
+                console.log(r)
             });
         }
 
@@ -145,7 +166,6 @@ module.exports = function(ngModule){
         function afterSave(type, address) {
             Loja.Customer.addresses().then(function(r) {
                 vm.addresses = r.data.data;
-                vm.form._id = '';
                 if (type == 'save')
                     selectAddress(vm.addresses[vm.addresses.length-1]);
                 else

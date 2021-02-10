@@ -33,6 +33,10 @@ module.exports = function(ngModule) {
                     vm.form = newValue;
                 });
 
+                $scope.$watch('installments', function(newValue) {
+                    vm.installments = newValue;
+                });
+
                 vm.shippings = Loja.Checkout.getShippings;
                 vm.zipcode = vm.shippings() ? vm.shippings().zipcode : "";
                 vm.zipcodeDisabled = false;
@@ -135,7 +139,7 @@ module.exports = function(ngModule) {
 
                 const cartContainer = document.getElementById('Content')
 
-                if ($mdMedia("gt-md") && !vm.payment && !vm.submit) {
+                if ($mdMedia("gt-xs") && !vm.payment && !vm.submit) {
                     const menu = document.querySelector('.suspended-summary')
                     menu.style = "position:fixed;width:17%"
 

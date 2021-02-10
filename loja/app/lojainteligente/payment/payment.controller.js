@@ -66,7 +66,7 @@ module.exports = function(LojaInteligenteModule) {
         vm.inputFocus = inputFocus;
         vm.isFocused = isFocused;
         vm.step = step;
-        vm.submit = submit;
+        vm.submit = submit;        
 
         //////////////
         function limitInstallments(limit) {
@@ -225,6 +225,7 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function inputFocus(name) {
+            console.log(document.getElementsByName(name)[0])
             $timeout(function() {
                 angular.element(document.getElementsByName(name)[0]).focus();
             }, 500);

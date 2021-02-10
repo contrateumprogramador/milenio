@@ -40,7 +40,7 @@
                 <md-input-container flex="50">
                     <label>Número</label>
                     <input type="tel" name="number" inputmode="numeric" ng-model="vm.form.number"
-                        ng-disabled="vm.internal" required />
+                        auto-focus ng-disabled="vm.internal" required ng-focus="vm.focus('number')" ng-blur="vm.focus(false)"/>
                     <div ng-messages="vm.shippingForm.number.$error" ng-show="vm.shippingForm.number.$touched"
                         role="alert">
                         <div ng-message="required">
