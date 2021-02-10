@@ -133,12 +133,13 @@ module.exports = function(ngModule) {
                     return "Concluir compra"
                 }
 
-                if ($mdMedia("gt-md")) {
-                    const cartContainer = document.getElementById('Content')
+                const cartContainer = document.getElementById('Content')
 
-                    cartContainer.onscroll = function (){
-                        const menu = document.querySelector('.suspended-summary')
-                        const address = document.querySelector('.suspended-address')
+                if ($mdMedia("gt-md") && !vm.payment && !vm.submit) {
+                    const menu = document.querySelector('.suspended-summary')
+                    menu.style = "position:fixed;width:17%"
+
+                    cartContainer.onscroll = function (){                        
                         const footer = document.querySelector('#Footer')
     
                         if(menu) {
@@ -146,14 +147,14 @@ module.exports = function(ngModule) {
                             var height = footer.offsetTop;
     
                             if (offset >= (height - menu.offsetHeight)) {
-                                menu.style = "position:absolute;top:"+(height - menu.offsetHeight - 50)+"px;"
-                                if(address) address.style = "position:absolute;top:"+(height - menu.offsetHeight - 250)+"px;"
+                                menu.style = "position:absolute;top:"+(height - menu.offsetHeight - 50)+"px;width:17%"
                             } else {
-                                menu.style = "position:fixed"
-                                if(address) address.style = "position:fixed"
+                                menu.style = "position:fixed;width:17%"
                             }
                         }
                     };
+                } else {
+                    cartContainer.onscroll = () => {}
                 }
             }
         };
