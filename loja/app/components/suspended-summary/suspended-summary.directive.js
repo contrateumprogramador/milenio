@@ -14,7 +14,7 @@ module.exports = function(ngModule) {
                 payment: '='
             },
             controllerAs: 'vm',
-            controller: function($mdDialog, $mdMedia, $scope, $state, $window, Loja, toast) {
+            controller: function($mdDialog, $mdMedia, $scope, $state, $stateParams, $window, Loja, toast) {
                 var vm = this;
 
                 vm.installments = $scope.installments

@@ -194,15 +194,13 @@ module.exports = function(ngModule){
         }
 
         function selectAddress(address) {
-            if (!vm.cart.internal){
-                vm.form = angular.copy(address);
-                Loja.Store.shipping(vm.form.zipcode).then(function(first){
-                    Loja.Checkout.shipping(first.data.data, vm.form.zipcode);
-                    vm.cart = Loja.Checkout.cart();
-                }, function(err) {
-                    toast.message(err.data.message);
-                });
-            }
+            vm.form = angular.copy(address);
+            Loja.Store.shipping(vm.form.zipcode).then(function(first){
+                Loja.Checkout.shipping(first.data.data, vm.form.zipcode);
+                vm.cart = Loja.Checkout.cart();
+            }, function(err) {
+                toast.message(err.data.message);
+            });
         }
 
         // seleciona o primeiro endereço
@@ -210,10 +208,14 @@ module.exports = function(ngModule){
             selectAddress(vm.addresses[0]);
 
         // se tiver sido enviado, e ele já existir, seleciona
+        if(vm.checkoutShipping) 
+            selectAddress(vm.checkoutShipping)
+
+        // se tiver sido enviado, e ele já existir, seleciona
         if(vm.shippings() && vm.shippings().zipcode){
             vm.addresses.forEach(function(address){
                 if(address.zipcode == vm.shippings().zipcode)
-                selectAddress(address);
+                    selectAddress(address);
             });
         }
 
