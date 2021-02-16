@@ -112,9 +112,17 @@ require("./components/li-card-showcase/li-card-showcase-dialog.controller.js")(n
 
 // Components
 require("./components/toast/toast.js")(ngModule); // Toast
+require("./components/cookies-confirm/cookies-confirm.directive.js")(ngModule); // Cookies Confirm
 require("./components/milenio-title/milenio-title.directive.js")(ngModule); // Title
+require("./components/li-header/li-header.directive.js")(ngModule); // Top Bar
+require("./components/li-steps/li-steps.directive.js")(ngModule); // Order Steps
+require("./components/li-cart-baloon/li-cart-baloon.directive.js")(ngModule); // Cart Baloon
 require("./components/small-title/small-title.directive.js")(ngModule); // Small Title
 require("./components/li-items-list/li-items-list.directive.js")(ngModule); // Li Items
+require("./components/li-cart-items/li-cart-items.directive.js")(ngModule); // Li Cart Items
+require("./components/li-checkout-buttons/li-checkout-buttons.directive.js")(ngModule); // Li Checkout Buttons
+require("./components/li-counter/li-counter.directive.js")(ngModule); // Li Counter
+require("./components/suspended-summary/suspended-summary.directive.js")(ngModule); // Suspended Menu
 require("./components/li-items-filter/li-items-filter.directive.js")(ngModule); // Li Items Filter
 require("./components/li-stamp/li-stamp.directive.js")(ngModule); // Li Stamp
 require("./components/addressesList/addresses-list.directive.js")(ngModule); // Addresses List

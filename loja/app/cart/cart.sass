@@ -7,12 +7,13 @@ $primary: #10367a
 $white: #fff
 
 #Cart
-	md-divider
-		margin-top: 18px
-
 	.bold
 		font-weight: bold
 	
+	.title-top
+		h2
+			font-size: 21px
+
 	.btn-cart
 		padding: 8px 16px
 
@@ -56,6 +57,19 @@ $white: #fff
 		    column-width: 1px
 				display: table-caption
 
+	#RowTable
+		width: 70%
+		align-items: flex-end
+
+		.material-icons
+			margin-right: 0.5rem
+		
+		.clear-cart
+			margin: 0
+			margin-top: 2rem
+			width: fit-content
+			text-transform: none
+
 	#RowZip
 		margin: 8px
 		padding-bottom: 20px
@@ -78,6 +92,8 @@ $white: #fff
 
 body.is-mobile
 	#Cart
+		margin-top: 3rem
+
 		.md-headline
 			font-size: 16px !important
 			padding: 20px
@@ -88,6 +104,14 @@ body.is-mobile
 
 		.text-right
 			text-align: left
+
+		.clear-cart
+			margin-top: 0 !important
+			margin-bottom: 2rem !important
+
+		#RowTable
+			width: 100%
+			align-items: center
 	
 	#RowConcluir
 		box-shadow: 0.5px 0.5px 5.5px #000005 !important

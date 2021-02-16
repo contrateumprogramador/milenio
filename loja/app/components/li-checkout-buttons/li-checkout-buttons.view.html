@@ -1,0 +1,8 @@
+<div layout="row" class="checkout-buttons" hide-gt-xs>
+    <md-button ng-click="vm.step ? vm.step(-1) : vm.go('cart')" class="btn-previous" layout="row" layout-align="center center" aria-label="Anterior">
+        <span>Anterior</span>
+    </md-button>
+    <md-button ng-click="vm.step ? vm.step(1) : vm.submit($event, vm.form)" class="btn-next" layout="row" layout-align="center center" aria-label="Próximo">
+        <span>{{vm.customNext || "Próximo"}}</span>
+    </md-button>
+</div>

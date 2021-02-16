@@ -48,7 +48,6 @@
 
         function edit(ev, env) {
             vm.selected = env;
-            console.log(vm.selected)
             openForm('editEnv', ev);
         }
 

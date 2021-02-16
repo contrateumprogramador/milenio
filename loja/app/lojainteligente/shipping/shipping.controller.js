@@ -1,8 +1,9 @@
 module.exports = function(ngModule){
     require('./shipping.sass');
-    ngModule.controller('ShippingCtrl', function($mdDialog, $rootScope, $scope, $state, Addresses, Loja, toast) {
+    ngModule.controller('ShippingCtrl', function($mdDialog, $rootScope, $scope, $state, $timeout, Addresses, Installments, Loja, toast) {
         var layout = $scope.$parent.layout,
-        vm = this;
+            vm = this,
+            focused = false;
 
         //controla o loading
         Loja.loading(
@@ -18,9 +19,15 @@ module.exports = function(ngModule){
         $rootScope.pageTitle = 'Checkout : Milênio Móveis';
 
         // Data
-        vm.cart = Loja.Checkout.cart;
+        vm.cart = Loja.Checkout.cart();
+        vm.installments = vm.cart.internal
+            ? {
+                  times: vm.cart.installmentsMax,
+                  value: vm.cart.total / vm.cart.installmentsMax
+              }
+            : Installments;
         vm.checkoutShipping = Loja.Checkout.checkoutShipping(); 
-        vm.addresses = (vm.cart().internal) ? vm.checkoutShipping : (Addresses.data.data || []);
+        vm.addresses = (vm.cart.internal) ? vm.checkoutShipping : (Addresses.data.data || []);
         vm.shippings = Loja.Checkout.getShippings;
 
         // Vars
@@ -32,9 +39,13 @@ module.exports = function(ngModule){
         vm.addressRemove = addressRemove;
         vm.addressSelected = addressSelected;
         vm.afterSave = afterSave;
+        vm.focus = focus;
         vm.selectAddress = selectAddress;
+        vm.inputFocus = inputFocus;
+        vm.isFocused = isFocused;
         vm.submit = submit;
 
+        inputFocus("number")
 
         // Functions
         function addAddress() {
@@ -61,13 +72,28 @@ module.exports = function(ngModule){
             };
         }
 
+        function focus(v) {
+            focused = v;
+        }
+
+        function inputFocus(name) {
+            $timeout(function() {
+                angular.element(document.getElementsByName(name)[0]).focus();
+            }, 500);
+        }
+
+        function isFocused(v) {
+            return v == focused;
+        }
+
         function addressSave() {
             Loja.Customer.addressCreate(angular.copy(vm.form)).then(function(r) {
+                console.log(r)
             });
         }
 
         function addressUpdate() {
-            if (!vm.cart().internal){
+            if (!vm.cart.internal){
                 Loja.Customer.addressUpdate(vm.form._id, angular.copy(vm.form)).then(function(r) {
                 });
             }
@@ -88,7 +114,7 @@ module.exports = function(ngModule){
                     ctrl.addressSelected = vm.addressSelected;
 
                     function selectAddress(address) {
-                        vm.form = angular.copy(address);
+                        vm.selectAddress(address)
                         ctrl.cancel();
                     }
 
@@ -131,7 +157,7 @@ module.exports = function(ngModule){
         }
 
         function addressSelected(address) {
-            if (vm.form && !vm.cart().internal){
+            if (vm.form && !vm.cart.internal){
                 vm.selected = true;
                 return (vm.form._id == address._id);
             }
@@ -140,7 +166,6 @@ module.exports = function(ngModule){
         function afterSave(type, address) {
             Loja.Customer.addresses().then(function(r) {
                 vm.addresses = r.data.data;
-                vm.form._id = '';
                 if (type == 'save')
                     selectAddress(vm.addresses[vm.addresses.length-1]);
                 else
@@ -152,35 +177,30 @@ module.exports = function(ngModule){
 
         function submit(ev, form) {
             vm.form = form;
-            
-            if (!form._id){
-                addressSave();
-                Loja.Checkout.shipping(null, null, angular.copy(form));
 
-                Loja.Checkout.payment(ev, function() {
-                    $rootScope.goTo = 'pedidos';
-                    $state.go('user');
-                });
-            }else{
-                addressUpdate();
-                Loja.Checkout.shipping(null, null, angular.copy(form));
-
-                Loja.Checkout.payment(ev, function() {
-                    $rootScope.goTo = 'pedidos';
-                    $state.go('user');
-                });
+            if(!vm.form) {
+                toast.message("Informe o endereço de entrega")
+                return;
             }
+
+            (!form._id) ? addressSave() : addressUpdate();
+
+            Loja.Checkout.shipping(null, null, angular.copy(form));
+
+            Loja.Checkout.payment(ev, function() {
+                $rootScope.goTo = 'pedidos';
+                $state.go('user');
+            });
         }
 
         function selectAddress(address) {
-            if (!vm.cart().internal){
-                vm.form = angular.copy(address);
-                Loja.Store.shipping(vm.form.zipcode).then(function(first){
-                    Loja.Checkout.shipping(first.data.data, vm.form.zipcode);
-                }, function(err) {
-                    toast.message(err.data.message);
-                });
-            }
+            vm.form = angular.copy(address);
+            Loja.Store.shipping(vm.form.zipcode).then(function(first){
+                Loja.Checkout.shipping(first.data.data, vm.form.zipcode);
+                vm.cart = Loja.Checkout.cart();
+            }, function(err) {
+                toast.message(err.data.message);
+            });
         }
 
         // seleciona o primeiro endereço
@@ -188,10 +208,14 @@ module.exports = function(ngModule){
             selectAddress(vm.addresses[0]);
 
         // se tiver sido enviado, e ele já existir, seleciona
+        if(vm.checkoutShipping) 
+            selectAddress(vm.checkoutShipping)
+
+        // se tiver sido enviado, e ele já existir, seleciona
         if(vm.shippings() && vm.shippings().zipcode){
             vm.addresses.forEach(function(address){
                 if(address.zipcode == vm.shippings().zipcode)
-                selectAddress(address);
+                    selectAddress(address);
             });
         }
 

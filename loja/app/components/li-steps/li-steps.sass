@@ -1,0 +1,58 @@
+@import '../../variables.scss'
+
+.steps-content
+    width: 100%
+
+.steps
+    margin: 3rem 0
+    display: flex
+    justify-content: center
+    width: 100%
+
+    .step
+        display: flex
+        flex-direction: column
+        align-items: center
+
+        h2
+            font-size: 14px
+
+        .image-container
+            border-radius: 200px
+            background: $dark-grey
+            padding: 1.2rem
+            width: fit-content
+            height: fit-content
+            display: flex
+
+    .lineProgress
+        border: 2px solid $dark-grey
+        background: $dark-grey
+        align-self: flex-end
+        width: 10%
+        margin-bottom: 2%
+
+    .lineActive
+        background: $accent
+        border-color: $accent
+
+    .stepActive
+        padding: 1rem !important
+        background: $accent !important
+        border: 0.2rem solid #AD8900
+
+.mobile-steps
+    display: flex
+    justify-content: center
+    margin: 2rem 0
+
+    .step
+        display: flex
+
+        img
+            margin-right: 1rem
+
+        h2
+            font-size: 13px
+            color: #AD8900
+            font-weight: bold

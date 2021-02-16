@@ -1,0 +1,40 @@
+@import '../../variables.scss'
+
+.counter
+    display: flex
+    justify-content: center
+    align-items: center    
+
+    p
+        margin: 0
+        height: auto
+
+    .box
+        border: 2px solid #898989
+        height: 2rem
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 3rem
+
+        button
+            margin: 0
+            padding: 0
+
+            md-icon
+                font-size: 21px
+
+    .box:first-child
+        border-radius: 5px 0 0 5px
+        border-right: none
+
+    .box:last-child
+        border-radius: 0 5px 5px 0
+        border-left: none
+
+    .box.large
+        display: flex
+        width: 4rem
+        justify-content: center
+        border-left: 1px solid #B4B4B4
+        border-right: 1px solid #B4B4B4

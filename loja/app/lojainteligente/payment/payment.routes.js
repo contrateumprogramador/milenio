@@ -32,6 +32,23 @@ module.exports = function(LojaInteligenteModule) {
                             });
                         });
                     },
+                    Conditions: function($q, Loja) {
+                        return $q(function(resolve, reject) {
+                            var items = Loja.Checkout.cart().items,
+                                firstItem = {};
+                            Object.keys(items).forEach(function(item, key) {
+                                if (key == 0) firstItem = items[item];
+                            });
+                            Loja.Checkout.itemInstallments(firstItem).then(
+                                function(response) {
+                                    resolve(response);
+                                },
+                                function(err) {
+                                    reject(err);
+                                }
+                            );
+                        });
+                    },
                     CheckoutCustomer: function(Loja, toast) {
                         return Loja.Checkout.checkoutCustomer();
                     },

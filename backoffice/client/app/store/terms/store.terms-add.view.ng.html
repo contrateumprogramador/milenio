@@ -28,6 +28,7 @@
                             name="name"
                             ng-model="vm.form.name"
                             required
+                            ng-keyup="vm.setUrl()"
                         />
                         <div
                             ng-messages="formAdd.name.$error"
@@ -46,6 +47,7 @@
                             name="url"
                             ng-model="vm.form.url"
                             required
+                            ng-keyup="vm.typingUrl()"
                         />
                         <div
                             ng-messages="formAdd.url.$error"

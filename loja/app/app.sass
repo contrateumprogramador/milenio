@@ -22,6 +22,11 @@ md-input-container
         input
             border-bottom-color: #ff0b0b !important
 
+md-input-container
+	.hint
+		margin-top: 2.5rem
+		font-size: 13px
+
 md-pagination-wrapper
 	md-ink-bar
 		background: transparent
@@ -42,17 +47,16 @@ md-tab-item
 		color: $accent !important
 
 md-toast
-	bottom: 0
-	left: 0
-	right: 0
-	top: 0
+	left: 5% !important
+	right: 5% !important
+	top: 15% !important
+	width: 90%
 
 	.md-toast-content
 		background-color: $amber !important
 		color: $blue !important
 		position: relative
-		text-align: center
-		top: 15%
+		text-align: center		
 
 #CIpayment .md-select-icon
     color: red !important
@@ -134,6 +138,7 @@ md-sidenav
 	border-radius: 50px
 
 #Content
+	height: 693px
 	background-color: $white
 
 #IconMenu
@@ -204,6 +209,9 @@ header
 	color: $white
 	z-index: 6
 
+	.margin-icon
+		margin-right: 0.5rem
+
 	i
 		font-size: 34px
 		color: $accent
@@ -220,7 +228,7 @@ header
 			margin: 8px
 
 		.logo
-			height: 48px 
+			height: 60px 
 
 		.md-button
 			color: #fff
@@ -229,13 +237,16 @@ header
 				color: #fff
 
 		.search-form
-			margin: 8px
+			margin: 8px			
 
 	.search-form
 		background: $white
 		border-radius: 18px
 		height: 36px
-		padding: 4px 12px
+		padding: 4px 0
+		justify-content: space-between
+		padding-left: 12px
+		margin-right: 3rem
 
 		md-input-container
 			margin: 0
@@ -259,11 +270,16 @@ header
 				display: none
 
 		.md-button
-			margin: 0 -16px 0 0
+			margin: 0
 			padding: 0
+			background: $accent
+			border-radius: 0 50% 50% 0
+			height: 100%
 
 			i
 				font-size: 24px
+				color: $white
+				margin: 0
 
 	.btn-active
 		background: $white
@@ -288,26 +304,48 @@ header
 			font-size: 24px
 			margin: 0 4px
 
+		.menu-message
+			margin-left: 1rem
+
+			p
+				margin: 0
+				line-height: 1rem
+				font-family: Montserrat
+				text-align: left
+
+			.hello
+				font-size: 10px
+
 	.btn-header-cart
+		text-transform: none
+		color: $white
+
+		span:first-child
+			margin-right: 2rem
+
 		i
 			margin: -12px 16px 0 0
 
 	.logo
-		height: 86px
+		height: 62px
 
 		h2
-			background: url('/assets/images/logo-milenio-white.svg') no-repeat center
+			background: url('/assets/images/logo-milenio-inline.png') no-repeat center
 			background-size: contain
 			width: 200px
-			height: 72px
+			height: 100%
 			margin: 12px
 			cursor: pointer
+			margin: 0
 
 			span
 				display: none
 
 
-	.row-menu	
+	.row-menu
+		background: $lightBlue
+		padding: 0.3rem 10rem
+
 		.md-button
 			color: $white
 			margin: 0
@@ -342,6 +380,7 @@ header
 	line-height: 18px
 	text-align: center
 	width: 18px
+	margin-bottom: 1.5rem
 
 // Carousel
 .li-carousel
@@ -365,10 +404,26 @@ header
 	.divider
 		background-color: $primary !important
 
+.yellow-button
+	background: $accent
+	padding: 0.5rem 0
+	width: 16rem
+	margin-top: 3rem
+	border-radius: 6px
+	
+	span
+		color: $white
+		font-weight: bold
+		text-transform: none
+		font-size: 16px
+
 // Home
 footer
 	margin-top: 50px
 	border-top: 5px solid $accent
+	position: relative
+	z-index: 3
+	background: #FFF
 
 	img
 		height: auto
@@ -423,7 +478,7 @@ footer
 	box-shadow: $shadow1dp
 	height: 340px
 	position: absolute
-	top: 86px
+	top: 105px
 	width: 100%
 	z-index: 5
 
@@ -458,6 +513,7 @@ footer
 
 		li
 			list-style: none
+			margin: 0.5rem 0
 
 			.md-button
 				margin: 0
@@ -477,7 +533,11 @@ footer
 
 		.md-button
 			font-weight: bold
+			text-transform: none
+			text-align: left
+			color: $primary
 			margin: 0
+			margin-top: 2rem
 			width: 100%
 
 .logo-li
@@ -611,6 +671,10 @@ body.is-mobile
 		bottom: 5px !important
 		right: 35px !important
 
+	.btn-header-cart
+		margin: 0
+		padding: 0
+
 	.cart-image
 		width: 20%
 		height: 20%
@@ -690,6 +754,11 @@ body.is-mobile
 	.li-carousel-item
 		md-card
 			width: 66vw
+
+	.row-menu
+		margin-top: 1rem
+		padding: 0.3rem 0 !important
+		overflow-x: auto
 
 	.title
 		font-size: 36px !important

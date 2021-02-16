@@ -1,0 +1,17 @@
+<div class="counter" layout="row">
+    <div class="box">
+        <md-button class="md-icon-button" aria-lebel="Reduzir quantidade" ng-click="vm.changeQuant(vm.item, -1, $event, $index)">
+            <md-icon ng-show="vm.item.quant > 1" md-font-icon="icon-minus"></md-icon>
+            <md-icon ng-show="vm.item.quant == 1" md-font-icon="icon-trash"></md-icon>
+        </md-button>
+    </div>
+    <div class="box large">
+        <p>{{vm.item.quant}}</p>
+    </div>    
+    <div class="box">
+        <md-button class="md-icon-button" aria-label="Aumentar quantidade" ng-click="vm.changeQuant(vm.item, 1, $event, $index)">
+            <md-icon md-font-icon="icon-plus"></md-icon>
+        </md-button>
+    </div>
+    </div>
+</div>

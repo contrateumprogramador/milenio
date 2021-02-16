@@ -1,0 +1,30 @@
+<div ng-show="vm.cartSideNavIsOpen">
+    <div class="dimmed" ng-click="vm.toogleCart()"></div>
+    <md-content flex class="md-baloon">
+        <div class="ear"></div>
+        <div class="box">
+            <div class="header">
+                <img src="assets/icons/fi_shopping-cart_blue.svg"/>
+                <h1>Meu Carrinho</h1>
+            </div>
+            <div class="items" ng-show="vm.cart().items.length">
+                <div ng-repeat="item in vm.cart().items" class="item" layout="row">
+                    <img ng-src="{{item.picture}}" alt="item.name">
+                    <div class="item-details">
+                        <h3>{{item.name}}</h3>
+                        <p>Quantidade: {{item.quant}}</p>
+                    </div>
+                    <h2>{{item.total | currency}}</h2>
+                </div>
+            </div>
+            <div class="empty" ng-show="!vm.cart().items.length">
+                <p>Carrinho vazio</p>
+            </div>
+            <div layout="row" layout-align="center">
+                <md-button ui-sref="cart" ng-click="vm.toogleCart()" class="btn-see-cart" layout="row" layout-align="center center" aria-label="Cart">
+                    <span>Ver Carrinho</span>
+                </md-button>
+            </div>
+        </div>
+    </md-content>
+</div>

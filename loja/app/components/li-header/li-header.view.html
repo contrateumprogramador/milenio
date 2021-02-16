@@ -1,0 +1,280 @@
+<header layout="column" ng-mouseleave="vm.toggleSubHeader(false)">
+    <md-toolbar class="md-accent" id="Header">
+        <div id="HeaderMobile" layout="column" hide-gt-sm>
+            <div layout="row" layout-aling="space-between center">
+                <div layout="row" layout-align="start center" flex="15">
+                    <md-button id="IconMenu" class="md-icon-button" ng-click="vm.toggleSidenav( 'left')">
+                        <md-icon md-font-icon="icon-menu"></md-icon>
+                    </md-button>
+                </div>
+                <div flex="55" class="logo" layout="column" flex="30" flex-gt-sm="15" layout-align="center
+                center">
+                    <h2 class="logo-milenio" ui-sref="home">
+                        <span>Milênio Móveis</span>
+                    </h2>
+                </div>
+                <div flex="15" layout="row" layout-align="center center">
+                    <md-button ng-hide="vm.user()" layout="row" layout-align="center center" class="btn-header
+                        md-icon-button" ng-click="vm.sign()" aria-label="area do cliente">
+                        <img src="assets/icons/fi_user.svg"/>
+                    </md-button>
+                    <md-button ng-show="vm.user()" layout="row" layout-align="center center" class="btn-header
+                        md-icon-button" ui-sref="user" aria-label="area do cliente">
+                        <img src="assets/icons/fi_user.svg"/>
+                    </md-button>
+                </div>
+                <div flex="15" layout="row" layout-align="center center">
+                    <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center center" aria-label="Cart">
+                        <img src="assets/icons/fi_shopping-cart.svg"/>
+                        <span class="cart-count">{{ vm.cart().itemsCount }}</span>
+                    </md-button>
+                </div>
+            </div>
+            <form class="search-form" name="vm.searchForm" ng-submit="vm.searchForm.$valid && vm.searchSubmit()
+               " layout="row" layout-align="space-between center">
+                <md-input-container flex>
+                    <label>O que você procura?</label>
+                    <input type="search" ng-keyup="vm.searchSubmit()" ng-model="vm.search" ng-minlength="3" ng-model-options="{ debounce: 250 }">
+                </md-input-container>
+                <md-button class="md-icon-button" type="submit" ng-disabled="vm.searchForm.$invalid" aria-label="buscar">
+                    <md-icon-button>
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </md-icon-button>
+                </md-button>
+            </form>
+        </div>
+        <div class="row-menu" layout="row" layout-align="space-between center" hide-gt-sm>
+            <div ng-class="{ 'btn-active': vm.subMenu.name==section.name }"
+                ng-repeat="section in vm.sections track by $index" layout="column" flex="50" layout-align="center center" class="border-right">
+                <md-button ng-click="vm.toggleSubHeader(false)" ui-sref="section.showcase({sectionUrl: section.category})" ui-sref-opts="{reload:
+        true}">
+                    <md-icon md-svg-icon="{{section.icon}}"></md-icon>
+                    <span>{{section.name}}</span>
+                </md-button>
+            </div>
+        </div>
+        <div hide show-gt-sm layout="row" flex="100" class="flex-1" layout-align="space-between center
+               " layout-align-gt-sm="center center">
+            <div layout="column" flex-gt-sm>
+                <div layout="row" class="" layout-align="start center" layout-padding>
+                    <div class="logo" layout="column" flex="30" flex-gt-sm="15" layout-align="center center">
+                        <h2 class="logo-milenio" ui-sref="home">
+                            <span>Milênio Móveis</span>
+                        </h2>
+                    </div>
+                    <div flex id="HeaderActions" layout="row" layout-align="space-between center">
+                        <md-button hide show-gt-sm href="tel:1138158177" id="Phone" class="btn-header
+               " hide show-gt-sm layout="row" layout-align="center center" aria-label="telefone">
+                            <img src="assets/icons/fi_phone.svg" class="margin-icon"/>
+                            <span class="color-accent" id="Tel">(11) 3815-8177</span>
+                        </md-button>
+                        <form hide show-gt-sm id="SearchForm" class="search-form" name="vm.searchForm
+               " ng-submit="vm.searchForm.$valid && vm.searchSubmit()" flex layout="row" layout-align="space-between center">
+                            <md-input-container flex>
+                                <label>O que você procura?</label>
+                                <input type="text" ng-keyup="vm.searchTyping()" ng-focus="vm.toggleSubHeader(false)
+               " ng-model="vm.search" ng-minlength="3">
+                            </md-input-container>
+                            <md-button class="md-icon-button icon-search" type="submit" ng-disabled="vm.searchForm.$invalid" aria-label="buscar">
+                                <md-icon-button>
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </md-icon-button>
+                            </md-button>
+                        </form>
+                        <md-button hide show-gt-sm layout="row" ng-show="!vm.user()" layout-align="center center
+               " class="btn-header" ng-click="vm.sign()" aria-label="area do cliente">
+                            <img src="assets/icons/fi_user.svg" class="margin-icon"/>
+                            <span>Entre ou
+                                <span class="color-accent">Cadastre-se</span>
+                            </span>
+                        </md-button>
+                        <md-menu hide show-gt-sm class="btn-header" ng-show="vm.user()">
+                            <md-button layout="row" layout-align="center center" class="btn-header
+               " ng-click="$mdMenu.open()" aria-label="area do cliente">
+                                <img src="assets/icons/fi_user.svg"/>
+                                <div class="menu-message">
+                                    <p class="hello">Olá,</p>
+                                    <p class="color-accent">{{ vm.user().profile.firstname }}!</p>
+                                </div>
+                            </md-button>
+                            <md-menu-content width="2">
+                                <md-menu-item>
+                                    <md-button ng-click="vm.sign()">
+                                        <md-icon md-font-icon="icon-account-circle" class="icon"></md-icon>
+                                        Sua Conta
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ng-click="vm.sign(true)">
+                                        <md-icon md-font-icon="icon-account-circle" class="icon"></md-icon>
+                                        Seus Pedidos
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ng-click="vm.logout()">
+                                        <md-icon md-font-icon="icon-logout" class="icon"></md-icon>
+                                        Sair
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                        <span hide show-gt-xs hide-gt-sm style="width: 36px"></span>
+                        <md-button ng-click="vm.toogleCart()" class="btn-header-cart" layout="row" layout-align="center center" aria-label="Cart">
+                            <span>Meu carrinho</span>
+                            <img src="assets/icons/fi_shopping-cart.svg"/>
+                            <span class="cart-count">{{ vm.cart().itemsCount }}</span>
+                        </md-button>
+                        <li-cart-baloon loja="vm.loja" cart="vm.cartOpen" toogle="vm.toogleCart()"></li-cart-baloon>
+                    </div>
+                </div>
+                <div class="row-menu" layout="row" layout-align="space-between center" hide show-gt-sm>
+                    <div ng-mouseenter="vm.toggleSubHeader( 'submenu', section)" ng-class="{ 'btn-active': vm.subMenu.name==section.name }"
+                        ng-repeat="section in vm.sections track by $index" layout="column" flex="33
+               " layout-align="center center" class="border-right">
+                        <md-button ng-click="vm.toggleSubHeader(false)" ui-sref="section.showcase({sectionUrl: section.category})" ui-sref-opts="{reload:
+                true}">
+                            <md-icon md-svg-icon="{{section.icon}}"></md-icon>
+                            <span hide show-gt-sm>{{section.name}}</span>
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-toolbar>
+    <md-progress-linear style="z-index: 9" ng-show="vm.loading" md-mode="indeterminate"></md-progress-linear>
+    <div id="SubHeader" class="slide-down" ng-class="{ 'sub-submenu': vm.subHeader=='submenu' ,
+                'sub-search': vm.subHeader=='search' }" layout="column" layout-align="start center" ng-show="vm.subHeader">
+        <div layout="row" layout-align="center start">
+            <div id="SubMenu" ng-show="vm.subHeader=='submenu'" layout-padding layout="row" layout-align="center
+                start" flex="100" flex-gt-lg="80">
+                <div class="submenu-title" layout="column" flex="15">
+                    <div>
+                        <md-icon md-svg-icon="{{vm.subMenu.icon}}"></md-icon>
+                        <h2>{{ vm.subMenu.name }}</h2>
+                    </div>
+                    <md-button ng-click="vm.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: vm.subMenu.category, tagUrl: 'todos'})
+               " aria-label="Veja todos os produtos">
+                        Ver todos os produtos
+                    </md-button>
+                </div>
+                <ul flex="15">
+                    <li ng-repeat="item in vm.subMenuItems(0) track by $index">
+                        <md-button ng-click="vm.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: vm.subMenu.category,
+                tagUrl: item.url})" aria-label="{{ item.name }}">
+                            {{ item.name }}
+                        </md-button>
+                    </li>
+                </ul>
+                <ul flex="15">
+                    <li ng-repeat="item in vm.subMenuItems(1) track by $index">
+                        <md-button ng-click="vm.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: vm.subMenu.category,
+                tagUrl: item.url})" aria-label="{{ item.name }}">
+                            {{ item.name }}
+                        </md-button>
+                    </li>
+                </ul>
+                <ul flex="15">
+                    <li ng-repeat="item in vm.subMenuItems(2) track by $index">
+                        <md-button ng-click="vm.toggleSubHeader(false)" ui-sref="section.tag({sectionUrl: vm.subMenu.category,
+                tagUrl: item.url})" aria-label="{{ item.name }}">
+                            {{ item.name }}
+                        </md-button>
+                    </li>
+                </ul>
+                <div class="submenu-banner" layout="column" layout-align="center end" flex>
+                    <a ng-show="vm.subMenuBanner()" ng-click="vm.toggleSubHeader(false)" ng-href="{{ vm.subMenuBanner().link }}" title="{{ vm.subMenuBanner().title
+                }}">
+                        <img ng-src="{{ vm.subMenuBanner().url }}" alt="{{ vm.subMenuBanner().title }}">
+                    </a>
+                </div>
+            </div>
+            <div id="SubSearch" ng-show="vm.subHeader=='search'" layout-padding layout="column
+               " layout-align="center center" flex="100" flex-gt-lg="80">
+                <p ng-show="vm.searchLoading">Buscando produtos com"{{ vm.search }}"...</p>
+                <p ng-show="!vm.searchLoading && !vm.searchItemsFiltered.length
+               ">Nenhum produto encontrado com"{{ vm.search }}"</p>
+                <li-items-filter ng-show="!vm.searchLoading && vm.searchItemsFiltered.length" items="vm.searchItemsFiltered
+               " row-size="5" col-flex="100" col-gt-xs="50" col-gt-sm="25"></li-items-filter>
+                <md-button class="search-more" ng-show="!vm.searchLoading && vm.searchItemsFiltered.length
+               " ng-click="vm.searchSubmit()" aria-label="mais resultados">
+                    Ver mais resultados
+                </md-button>
+            </div>
+        </div>
+    </div>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" layout="column">
+        <md-toolbar layout="row" layout-align="space-between center">
+            <h3>
+                Milênio Móveis
+            </h3>
+            <md-button class="md-icon-button" ng-click="vm.toggleSidenav( 'left')" aria-label="Fechar cesto">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </md-toolbar>
+        <md-content>
+            <div layout="column" layout-align="start stretch">
+                <md-button ng-click="vm.openSectionFilters()" ui-sref="section.showcase({sectionUrl: item.category})
+                       " class="md-primary" aria-label="{{ item.name }}" ng-repeat="item in vm.sections">
+                    <md-icon md-svg-icon="{{ item.icon }}"></md-icon>
+                    {{ item.name }}
+                </md-button>
+                <md-button ng-click="vm.sign( 'sidenav')" class="md-primary" aria-label="Área do Cliente">
+                    Área do Cliente
+                </md-button>
+                <md-button ng-click="vm.goTo( 'about');" class="md-primary" aria-label="Sobre Nós">
+                    Sobre
+                </md-button>
+                <md-button href="http://blog.mileniomoveis.com.br" target="_blank" class="md-primary" aria-label="Blog">
+                    Blog
+                </md-button>
+                <md-button ng-click="vm.goTo( 'contact');" class="md-primary" aria-label="Fale Conosco">
+                    Fale Conosco
+                </md-button>
+                <md-button ng-click="vm.goTo( 'contact');" class="md-primary" aria-label="Localização">
+                    Localização
+                </md-button>
+                <md-button ng-click="vm.goTo( 'policies');" class="md-primary" aria-label="Política de Troca e Devolução">
+                    Política de Troca e Devolução
+                </md-button>
+                <md-button ng-click="vm.logout( 'sidenav')" class="md-primary" aria-label="Logout">
+                    Sair
+                </md-button>
+            </div>
+        </md-content>
+    </md-sidenav>
+        <!-- SideNav Left : User Menu -->
+        <md-sidenav id="SideNavFilter" class="md-sidenav-left md-whiteframe-z2" md-component-id="filters" layout="column">
+            <md-toolbar layout="row" layout-align="space-between center">
+                <h3>
+                    Filtrar por:
+                </h3>
+                <md-button class="md-icon-button" ng-click="vm.toggleSidenav('filters')" aria-label="Fechar Filtros">
+                    <md-icon md-font-icon="icon-close"></md-icon>
+                </md-button>
+            </md-toolbar>
+            <md-content>
+                <div layout="column" layout-align="start stretch">
+                    <md-button class="menu-title" aria-label="Informações">
+                        <h3>Categorias</h3>
+                    </md-button>
+                    <md-button class="" ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl:
+                            'todos'})" ng-click="vm.toggleSidenav( 'filters');">
+                        Todos os produtos
+                    </md-button>
+                    <md-button class="" ng-repeat="tag in vm.section().subSections | orderBy: 'name' track by $index
+                           " ng-if="tag.tagsGroup=='Categorias'" ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})
+                           " ng-click="vm.toggleSidenav( 'filters');">
+                        {{ tag.name }}
+                    </md-button>
+                    <md-button class="menu-title" aria-label="Informações">
+                        <h3>Ambientes</h3>
+                    </md-button>
+                    <md-button class="" ui-sref-active="active" ng-repeat="tag in vm.section().subSections | orderBy:
+                            'name' track by $index" ng-if="tag.tagsGroup=='Ambientes'" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})"
+                        ng-click="vm.toggleSidenav( 'filters');">
+                        {{ tag.name }}
+                    </md-button>
+                </div>
+            </md-content>
+        </md-sidenav>
+</header>

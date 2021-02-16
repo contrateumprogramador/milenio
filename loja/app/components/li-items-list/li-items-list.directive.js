@@ -64,7 +64,8 @@ module.exports = function(ngModule) {
                     lodash.remove(items, function(o) {
                         return o.options.length == 0;
                     });
-                    return items;
+
+                    return items.sort((a, b) => b.rank - a.rank);
                 }
 
                 function prepareItems() {

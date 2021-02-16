@@ -11,6 +11,7 @@ module.exports = function(LojaInteligenteModule) {
         creditcard,
         lodash,
         Installments,
+        Conditions,
         CheckoutCustomer,
         toast
     ) {
@@ -35,6 +36,13 @@ module.exports = function(LojaInteligenteModule) {
         vm.errorMessageCC = null;
         vm.errorMessageBoleto = null;
         vm.formStep = 0;
+        vm.cart = Loja.Checkout.cart();
+        vm.conditions = vm.cart.internal
+            ? {
+                  times: vm.cart.installmentsMax,
+                  value: vm.cart.total / vm.cart.installmentsMax
+              }
+            : Conditions;
         vm.installments = Installments || [];
         vm.payment = creditcard.init("payment");
         vm.paymentComplete = false;
@@ -58,7 +66,7 @@ module.exports = function(LojaInteligenteModule) {
         vm.inputFocus = inputFocus;
         vm.isFocused = isFocused;
         vm.step = step;
-        vm.submit = submit;
+        vm.submit = submit;        
 
         //////////////
         function limitInstallments(limit) {
@@ -181,20 +189,20 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function continueDisabled() {
-            if (!vm.ccForm || !vm.ccForm.ccNumber) return true;
-
             switch (vm.formStep) {
-                case 0:
-                    return validateInput("ccNumber");
                 case 1:
-                    return validateInput("ccName");
+                    return validateInput("ccNumber");
                 case 2:
-                    return (
-                        validateInput("ccValidityMonth") ||
-                        validateInput("ccValidityYear") ||
-                        validateInput("ccCvv")
-                    );
+                    return validateInput("ccName");
+                case 3:
+                    return validateInput("ccValidityMonth")
+                case 4:
+                    return validateInput("ccValidityYear")
+                case 5:
+                    return validateInput("ccCvv")
             }
+
+            return false
         }
 
         function flip(e) {
@@ -217,11 +225,11 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function inputFocus(name) {
+            console.log(document.getElementsByName(name)[0])
             $timeout(function() {
                 angular.element(document.getElementsByName(name)[0]).focus();
             }, 500);
         }
-        inputFocus("ccNumber");
 
         function isFocused(v) {
             return v == focused;
@@ -232,8 +240,12 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function step(i) {
-            vm.formStep += i || 1;
-            $scope.$apply();
+            if(continueDisabled() && i == 1) toast.message("Preencha os dados corretamente")
+            else if((vm.formStep + i) < 0) $state.go("shipping", { actual: true })
+            else {
+                vm.formStep += i || 1;
+                if(vm.formStep > 5) submit()
+            }
         }
 
         function submit(method) {
@@ -244,7 +256,6 @@ module.exports = function(LojaInteligenteModule) {
             loading(true);
             vm.errorMessageCC = null;
             vm.errorMessageBoleto = null;
-            vm.formStep = 3;
 
             if (method == "boleto") {
                 vm.payment.method = "Boleto Bradesco";
@@ -287,7 +298,7 @@ module.exports = function(LojaInteligenteModule) {
 
         function validateInput(name) {
             return (
-                vm.ccForm[name].$viewValue.length === 0 ||
+                !vm.ccForm[name].$viewValue || vm.ccForm[name].$viewValue.length === 0 ||
                 Object.keys(vm.ccForm[name].$error).length
             );
         }

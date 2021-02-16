@@ -12,7 +12,6 @@
         // Vars
         vm.form = vm.edit || {
             tags: [],
-            affiliate: {},
             pictures: [],
             active: true
         };
@@ -29,6 +28,7 @@
         vm.typingUrl = typingUrl;
         vm.removePicture = removePicture;
         vm.initFileUpload = initFileUpload;
+        vm.select = select;
 
         //Functions
         function cancel(){
@@ -75,9 +75,7 @@
             return function filterFn(variable) {
                 return angular
                     .lowercase(
-                        local == "tagsList" || local == "items"
-                            ? variable.name
-                            : variable.type
+                        local == "tagsList" ? variable.name : variable.profile.firstname + " " +variable.profile.lastname
                     )
                     .match(lowercaseQuery);
             };
@@ -187,6 +185,10 @@
             });
         }
 
+        function select(affiliate) {
+            vm.form.affiliate = affiliate
+            console.log(vm.form.affiliate)
+        }
     }
 
 })();

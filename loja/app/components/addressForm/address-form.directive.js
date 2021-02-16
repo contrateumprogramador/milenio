@@ -1,4 +1,6 @@
 module.exports = function(ngModule) {
+    require("./address-form.sass");
+
     ngModule.directive('addressForm', function() {
         return {
             restrict: 'E',
@@ -24,7 +26,6 @@ module.exports = function(ngModule) {
                 vm.addressByZipcode = addressByZipcode;
                 vm.addressSave = addressSave;
                 vm.addressUpdate = addressUpdate;
-                vm.submit = $scope.submit;
                 vm.checkMedia = checkMedia;
 
                 if (vm.internal){
@@ -117,6 +118,7 @@ module.exports = function(ngModule) {
 
                 function addressUpdate() {
                     Loja.Customer.addressUpdate(vm.form._id, angular.copy(vm.form)).then(function(r) {
+                        toast.message('Endereço Alterado com sucesso.');
                         saved('update', angular.copy(vm.form));
                     }, error);
                 }

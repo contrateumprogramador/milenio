@@ -1,9 +1,9 @@
 <md-content ng-class="" sw-stage="addresses list" id="AdressList">
     <md-list class="addresses-list">
-        <div ng-repeat="address in addresses track by $index" class="slide-down">
-            <md-list-item class="md-3-line cursor-pointer" ng-class="{ active: isSelected(address) }" layout-padding ng-click="select(address)">
+        <div ng-repeat="address in addresses track by $index" class="slide-down" ng-class="{ active: isSelected(address) }">
+            <md-list-item class="md-3-line cursor-pointer" layout-padding ng-click="select(address)">
                 <div class="md-list-item-text" layout="column">
-                    <h3>{{ address.title }} | CEP: {{ address.zipcode | brCep }}</h3>
+                    <h3>CEP: {{ address.zipcode | brCep }}</h3>
                     <h4>{{ vm.getAddress(address) }}</h4>
                     <h4>{{ address.city }}, {{ address.state }}</h4>
                     <p ng-show="address.obs">

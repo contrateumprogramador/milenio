@@ -1,6 +1,5 @@
-module.exports = function(ngModule) {
-    var removeDiacritics = require("diacritics").remove;
-    ngModule.controller("MainCtrl", function(
+module.exports = function (ngModule) {
+    ngModule.controller("MainCtrl", function (
         $window,
         $document,
         $filter,
@@ -19,112 +18,63 @@ module.exports = function(ngModule) {
         itemCheckout
     ) {
         var ctrl = this;
-        $mdToast.show({ hideDelay: 40000 });
+        $mdToast.show({
+            hideDelay: 40000
+        });
         // Data
 
         // Vars
         ctrl.loading = false;
         ctrl.title = {};
-        ctrl.sections = [
-            {
-                category: "tela-sling",
-                icon: "/assets/lojainteligente/imgs/fibra-sintetica.svg",
-                name: "Tela Sling"
-            },
-            {
-                category: "ombrelones",
-                icon: "/assets/lojainteligente/imgs/ombrelones.svg",
-                name: "Ombrelones"
-            },
-            {
-                category: "corda-nautica",
-                icon: "/assets/lojainteligente/imgs/fibra-sintetica.svg",
-                name: "Corda Náutica"
-            },
-            {
-                category: "fibra-sintetica",
-                icon: "/assets/lojainteligente/imgs/sofa.svg",
-                name: "Fibra Sintética"
-            },
-            {
-                category: "madeira",
-                icon: "/assets/lojainteligente/imgs/madeira.svg",
-                name: "Madeira"
-            },
-            {
-                category: "area-interna",
-                icon: "/assets/lojainteligente/imgs/sofa.svg",
-                name: "Área Interna"
-            }
-        ];
-
-        ctrl.user = Loja.Auth.me;
-        ctrl.cart = Loja.Checkout.cart;
+        ctrl.loja = Loja
         ctrl.cartSideNavIsOpen = false;
-        ctrl.search = "";
-        ctrl.searchEmpty = true;
-        ctrl.searchItems = [];
-        ctrl.searchItemsFiltered = false;
-        ctrl.subHeader = false;
-        ctrl.subMenu = false;
-        ctrl.subMenuBanners = {};
-        ctrl.subSearch = false;
 
         $rootScope.packages = [];
         $rootScope.pageTitle = "Milenio Móveis";
-        $rootScope.sections = [];
         $rootScope.settings = Loja.Store.settings;
         $rootScope.terms = [];
 
         // LojaInteligente
         Loja.loading(
-            function() {
+            function () {
                 ctrl.loading = true;
             },
-            function() {
+            function () {
                 ctrl.loading = false;
             }
         );
 
         Loja.Store.terms({}).then(
-            function(r) {
+            function (r) {
                 $rootScope.terms = r.data.data;
             },
-            function(err) {
+            function (err) {
                 toast.message(err.data.message);
             }
         );
 
         // Methods
         ctrl.checkMedia = checkMedia;
-        ctrl.goTo = goTo;
-        ctrl.logout = logout;
         ctrl.mediaClass = mediaClass;
         ctrl.openNewsletter = openNewsletter;
-        ctrl.openSectionFilters = openSectionFilters;
-        ctrl.searchSubmit = searchSubmit;
-        ctrl.searchTyping = searchTyping;
-        ctrl.section = getSection;
-        ctrl.sign = sign;
-        ctrl.subMenuBanner = subMenuBanner;
-        ctrl.subMenuItems = subMenuItems;
         ctrl.toggleSidenav = toggleSidenav;
-        ctrl.toggleSubHeader = toggleSubHeader;
 
         $rootScope.affiliateLogout = affiliateLogout;
 
         function affiliateLogout() {
             delete $rootScope.affiliate;
             Loja.Checkout.resetCart();
-            $state.go("home", {}, { reload: true });
+            $state.go("home", {}, {
+                reload: true
+            });
         }
 
         // Carrega as Seções da Loja
         Loja.Store.sections().then(
-            function(r) {
+            function (r) {
                 $rootScope.sections = r.data.data;
             },
-            function(err) {
+            function (err) {
                 toast.message(err.data.message);
             }
         );
@@ -134,203 +84,12 @@ module.exports = function(ngModule) {
             return $mdMedia(size);
         }
 
-        function getSection() {
-            var r = {};
-            if ($rootScope.sections) {
-                angular.forEach($rootScope.sections, function(section) {
-                    if (section.url == $stateParams.sectionUrl) r = section;
-                });
-            }
-            return r;
-        }
-
-        function getSubMenuBanners() {
-            ctrl.sections.forEach(function(section) {
-                Loja.Store.banners("menu-" + section.category).then(
-                    function(r) {
-                        var banners = lodash.get(r, "data.data.0.banners");
-
-                        if (banners)
-                            ctrl.subMenuBanners[section.category] = banners[0];
-                    },
-                    function(err) {
-                        console.error(err);
-                    }
-                );
-            });
-        }
-        getSubMenuBanners();
-
-        /**
-         * @param  {string} category - Nome do state a ser direcionado
-         */
-        function goTo(category) {
-            var states = ["about", "contact", "location", "policies"];
-            if (states.indexOf(category) > -1) {
-                $state.go(category);
-                toggleSidenav("left");
-            } else if (category == "cart") {
-                /**
-                 * Oculta o menu 'cart', e direciona para o carrinho.
-                 */
-                $mdSidenav("cart").close();
-                $state.go(category);
-            } else {
-                $state.go(
-                    "section.showcase",
-                    { sectionUrl: category },
-                    { reload: true }
-                );
-                toggleSidenav("left");
-            }
-        }
-
-        function logout(from) {
-            Loja.Auth.logout().then(function(r) {
-                $state.go("home");
-                if (from == "sidenav" && ctrl.checkMedia("xs"))
-                    toggleSidenav("left");
-            });
-        }
-
         function mediaClass() {
             if ($mdMedia("xs")) return "is-mobile";
             else if (!$mdMedia("gt-sm")) return "is-ipad";
             else if ($mdMedia("md")) return "is-md";
 
             return;
-        }
-
-        function openNewsletter(ev) {
-            $mdDialog
-                .show({
-                    controller: function($mdDialog) {
-                        var ctrl = this;
-                        ctrl.newsletter = {
-                            firstname: "",
-                            lastname: "",
-                            email: "",
-                            phone: ""
-                        };
-
-                        ctrl.cancel = function() {
-                            $mdDialog.cancel();
-                        };
-                    },
-                    controllerAs: "vm",
-                    template: require("../components/newsletter-dialog/newsletter-form.dialog.html"),
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: false,
-                    fullscreen: true
-                })
-                .then(function(answer) {
-                    toast.message("Você está cadastrado em nossa Newsletter!");
-                });
-        }
-
-        function openSectionFilters() {
-            toggleSidenav("left");
-            $timeout(function() {
-                toggleSidenav("filters");
-            }, 1000);
-        }
-
-        function searchSubmit() {
-            toggleSubHeader(false);
-            if(ctrl.search) $state.go("search", { search: ctrl.search });
-        }
-
-        function searchTyping() {
-            var limit = 5;
-
-            function _configureString(value) {
-                return removeDiacritics(value.trim().toLowerCase());
-            }
-            function _getSearchItems() {
-                ctrl.searchLoading = true;
-                Loja.Store.items({
-                    name_nd: "%" + _configureString(ctrl.search) + "%"
-                }).then(
-                    function(r) {
-                        ctrl.searchLoading = false;
-                        ctrl.searchItems = r.data.data;
-                        ctrl.searchItemsFiltered = angular
-                            .copy(ctrl.searchItems)
-                            .slice(0, limit);
-                        ctrl.searchEmpty =
-                            ctrl.searchItemsFiltered.length == 0 ? true : false;
-                    },
-                    function(err) {
-                        ctrl.searchLoading = false;
-                        ctrl.searchItems = [];
-                        ctrl.searchItemsFiltered = angular.copy(
-                            ctrl.searchItems
-                        );
-                        ctrl.searchEmpty =
-                            ctrl.searchItemsFiltered.length == 0 ? true : false;
-                    }
-                );
-            }
-
-            if (ctrl.search && ctrl.search.trim().length == 3) {
-                _getSearchItems();
-            } else if (ctrl.search && ctrl.searchItems.length) {
-                ctrl.searchItemsFiltered = $filter("filter")(
-                    angular.copy(ctrl.searchItems),
-                    { name_nd: _configureString(ctrl.search) }
-                ).slice(0, limit);
-                ctrl.searchEmpty =
-                    ctrl.searchItemsFiltered.length == 0 ? true : false;
-            }
-
-            if (ctrl.search && ctrl.search.trim().length >= 3)
-                ctrl.toggleSubHeader("search");
-        }
-
-        function sign(from) {
-            if (!ctrl.user()) {
-                Loja.Auth.sign("user");
-            } else {
-                $state.go("user", { actual: from });
-            }
-
-            if (from == "sidenav" && ctrl.checkMedia("xs"))
-                toggleSidenav("left");
-        }
-
-        function subMenuBanner() {
-            if (ctrl.subMenu)
-                return ctrl.subMenuBanners[ctrl.subMenu.category] || false;
-
-            return false;
-        }
-
-        function subMenuItems(number) {
-            if (
-                !$rootScope.sections ||
-                !$rootScope.sections.length ||
-                !ctrl.subMenu
-            )
-                return [];
-
-            var limit = 9,
-                start = number * limit;
-
-            var categories = (
-                lodash.get(
-                    lodash.find($rootScope.sections, {
-                        name: ctrl.subMenu.name
-                    }),
-                    "subSections"
-                ) || []
-            ).filter(function(v) {
-                return v.tagsGroup == "Categorias";
-            });
-            return $filter("orderBy")(categories, "name").slice(
-                start,
-                start + limit
-            );
         }
 
         function toggleSidenav(component, action) {
@@ -354,22 +113,36 @@ module.exports = function(ngModule) {
             }
         }
 
-        function toggleSubHeader(type, section) {
-            $timeout(function() {
-                if (
-                    ctrl.subHeader == "search" &&
-                    type == "submenu" &&
-                    ctrl.searchItemsFiltered.length
-                )
-                    return;
+        function openNewsletter(ev) {
+            $mdDialog
+                .show({
+                    controller: function ($mdDialog) {
+                        var ctrl = this;
+                        ctrl.newsletter = {
+                            firstname: "",
+                            lastname: "",
+                            email: "",
+                            phone: ""
+                        };
 
-                ctrl.subHeader = type || false;
-                ctrl.subMenu = section || false;
-            }, 100);
+                        ctrl.cancel = function () {
+                            $mdDialog.cancel();
+                        };
+                    },
+                    controllerAs: "vm",
+                    template: require("../components/newsletter-dialog/newsletter-form.dialog.html"),
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: false,
+                    fullscreen: true
+                })
+                .then(function (answer) {
+                    toast.message("Você está cadastrado em nossa Newsletter!");
+                });
         }
 
         // Ao mudar de state
-        $rootScope.$on("$stateChangeSuccess", function(
+        $rootScope.$on("$stateChangeSuccess", function (
             event,
             toState,
             toParams,
@@ -377,6 +150,7 @@ module.exports = function(ngModule) {
             fromParams,
             options
         ) {
+            // console.log(document.querySelector("#container"))
             angular
                 .element(document.querySelector("#Content"))
                 .scrollToElementAnimated(document.querySelector("#container"));
@@ -387,14 +161,33 @@ module.exports = function(ngModule) {
         });
 
         $scope.$watch(
-            function() {
+            function () {
                 return ctrl.title;
             },
-            function(title, oldValue, scope) {
-                $rootScope.pageTitle = title.title
-                    ? title.title + " | Milênio Móveis"
-                    : "Milênio Móveis";
+            function (title, oldValue, scope) {
+                $rootScope.pageTitle = title.title ?
+                    title.title + " | Milênio Móveis" :
+                    "Milênio Móveis";
             }
         );
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        if(!getCookie("confirmTerms")) {
+            ctrl.showCookiesConfirm = true;
+        }
     });
 };
