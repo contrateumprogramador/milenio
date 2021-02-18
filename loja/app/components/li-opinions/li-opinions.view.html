@@ -1,4 +1,4 @@
-<div class="li-opinions" layout="row">
+<div class="li-opinions" layout="column" layout-align="center center">
     <div class="opinions" layout="row" layout-xs="column">
         <div class="opinion" ng-repeat="opinion in vm.opinions" layout="row" layout-xs="column">
             <div class="grades" layout="column">
@@ -6,7 +6,7 @@
                     <p>{{grade.title}}: </p>
                     <div layout="row">
                         <div ng-repeat="value in [].constructor(5) track by $index">
-                            <md-icon ng-class="{ filled: vm.starFilled($index, opinion, grade.value) }" md-font-icon="icon-star"></md-icon>
+                            <md-icon ng-class="{ 'star-filled': vm.starFilled($index, opinion, grade.value) }" md-font-icon="icon-star"></md-icon>
                         </div>
                     </div>
                 </div>
@@ -25,5 +25,7 @@
             </div>
         </div>
     </div>
-    <!-- aqui vai o botão pra dar novas opiniões -->
+    <md-button class="yellow-button" aria-label="Opinar" ng-if="vm.user()" ng-click="vm.opinionDialog($event)">
+        <span>Opinar sobre o produto</span>
+    </md-button>
 </div>

@@ -1,0 +1,67 @@
+<md-dialog id="Login" aria-label="Login" flex="100" flex-gt-xs="40">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <h2>Opinar sobre o produto</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon md-font-icon="icon-window-close" aria-label="Fechar"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <form name="ctrl.opinionForm" layout="column" layout-padding ng-submit="ctrl.opinionForm.$valid && ctrl.submit()"
+            novalidate>
+            <div layout-gt-xs="row" layout-align="space-around start" flex class="address-form">
+                <div layout="column" ng-class="{'flex-1': ctrl.checkMedia('gt-xs')}" flex="100">
+                    <div layout="row">
+                        <md-input-container flex="100">
+                            <label>Resumo</label>
+                            <input type="text" name="title" ng-model="ctrl.form.title" required />
+                            <div ng-messages="ctrl.opinionForm.title.$error" ng-show="ctrl.opinionForm.title.$touched"
+                                role="alert">
+                                <div ng-message="required">
+                                    <span>Campo Obrigatório</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <md-input-container>
+                        <label>O que você achou do produto?</label>
+                        <textarea ng-model="ctrl.form.opinion"></textarea>
+                    </md-input-container>
+                    <div layout="row" layout-align="space-between center">
+                        <p>Custo Benefício: </p>
+                        <div layout="row">
+                            <div class="pointer" ng-repeat="value in [].constructor(5) track by $index" ng-click="ctrl.select($index, 'costBenefit')">
+                                <md-icon ng-class="{ 'star-filled': ctrl.starFilled($index, 'costBenefit') }" md-font-icon="icon-star"></md-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" layout-align="space-between center">
+                        <p>Características: </p>
+                        <div layout="row">
+                            <div class="pointer" ng-repeat="value in [].constructor(5) track by $index" ng-click="ctrl.select($index, 'characteristics')">
+                                <md-icon ng-class="{ 'star-filled': ctrl.starFilled($index, 'characteristics') }" md-font-icon="icon-star"></md-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row" layout-align="space-between center">
+                        <p>Qualidade: </p>
+                        <div layout="row">
+                            <div class="pointer" ng-repeat="value in [].constructor(5) track by $index" ng-click="ctrl.select($index, 'quality')">
+                                <md-icon ng-class="{ 'star-filled': ctrl.starFilled($index, 'quality') }" md-font-icon="icon-star"></md-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>Obs.: A opinião informada passará por uma análise interna antes de ser exibida a todas as pessoas. Sua contribuição é muito importante!</p>
+                    </div>
+                    <div class="actions" layout="row" layout-wrap layout-align="end center">
+                        <md-button class="md-raised md-primary" ng-disabled="ctrl.opinionForm.$invalid" 
+                            aria-label="Opinar" ng-click="ctrl.submit()">Salvar Opinião</md-button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </md-dialog-content>
+</md-dialog>
