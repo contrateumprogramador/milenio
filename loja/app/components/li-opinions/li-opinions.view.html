@@ -1,0 +1,29 @@
+<div class="li-opinions" layout="row">
+    <div class="opinions" layout="row" layout-xs="column">
+        <div class="opinion" ng-repeat="opinion in vm.opinions" layout="row" layout-xs="column">
+            <div class="grades" layout="column">
+                <div layout="row" layout-align="space-between center" ng-repeat="grade in vm.grades">
+                    <p>{{grade.title}}: </p>
+                    <div layout="row">
+                        <div ng-repeat="value in [].constructor(5) track by $index">
+                            <md-icon ng-class="{ filled: vm.starFilled($index, opinion, grade.value) }" md-font-icon="icon-star"></md-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="avaliation">
+                <div layout="row" layout-align="space-between">
+                    <h1>{{opinion.title}}</h1>
+                    <h2>{{opinion.date | date: "dd/MM/yyyy"}}</h2>
+                </div>
+                <div layout="row">
+                    <p>{{opinion.opinion}}</p>
+                </div>
+                <div layout="row">
+                    <h3>{{opinion.user}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- aqui vai o botão pra dar novas opiniões -->
+</div>
