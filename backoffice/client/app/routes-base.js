@@ -97,6 +97,23 @@ angular
             }
         });
 
+        msNavigationServiceProvider.saveItem("adm.opinions", {
+            title: "Opiniões",
+            icon: "icon-comment",
+            weight: 1,
+            state: "app.adm-opinions",
+            hidden: function() {
+                return (
+                    !Roles.userIsInRole(Meteor.userId(), [
+                        "super-admin",
+                        "admin"
+                    ]) ||
+                    _.get(Meteor.user().profile, "company.companyId") !=
+                        "T8b7jMLWibW2sjAo6"
+                );
+            }
+        });
+
         msNavigationServiceProvider.saveItem("store", {
             title: "LOJA",
             group: true,

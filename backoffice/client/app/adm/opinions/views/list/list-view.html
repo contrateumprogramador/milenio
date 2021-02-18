@@ -1,0 +1,62 @@
+<!-- LIST VIEW -->
+<md-table-pagination
+    md-limit="vm.pagination.limit"
+    md-page="vm.pagination.page"
+    md-total="{{ vm.total }}"
+    md-on-paginate="vm.getList"
+    md-label="{page: 'Página:', rowsPerPage: 'Itens por página:', of: 'de'}"
+    md-page-select
+></md-table-pagination>
+<table
+    ng-show="vm.items.length"
+    md-table
+    md-row-select="options.rowSelection"
+    ng-model="vm.selected"
+    md-progress="promise"
+>
+    <thead md-head md-order="vm.order">
+        <tr md-row>
+            <th md-column md-order-by="user.name" ng-click="vm.sort()">
+                Cliente
+            </th>
+            <th md-column md-order-by="product.name" ng-click="vm.sort()">
+                Produto
+            </th>
+            <th md-column md-order-by="title" ng-click="vm.sort()">
+                Resumo
+            </th>
+            <th md-column md-order-by="avg" ng-click="vm.sort()">
+                Média
+            </th>
+            <th md-column>Exibir?</th>
+        </tr>
+    </thead>
+    <tbody md-body>
+        <tr
+            md-row
+            md-select="item"
+            md-auto-select
+            ng-repeat="item in vm.items | orderBy : vm.order track by $index"
+            ng-click="vm.select(item)"
+            ng-class="{'selected' : vm.selected === item}"
+        >
+            <td md-cell>{{ item.user.name }}</td>
+            <td md-cell>{{ item.product.name }}</td>
+            <td md-cell>{{ item.title }}</td>
+            <td md-cell>{{ item.avg }}</td>
+            <td md-cell>
+                <md-button ng-hide="item.exibed" class="md-icon-button" ng-click="vm.toggleShow($event, true)">
+                    <md-icon md-font-icon="icon-eye-off"></md-icon>
+                </md-button>
+                <md-button ng-show="item.exibed" class="md-icon-button" ng-click="vm.toggleShow($event, false)">
+                    <md-icon md-font-icon="icon-eye"></md-icon>
+                </md-button>                    
+            </td>
+        </tr>
+    </tbody>
+</table>
+<empty-alert
+    header="Sua busca não retornou nenhum resultado"
+    show="!vm.items.length"
+></empty-alert>
+<!-- / LIST VIEW -->

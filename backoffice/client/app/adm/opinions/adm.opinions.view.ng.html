@@ -1,0 +1,48 @@
+<div id="adm-companies" class="page-layout simple right-sidenav" layout="row">
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+        <page-header>
+            <div layout="row" layout-align="space-between center">
+                <div layout="row">
+                    <md-icon
+                        md-font-icon="icon-comment"
+                        class="icon"
+                    ></md-icon
+                    >Opiniões dos clientes
+                </div>
+            </div>
+        </page-header>
+
+        <!-- CONTENT -->
+        <md-content class="content" flex ms-scroll>
+            <div layout="row" layout-padding>
+                <md-input-container class="no-margin height-40" flex>
+                    <label>Busque por um produto</label>
+                    <input
+                        type="text"
+                        name="name"
+                        ng-model="vm.searchTerm"
+                        ng-keyup="vm.search()"
+                    />
+                </md-input-container>
+            </div>
+            <div
+                ng-include="'client/app/adm/opinions/views/list/list-view.html'"
+            ></div>
+        </md-content>
+        <!-- / CONTENT -->
+    </div>
+    <!-- / CENTER -->
+
+    <!-- SIDENAV -->
+    <md-sidenav
+        class="sidenav details-sidenav md-sidenav-right"
+        md-is-locked-open="$mdMedia('gt-md')"
+        md-component-id="details-sidenav"
+        ng-include="'client/app/adm/opinions/sidenavs/details/details-sidenav.html'"
+        ms-scroll
+        ms-sidenav-helper
+    >
+    </md-sidenav>
+    <!-- / SIDENAV -->
+</div>

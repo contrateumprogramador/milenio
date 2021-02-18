@@ -1,0 +1,39 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-accent-bg" layout="column" layout-align="space-between">
+    <div>
+        <div class="title">{{vm.selected.user.name}}</div>
+        <div class="subtitle secondary-text">Produto: {{vm.selected.product.name}}</div>
+    </div>
+</div>
+
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content class="content" flex ms-scroll>
+
+    <div class="file-details">
+
+        <dl>
+            <dt>Resumo:</dt>
+            <dd>
+                {{vm.selected.title}}
+            </dd>
+            <dt>Comentário:</dt>
+            <dd>
+                {{vm.selected.opinion }}
+            </dd>
+            <dt>Data:</dt>
+            <dd>
+                {{vm.selected.createdAt | date : 'dd/MM/yyyy'}}
+            </dd>
+        </dl>
+        <md-divider></md-divider>
+        <dl>
+            <dt>Custo Benefício: {{vm.selected.costBenefit}}</dt>
+            <dt>Características: {{vm.selected.characteristics}}</dt>
+            <dt>Qualidade: {{vm.selected.quality}}</dt>
+            <dt>Média: {{vm.selected.avg}}</dt>
+        </dl>
+
+</md-content>
+<!-- / SIDENAV CONTENT -->
