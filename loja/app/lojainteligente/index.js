@@ -1137,6 +1137,15 @@ var LojaInteligenteModule = angular
                 }
             };
 
+            API.Adm = {
+                opinions: function(productId) {
+                    return req("GET", "/adm/opinions/" + productId);
+                },
+                opinionCreate: function(data) {
+                    return req("POST", "/adm/opinions", data);
+                }
+            }
+
             API.Affiliate = {
                 identify: function(affiliateId, customerId, checkoutId) {
                     return $q(function(resolve, reject) {

@@ -1,5 +1,10 @@
 <div class="li-opinions" layout="column" layout-align="center center">
-    <div class="opinions" layout="row" layout-xs="column">
+    <div ng-hide="vm.opinions.length">
+        <p>
+            Nenhuma opinião para esse produto foi fornecida ainda
+        </p>
+    </div>
+    <div class="opinions" layout="row" layout-xs="column" ng-show="vm.opinions.length">
         <div class="opinion" ng-repeat="opinion in vm.opinions" layout="row" layout-xs="column">
             <div class="grades" layout="column">
                 <div layout="row" layout-align="space-between center" ng-repeat="grade in vm.grades">
@@ -14,13 +19,13 @@
             <div class="avaliation">
                 <div layout="row" layout-align="space-between">
                     <h1>{{opinion.title}}</h1>
-                    <h2>{{opinion.date | date: "dd/MM/yyyy"}}</h2>
+                    <h2>{{opinion.createdAt | date: "dd/MM/yyyy"}}</h2>
                 </div>
                 <div layout="row">
                     <p>{{opinion.opinion}}</p>
                 </div>
                 <div layout="row">
-                    <h3>{{opinion.user}}</h3>
+                    <h3>{{opinion.user.name}}</h3>
                 </div>
             </div>
         </div>

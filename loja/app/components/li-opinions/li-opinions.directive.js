@@ -7,7 +7,6 @@ module.exports = function(ngModule) {
             template: require("./li-opinions.view.html"),
             replace: true,
             scope: {
-                opinions: "=",
                 productId: "="
             },
             controllerAs: "vm",
@@ -16,45 +15,17 @@ module.exports = function(ngModule) {
 
                 vm.productId = $scope.productId
                 vm.user = Loja.Auth.me;
+                vm.opinions = [];
+
+                Loja.Adm.opinions(vm.productId).then((r) => {
+                    vm.opinions = r.data.data;
+                })
 
                 vm.grades = [
                     { title: "Média", value: "avg" },
                     { title: "Custo Benefício", value: "costBenefit" },
                     { title: "Características", value: "characteristics" },
                     { title: "Qualidade", value: "quality" },
-                ]
-
-                vm.opinions = [
-                    {
-                        title: "Muito bom",
-                        date: new Date(),
-                        opinion: "Produto de muita qualidade, utilizei na minha área externa e ficou lindo",
-                        avg: 4,
-                        costBenefit: 4,
-                        characteristics: 4,
-                        quality: 5,
-                        user: "Bruno Marra de Melo"
-                    },
-                    {
-                        title: "Mais ou menos",
-                        date: new Date(),
-                        opinion: "Produto deixou a desejar depois de 5 meses de uso começou a soltar umas pontas",
-                        avg: 3,
-                        costBenefit: 3,
-                        characteristics: 4,
-                        quality: 2,
-                        user: "Bruno Marra de Melo"
-                    },
-                    {
-                        title: "Mais ou menos",
-                        date: new Date(),
-                        opinion: "Produto deixou a desejar depois de 5 meses de uso começou a soltar umas pontas",
-                        avg: 3,
-                        costBenefit: 3,
-                        characteristics: 4,
-                        quality: 2,
-                        user: "Bruno Marra de Melo"
-                    }
                 ]
 
                 //Methods
@@ -98,7 +69,9 @@ module.exports = function(ngModule) {
                             }
 
                             function submit() {
-                                $mdDialog.hide("Opinião registrada com sucesso");
+                                Loja.Adm.opinionCreate(ctrl.form).then((r) => {
+                                    $mdDialog.hide("Opinião registrada com sucesso");
+                                })
                             }
                         },
                         controllerAs: 'ctrl',

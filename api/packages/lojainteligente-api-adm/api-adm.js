@@ -622,8 +622,80 @@ if (Meteor.isServer) {
         }
     });
 
+    // Opinions
+    // =============================================================================
+
+    // Maps to: /adm/opinions
+    Api.addRoute('opinions', { authRequired: true }, {
+        post: {
+            action: function() {
+                // seta o usuário logado
+                const user = setUser(this);
+
+                const opinion = this.bodyParams,
+                    product = Items.findOne({ _id: opinion.productId }, { fields: { name: 1 } })
+
+                opinion.user = {
+                    _id: user._id,
+                    name: user.profile.firstname + " " + user.profile.lastname
+                };
+
+                opinion.product = {
+                    _id: product._id,
+                    name: product.name
+                }
+
+                delete opinion.productId
+
+                opinion.avg = calcAvg(opinion);
+                opinion.exibed = false;
+
+                Opinions.insert(opinion);
+
+                return {
+                    status: 'success',
+                    data: true
+                };
+            }
+        }, // end POST
+        options: function() {
+            return {};
+        }
+    });
+
+    // Maps to: /adm/opinions/:productId
+    Api.addRoute('opinions/:productId', { authRequired: false }, {
+        get: {
+            action: function() {
+                // Pega o id da url
+                var productId = this.urlParams.productId;
+
+                return {
+                    status: 'success',
+                    data: Opinions.find({ exibed: true, "product._id": productId }).fetch()
+                };
+            },
+        }, // end GET
+        options: function() {
+            return {};
+        }
+    });
+
     // Functions
     // =============================================================================
+
+    function setUser(context) {
+        context.userId = context.request.headers["x-user-id"];
+
+        if (context.userId) context.user = Meteor.users.findOne(context.userId);
+
+        return context.user;
+    }
+
+    function calcAvg(opinion) {
+        let avg = (opinion.quality + opinion.costBenefit + opinion.characteristics) / 3;
+        return Math.ceil(avg);
+    }
 
     // Função para retornar um usuário ou todos de usuários configurados
     function getUserFields(id, query) {

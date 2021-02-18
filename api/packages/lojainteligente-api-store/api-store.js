@@ -1991,6 +1991,36 @@ if (Meteor.isServer) {
         }
     );
 
+        // Opinions
+    // =============================================================================
+
+    // Maps to: /store/opinions
+    Api.addRoute('opinions', { authRequired: true }, {
+        post: {
+            action: function() {
+                var company = this.bodyParams;
+
+                // Verifica se 'username' já existe
+                if (Companies.findOne({ 'username': company.username })) {
+                    return {
+                        statusCode: 304,
+                        body: { status: 'fail', message: 'Empresa já existe.' }
+                    };
+                }
+
+                var companyId = Companies.insert(company);
+
+                return {
+                    status: 'success',
+                    data: Companies.findOne({ _id: companyId })
+                };
+            },
+            options: function() {
+                return {};
+            }
+        }, // end POST
+    });
+
     // Functions
 
     //filtra por ativos dentro de arrays específicos
