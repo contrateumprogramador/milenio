@@ -238,11 +238,10 @@
                                                 <div layout="row" layout-align="start center" flex-xs="100" flex>
                                                     <img ng-src="{{ item.picture || '/assets/images/no_image.jpg' }}" class="md-avatar" hide show-gt-xs flex="10">
                                                     <p layout-padding flex="40">{{ item.name }}</p>
-                                                    <md-input-container flex="20">
-                                                        <label>Quant.</label>
-                                                        <input type="number" ng-model="item.quant" min="1" step="1" readonly="readonly">
-                                                    </md-input-container>
-                                                    <span class="price" flex>{{ item.total | currency }}</span>
+                                                    <span class="price" flex>{{item.quant}} X {{ item.total | currency }}</span>
+                                                    <md-button class="opinion-button" aria-label="Opinar" ng-click="vm.opinionDialog($event, item._id)">
+                                                        <span>Avaliar Produto</span>
+                                                    </md-button>
                                                 </div>
                                             </div>
                                             <hr>

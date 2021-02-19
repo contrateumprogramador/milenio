@@ -116,6 +116,7 @@ module.exports = function(ngModule) {
         vm.orderSelect = orderSelect;
         vm.showTicket = showTicket;
         vm.tabChange = tabChange;
+        vm.opinionDialog = opinionDialog;
 
         $scope.$watch(
             function() {
@@ -229,6 +230,55 @@ module.exports = function(ngModule) {
         // Confere se Adress está selecionado
         function addressSelected(address) {
             return vm.address._id == address._id;
+        }
+
+        function opinionDialog(ev, productId) {        
+            $mdDialog.show({
+                controller: function($mdDialog, Loja) {
+                    var ctrl = this;
+
+                    ctrl.form = {
+                        costBenefit: 1,
+                        quality: 1,
+                        characteristics: 1,
+                        productId
+                    }
+
+                    //Methods
+                    ctrl.cancel = cancel
+                    ctrl.select = select
+                    ctrl.starFilled = starFilled
+                    ctrl.submit = submit
+                    
+                    //Functions
+                    function cancel(){
+                        $mdDialog.cancel();
+                    };
+
+                    function select(index, key) {
+                        ctrl.form[key] = index+1
+                    }
+
+                    function starFilled(index, key) {
+                        return (index+1) <= ctrl.form[key]
+                    }
+
+                    function submit() {
+                        Loja.Adm.opinionCreate(ctrl.form).then((r) => {
+                            $mdDialog.hide("Opinião registrada com sucesso");
+                        })
+                    }
+                },
+                controllerAs: 'ctrl',
+                template: require('../components/li-opinions/li-opinions-dialog.view.html'),
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: false,
+                fullscreen: true
+            })
+            .then(function(answer) {
+                toast.message(answer)
+            });
         }
 
         // Toggle do modo de edição do Customer
