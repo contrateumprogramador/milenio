@@ -59,6 +59,7 @@ if (Meteor.isServer) {
                 if (!payment) throw new Meteor.Error(404, "Pagamento não encontrado.");
 
                 body.checkout = maskCheckout(order);
+                body.installments = payment.transaction.parcelas;
                 body.cardBrand = (payment.paymentMethod === "Cartão de Crédito") ? payment.credit_card.brand : payment.paymentMethod
             }
 
