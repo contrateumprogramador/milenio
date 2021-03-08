@@ -52,7 +52,8 @@
             <td md-cell>
                 <md-button
                     class="md-icon-button"
-                    ui-sref="app.dashboard({ affiliateId: item._id, affiliateName: item.profile.firstname + '  ' + item.profile.lastname })"
+                    ui-ref="app.dashboard({ affiliateId: item._id, affiliateName: item.profile.firstname + '  ' + item.profile.lastname })"
+                    aria-label="item.profile.firstname + '  ' + item.profile.lastname"
                 >
                     <md-icon md-font-icon="icon-tile-four"></md-icon>
                 </md-button>

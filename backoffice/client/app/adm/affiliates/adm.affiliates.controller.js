@@ -32,8 +32,6 @@
         };
         vm.order = "-profile.comissions.total";
 
-        // Vars
-
         // Methods
         vm.add = add;
         vm.edit = edit;
@@ -42,6 +40,7 @@
         vm.remove = remove;
         vm.select = select;
         vm.sort = sort;
+        vm.search = search;
         vm.welcome = welcome;
 
         //////////
@@ -89,7 +88,6 @@
                 if (err) {
                     toast.message(err.reason);
                 } else {
-                    console.log(r);
                     vm.progressLoading = false;
                     vm.items = r.items;
                     vm.total = r.total;

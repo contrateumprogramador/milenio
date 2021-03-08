@@ -29,7 +29,7 @@ function config(
             },
             List: function($q, toast) {
                 return $q(function(resolve, reject) {
-                    Meteor.call("Affiliate.list", function(err, r) {
+                    Meteor.call("Affiliate.list", {}, { limit: 20 }, function(err, r) {
                         if (err) {
                             toast.message(err.reason);
                             reject("NO_DATA");

@@ -28,7 +28,7 @@ Meteor.methods({
             "profile.company.companyId": Meteor.user().profile.company.companyId
         };
 
-        options = { fields: { profile: 1, emails: 1 } };
+        options = { ...options, fields: { profile: 1, emails: 1 } };
 
         const affiliates = List(Meteor.users, query, options),
             affiliatesIds = affiliates.items.map((affiliate) => affiliate._id),
