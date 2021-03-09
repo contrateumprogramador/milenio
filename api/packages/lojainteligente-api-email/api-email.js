@@ -324,6 +324,7 @@ if (Meteor.isServer) {
             firstname: body.name,
             whatsapp: body.phone,
             contactEmail: body.email,
+            segment: body.segment,
             message: body.message
         };
         return email;

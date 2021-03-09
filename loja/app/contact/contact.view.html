@@ -23,6 +23,14 @@
                         <label>Mensagem:</label>
                         <textarea required ng-model="vm.form.message" md-maxlength="300" md-select-on-focus></textarea>
                     </md-input-container>
+                    <md-input-container flex="100" flex-gt-xs="100" class="md-block">
+                      <label>Você busca móveis para qual segmento?</label>
+                      <md-select ng-model="vm.form.segment" required>
+                          <md-option ng-repeat="option in vm.segments" ng-value="option">
+                              {{option}}
+                          </md-option>
+                      </md-select>
+                    </md-input-container>
                     <div class="actions" flex="100">
                         <md-button type="submit" class="md-raised width-100 md-primary" ng-disabled="vm.contactForm.$invalid || vm.loading" aria-label="Enviar contato">
                           Enviar

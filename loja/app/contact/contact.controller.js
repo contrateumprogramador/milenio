@@ -5,13 +5,19 @@ module.exports = function(ngModule){
             layout = $scope.$parent.layout,
             vm = this;
 
-
         // Ctrl
         $rootScope.pageTitle = 'Contato : Milênio Móveis';
 
         // Data
 
         // Vars
+        vm.segments = [
+          "Construtoras e Incorporadoras", 
+          "Hotéis e Pousadas", 
+          "Arquitetura e Decoração", 
+          "Cliente Final", 
+          "Outros"
+        ]
 
         // Methods
         vm.sendContact = sendContact;
