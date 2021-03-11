@@ -200,12 +200,6 @@ if (Meteor.isServer) {
             item = configure(item); //aplica algumas configurações no objeto
             item.companyId = company._id;
 
-            // se tiver googleShopping, transforma objeto em string
-            if (item.googleShopping && item.googleShopping.active)
-                item.googleShopping.data = JSON.stringify(
-                    item.googleShopping.data
-                );
-
             if (!item.installments || item.installments.min == 0) {
                 delete item.installments;
                 update["$unset"] = { installments: "" };
@@ -354,6 +348,12 @@ if (Meteor.isServer) {
 
     // configura as tags no formato correto
     function configure(item) {
+        // se tiver googleShopping, transforma objeto em string
+        if (item.googleShopping && item.googleShopping.active)
+            item.googleShopping.data = JSON.stringify(
+                item.googleShopping.data
+            );
+
         var newTags = [];
         if (item.tags) {
             item.tags.forEach(function(tag) {
