@@ -134,7 +134,7 @@ if (Meteor.isServer) {
 
             return retorno;
         },
-        searchItems: function(searchText) {
+        searchItems: function(searchText, field = "name_nd") {
             if (
                 !Roles.userIsInRole(Meteor.userId(), [
                     "admin",
@@ -148,7 +148,9 @@ if (Meteor.isServer) {
 
             return Items.find({
                 companyId: Meteor.user().profile.company.companyId,
-                name_nd: regex(searchText)
+                [field]: regex(searchText)
+            }, { 
+                limit: 30 
             }).fetch();
         },
         itemsCount: function() {

@@ -2,7 +2,7 @@
 <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.loading"></md-progress-linear>
 <md-table-container>
   <md-table-pagination md-limit="vm.pagination.limit" md-page="vm.pagination.page" md-total="{{vm.total}}" md-on-paginate="vm.changePage"
-    mdLabel="vm.label" md-page-select></md-table-pagination>
+    md-label="{page: 'Página:', rowsPerPage: 'Itens por página:', of: 'de'}" md-page-select></md-table-pagination>
 </md-table-container>
 <div layout="row" layout-padding class="card-view" layout-wrap id="cardView">
   <div ng-repeat="(key, item) in vm.exibedItems | orderBy : -createdAt track by $index" flex="20">

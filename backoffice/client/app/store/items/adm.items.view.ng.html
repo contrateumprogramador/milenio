@@ -13,8 +13,12 @@
             <div layout="row" id="Search" layout-padding>
               <md-input-container flex>
                   <label>Buscar por nome</label>
-                  <input type="text" name="name" ng-model="vm.search.name" ng-keyup="vm.searchName()">
+                  <input type="text" name="name" ng-model="vm.search.name_nd" ng-keyup="vm.searchText('name_nd')">
               </md-input-container>
+              <md-input-container flex>
+                <label>Buscar por fornecedor</label>
+                <input type="text" name="provider" ng-model="vm.search.provider" ng-keyup="vm.searchText('provider')">
+            </md-input-container>
             </div>
             <div ng-include="'client/app/store/items/views/list/list-view.html'"></div>
         </md-content>

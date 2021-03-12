@@ -15,7 +15,6 @@
         vm.customizations = Customizations;
         vm.selected = vm.customizations[0] || {};
         vm.items = Items.items;
-        vm.searchedItems = [];
         vm.tags = Tags;
         vm.role = Meteor.user().roles[0];
 
@@ -27,13 +26,9 @@
             skip: 0,
             page: 1
         };
-        vm.label = {
-            page: "Página",
-            of: "de"
-        };
         vm.search = {
-          name: "",
-          tags: []
+            name_nd: "",
+            provider: ""
         };
         vm.selectedItem = null;
         vm.searchText = null;
@@ -50,7 +45,7 @@
         vm.openForm = openForm;
         vm.querySearch = querySearch;
         vm.remove = remove;
-        vm.searchName = searchName;
+        vm.searchText = searchText;
         vm.searchTags = searchTags;
         vm.select = select;
         vm.toggleDetails = toggleDetails;
@@ -68,26 +63,16 @@
                 page: vm.pagination.page
             };
 
-            if(vm.searchedItems.length){
-                vm.exibedItems = angular.copy(vm.searchedItems).splice(
-                    vm.pagination.page*vm.pagination.limit-10,
-                    vm.pagination.limit
-                );
+            Meteor.call('itemsList', vm.pagination, function(err, r){
+                vm.exibedItems = r.items;
+                vm.total = r.total;
 
                 $scope.$apply();
-            } else {
-                Meteor.call('itemsList', vm.pagination, function(err, r){
-                    vm.exibedItems = r.items;
-                    vm.total = r.total;
-
-                    $scope.$apply();
-                });
-            }
+            });
         }
 
         function cleanItems(){
             vm.items = [];
-            vm.searchedItems = [];
             vm.exibedItems = [];
             vm.pagination = {
                 limit: 10,
@@ -246,15 +231,16 @@
             });
         }
 
-        function searchName(){
-            if(vm.search.name.length > 3){
+        function searchText(field){
+            if(vm.search[field].length > 3){
                 vm.progressLoading = true;
-                Meteor.call('searchItems', configureString(vm.search.name), function(err, r){
+                Meteor.call('searchItems', configureString(vm.search[field]), field, function(err, r){
                     vm.items = r;
                     vm.total = r.length;
-                    vm.searchedItems = r;
+                    vm.exibedItems = r;
                     vm.progressLoading = false;
-                    changePage();
+
+                    $scope.$apply();
                 });
             } else {
                 cleanItems();
