@@ -21,9 +21,7 @@ if (Meteor.isServer) {
     // Maps to: /checkouts
     Api.addRoute(
         "",
-        {
-            authRequired: false
-        },
+        { authRequired: false },
         {
             post: {
                 // Regras permitidas
@@ -98,12 +96,8 @@ if (Meteor.isServer) {
 
                         // Atualizar o Checkout
                         Checkouts.update(
-                            {
-                                _id: checkoutId
-                            },
-                            {
-                                $set: checkout
-                            }
+                            { _id: checkoutId },
+                            { $set: checkout }
                         );
                     } else {
                         // Define número do Checkout
@@ -132,6 +126,18 @@ if (Meteor.isServer) {
                             affiliate: 1
                         }
                     });
+
+                    if(moment(checkout.meta.createdAt).add(3, 'days').isBefore(moment())) {
+                        console.log("foi")
+                        return {
+                            statusCode: 403,
+                            body: {
+                                status: "fail",
+                                message:
+                                    "Pedido criado a mais de 3 dias."
+                            }
+                        };
+                    }
 
                     var user = this.user;
 

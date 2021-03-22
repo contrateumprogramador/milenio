@@ -463,9 +463,7 @@ var LojaInteligenteModule = angular
                         function(r) {
                             setCheckout(r.data.data);
                         },
-                        function(err) {
-                            console.log(err);
-                        }
+                        function(err) {}
                     );
                 }
             }
@@ -600,11 +598,7 @@ var LojaInteligenteModule = angular
                             if (callback) callback(r.data.data);
                         },
                         function(err) {
-                            if (
-                                err.status == 403 &&
-                                err.data.message ==
-                                    "Pedido já realizado, não pode ser alterado."
-                            )
+                            if (err.status == 403)
                                 resetCart();
 
                             console.log(err);
