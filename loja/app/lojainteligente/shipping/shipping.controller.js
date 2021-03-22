@@ -178,7 +178,7 @@ module.exports = function(ngModule){
         function submit(ev, form) {
             vm.form = form;
 
-            if(!vm.form) {
+            if(!vm.form || !vm.form.number) {
                 toast.message("Informe o endereço de entrega")
                 return;
             }
@@ -193,14 +193,16 @@ module.exports = function(ngModule){
             });
         }
 
-        function selectAddress(address) {
+        function selectAddress(address) {            
             vm.form = angular.copy(address);
-            Loja.Store.shipping(vm.form.zipcode).then(function(first){
-                Loja.Checkout.shipping(first.data.data, vm.form.zipcode);
-                vm.cart = Loja.Checkout.cart();
-            }, function(err) {
-                toast.message(err.data.message);
-            });
+            if(vm.form.zipcode) {
+                Loja.Store.shipping(vm.form.zipcode).then(function(first){
+                    Loja.Checkout.shipping(first.data.data, vm.form.zipcode);
+                    vm.cart = Loja.Checkout.cart();
+                }, function(err) {
+                    toast.message(err.data.message);
+                });
+            }
         }
 
         // seleciona o primeiro endereço

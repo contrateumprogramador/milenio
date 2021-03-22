@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <div layout="row" layout-align-xs="center center" ng-hide="vm.submit && vm.checkMedia('xs')">
+        <div layout="row" layout-align="center center" ng-hide="vm.submit && vm.checkMedia('xs')">
             <md-button ng-click="vm.submit ? vm.submit($event, vm.form) : vm.goToCheckout('shipping')" class="yellow-button" aria-label="Cart" ng-disabled="vm.progressLoading || $root.affiliate">
                 <span>{{vm.getLabelButton()}}</span>
             </md-button>

@@ -600,8 +600,6 @@ var LojaInteligenteModule = angular
                         function(err) {
                             if (err.status == 403)
                                 resetCart();
-
-                            console.log(err);
                         }
                     );
                 }
@@ -691,7 +689,6 @@ var LojaInteligenteModule = angular
                                     resolve();
                                 },
                                 function(err) {
-                                    console.log(err);
                                     reject();
                                 }
                             );
@@ -1070,12 +1067,10 @@ var LojaInteligenteModule = angular
                 },
                 resetCart: resetCart,
                 setCheckout: function(order) {
-                    console.log("setCheckout");
                     checkout = order;
                     saveCheckout();
                 },
                 setCheckoutDocumentPhone: function(document, phone) {
-                    console.log("setCheckoutPone");
                     checkout.customer.document = document;
                     checkout.customer.phone = phone;
                     saveCheckout();
