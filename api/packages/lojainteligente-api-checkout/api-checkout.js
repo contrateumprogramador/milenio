@@ -1,8 +1,11 @@
 // LojaInteligente API Checkout
 
+import RdStation from "./modules/rdstation";
+
 export const name = "api-checkout";
 
-if (Meteor.isServer) {
+if (Meteor.isServer) {    
+
     // Auth API configuration
     var Api = new Restivus({
         apiPath: "checkouts",
@@ -183,14 +186,8 @@ if (Meteor.isServer) {
                         // atualizada Checkout
                         if (funnelStatus) {
                             Checkouts.update(
-                                {
-                                    _id: checkoutId
-                                },
-                                {
-                                    $set: {
-                                        funnelStatus: funnelStatus
-                                    }
-                                }
+                                { _id: checkoutId },
+                                { $set: { funnelStatus } }
                             );
                         }
                     });
@@ -301,7 +298,7 @@ if (Meteor.isServer) {
             post: {
                 // Regras permitidas
                 roleRequired: [],
-                action: function() {
+                action: async function() {
                     var payment = this.bodyParams.payment;
 
                     // Busca Checkout
@@ -337,6 +334,8 @@ if (Meteor.isServer) {
                     var company = Companies.findOne({
                         _id: user.profile.company.companyId
                     });
+
+                    Meteor.call("RdStation.sendEvent", "ORDER_PLACED", {})
 
                     return complete(company, checkout, payment, user);
                 }
