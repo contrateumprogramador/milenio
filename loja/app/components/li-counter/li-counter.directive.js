@@ -20,10 +20,10 @@ module.exports = function(ngModule) {
                 vm.itemRemove = itemRemove
 
                 function changeQuant(item, value, ev, index){
-                    if(item.stock === 1) {
-                      if(item.quant + value <= item.max) item.quant += value;
-                    } else if(item.quant + value === 0) {
+                    if(item.quant + value === 0) {
                         itemRemove(ev, item, index)
+                    } else if(item.stock === 1) {
+                        if(item.quant + value <= item.max) item.quant += value;                    
                     } else {
                         item.quant += value;
                     }
