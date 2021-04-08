@@ -4,7 +4,8 @@
   "scripts": {
     "start": "MONGO_URL='mongodb://staging:Mmoveis768Staging@4b9d5596-187a-4cac-bff1-8864513be956-0.8f7bfd8f3faa4218aec56e069eb46187.databases.appdomain.cloud:30941,4b9d5596-187a-4cac-bff1-8864513be956-1.8f7bfd8f3faa4218aec56e069eb46187.databases.appdomain.cloud:30941/staging?authSource=staging&replicaSet=replset&ssl=true' meteor run --port 3000",
     "staging": "cd deploy/staging && mup deploy",
-    "production": "cd deploy/production && mup deploy"
+    "production": "cd deploy/production && mup deploy",
+    "local": "meteor run --port 3000"
   },
   "dependencies": {
     "angular": "^1.6.6",
