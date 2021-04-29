@@ -1,16 +1,16 @@
-module.exports = function(ngModule){
+module.exports = function (ngModule) {
     require('./shipping.sass');
-    ngModule.controller('ShippingCtrl', function($mdDialog, $rootScope, $scope, $state, $timeout, Addresses, Installments, Loja, toast) {
+    ngModule.controller('ShippingCtrl', function ($mdDialog, $rootScope, $scope, $state, $timeout, Addresses, Installments, Loja, toast) {
         var layout = $scope.$parent.layout,
             vm = this,
             focused = false;
 
         //controla o loading
         Loja.loading(
-            function() {
+            function () {
                 vm.progressLoading = true;
             },
-            function() {
+            function () {
                 vm.progressLoading = false;
             }
         );
@@ -20,13 +20,12 @@ module.exports = function(ngModule){
 
         // Data
         vm.cart = Loja.Checkout.cart();
-        vm.installments = vm.cart.internal
-            ? {
-                  times: vm.cart.installmentsMax,
-                  value: vm.cart.total / vm.cart.installmentsMax
-              }
-            : Installments;
-        vm.checkoutShipping = Loja.Checkout.checkoutShipping(); 
+        vm.installments = vm.cart.internal ?
+            {
+                times: vm.cart.installmentsMax,
+                value: vm.cart.total / vm.cart.installmentsMax
+            } : Installments;
+        vm.checkoutShipping = Loja.Checkout.checkoutShipping();
         vm.addresses = (vm.cart.internal) ? vm.checkoutShipping : (Addresses.data.data || []);
         vm.shippings = Loja.Checkout.getShippings;
 
@@ -77,7 +76,7 @@ module.exports = function(ngModule){
         }
 
         function inputFocus(name) {
-            $timeout(function() {
+            $timeout(function () {
                 angular.element(document.getElementsByName(name)[0]).focus();
             }, 500);
         }
@@ -87,14 +86,14 @@ module.exports = function(ngModule){
         }
 
         function addressSave() {
-            Loja.Customer.addressCreate(angular.copy(vm.form)).then(function(r) {
+            Loja.Customer.addressCreate(angular.copy(vm.form)).then(function (r) {
                 console.log(r)
             });
         }
 
         function addressUpdate() {
-            if (!vm.cart.internal){
-                Loja.Customer.addressUpdate(vm.form._id, angular.copy(vm.form)).then(function(r) {
+            if (!vm.cart.internal) {
+                Loja.Customer.addressUpdate(vm.form._id, angular.copy(vm.form)).then(function (r) {
                 });
             }
         }
@@ -103,7 +102,7 @@ module.exports = function(ngModule){
             var address = angular.copy(vm.address);
 
             $mdDialog.show({
-                controller: function($mdDialog) {
+                controller: function ($mdDialog) {
                     var ctrl = this;
 
                     // Methods
@@ -118,7 +117,7 @@ module.exports = function(ngModule){
                         ctrl.cancel();
                     }
 
-                    ctrl.cancel = function(){
+                    ctrl.cancel = function () {
                         $mdDialog.cancel();
                     };
                 },
@@ -129,48 +128,48 @@ module.exports = function(ngModule){
                 clickOutsideToClose: false,
                 fullscreen: true
             })
-            .then(function(answer) {
-                //addressesGet();
-            });
+                .then(function (answer) {
+                    //addressesGet();
+                });
         }
 
         // Remove Address
         function addressRemove(ev) {
             var confirm = $mdDialog.confirm()
-            .title('Excluir endereço?')
-            .textContent('Confirma a exclusão do endereço ' + vm.form.title + '?')
-            .ariaLabel('Excluir endereço?')
-            .targetEvent(ev)
-            .ok('Excluir')
-            .cancel('Cancelar');
+                .title('Excluir endereço?')
+                .textContent('Confirma a exclusão do endereço ' + vm.form.title + '?')
+                .ariaLabel('Excluir endereço?')
+                .targetEvent(ev)
+                .ok('Excluir')
+                .cancel('Cancelar');
 
-            $mdDialog.show(confirm).then(function() {
-                Loja.Customer.addressDelete(vm.form._id).then(function() {
+            $mdDialog.show(confirm).then(function () {
+                Loja.Customer.addressDelete(vm.form._id).then(function () {
                     toast.message('Endereço excluído.');
                     afterSave();
-                }, function(err) {
+                }, function (err) {
                     toast.message(err.reason);
                 });
-            }, function() {
+            }, function () {
                 $scope.status = 'You decided to keep your debt.';
             });
         }
 
         function addressSelected(address) {
-            if (vm.form && !vm.cart.internal){
+            if (vm.form && !vm.cart.internal) {
                 vm.selected = true;
                 return (vm.form._id == address._id);
             }
         }
 
         function afterSave(type, address) {
-            Loja.Customer.addresses().then(function(r) {
+            Loja.Customer.addresses().then(function (r) {
                 vm.addresses = r.data.data;
                 if (type == 'save')
-                    selectAddress(vm.addresses[vm.addresses.length-1]);
+                    selectAddress(vm.addresses[vm.addresses.length - 1]);
                 else
                     selectAddress(address);
-            }, function(err) {
+            }, function (err) {
                 toast.message(err.reason);
             });
         }
@@ -178,7 +177,7 @@ module.exports = function(ngModule){
         function submit(ev, form) {
             vm.form = form;
 
-            if(!vm.form || !vm.form.number) {
+            if (!vm.form || !vm.form.number) {
                 toast.message("Informe o endereço de entrega")
                 return;
             }
@@ -187,36 +186,36 @@ module.exports = function(ngModule){
 
             Loja.Checkout.shipping(null, null, angular.copy(form));
 
-            Loja.Checkout.payment(ev, function() {
+            Loja.Checkout.payment(ev, function () {
                 $rootScope.goTo = 'pedidos';
                 $state.go('user');
             });
         }
 
-        function selectAddress(address) {            
+        function selectAddress(address) {
             vm.form = angular.copy(address);
-            if(vm.form.zipcode) {
-                Loja.Store.shipping(vm.form.zipcode).then(function(first){
+            if (vm.form.zipcode) {
+                Loja.Store.shipping(vm.form.zipcode).then(function (first) {
                     Loja.Checkout.shipping(first.data.data, vm.form.zipcode);
                     vm.cart = Loja.Checkout.cart();
-                }, function(err) {
+                }, function (err) {
                     toast.message(err.data.message);
                 });
             }
         }
 
         // seleciona o primeiro endereço
-        if(vm.addresses.length > 0 && vm.shippings() && !vm.shippings().zipcode)
+        if (vm.addresses.length > 0 && vm.shippings() && !vm.shippings().zipcode)
             selectAddress(vm.addresses[0]);
 
         // se tiver sido enviado, e ele já existir, seleciona
-        if(vm.checkoutShipping) 
+        if (vm.checkoutShipping)
             selectAddress(vm.checkoutShipping)
 
         // se tiver sido enviado, e ele já existir, seleciona
-        if(vm.shippings() && vm.shippings().zipcode){
-            vm.addresses.forEach(function(address){
-                if(address.zipcode == vm.shippings().zipcode)
+        if (vm.shippings() && vm.shippings().zipcode) {
+            vm.addresses.forEach(function (address) {
+                if (address.zipcode == vm.shippings().zipcode)
                     selectAddress(address);
             });
         }

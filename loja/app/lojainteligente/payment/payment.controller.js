@@ -37,18 +37,18 @@ module.exports = function(LojaInteligenteModule) {
         vm.errorMessageBoleto = null;
         vm.formStep = 0;
         vm.cart = Loja.Checkout.cart();
-        vm.conditions = vm.cart.internal
-            ? {
+        vm.conditions = vm.cart.internal ?
+            {
                   times: vm.cart.installmentsMax,
                   value: vm.cart.total / vm.cart.installmentsMax
-              }
-            : Conditions;
+            } :
+            Conditions;
         vm.installments = Installments || [];
         vm.payment = creditcard.init("payment");
         vm.paymentComplete = false;
-        vm.payment.installments = vm.installments
-            ? vm.installments[vm.installments.length - 1].times
-            : 0;
+        vm.payment.installments = vm.installments ?
+            vm.installments[vm.installments.length - 1].times :
+            0;
         vm.billetDiscount =
             _.get(Loja.Store.settings(), "billet.discount.value") || false;
         vm.tab = 0;        
@@ -80,7 +80,7 @@ module.exports = function(LojaInteligenteModule) {
         function brandClass(brand) {
             if (!vm.ccForm || !vm.ccForm.ccNumber) return;
 
-            var ccNumber = vm.ccForm.ccNumber.$$rawModelValue;            
+            const ccNumber = vm.ccForm.ccNumber.$$rawModelValue;
 
             if (ccNumber && ccNumber.length >= 4) {
                 switch (brand) {
@@ -99,7 +99,7 @@ module.exports = function(LojaInteligenteModule) {
                         return "card-discover";
                 }
             } else {
-                return;
+
             }
         }
 
@@ -121,11 +121,11 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function cardChange(field) {
-            var input = vm.ccForm[field];
+            const input = vm.ccForm[field];
 
             if (!input) return;
 
-            var v = input.$$rawModelValue;
+            const v = input.$$rawModelValue;
 
             switch (field) {
                 case "ccNumber":
@@ -195,18 +195,18 @@ module.exports = function(LojaInteligenteModule) {
                 case 2:
                     return validateInput("ccName");
                 case 3:
-                    return validateInput("ccValidityMonth")
+                    return validateInput("ccValidityMonth");
                 case 4:
-                    return validateInput("ccValidityYear")
+                    return validateInput("ccValidityYear");
                 case 5:
-                    return validateInput("ccCvv")
+                    return validateInput("ccCvv");
             }
 
-            return false
+            return false;
         }
 
         function flip(e) {
-            var b = e == "in" ? "FLIP_CARD_IN" : "FLIP_CARD_OUT";
+            var b = e === "in" ? "FLIP_CARD_IN" : "FLIP_CARD_OUT";
 
             $rootScope.$broadcast(b);
         }
@@ -214,25 +214,25 @@ module.exports = function(LojaInteligenteModule) {
         function focus(v) {
             focused = v;
 
-            if (v == "cvv") cardChange("ccCvv");
+            if (v === "cvv") cardChange("ccCvv");
         }
 
         function goToCart(state) {
-            Loja.Checkout.resetCart()
+            Loja.Checkout.resetCart();
 
             if (Loja.Auth.me()) $state.go("user", { actualOrder: true });
             else vm.paymentComplete = true;
         }
 
         function inputFocus(name) {
-            console.log(document.getElementsByName(name)[0])
+            console.log(document.getElementsByName(name)[0]);
             $timeout(function() {
                 angular.element(document.getElementsByName(name)[0]).focus();
             }, 500);
         }
 
         function isFocused(v) {
-            return v == focused;
+            return v === focused;
         }
 
         function loading(v) {
@@ -240,11 +240,11 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function step(i) {
-            if(continueDisabled() && i == 1) toast.message("Preencha os dados corretamente")
-            else if((vm.formStep + i) < 0) $state.go("shipping", { actual: true })
+            if(continueDisabled() && i === 1) toast.message("Preencha os dados corretamente");
+            else if((vm.formStep + i) < 0) $state.go("shipping", { actual: true });
             else {
                 vm.formStep += i || 1;
-                if(vm.formStep > 5) submit()
+                if(vm.formStep > 5) submit();
             }
         }
 
@@ -257,7 +257,7 @@ module.exports = function(LojaInteligenteModule) {
             vm.errorMessageCC = null;
             vm.errorMessageBoleto = null;
 
-            if (method == "boleto") {
+            if (method === "boleto") {
                 vm.payment.method = "Boleto Bradesco";
                 vm.payment.installments = 1;
             }
@@ -265,25 +265,25 @@ module.exports = function(LojaInteligenteModule) {
             Loja.Checkout.pay(angular.copy(vm.payment)).then(
                 function(r) {
                     loading(false);
-                    if (vm.payment.method == "Boleto Bradesco") {
+                    if (vm.payment.method === "Boleto Bradesco") {
                         vm.boletoUrl = r.data.data.transaction.urlPagamento;
                     } else {
                         toast.message("Obrigado por comprar na Milenio Móveis, em breve você recebera um telefonema da empresa parceira Konduto para confirmação de alguns dados, por favor confirme para podermos dar continuidade em seu pedido", 6000);
-                        goToCart()
+                        goToCart();
                     }
                     vm.payment = [];
                 },
                 function(err) {
-                    if (vm.payment.method == "Boleto Bradesco") {
+                    if (vm.payment.method === "Boleto Bradesco") {
                         vm.errorMessageBoleto =
-                            err.data && err.data.message
-                                ? err.data.message
-                                : "Erro no sistema, tente novamente.";
+                            err.data && err.data.message ?
+                                err.data.message :
+                                "Erro no sistema, tente novamente.";
                     } else {
                         vm.errorMessageCC =
-                            err.data && err.data.message
-                                ? err.data.message
-                                : "Erro no sistema, tente novamente.";
+                            err.data && err.data.message ?
+                                err.data.message :
+                                "Erro no sistema, tente novamente.";
                     }
                     loading(false);
                     vm.payment = [];
@@ -293,7 +293,7 @@ module.exports = function(LojaInteligenteModule) {
                 }
             );
 
-            return;
+
         }
 
         function validateInput(name) {

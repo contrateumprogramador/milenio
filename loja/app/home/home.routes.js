@@ -1,13 +1,13 @@
-module.exports = function(ngModule) {
-    ngModule.config(function($stateProvider) {
+module.exports = function (ngModule) {
+    ngModule.config(function ($stateProvider) {
         $stateProvider.state("home", {
             url: "/",
             templateProvider: [
                 "$q",
-                function($q) {
+                function ($q) {
                     var deferred = $q.defer();
 
-                    require.ensure(["../home/home.view.html"], function() {
+                    require.ensure(["../home/home.view.html"], function () {
                         var template = require("../home/home.view.html");
                         deferred.resolve(template);
                     });
@@ -17,28 +17,28 @@ module.exports = function(ngModule) {
             ],
             controller: "HomeCtrl as vm",
             resolve: {
-                NewItems: function(Loja, toast) {
+                NewItems: function (Loja, toast) {
                     return Loja.Store.items({
                         "tags.url": "home-destaques-1"
                     }).then(
-                        function(r) {
+                        function (r) {
                             return r.data.data;
                         },
-                        function(err) {
+                        function (err) {
                             toast.message(err.data.message);
                         }
                     );
                 },
-                Coupon: function($location, $q, Loja) {
-                    return $q(function(resolve, reject) {
+                Coupon: function ($location, $q, Loja) {
+                    return $q(function (resolve, reject) {
                         var coupon = $location.search().cupom;
                         if (coupon) {
                             Loja.Checkout.coupon(coupon).then(
-                                function(r) {
+                                function (r) {
                                     console.log(r);
                                     resolve(r.data);
                                 },
-                                function(err) {
+                                function (err) {
                                     console.log(err);
                                     resolve(err.data);
                                 }
@@ -48,55 +48,55 @@ module.exports = function(ngModule) {
                         }
                     });
                 },
-                BestSellers: function(Loja, toast) {
+                BestSellers: function (Loja, toast) {
                     return Loja.Store.items({
                         "tags.url": "home-destaques-2"
                     }).then(
-                        function(r) {
+                        function (r) {
                             return r.data.data;
                         },
-                        function(err) {
+                        function (err) {
                             toast.message(err.data.message);
                         }
                     );
                 },
-                Banners: function(Loja, toast) {
+                Banners: function (Loja, toast) {
                     return Loja.Store.banners("Home Principal").then(
-                        function(r) {
-                            return r.data.data[0]
-                                ? r.data.data[0].banners
-                                : r.data.data.banners;
+                        function (r) {
+                            return r.data.data[0] ?
+                                r.data.data[0].banners :
+                                r.data.data.banners;
                         },
-                        function(err) {
+                        function (err) {
                             toast.message(err.data.message);
                         }
                     );
                 },
-                BlocoBanners: function(Loja, toast) {
+                BlocoBanners: function (Loja, toast) {
                     return Loja.Store.banners("Home Bloco").then(
-                        function(r) {
-                            return r.data.data[0]
-                                ? r.data.data[0].banners
-                                : r.data.data.banners;
+                        function (r) {
+                            return r.data.data[0] ?
+                                r.data.data[0].banners :
+                                r.data.data.banners;
                         },
-                        function(err) {
+                        function (err) {
                             toast.message(err.data.message);
                         }
                     );
                 },
-                HomeSecundario: function(Loja, toast) {
+                HomeSecundario: function (Loja, toast) {
                     return Loja.Store.banners("Home Secundário").then(
-                        function(r) {
+                        function (r) {
                             return r.data.data[0]
                                 ? r.data.data[0].banners
                                 : r.data.data.banners;
                         },
-                        function(err) {
+                        function (err) {
                             toast.message(err.data.message);
                         }
                     );
                 },
-                Affiliate: function(
+                Affiliate: function (
                     Loja,
                     $location,
                     $rootScope,
@@ -112,25 +112,25 @@ module.exports = function(ngModule) {
                         params.customerId,
                         params.checkoutId
                     ).then(
-                        function(r) {
+                        function (r) {
                             $rootScope.affiliate = r.data.data;
                             console.log($rootScope);
                             return r.data.data;
                         },
-                        function(err) {
+                        function (err) {
                             toast.message(err.data.message);
                             return false;
                         }
                     );
                 },
-                loadHomeCtrl: function($q, $ocLazyLoad) {
+                loadHomeCtrl: function ($q, $ocLazyLoad) {
                     var deferred = $q.defer();
 
-                    require.ensure([], function() {
+                    require.ensure([], function () {
                         var module = require("../home/home.controller.js")(
                             ngModule
                         );
-                        $ocLazyLoad.load({ name: "mileniomoveis" });
+                        $ocLazyLoad.load({name: "mileniomoveis"});
                         deferred.resolve(module);
                     });
 

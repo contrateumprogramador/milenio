@@ -8,7 +8,7 @@ var _ = require("lodash");
 
 var LojaInteligenteModule = angular
     .module("LojaInteligente", ["credit-cards", "angular-flippy"])
-    .provider("Loja", function() {
+    .provider("Loja", function () {
         var api = {
             auth: {
                 authToken: null,
@@ -27,11 +27,13 @@ var LojaInteligenteModule = angular
         };
 
         // Loading
-        var loadingStart = function() {},
-            loadingStop = function() {};
+        var loadingStart = function () {
+            },
+            loadingStop = function () {
+            };
 
         // Recebe os dados de autenticação da Loja
-        this.auth = function(email, password, _id, token) {
+        this.auth = function (email, password, _id, token) {
             api.credentials.email = email;
             api.credentials.password = password;
             api.auth.authToken = api.credentials.token = token;
@@ -39,11 +41,11 @@ var LojaInteligenteModule = angular
         };
 
         // Recebe Endpoint a ser utilizado pela API
-        this.endpoint = function(endpoint) {
+        this.endpoint = function (endpoint) {
             api.endpoint = endpoint;
         };
 
-        this.$get = function(
+        this.$get = function (
             $rootScope,
             $cacheFactory,
             $http,
@@ -61,25 +63,25 @@ var LojaInteligenteModule = angular
             var localStorage = {
                 data: {},
                 fake: false,
-                getItem: function(prop) {
+                getItem: function (prop) {
                     if (localStorage.fake)
                         return localStorage.data[prop] || null;
 
                     return $window.localStorage.getItem(prop);
                 },
-                setItem: function(prop, value) {
+                setItem: function (prop, value) {
                     localStorage.data[prop] = value;
 
                     if (!localStorage.fake)
                         $window.localStorage.setItem(prop, value);
                 },
-                removeItem: function(prop) {
+                removeItem: function (prop) {
                     delete localStorage.data[prop];
 
                     if (!localStorage.fake)
                         $window.localStorage.removeItem(prop);
                 },
-                test: function() {
+                test: function () {
                     try {
                         localStorage.setItem("localStorage", 1);
                         localStorage.removeItem("localStorage");
@@ -111,7 +113,7 @@ var LojaInteligenteModule = angular
                     action == "/auth/login" ||
                     action == "/auth/check"
                 ) {
-                    return $q(function(resolve, reject) {
+                    return $q(function (resolve, reject) {
                         $http({
                             cache: action != "/auth/chek", // Não salva cache de '/auth/check'
                             data: data,
@@ -120,13 +122,13 @@ var LojaInteligenteModule = angular
                             params: params,
                             url: api.endpoint + action
                         }).then(
-                            function(r) {
+                            function (r) {
                                 // Informa APP que terminou de carregar
                                 loadingStop();
 
                                 resolve(r);
                             },
-                            function(err) {
+                            function (err) {
                                 // Informa APP que terminou de carregar
                                 loadingStop();
 
@@ -135,7 +137,7 @@ var LojaInteligenteModule = angular
                         );
                     });
                 } else {
-                    return $timeout(function() {
+                    return $timeout(function () {
                         return req(method, action, data, params, noCache);
                     }, 200);
                 }
@@ -190,22 +192,22 @@ var LojaInteligenteModule = angular
 
             // Services
             API.Auth = {
-                check: function(email) {
+                check: function (email) {
                     return req("POST", "/auth/check", {
                         email: email
                     });
                 },
-                identify: function(email) {
-                    return $q(function(resolve, reject) {
+                identify: function (email) {
+                    return $q(function (resolve, reject) {
                         req("GET", "/customers/check", null, {
                             email: email
                         }).then(
-                            function(r) {
+                            function (r) {
                                 API.Checkout.identify(r.data.data);
 
                                 resolve(r);
                             },
-                            function(err) {
+                            function (err) {
                                 API.Checkout.identify(
                                     err.data.customer || {
                                         profile: {
@@ -219,39 +221,39 @@ var LojaInteligenteModule = angular
                         );
                     });
                 },
-                login: function(email, password) {
-                    return $q(function(resolve, reject) {
+                login: function (email, password) {
+                    return $q(function (resolve, reject) {
                         req("POST", "/auth/login", {
                             email: email,
                             password: password
                         }).then(
-                            function(r) {
+                            function (r) {
                                 // Atualiza HEADERS de autenticação
                                 setAuth(r.data.data);
 
                                 // Grava dados do usuário
                                 req("GET", "/auth/me").then(
-                                    function(r) {
+                                    function (r) {
                                         setUser(r.data.data);
                                     },
-                                    function(err) {
+                                    function (err) {
                                         console.log(err);
                                     }
                                 );
 
                                 resolve(r);
                             },
-                            function(err) {
+                            function (err) {
                                 //setAuth();
                                 reject(err);
                             }
                         );
                     });
                 },
-                logout: function() {
-                    return $q(function(resolve, reject) {
+                logout: function () {
+                    return $q(function (resolve, reject) {
                         req("POST", "/auth/logout").then(
-                            function(r) {
+                            function (r) {
                                 // Atualiza HEADERS de autenticação
                                 setAuth();
 
@@ -260,15 +262,15 @@ var LojaInteligenteModule = angular
 
                                 // Loga novamente com API
                                 API.connect().then(
-                                    function(r) {
+                                    function (r) {
                                         resolve(r);
                                     },
-                                    function(err) {
+                                    function (err) {
                                         reject(err);
                                     }
                                 );
                             },
-                            function(err) {
+                            function (err) {
                                 // Atualiza HEADERS de autenticação
                                 setAuth();
 
@@ -277,10 +279,10 @@ var LojaInteligenteModule = angular
 
                                 // Loga novamente com API
                                 API.connect().then(
-                                    function(r) {
+                                    function (r) {
                                         resolve(r);
                                     },
-                                    function(err) {
+                                    function (err) {
                                         reject(err);
                                     }
                                 );
@@ -288,56 +290,56 @@ var LojaInteligenteModule = angular
                         );
                     });
                 },
-                me: function(user) {
+                me: function (user) {
                     return API.Auth.permission("customer") ? api.user : false;
                 },
-                customerUpdate: function(data) {
+                customerUpdate: function (data) {
                     return req("PUT", "/auth/me", data);
                 },
-                meCustomer: function(data) {
+                meCustomer: function (data) {
                     return req("GET", "/auth/me", {}, {}, true);
                 },
-                passwordChange: function(password, newPassword) {
+                passwordChange: function (password, newPassword) {
                     return req("POST", "/auth/password_change", {
                         password: password,
                         newPassword: newPassword
                     });
                 },
-                permission: function(permission) {
+                permission: function (permission) {
                     return (
                         api.user.roles &&
                         api.user.roles.indexOf(permission) > -1
                     );
                 },
-                register: function(user) {
-                    return $q(function(resolve, reject) {
+                register: function (user) {
+                    return $q(function (resolve, reject) {
                         req("POST", "/auth/register", user).then(
-                            function(r) {
+                            function (r) {
                                 // Atualiza HEADERS de autenticação
                                 setAuth(r.data.data);
 
                                 // Grava dados do usuário
                                 req("GET", "/auth/me").then(
-                                    function(r) {
+                                    function (r) {
                                         setUser(r.data.data);
                                     },
-                                    function(err) {
+                                    function (err) {
                                         console.log(err);
                                     }
                                 );
 
                                 resolve(r);
                             },
-                            function(err) {
+                            function (err) {
                                 reject(err);
                             }
                         );
                     });
                 },
-                newsletterRegister: function(user) {
+                newsletterRegister: function (user) {
                     return req("POST", "/auth/register", user);
                 },
-                sign: function(redirect, ev, hide, cancel) {
+                sign: function (redirect, ev, hide, cancel) {
                     $mdDialog
                         .show({
                             controller: "LoginCtrl as vm",
@@ -352,11 +354,11 @@ var LojaInteligenteModule = angular
                             bindToController: true
                         })
                         .then(
-                            function(answer) {
+                            function (answer) {
                                 if (hide) hide();
                                 if (redirect != "capture") $state.go(redirect);
                             },
-                            function() {
+                            function () {
                                 if (cancel) cancel();
                             }
                         );
@@ -398,7 +400,7 @@ var LojaInteligenteModule = angular
                 ];
 
             function callGA(ev) {
-                switch(ev) {
+                switch (ev) {
                     case "payment_completed":
                         ga('ecommerce:addTransaction', {
                             'id': checkout._id,
@@ -406,7 +408,7 @@ var LojaInteligenteModule = angular
                             'revenue': checkout.cart.total,
                             'shipping': checkout.cart.shippingPrice
                         });
-                    
+
                         checkout.cart.items.forEach((item) => {
                             ga('ecommerce:addItem', {
                                 'id': checkout.number,
@@ -418,7 +420,7 @@ var LojaInteligenteModule = angular
                         });
 
                         ga('ecommerce:send');
-                    break;
+                        break;
                 }
             }
 
@@ -460,13 +462,15 @@ var LojaInteligenteModule = angular
                 // Se 'checkout' tiver _id, atualiza com dados do DB
                 if (checkout._id) {
                     req("GET", "/checkouts/" + checkoutId || checkout._id).then(
-                        function(r) {
+                        function (r) {
                             setCheckout(r.data.data);
                         },
-                        function(err) {}
+                        function (err) {
+                        }
                     );
                 }
             }
+
             getCheckout();
 
             // Descobre IP do usuário e grva em 'checkout.meta.ip'
@@ -483,7 +487,7 @@ var LojaInteligenteModule = angular
             function itemsTotal() {
                 var total = 0;
 
-                angular.forEach(checkout.cart.items, function(item) {
+                angular.forEach(checkout.cart.items, function (item) {
                     total +=
                         (item.options.salesPrice || item.options.price) *
                         item.quant;
@@ -499,7 +503,7 @@ var LojaInteligenteModule = angular
                 var shippingPrice =
                     api.shipping && api.shipping.percent
                         ? (checkout.cart.itemsTotal * api.shipping.percent) /
-                          100
+                        100
                         : 0;
 
                 //se valor do pedido for maior que frete grátis, não cobra frete
@@ -593,11 +597,11 @@ var LojaInteligenteModule = angular
                     !preventUpdate
                 ) {
                     req("POST", "/checkouts", checkout).then(
-                        function(r) {
+                        function (r) {
                             setCheckout(r.data.data);
                             if (callback) callback(r.data.data);
                         },
-                        function(err) {
+                        function (err) {
                             if (err.status == 403)
                                 resetCart();
                         }
@@ -619,6 +623,7 @@ var LojaInteligenteModule = angular
             }
 
             function installmentsConfig() {
+                console.log(api.settings);
                 // Vars
                 var maxInstallments = api.settings.installments.maxInstallments,
                     minValueInstallments = api.settings.installments.min,
@@ -626,6 +631,7 @@ var LojaInteligenteModule = angular
                     times = 0,
                     value = 0,
                     calcInstallments;
+
 
                 if (checkout.cart.internal) {
                     return {
@@ -639,7 +645,7 @@ var LojaInteligenteModule = angular
                      * @param  {int} maxTimes - Recebe o valor máxio de parcelas do sistema
                      * @param  {int} minValueTime - Recebe o valor mínimo de cada parcela do sistema
                      */
-                    calcInstallments = function(price, maxTimes, minValueTime) {
+                    calcInstallments = function (price, maxTimes, minValueTime) {
                         //Se o item possui uma regra especifica, preserva-se a regra.
                         if (
                             checkout.cart.itemsCount == 1 &&
@@ -648,6 +654,7 @@ var LojaInteligenteModule = angular
                             var installments = API.Store.itemInstallments(
                                 checkout.cart.items[0] || {}
                             );
+
 
                             times = installments.times;
                             value = price / installments.times;
@@ -662,6 +669,7 @@ var LojaInteligenteModule = angular
                                     value = price / i;
                                 }
                             }
+
                         }
                     };
 
@@ -680,51 +688,51 @@ var LojaInteligenteModule = angular
             }
 
             API.Checkout = {
-                byId: function(checkoutId) {
-                    return $q(function(resolve, reject) {
+                byId: function (checkoutId) {
+                    return $q(function (resolve, reject) {
                         if (checkout._id != checkoutId)
                             req("GET", "/checkouts/" + checkoutId).then(
-                                function(r) {
+                                function (r) {
                                     setCheckout(r.data.data);
                                     resolve();
                                 },
-                                function(err) {
+                                function (err) {
                                     reject();
                                 }
                             );
                         else resolve();
                     });
                 },
-                budget: function(number, code, set) {
+                budget: function (number, code, set) {
                     return req(
                         "GET",
                         "/checkouts/get/" + number + "/" + code
-                    ).then(function(r) {
+                    ).then(function (r) {
                         if (typeof set == "undefined" || set)
                             API.Checkout.setCheckout(r.data.data);
-                    }, function(err) {
+                    }, function (err) {
                         $state.go("home");
                     });
                 },
                 // Retorna carrinho
-                cart: function() {
+                cart: function () {
                     // Retorna carrinho
                     return checkout.cart;
                 },
                 // Retorna customer do carrinho
-                checkoutCustomer: function() {
+                checkoutCustomer: function () {
                     // Retorna carrinho
                     return checkout.customer;
                 },
                 // Retorna endereço do carrinho
-                checkoutShipping: function() {
+                checkoutShipping: function () {
                     // Retorna carrinho
                     return checkout.shipping;
                 },
-                coupon: function(code) {
-                    return $q(function(resolve, reject) {
+                coupon: function (code) {
+                    return $q(function (resolve, reject) {
                         API.Store.coupons(code).then(
-                            function(r) {
+                            function (r) {
                                 // cria uma variavel com o resultado do cupom
                                 var coupon = r.data.data;
                                 // aplica o desconto no checkout
@@ -735,32 +743,32 @@ var LojaInteligenteModule = angular
                                 event("coupon_applied", coupon);
                                 resolve(r);
                             },
-                            function(err) {
+                            function (err) {
                                 event("coupon_denied", code);
                                 reject(err);
                             }
                         );
                     });
                 },
-                getShippings: function() {
+                getShippings: function () {
                     // Retorna carrinho
                     return api.shipping;
                 },
-                getLastCheckout: function() {
+                getLastCheckout: function () {
                     return api.lastId;
                 },
-                isInternal: function() {
+                isInternal: function () {
                     return checkout.internal;
                 },
-                itemInstallments: function(item) {
-                    return $q(function(resolve, reject) {
+                itemInstallments: function (item) {
+                    return $q(function (resolve, reject) {
                         if (!api.settings) {
                             req("GET", "/store/settings").then(
-                                function(r) {
+                                function (r) {
                                     api.settings = r.data.data;
                                     resolve(installmentsConfig());
                                 },
-                                function(err) {
+                                function (err) {
                                     reject(err);
                                 }
                             );
@@ -770,7 +778,7 @@ var LojaInteligenteModule = angular
                     });
                 },
                 // Adiciona item no carrinho
-                itemAdd: function(
+                itemAdd: function (
                     item,
                     quant,
                     customization,
@@ -798,7 +806,7 @@ var LojaInteligenteModule = angular
                          * Conferer se já existe algum item no carrinho com a mesma ID
                          */
                         if (
-                            !lodash.find(checkout.cart.items, function(o) {
+                            !lodash.find(checkout.cart.items, function (o) {
                                 return o._id == item._id;
                             })
                         ) {
@@ -838,7 +846,7 @@ var LojaInteligenteModule = angular
                              */
                             var itemOfCart = lodash.findIndex(
                                 checkout.cart.items,
-                                function(o) {
+                                function (o) {
                                     return (
                                         o._id == item._id &&
                                         lodash.isEqual(
@@ -846,7 +854,7 @@ var LojaInteligenteModule = angular
                                             customization
                                         ) == true &&
                                         lodash.isEqual(o.options, option) ==
-                                            true
+                                        true
                                     );
                                 }
                             );
@@ -861,7 +869,7 @@ var LojaInteligenteModule = angular
                                 if (dialog && $state.current.name == "cart") {
                                     checkout.cart.items[
                                         itemOfCart
-                                    ].quant = quant;
+                                        ].quant = quant;
                                     checkout.cart.items[itemOfCart].total =
                                         (option.salesPrice || option.price) *
                                         quant;
@@ -888,7 +896,7 @@ var LojaInteligenteModule = angular
                                     checkout.cart.items[index].options = option;
                                     checkout.cart.items[
                                         index
-                                    ].customizations = customization;
+                                        ].customizations = customization;
                                     checkout.cart.items[index].quant = quant;
                                     checkout.cart.items[index].total =
                                         (option.salesPrice || option.price) *
@@ -934,7 +942,7 @@ var LojaInteligenteModule = angular
                             checkout.cart.items.length == 1 &&
                             angular.equals(checkout.customer, {})
                         )
-                            $timeout(function() {
+                            $timeout(function () {
                                 API.Auth.sign("capture");
                             }, 3000);
 
@@ -945,13 +953,13 @@ var LojaInteligenteModule = angular
                         );
                     }
                 },
-                itemQuantChange: function(item, quant) {
+                itemQuantChange: function (item, quant) {
                     /**
                      * Recebe a index do item no carrinho caso exista algum com o mesmo id (o._id == item._id) && mesmas customizações (lodash.isEqual(o.customizations, customization) == true) && mesmas opções (lodash.isEqual(o.options, option) == true)
                      */
                     var indexInCart = lodash.findIndex(
                         checkout.cart.items,
-                        function(o) {
+                        function (o) {
                             return (
                                 o._id == item._id &&
                                 lodash.isEqual(
@@ -981,8 +989,8 @@ var LojaInteligenteModule = angular
                         });
                     }
                 },
-                itemRemove: function(item, index) {
-                    lodash.remove(checkout.cart.items, function(o) {
+                itemRemove: function (item, index) {
+                    lodash.remove(checkout.cart.items, function (o) {
                         return (
                             o._id == item._id &&
                             lodash.isEqual(
@@ -995,14 +1003,14 @@ var LojaInteligenteModule = angular
 
                     event("item_removed", item._id);
                 },
-                identify: function(customer, affiliate) {
+                identify: function (customer, affiliate) {
                     checkout.customer = customer;
 
                     if (affiliate) checkout.affiliate = affiliate;
 
                     event("customer_identified", customer);
                 },
-                pay: function(payment) {
+                pay: function (payment) {
                     event("payment_attempt", {
                         method: payment.method,
                         brand: payment.method,
@@ -1014,11 +1022,11 @@ var LojaInteligenteModule = angular
                         installments: payment.installments
                     });
 
-                    return $q(function(resolve, reject) {
+                    return $q(function (resolve, reject) {
                         req("POST", "/checkouts/" + checkout._id + "/payment", {
                             payment: payment
                         }).then(
-                            function(r) {
+                            function (r) {
                                 event("payment_completed", {
                                     method: payment.method,
                                     brand: payment.method,
@@ -1036,7 +1044,7 @@ var LojaInteligenteModule = angular
                                         r.data.data.transaction.urlPagamento;
                                     checkout.ticketUrl = url;
                                     api.lastId = checkout._id;
-                                    saveCheckout(false, function() {
+                                    saveCheckout(false, function () {
                                         resetCart();
                                         resolve(r);
                                     });
@@ -1045,7 +1053,7 @@ var LojaInteligenteModule = angular
                                     resolve(r);
                                 }
                             },
-                            function(err) {
+                            function (err) {
                                 event("payment_denied", {
                                     method: payment.method,
                                     brand: payment.method,
@@ -1062,45 +1070,45 @@ var LojaInteligenteModule = angular
                         );
                     });
                 },
-                payment: function(ev, hide, cancel) {
+                payment: function (ev, hide, cancel) {
                     $state.go("checkout");
                 },
                 resetCart: resetCart,
-                setCheckout: function(order) {
+                setCheckout: function (order) {
                     checkout = order;
                     saveCheckout();
                 },
-                setCheckoutDocumentPhone: function(document, phone) {
+                setCheckoutDocumentPhone: function (document, phone) {
                     checkout.customer.document = document;
                     checkout.customer.phone = phone;
                     saveCheckout();
                 },
-                setRecurrence: function(recurrence) {
+                setRecurrence: function (recurrence) {
                     // recebe dados de recorrência
                     checkout.recurrence = recurrence;
 
                     event("set_recurrence", recurrence);
                 },
-                start: function() {
+                start: function () {
                     event("checkout_started");
 
                     console.log("start");
-                    return $q(function(resolve, reject) {
+                    return $q(function (resolve, reject) {
                         req("POST", "/checkouts", checkout).then(
-                            function(r) {
+                            function (r) {
                                 checkout = r.data.data;
 
                                 saveCheckout(true);
 
                                 resolve();
                             },
-                            function(err) {
+                            function (err) {
                                 reject(err);
                             }
                         );
                     });
                 },
-                shipping: function(shipping, zipcode, checkoutShipping) {
+                shipping: function (shipping, zipcode, checkoutShipping) {
                     if (shipping) {
                         shipping.zipcode = zipcode;
                         api.shipping = shipping;
@@ -1111,7 +1119,7 @@ var LojaInteligenteModule = angular
 
                     event("shipping_informed", shipping);
                 },
-                utms: function(params) {
+                utms: function (params) {
                     var utms = _.reduce(
                         params,
                         (r, value, key) => {
@@ -1127,33 +1135,33 @@ var LojaInteligenteModule = angular
             };
 
             API.Adm = {
-                opinions: function(productId) {
+                opinions: function (productId) {
                     return req("GET", "/adm/opinions/" + productId);
                 },
-                opinionCreate: function(data) {
+                opinionCreate: function (data) {
                     return req("POST", "/adm/opinions", data);
                 }
             }
 
             API.Affiliate = {
-                identify: function(affiliateId, customerId, checkoutId) {
-                    return $q(function(resolve, reject) {
+                identify: function (affiliateId, customerId, checkoutId) {
+                    return $q(function (resolve, reject) {
                         req(
                             "GET",
                             "/affiliates/identify",
                             null,
-                            { affiliateId, customerId },
+                            {affiliateId, customerId},
                             true
                         ).then(
-                            function(r) {
+                            function (r) {
                                 API.Auth.logout();
 
                                 if (checkoutId)
                                     API.Checkout.byId(checkoutId).then(
-                                        function() {
+                                        function () {
                                             resolve(r);
                                         },
-                                        function() {
+                                        function () {
                                             reject();
                                         }
                                     );
@@ -1166,7 +1174,7 @@ var LojaInteligenteModule = angular
                                     resolve(r);
                                 }
                             },
-                            function(err) {
+                            function (err) {
                                 reject(err);
                             }
                         );
@@ -1175,7 +1183,7 @@ var LojaInteligenteModule = angular
             };
 
             API.Customer = {
-                addresses: function(data) {
+                addresses: function (data) {
                     return req(
                         "GET",
                         "/customers/me/addresses",
@@ -1184,49 +1192,49 @@ var LojaInteligenteModule = angular
                         true
                     );
                 },
-                addressCreate: function(address) {
+                addressCreate: function (address) {
                     return req("POST", "/customers/me/addresses", address);
                 },
-                addressDelete: function(addressId) {
+                addressDelete: function (addressId) {
                     return req(
                         "DELETE",
                         "/customers/me/addresses/" + addressId
                     );
                 },
-                addressUpdate: function(addressId, address) {
+                addressUpdate: function (addressId, address) {
                     return req(
                         "PUT",
                         "/customers/me/addresses/" + addressId,
                         address
                     );
                 },
-                carts: function(data) {
+                carts: function (data) {
                     return req(
                         "GET",
                         "/customers/me/carts",
                         null,
-                        data || { dateLimit: 5 },
+                        data || {dateLimit: 5},
                         true
                     );
                 },
-                customer: function(data) {
+                customer: function (data) {
                     return req("GET", "/customers", null, {
                         email: data
                     });
                 },
-                getOrder: function(checkoutId) {
+                getOrder: function (checkoutId) {
                     return req("GET", "/customers/me/orders/" + checkoutId);
                 },
-                order: function(orderId) {
+                order: function (orderId) {
                     return req("GET", "/customers/orders/" + orderId);
                 },
-                orderCancel: function(orderId) {
+                orderCancel: function (orderId) {
                     return req(
                         "GET",
                         "/customers/orders/" + orderId + "/cancel"
                     );
                 },
-                orders: function(data) {
+                orders: function (data) {
                     return req(
                         "GET",
                         "/customers/me/orders",
@@ -1235,29 +1243,29 @@ var LojaInteligenteModule = angular
                         true
                     );
                 },
-                orderLast: function() {
+                orderLast: function () {
                     return req("GET", "/customers/me/orders/last");
                 },
-                update: function(data) {
+                update: function (data) {
                     return req("PATCH", "/customers/customers", data);
                 }
             };
 
             API.Email = {
-                new_password: function(email) {
+                new_password: function (email) {
                     return req(
                         "POST",
                         "/emails/auth/" + email + "/new_password"
                     );
                 },
-                contact: function(data) {
+                contact: function (data) {
                     return req("POST", "/emails/contact", data);
                 }
             };
 
             API.Store = {
-                address: function(zipcode) {
-                    return $q(function(resolve, reject) {
+                address: function (zipcode) {
+                    return $q(function (resolve, reject) {
                         loadingStart();
 
                         // Busca endereço pelo CEP
@@ -1266,7 +1274,7 @@ var LojaInteligenteModule = angular
                                 "https://viacep.com.br/ws/" + zipcode + "/json"
                             )
                             .then(
-                                function(r) {
+                                function (r) {
                                     loadingStop();
 
                                     if (r.data.erro) reject();
@@ -1279,7 +1287,7 @@ var LojaInteligenteModule = angular
                                         state: r.data.uf
                                     });
                                 },
-                                function(err) {
+                                function (err) {
                                     loadingStop();
 
                                     reject();
@@ -1287,23 +1295,23 @@ var LojaInteligenteModule = angular
                             );
                     });
                 },
-                banners: function(group) {
+                banners: function (group) {
                     return req("GET", "/store/banners", null, {
                         group: group
                     });
                 },
-                coupons: function(code) {
+                coupons: function (code) {
                     return req("GET", "/store/coupons/" + code);
                 },
-                customizations: function(id) {
+                customizations: function (id) {
                     return req("GET", "/store/items/" + id + "/customizations");
                 },
-                useCoupon: function(id) {
+                useCoupon: function (id) {
                     return req("PUT", "/store/coupons/" + id + "/use");
                 },
-                environments: function(data) {
+                environments: function (data) {
                     var params = {},
-                    url = "/store/environments";
+                        url = "/store/environments";
 
                     if (data) {
                         if (typeof data == "string") url += "/" + data;
@@ -1312,7 +1320,7 @@ var LojaInteligenteModule = angular
 
                     return req("GET", url, null, params);
                 },
-                faq: function(id) {
+                faq: function (id) {
                     var url = "/store/faq";
 
                     if (id) url += "/" + id;
@@ -1328,7 +1336,7 @@ var LojaInteligenteModule = angular
                  * @param  {int} item.options[0].salesPrice - Preço principal de venda do item
                  * @param  {int} item.options[0].price - Segundo preço de venda do item
                  */
-                itemInstallments: function(item, priceOptions) {
+                itemInstallments: function (item, priceOptions) {
                     /**
                      * Caso o objeto do item esteja vazio ou ele não possua propriedades de preço, as propriedades de parcelas são retornadas como vazio.
                      */
@@ -1385,7 +1393,7 @@ var LojaInteligenteModule = angular
                         return calcInstallments(
                             price,
                             item.installments.maxInstallments ||
-                                apiInstallments.maxInstallments,
+                            apiInstallments.maxInstallments,
                             item.installments.min || apiInstallments.min
                         );
                     else
@@ -1395,7 +1403,7 @@ var LojaInteligenteModule = angular
                             apiInstallments.min
                         );
                 },
-                items: function(data) {
+                items: function (data) {
                     var params = {},
                         url = "/store/items";
 
@@ -1406,30 +1414,30 @@ var LojaInteligenteModule = angular
 
                     return req("GET", url, null, params);
                 },
-                sections: function() {
+                sections: function () {
                     return req("GET", "/store/sections");
                 },
-                settings: function() {
+                settings: function () {
                     return api.settings;
                 },
-                shipping: function(zipcode) {
+                shipping: function (zipcode) {
                     return req("GET", "/store/shippings", null, {
                         zipcode: zipcode
                     });
                 },
-                stamp: function(item) {
+                stamp: function (item) {
                     var stamps = api.settings.stamps;
 
                     if (!stamps) return false;
 
                     var itemSections = item.tags
-                        .map(function(tag) {
+                        .map(function (tag) {
                             if (tag.tagsGroup == "Seções") return tag.url;
                         })
-                        .filter(function(section) {
+                        .filter(function (section) {
                             return typeof section != "undefined";
                         });
-                    var stampSections = _.map(stamps.sections, function(
+                    var stampSections = _.map(stamps.sections, function (
                         stamp,
                         section
                     ) {
@@ -1440,7 +1448,7 @@ var LojaInteligenteModule = angular
                             stamp.style
                         )
                             return section;
-                    }).filter(function(section) {
+                    }).filter(function (section) {
                         return typeof section != "undefined";
                     });
                     var possibleSections = _.intersection(
@@ -1461,26 +1469,26 @@ var LojaInteligenteModule = angular
 
                     return false;
                 },
-                tags: function(data) {
+                tags: function (data) {
                     return req("GET", "/store/tags", null, data);
                 },
-                terms: function(data) {
+                terms: function (data) {
                     return req("GET", "/store/terms", null, data);
                 }
             };
 
             // Autentica na API
-            API.connect = function() {
+            API.connect = function () {
                 localStorage.removeItem("auth");
 
-                return $q(function(resolve, reject) {
+                return $q(function (resolve, reject) {
                     if (auth) {
                         setAuth(auth);
                         req("GET", "/auth/check").then(
-                            function(r) {
+                            function (r) {
                                 setUser(r.data.data);
                             },
-                            function(err) {
+                            function (err) {
                                 setAuth();
                                 API.Auth.login(
                                     api.credentials.email,
@@ -1496,11 +1504,11 @@ var LojaInteligenteModule = angular
                     }
 
                     req("GET", "/store/settings").then(
-                        function(r) {
+                        function (r) {
                             api.settings = r.data.data;
                             resolve(r);
                         },
-                        function(err) {
+                        function (err) {
                             reject(err);
                         }
                     );
@@ -1508,7 +1516,7 @@ var LojaInteligenteModule = angular
             };
 
             // Informa status de loading à APP
-            API.loading = function(start, stop) {
+            API.loading = function (start, stop) {
                 loadingStart = start;
                 loadingStop = stop;
             };

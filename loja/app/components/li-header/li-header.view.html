@@ -24,7 +24,8 @@
                     </md-button>
                 </div>
                 <div flex="15" layout="row" layout-align="center center">
-                    <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center center" aria-label="Cart">
+                    <md-button ui-sref="cart" class="btn-header-cart" layout="row" layout-align="center center"
+                               aria-label="Cart">
                         <img src="assets/icons/fi_shopping-cart.svg"/>
                         <span class="cart-count">{{ vm.cart().itemsCount }}</span>
                     </md-button>
@@ -34,9 +35,11 @@
                " layout="row" layout-align="space-between center">
                 <md-input-container flex>
                     <label>O que você procura?</label>
-                    <input type="search" ng-keyup="vm.searchSubmit()" ng-model="vm.search" ng-minlength="3" ng-model-options="{ debounce: 250 }">
+                    <input type="search" ng-keyup="vm.searchSubmit()" ng-model="vm.search" ng-minlength="3"
+                           ng-model-options="{ debounce: 250 }">
                 </md-input-container>
-                <md-button class="md-icon-button" type="submit" ng-disabled="vm.searchForm.$invalid" aria-label="buscar">
+                <md-button class="md-icon-button" type="submit" ng-disabled="vm.searchForm.$invalid"
+                           aria-label="buscar">
                     <md-icon-button>
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </md-icon-button>
@@ -45,8 +48,10 @@
         </div>
         <div class="row-menu" layout="row" layout-align="space-between center" hide-gt-sm>
             <div ng-class="{ 'btn-active': vm.subMenu.name==section.name }"
-                ng-repeat="section in vm.sections track by $index" layout="column" flex="50" layout-align="center center" class="border-right">
-                <md-button ng-click="vm.toggleSubHeader(false)" ui-sref="section.showcase({sectionUrl: section.category})" ui-sref-opts="{reload:
+                 ng-repeat="section in vm.sections track by $index" layout="column" flex="50"
+                 layout-align="center center" class="border-right">
+                <md-button ng-click="vm.toggleSubHeader(false)"
+                           ui-sref="section.showcase({sectionUrl: section.category})" ui-sref-opts="{reload:
         true}">
                     <md-icon md-svg-icon="{{section.icon}}"></md-icon>
                     <span>{{section.name}}</span>
@@ -69,13 +74,15 @@
                             <span class="color-accent" id="Tel">(11) 3815-8177</span>
                         </md-button>
                         <form hide show-gt-sm id="SearchForm" class="search-form" name="vm.searchForm
-               " ng-submit="vm.searchForm.$valid && vm.searchSubmit()" flex layout="row" layout-align="space-between center">
+               " ng-submit="vm.searchForm.$valid && vm.searchSubmit()" flex layout="row"
+                              layout-align="space-between center">
                             <md-input-container flex>
                                 <label>O que você procura?</label>
                                 <input type="text" ng-keyup="vm.searchTyping()" ng-focus="vm.toggleSubHeader(false)
                " ng-model="vm.search" ng-minlength="3">
                             </md-input-container>
-                            <md-button class="md-icon-button icon-search" type="submit" ng-disabled="vm.searchForm.$invalid" aria-label="buscar">
+                            <md-button class="md-icon-button icon-search" type="submit"
+                                       ng-disabled="vm.searchForm.$invalid" aria-label="buscar">
                                 <md-icon-button>
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </md-icon-button>
@@ -119,7 +126,8 @@
                             </md-menu-content>
                         </md-menu>
                         <span hide show-gt-xs hide-gt-sm style="width: 36px"></span>
-                        <md-button ng-click="vm.toogleCart()" class="btn-header-cart" layout="row" layout-align="center center" aria-label="Cart">
+                        <md-button ng-click="vm.toogleCart()" class="btn-header-cart" layout="row"
+                                   layout-align="center center" aria-label="Cart">
                             <span>Meu carrinho</span>
                             <img src="assets/icons/fi_shopping-cart.svg"/>
                             <span class="cart-count">{{ vm.cart().itemsCount }}</span>
@@ -128,10 +136,12 @@
                     </div>
                 </div>
                 <div class="row-menu" layout="row" layout-align="space-between center" hide show-gt-sm>
-                    <div ng-mouseenter="vm.toggleSubHeader( 'submenu', section)" ng-class="{ 'btn-active': vm.subMenu.name==section.name }"
-                        ng-repeat="section in vm.sections track by $index" layout="column" flex="33
+                    <div ng-mouseenter="vm.toggleSubHeader( 'submenu', section)"
+                         ng-class="{ 'btn-active': vm.subMenu.name==section.name }"
+                         ng-repeat="section in vm.sections track by $index" layout="column" flex="33
                " layout-align="center center" class="border-right">
-                        <md-button ng-click="vm.toggleSubHeader(false)" ui-sref="section.showcase({sectionUrl: section.category})" ui-sref-opts="{reload:
+                        <md-button ng-click="vm.toggleSubHeader(false)"
+                                   ui-sref="section.showcase({sectionUrl: section.category})" ui-sref-opts="{reload:
                 true}">
                             <md-icon md-svg-icon="{{section.icon}}"></md-icon>
                             <span hide show-gt-sm>{{section.name}}</span>
@@ -143,7 +153,8 @@
     </md-toolbar>
     <md-progress-linear style="z-index: 9" ng-show="vm.loading" md-mode="indeterminate"></md-progress-linear>
     <div id="SubHeader" class="slide-down" ng-class="{ 'sub-submenu': vm.subHeader=='submenu' ,
-                'sub-search': vm.subHeader=='search' }" layout="column" layout-align="start center" ng-show="vm.subHeader">
+                'sub-search': vm.subHeader=='search' }" layout="column" layout-align="start center"
+         ng-show="vm.subHeader">
         <div layout="row" layout-align="center start">
             <div id="SubMenu" ng-show="vm.subHeader=='submenu'" layout-padding layout="row" layout-align="center
                 start" flex="100" flex-gt-lg="80">
@@ -182,7 +193,8 @@
                     </li>
                 </ul>
                 <div class="submenu-banner" layout="column" layout-align="center end" flex>
-                    <a ng-show="vm.subMenuBanner()" ng-click="vm.toggleSubHeader(false)" ng-href="{{ vm.subMenuBanner().link }}" title="{{ vm.subMenuBanner().title
+                    <a ng-show="vm.subMenuBanner()" ng-click="vm.toggleSubHeader(false)"
+                       ng-href="{{ vm.subMenuBanner().link }}" title="{{ vm.subMenuBanner().title
                 }}">
                         <img ng-src="{{ vm.subMenuBanner().url }}" alt="{{ vm.subMenuBanner().title }}">
                     </a>
@@ -233,7 +245,8 @@
                 <md-button ng-click="vm.goTo( 'contact');" class="md-primary" aria-label="Localização">
                     Localização
                 </md-button>
-                <md-button ng-click="vm.goTo( 'policies');" class="md-primary" aria-label="Política de Troca e Devolução">
+                <md-button ng-click="vm.goTo( 'policies');" class="md-primary"
+                           aria-label="Política de Troca e Devolução">
                     Política de Troca e Devolução
                 </md-button>
                 <md-button ng-click="vm.logout( 'sidenav')" class="md-primary" aria-label="Logout">
@@ -242,39 +255,40 @@
             </div>
         </md-content>
     </md-sidenav>
-        <!-- SideNav Left : User Menu -->
-        <md-sidenav id="SideNavFilter" class="md-sidenav-left md-whiteframe-z2" md-component-id="filters" layout="column">
-            <md-toolbar layout="row" layout-align="space-between center">
-                <h3>
-                    Filtrar por:
-                </h3>
-                <md-button class="md-icon-button" ng-click="vm.toggleSidenav('filters')" aria-label="Fechar Filtros">
-                    <md-icon md-font-icon="icon-close"></md-icon>
+    <!-- SideNav Left : User Menu -->
+    <md-sidenav id="SideNavFilter" class="md-sidenav-left md-whiteframe-z2" md-component-id="filters" layout="column">
+        <md-toolbar layout="row" layout-align="space-between center">
+            <h3>
+                Filtrar por:
+            </h3>
+            <md-button class="md-icon-button" ng-click="vm.toggleSidenav('filters')" aria-label="Fechar Filtros">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </md-toolbar>
+        <md-content>
+            <div layout="column" layout-align="start stretch">
+                <md-button class="menu-title" aria-label="Informações">
+                    <h3>Categorias</h3>
                 </md-button>
-            </md-toolbar>
-            <md-content>
-                <div layout="column" layout-align="start stretch">
-                    <md-button class="menu-title" aria-label="Informações">
-                        <h3>Categorias</h3>
-                    </md-button>
-                    <md-button class="" ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl:
+                <md-button class="" ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl:
                             'todos'})" ng-click="vm.toggleSidenav( 'filters');">
-                        Todos os produtos
-                    </md-button>
-                    <md-button class="" ng-repeat="tag in vm.section().subSections | orderBy: 'name' track by $index
+                    Todos os produtos
+                </md-button>
+                <md-button class="" ng-repeat="tag in vm.section().subSections | orderBy: 'name' track by $index
                            " ng-if="tag.tagsGroup=='Categorias'" ui-sref-active="active" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})
                            " ng-click="vm.toggleSidenav( 'filters');">
-                        {{ tag.name }}
-                    </md-button>
-                    <md-button class="menu-title" aria-label="Informações">
-                        <h3>Ambientes</h3>
-                    </md-button>
-                    <md-button class="" ui-sref-active="active" ng-repeat="tag in vm.section().subSections | orderBy:
-                            'name' track by $index" ng-if="tag.tagsGroup=='Ambientes'" ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})"
-                        ng-click="vm.toggleSidenav( 'filters');">
-                        {{ tag.name }}
-                    </md-button>
-                </div>
-            </md-content>
-        </md-sidenav>
+                    {{ tag.name }}
+                </md-button>
+                <md-button class="menu-title" aria-label="Informações">
+                    <h3>Ambientes</h3>
+                </md-button>
+                <md-button class="" ui-sref-active="active" ng-repeat="tag in vm.section().subSections | orderBy:
+                            'name' track by $index" ng-if="tag.tagsGroup=='Ambientes'"
+                           ui-sref="section.tag({sectionUrl: vm.section().url, tagUrl: tag.url})"
+                           ng-click="vm.toggleSidenav( 'filters');">
+                    {{ tag.name }}
+                </md-button>
+            </div>
+        </md-content>
+    </md-sidenav>
 </header>
