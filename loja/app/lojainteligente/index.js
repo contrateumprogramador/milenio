@@ -555,6 +555,7 @@ var LojaInteligenteModule = angular
                 if (!checkout.cart.discountType) {
                     checkout.cart.discountType = coupon.discountType;
                     checkout.cart.discount = coupon.discount;
+                    checkout.cart.cupon = coupon.code;
                 }
 
                 return checkout.cart.discount;
@@ -749,6 +750,13 @@ var LojaInteligenteModule = angular
                             }
                         );
                     });
+                },
+                removeCoupon: function () {
+                    delete checkout.cart.coupon;
+                    delete checkout.cart.cupon;
+                    checkout.cart.discount = 0;
+                    checkout.cart.discountType = "";
+                    return checkout.cart;
                 },
                 getShippings: function () {
                     // Retorna carrinho

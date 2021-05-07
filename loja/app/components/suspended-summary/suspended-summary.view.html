@@ -1,4 +1,29 @@
-<div layout="column">
+<div layout="column" class="suspended-infos">
+    <div class="suspended-cupom" ng-if="vm.payment">
+        <p>Insira um cupom de desconto</p>
+        <md-input-container>
+            <input
+                    placeholder="Entre com o cupom"
+                    type="text"
+                    inputmode="text"
+                    id="IDcupon"
+                    name="Cupom"
+                    ng-value="vm.cart.cupon"
+                    required
+                    ng-keyup="vm.getCupom()"
+                    ng-model="vm.cupom"
+                    autocomplete="off"
+            />
+        </md-input-container>
+        <div layout="row" layout-align="center center">
+            <md-button ng-click="vm.upDateCupom($event)"
+                       class="yellow-button" aria-label="Cart"
+                       ng-disabled="vm.progressLoading || $root.affiliate">
+                <span>{{vm.getLabelButtonCupom()}}</span>
+            </md-button>
+        </div>
+    </div>
+    <!-- Address Card -->
     <div class="suspended-address" ng-if="vm.payment">
         <h3>CEP: {{ vm.address.zipcode | brCep }}</h3>
         <h4>{{ vm.getAddress(vm.address) }}</h4>
@@ -8,43 +33,45 @@
         </p>
     </div>
     <div class="suspended-summary">
+        <!-- From Address -->
         <div layout="row" layout-align="center center" layout-align-xs="space-between center" ng-if="vm.refreshCart">
             <p>Frete:</p>
             <md-input-container>
                 <input
-                    placeholder="Digite o CEP"
-                    type="tel"
-                    inputmode="tel"
-                    x-inputmode="tel"
-                    id="ZipText"
-                    name="zipcode"
-                    ng-model="vm.zipcode"
-                    ui-br-cep-mask
-                    mask-fix
-                    required
-                    ng-keyup="vm.getZip()"
-                    autocomplete="off"
-                    ng-disabled="vm.zipcodeDisabled"
+                        placeholder="Digite o CEP"
+                        type="tel"
+                        inputmode="tel"
+                        x-inputmode="tel"
+                        id="ZipText"
+                        name="zipcode"
+                        ng-model="vm.zipcode"
+                        ui-br-cep-mask
+                        mask-fix
+                        required
+                        ng-keyup="vm.getZip()"
+                        autocomplete="off"
+                        ng-disabled="vm.zipcodeDisabled"
                 />
             </md-input-container>
         </div>
+        <!-- Summary prices -->
         <div layout="column">
             <div layout="row">
                 <p
-                    class="shipping"
-                    ng-show="vm.zipcode || vm.cart.shippingPrice || !vm.refreshCart"
+                        class="shipping"
+                        ng-show="vm.zipcode || vm.cart.shippingPrice || !vm.refreshCart"
                 >
                     <span>Frete: </span>
                     <span>{{
                         vm.cart.shippingPrice > 0
                             ? (vm.cart.shippingPrice | currency)
                             : "Grátis"
-                    }}</span>
+                        }}</span>
                 </p>
             </div>
             <div
-                layout="row"
-                ng-show="vm.cart.discountType && vm.cart.discount"
+                    layout="row"
+                    ng-show="vm.cart.discountType && vm.cart.discount"
             >
                 <p class="shipping">
                     <span>Desconto:</span>
@@ -71,8 +98,10 @@
                 </div>
             </div>
         </div>
+        <!-- Button pay -->
         <div layout="row" layout-align="center center" ng-hide="vm.submit && vm.checkMedia('xs')">
-            <md-button ng-click="vm.submit ? vm.submit($event, vm.form) : vm.goToCheckout('shipping')" class="yellow-button" aria-label="Cart" ng-disabled="vm.progressLoading || $root.affiliate">
+            <md-button ng-click="vm.submit ? vm.submit($event, vm.form) : vm.goToCheckout('shipping')" class="yellow-button" aria-label="Cart"
+                       ng-disabled="vm.progressLoading || $root.affiliate">
                 <span>{{vm.getLabelButton()}}</span>
             </md-button>
         </div>

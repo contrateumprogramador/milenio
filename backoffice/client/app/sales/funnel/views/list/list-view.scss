@@ -2,64 +2,64 @@
 
 #proposals {
 
-    .ov-hidden {
-        overflow: hidden;
-        background: rgba(6, 71, 137, 0.1);
+  .ov-hidden {
+    overflow: hidden;
+    background: rgba(6, 71, 137, 0.1);
+  }
+
+  .list-view {
+
+    tr {
+
+      th, td {
+
+      }
     }
 
-    .list-view {
+    > tbody {
 
-        tr {
+      tr {
+        outline: none;
 
-            th, td {
-
-            }
+        &.selected {
+          background: #E3F2FD;
         }
 
-        > tbody {
+        td {
+          padding: 24px 8px;
+          border-bottom: none;
 
-            tr {
-                outline: none;
+          &.file-icon {
+            padding: 24px;
+            text-align: center;
+          }
 
-                &.selected {
-                    background: #E3F2FD;
-                }
+          &.name {
+            font-weight: 500;
+          }
 
-                td {
-                    padding: 24px 8px;
-                    border-bottom: none;
+          &.type {
+            text-transform: capitalize;
+          }
 
-                    &.file-icon {
-                        padding: 24px;
-                        text-align: center;
-                    }
+          &.owner {
+            text-transform: capitalize;
+          }
 
-                    &.name {
-                        font-weight: 500;
-                    }
+          &.last-modified {
 
-                    &.type {
-                        text-transform: capitalize;
-                    }
+          }
 
-                    &.owner {
-                        text-transform: capitalize;
-                    }
+          &.show-details {
+            text-align: center;
+          }
 
-                    &.last-modified {
-
-                    }
-
-                    &.show-details {
-                        text-align: center;
-                    }
-
-                    &.more {
-                        padding: 24px 16px;
-                        text-align: center;
-                    }
-                }
-            }
+          &.more {
+            padding: 24px 16px;
+            text-align: center;
+          }
         }
+      }
     }
+  }
 }

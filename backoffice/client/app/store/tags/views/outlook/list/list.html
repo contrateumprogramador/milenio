@@ -4,7 +4,7 @@
     <div>Selecione um Grupo para vizualizar as tags</div>
 </div>
 <div layout="row" class="tags-view" layout-wrap as-sortable="vm.dragControlListeners" data-ng-model="vm.tagsGroup.tags" id="cardView">
-   <div ng-repeat="(key, tag) in vm.tagsGroup.tags | orderBy: 'name' track by $index" data-as-sortable-item flex="20">
+   <div ng-repeat="(key, tag) in vm.tagsGroup.tags | orderBy: 'name' track by $index" data-as-sortable-item style="max-width: 100%">
       <md-card as-sortable-item-handle class="bg-blue">
         <md-card-title>
           <md-card-title-text>

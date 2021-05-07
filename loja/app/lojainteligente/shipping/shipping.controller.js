@@ -44,7 +44,7 @@ module.exports = function (ngModule) {
         vm.isFocused = isFocused;
         vm.submit = submit;
 
-        inputFocus("number")
+        inputFocus("number");
 
         // Functions
         function addAddress() {
@@ -87,7 +87,7 @@ module.exports = function (ngModule) {
 
         function addressSave() {
             Loja.Customer.addressCreate(angular.copy(vm.form)).then(function (r) {
-                console.log(r)
+                console.log(r);
             });
         }
 
@@ -113,7 +113,7 @@ module.exports = function (ngModule) {
                     ctrl.addressSelected = vm.addressSelected;
 
                     function selectAddress(address) {
-                        vm.selectAddress(address)
+                        vm.selectAddress(address);
                         ctrl.cancel();
                     }
 
@@ -174,11 +174,12 @@ module.exports = function (ngModule) {
             });
         }
 
+
         function submit(ev, form) {
             vm.form = form;
 
             if (!vm.form || !vm.form.number) {
-                toast.message("Informe o endereço de entrega")
+                toast.message("Informe o endereço de entrega");
                 return;
             }
 

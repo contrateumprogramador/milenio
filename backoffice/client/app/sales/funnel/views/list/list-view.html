@@ -21,16 +21,18 @@
         <md-icon md-font-icon="icon-email"></md-icon>
     </md-button>
     <md-button ng-if="vm.role != 'maintenance'" aria-label="comment" ng-click="vm.editCheckout($event)"
-        ng-hide="vm.selected.funnelStatus == 'Pagamento Iniciado' || vm.selected.funnelStatus == 'Ganho'"
-        class="md-icon-button">
+               ng-hide="vm.selected.funnelStatus == 'Pagamento Iniciado' || vm.selected.funnelStatus == 'Ganho'"
+               class="md-icon-button">
         <md-tooltip>Editar carrinho</md-tooltip>
         <md-icon md-font-icon="icon-pencil"></md-icon>
     </md-button>
 </md-toolbar>
-<md-button class="md-fab plus-checkout" ui-sref="app.funnel.manipulate" aria-label="Novo carrinho" ng-if="!$root.userIsInRole(['maintenance', 'affiliate'])">
-    <md-tooltip>Novo carrinho</md-tooltip>
+
+<md-button class="plus-checkout" ui-sref="app.funnel.manipulate" aria-label="Novo carrinho" ng-if="!$root.userIsInRole(['maintenance', 'affiliate'])">
     <md-icon md-font-icon="icon-plus"></md-icon>
+    <span>Novo carrinho</span>
 </md-button>
+
 <div id="Funnel" class="funnel" layout="row">
     <div ng-if="vm.searching" class="dimmed">
         <md-progress-circular md-mode="indeterminate" md-diameter="96"></md-progress-circular>
@@ -41,7 +43,9 @@
             {{column.name}}
         </h2>
         <md-content flex cup-scroll="vm.scrollDown(column)" threshold="0" can-load="true">
-            <md-card class="cursor-pointer" ng-repeat="(key, item) in vm.list | orderBy : '-updatedAt' track by item._id" ng-if="vm.itemIsInColumn(item.funnelStatus, column.name) && !item.subnumber" ng-class="{'selected': vm.selected._id == item._id}" ng-click="vm.select(item, key+1, $event)">
+            <md-card class="cursor-pointer" ng-repeat="(key, item) in vm.list | orderBy : '-updatedAt' track by item._id"
+                     ng-if="vm.itemIsInColumn(item.funnelStatus, column.name) && !item.subnumber" ng-class="{'selected': vm.selected._id == item._id}"
+                     ng-click="vm.select(item, key+1, $event)">
                 <md-card-content>
                     <div layout="row" layout-align="space-between center" layout-wrap>
                         <h3 flex="75">
@@ -49,15 +53,18 @@
                             {{ vm.customerName(item) }}
                         </h3>
                         <div layout="row">
-                            <md-button ng-click="vm.affiliateSend(item, $event)" aria-label="enviar por e-mail" class="md-icon-button" ng-if="vm.role == 'affiliate' && column.name == 'Carrinho Iniciado'">
+                            <md-button ng-click="vm.affiliateSend(item, $event)" aria-label="enviar por e-mail" class="md-icon-button"
+                                       ng-if="vm.role == 'affiliate' && column.name == 'Carrinho Iniciado'">
                                 <md-tooltip>Enviar para o cliente</md-tooltip>
                                 <md-icon md-font-icon="icon-email"></md-icon>
                             </md-button>
-                            <md-button ng-click="vm.editCheckout($event, item._id)" target="_blank" aria-label="enviar por e-mail" class="md-icon-button" ng-if="vm.role == 'affiliate' && column.name == 'Carrinho Iniciado'">
+                            <md-button ng-click="vm.editCheckout($event, item._id)" target="_blank" aria-label="enviar por e-mail" class="md-icon-button"
+                                       ng-if="vm.role == 'affiliate' && column.name == 'Carrinho Iniciado'">
                                 <md-tooltip>Editar orçamento</md-tooltip>
                                 <md-icon md-font-icon="icon-pencil"></md-icon>
                             </md-button>
-                            <md-button ng-href="{{ vm.cartLink(item, true) }}" target="_blank" aria-label="enviar por e-mail" class="md-icon-button" ng-if="vm.role == 'affiliate' && column.name != 'Carrinho Iniciado'">
+                            <md-button ng-href="{{ vm.cartLink(item, true) }}" target="_blank" aria-label="enviar por e-mail" class="md-icon-button"
+                                       ng-if="vm.role == 'affiliate' && column.name != 'Carrinho Iniciado'">
                                 <md-tooltip>Visualizar orçamento</md-tooltip>
                                 <md-icon md-font-icon="icon-eye"></md-icon>
                             </md-button>

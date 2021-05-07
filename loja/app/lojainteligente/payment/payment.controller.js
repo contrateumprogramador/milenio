@@ -1,5 +1,5 @@
-module.exports = function(LojaInteligenteModule) {
-    LojaInteligenteModule.controller("CheckoutPaymentCtrl", function(
+module.exports = function (LojaInteligenteModule) {
+    LojaInteligenteModule.controller("CheckoutPaymentCtrl", function (
         $mdDialog,
         $mdMedia,
         $rootScope,
@@ -39,8 +39,8 @@ module.exports = function(LojaInteligenteModule) {
         vm.cart = Loja.Checkout.cart();
         vm.conditions = vm.cart.internal ?
             {
-                  times: vm.cart.installmentsMax,
-                  value: vm.cart.total / vm.cart.installmentsMax
+                times: vm.cart.installmentsMax,
+                value: vm.cart.total / vm.cart.installmentsMax
             } :
             Conditions;
         vm.installments = Installments || [];
@@ -51,7 +51,7 @@ module.exports = function(LojaInteligenteModule) {
             0;
         vm.billetDiscount =
             _.get(Loja.Store.settings(), "billet.discount.value") || false;
-        vm.tab = 0;        
+        vm.tab = 0;
 
         // Methods
         vm.brandClass = brandClass;
@@ -66,14 +66,15 @@ module.exports = function(LojaInteligenteModule) {
         vm.inputFocus = inputFocus;
         vm.isFocused = isFocused;
         vm.step = step;
-        vm.submit = submit;        
+        vm.submit = submit;
+        vm.validCupom = validCupom;
 
         //////////////
         function limitInstallments(limit) {
-            if(!limit) vm.installments = Installments;
+            if (!limit) vm.installments = Installments;
             else {
                 vm.installments = Installments.filter((installment) => installment.times <= 6);
-                if(vm.payment.installments > 6) vm.payment.installments = 1;
+                if (vm.payment.installments > 6) vm.payment.installments = 1;
             }
         }
 
@@ -88,7 +89,7 @@ module.exports = function(LojaInteligenteModule) {
                         return "card-visa";
                     case "MasterCard":
                         return "card-mastercard";
-                    case "American Express":                        
+                    case "American Express":
                         return "card-amex";
                     case "Elo":
                     case "Maestro":
@@ -145,7 +146,7 @@ module.exports = function(LojaInteligenteModule) {
                         vm.payment.brand = "";
                     }
 
-                    if(vm.payment.brand === "American Express") limitInstallments(true);
+                    if (vm.payment.brand === "American Express") limitInstallments(true);
                     else limitInstallments();
 
                     break;
@@ -220,13 +221,13 @@ module.exports = function(LojaInteligenteModule) {
         function goToCart(state) {
             Loja.Checkout.resetCart();
 
-            if (Loja.Auth.me()) $state.go("user", { actualOrder: true });
+            if (Loja.Auth.me()) $state.go("user", {actualOrder: true});
             else vm.paymentComplete = true;
         }
 
         function inputFocus(name) {
             console.log(document.getElementsByName(name)[0]);
-            $timeout(function() {
+            $timeout(function () {
                 angular.element(document.getElementsByName(name)[0]).focus();
             }, 500);
         }
@@ -240,13 +241,32 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function step(i) {
-            if(continueDisabled() && i === 1) toast.message("Preencha os dados corretamente");
-            else if((vm.formStep + i) < 0) $state.go("shipping", { actual: true });
+            if (continueDisabled() && i === 1) toast.message("Preencha os dados corretamente");
+            else if ((vm.formStep + i) < 0) $state.go("shipping", {actual: true});
             else {
                 vm.formStep += i || 1;
-                if(vm.formStep > 5) submit();
+                if (vm.formStep > 5) submit();
             }
         }
+
+        function validCupom(ev, cupom) { //todo:criar rota especifica para validar o cupom
+            loading(true);
+            Loja.Checkout.coupon(cupom).then(
+                function (r) {
+                    if (Array.isArray(r.data.data))
+                        vm.errorMessageCC = "Cupom invalido";
+                    else
+                        vm.errorMessageCC = null;
+
+                },
+                function (err) {
+                    if (err.status === 404) vm.errorMessageCC = "Cupom invalido";
+                    else vm.errorMessageCC = "Tente mais tarde";
+                }
+            );
+            loading(false);
+        }
+
 
         function submit(method) {
             if (vm.document && vm.phone) {
@@ -263,7 +283,7 @@ module.exports = function(LojaInteligenteModule) {
             }
 
             Loja.Checkout.pay(angular.copy(vm.payment)).then(
-                function(r) {
+                function (r) {
                     loading(false);
                     if (vm.payment.method === "Boleto Bradesco") {
                         vm.boletoUrl = r.data.data.transaction.urlPagamento;
@@ -273,7 +293,7 @@ module.exports = function(LojaInteligenteModule) {
                     }
                     vm.payment = [];
                 },
-                function(err) {
+                function (err) {
                     if (vm.payment.method === "Boleto Bradesco") {
                         vm.errorMessageBoleto =
                             err.data && err.data.message ?
