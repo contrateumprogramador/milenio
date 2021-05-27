@@ -1,14 +1,12 @@
-<div class="li-opinions" layout="column" layout-align="center center">
-    <div ng-hide="vm.opinions.length">
-        <p>
-            Nenhuma opinião para esse produto foi fornecida ainda
-        </p>
+<div class="li-opinions">
+    <div ng-hide="vm.opinions.length" class="empty">
+        <h2>Nenhuma opinião para esse produto foi fornecida ainda</h2>
     </div>
-    <div class="opinions" layout="row" layout-xs="column" ng-show="vm.opinions.length">
-        <div class="opinion" ng-repeat="opinion in vm.opinions" layout="row" layout-xs="column">
-            <div class="grades" layout="column">
-                <div layout="row" layout-align="space-between center" ng-repeat="grade in vm.grades">
-                    <p>{{grade.title}}: </p>
+    <div class="opinions" ng-show="vm.opinions.length">
+        <div class="opinion" ng-repeat="opinion in vm.opinions">
+            <div class="grades" layout="row">
+                <div ng-repeat="grade in vm.grades">
+                    <h4>{{grade.title}}:</h4>
                     <div layout="row">
                         <div ng-repeat="value in [].constructor(5) track by $index">
                             <md-icon ng-class="{ 'star-filled': vm.starFilled($index, opinion, grade.value) }" md-font-icon="icon-star"></md-icon>
@@ -17,16 +15,15 @@
                 </div>
             </div>
             <div class="avaliation">
-                <div layout="row" layout-align="space-between">
-                    <h1>{{opinion.title}}</h1>
-                    <h2>{{opinion.createdAt | date: "dd/MM/yyyy"}}</h2>
-                </div>
-                <div layout="row">
-                    <p>{{opinion.opinion}}</p>
-                </div>
-                <div layout="row">
-                    <h3>{{opinion.user.name}}</h3>
-                </div>
+                <h2>{{opinion.title}} - {{opinion.createdAt | date: "dd/MM/yyyy"}}</h2>
+
+                <h4>Cliente:</h4>
+                <p>{{opinion.user.name}}</p>
+            </div>
+
+            <div class="description">
+                <h4>Opinião geral:</h4>
+                <p>{{opinion.opinion}}</p>
             </div>
         </div>
     </div>
