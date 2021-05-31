@@ -1,57 +1,85 @@
 @import '../../variables.scss'
 
 .li-opinions
+
+  *
+    margin: 0
+    font-size: 1rem
+
+  .empty
+    text-align: center
+
   .opinions
-    flex-wrap: wrap
     width: 100%
+    display: flex
+    flex-wrap: wrap
     justify-content: space-between
 
-    .opinion
-      width: 48%
-      -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12)
-      -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12)
-      box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12)
-      border-radius: 8px
-      padding: 1vw
-      margin: 1rem 0
-
-
-      .grades
-        //margin-right: 2rem
-        display: grid
-        grid-template-columns: repeat(auto-fit, 124px)
-        grid-column-gap: 10px
-        margin: 2px 0
-
-        p
-          margin: 5px 0
-          font-size: 13.5px
-
-      h1, h2
-        font-size: 16px
-        margin: 0
-
-      h3
-        font-size: 13px
-        margin: 5px 0
-
-    .avaliation
+    @media screen and (max-width: $layout-breakpoint-sm)
       display: flex
       flex-direction: column
+      align-items: center
+
+    .opinion
+      width: 45%
+      padding: 2rem
+      margin: 1rem 0
+
+      -webkit-box-shadow: 2px 2px 9px -1px rgba(0, 0, 0, 0.12)
+      -moz-box-shadow: 2px 2px 9px -1px rgba(0, 0, 0, 0.12)
+      box-shadow: 2px 2px 9px -1px rgba(0, 0, 0, 0.12)
+      border-radius: 8px
+
+      display: flex
+      flex-wrap: wrap
+      flex-direction: row
       justify-content: space-between
-      width: 90%
+
+      @media screen and (max-width: 1450px)
+        width: 40%
+
+      @media screen and (max-width: $layout-breakpoint-sm)
+        width: 70%
+
+      .grades
+        width: fit-content
+        margin: 2px 0
+        display: flex
+        flex-direction: column
+
+        > div
+          width: 17rem
+          margin-bottom: .3rem
+
+          display: flex
+          justify-content: space-between
+          align-items: center
+
+          @media screen and (max-width: $layout-breakpoint-xs)
+            margin-bottom: .5rem
+            flex-direction: column
+            align-items: flex-start
+
+      .avaliation
+        width: 45%
+
+        @media screen and (max-width: 1450px)
+          width: 100%
+          margin-top: 1rem
+
+        > h2
+          font-size: 1.3rem
+          margin-bottom: .5rem
+
+        > h4
+          margin-bottom: .4rem
+
+      .description
+        width: 100%
+        margin-top: 1rem
+
+        > h4
+          margin-bottom: .5rem
 
 .star-filled
   color: $accent
-
-body.is-mobile
-  .opinions
-    align-items: center
-
-    .opinion
-      width: 90% !important
-      padding: 1rem !important
-
-      .grades
-        margin: 0 !important
-        grid-template-columns: repeat(auto-fit, 50%)
