@@ -1,7 +1,7 @@
-module.exports = function(ngModule) {
+module.exports = function (ngModule) {
     require("./user.sass");
     require("./steps.css");
-    ngModule.controller("UserCtrl", function(
+    ngModule.controller("UserCtrl", function (
         $document,
         $rootScope,
         $stateParams,
@@ -68,13 +68,13 @@ module.exports = function(ngModule) {
         vm.isOpen = false;
         vm.local = "orders";
         vm.menuItems = [
-            { name: "Meus Dados", icon: "icon-account-box", url: "dados" },
+            {name: "Meus Dados", icon: "icon-account-box", url: "dados"},
             {
                 name: "Meus Endereços",
                 icon: "icon-map-marker-circle",
                 url: "enderecos"
             },
-            { name: "Meus Pedidos", icon: "icon-wallet-travel", url: "pedidos" }
+            {name: "Meus Pedidos", icon: "icon-wallet-travel", url: "pedidos"}
         ];
 
         vm.menu = {
@@ -119,10 +119,10 @@ module.exports = function(ngModule) {
         vm.opinionDialog = opinionDialog;
 
         $scope.$watch(
-            function() {
+            function () {
                 return $rootScope.goTo;
             },
-            function(newValue, oldValue, scope) {
+            function (newValue, oldValue, scope) {
                 vm.card = newValue;
             }
         );
@@ -134,7 +134,7 @@ module.exports = function(ngModule) {
 
             $mdDialog
                 .show({
-                    controller: function($mdDialog) {
+                    controller: function ($mdDialog) {
                         var ctrl = this;
 
                         if (method == "edit") ctrl.address = address;
@@ -162,7 +162,7 @@ module.exports = function(ngModule) {
                                 obs: ""
                             };
 
-                        ctrl.cancel = function() {
+                        ctrl.cancel = function () {
                             $mdDialog.cancel();
                         };
                     },
@@ -173,7 +173,7 @@ module.exports = function(ngModule) {
                     clickOutsideToClose: false,
                     fullscreen: true
                 })
-                .then(function(answer) {
+                .then(function (answer) {
                     addressesGet();
                 });
         }
@@ -181,10 +181,10 @@ module.exports = function(ngModule) {
         // Atualiza Adresses
         function addressesGet() {
             Loja.Customer.addresses().then(
-                function(r) {
+                function (r) {
                     vm.addresses = r.data.data;
                 },
-                function(err) {
+                function (err) {
                     toast.message(err.data.message);
                 }
             );
@@ -204,18 +204,18 @@ module.exports = function(ngModule) {
                 .cancel("Cancelar");
 
             $mdDialog.show(confirm).then(
-                function() {
+                function () {
                     Loja.Customer.addressDelete(vm.address._id).then(
-                        function() {
+                        function () {
                             toast.message("Endereço excluído.");
                             addressesGet();
                         },
-                        function(err) {
+                        function (err) {
                             toast.message(err.data.message);
                         }
                     );
                 },
-                function() {
+                function () {
                     $scope.status = "You decided to keep your debt.";
                 }
             );
@@ -232,9 +232,9 @@ module.exports = function(ngModule) {
             return vm.address._id == address._id;
         }
 
-        function opinionDialog(ev, productId) {        
+        function opinionDialog(ev, productId) {
             $mdDialog.show({
-                controller: function($mdDialog, Loja) {
+                controller: function ($mdDialog, Loja) {
                     var ctrl = this;
 
                     ctrl.form = {
@@ -245,22 +245,22 @@ module.exports = function(ngModule) {
                     }
 
                     //Methods
-                    ctrl.cancel = cancel
-                    ctrl.select = select
-                    ctrl.starFilled = starFilled
-                    ctrl.submit = submit
-                    
+                    ctrl.cancel = cancel;
+                    ctrl.select = select;
+                    ctrl.starFilled = starFilled;
+                    ctrl.submit = submit;
+
                     //Functions
-                    function cancel(){
+                    function cancel() {
                         $mdDialog.cancel();
                     };
 
                     function select(index, key) {
-                        ctrl.form[key] = index+1
+                        ctrl.form[key] = index + 1
                     }
 
                     function starFilled(index, key) {
-                        return (index+1) <= ctrl.form[key]
+                        return (index + 1) <= ctrl.form[key]
                     }
 
                     function submit() {
@@ -276,9 +276,9 @@ module.exports = function(ngModule) {
                 clickOutsideToClose: false,
                 fullscreen: true
             })
-            .then(function(answer) {
-                toast.message(answer)
-            });
+                .then(function (answer) {
+                    toast.message(answer)
+                });
         }
 
         // Toggle do modo de edição do Customer
@@ -293,11 +293,11 @@ module.exports = function(ngModule) {
                 case "save":
                     // Atualiza dados do Customer
                     Loja.Auth.customerUpdate(angular.copy(vm.customer)).then(
-                        function() {
+                        function () {
                             toast.message("Seus dados foram atualizados.");
                             vm.customerEditing = false;
                         },
-                        function(err) {
+                        function (err) {
                             toast.message(err.message);
                         }
                     );
@@ -320,7 +320,7 @@ module.exports = function(ngModule) {
         function editPassword(method, ev) {
             $mdDialog
                 .show({
-                    controller: function($mdDialog) {
+                    controller: function ($mdDialog) {
                         var ctrl = this;
 
                         // Methods
@@ -335,13 +335,13 @@ module.exports = function(ngModule) {
                                 ctrl.form.oldPass,
                                 ctrl.form.newPass
                             ).then(
-                                function(r) {
+                                function (r) {
                                     toast.message(r.data.data.message);
                                     ctrl.form = [];
                                     $mdDialog.cancel();
                                     loadingStart();
                                 },
-                                function(err) {
+                                function (err) {
                                     toast.message("Senha Antiga Incorreta!");
                                     loadingStart();
                                 }
@@ -350,7 +350,7 @@ module.exports = function(ngModule) {
 
                         if (method == "edit") ctrl.address = address;
 
-                        ctrl.cancel = function() {
+                        ctrl.cancel = function () {
                             $mdDialog.cancel();
                         };
 
@@ -366,7 +366,7 @@ module.exports = function(ngModule) {
                     clickOutsideToClose: false,
                     fullscreen: true
                 })
-                .then(function(answer) {
+                .then(function (answer) {
                     addressesGet();
                 });
         }
@@ -408,7 +408,7 @@ module.exports = function(ngModule) {
         }
 
         function goToTicket() {
-            $state.go("ticket", { checkoutId: vm.orderClicked._id });
+            $state.go("ticket", {checkoutId: vm.orderClicked._id});
             if (!ctrl.checkMedia("gt-sm")) $mdDialog.cancel();
         }
 
@@ -416,7 +416,7 @@ module.exports = function(ngModule) {
             vm.status = value;
 
             if (value === undefined || value === null) {
-                angular.forEach(vm.orderClicked.status, function(v, k) {
+                angular.forEach(vm.orderClicked.status, function (v, k) {
                     if (v.time) {
                         vm.status = k;
                     }
@@ -434,7 +434,7 @@ module.exports = function(ngModule) {
         // Abrir Dialog de Pedidos
         function openOrders(ev, orderClicked) {
             $mdDialog.show({
-                controller: function($mdDialog, $scope) {
+                controller: function ($mdDialog, $scope) {
                     var ctrlOrder = this;
 
                     ctrlOrder.finishOrder = vm.finishOrder;
@@ -466,7 +466,7 @@ module.exports = function(ngModule) {
 
                     hoverIn();
 
-                    ctrlOrder.cancel = function() {
+                    ctrlOrder.cancel = function () {
                         $mdDialog.cancel();
                     };
                 },
@@ -480,7 +480,7 @@ module.exports = function(ngModule) {
         }
 
         if (vm.actual) {
-            setTimeout(function() {
+            setTimeout(function () {
                 vm.tabSelected = 1; // TAB GERAL
                 vm.indexTabOrders = 1; // TAB PEDIDOS OU ORÇAMENTOS
                 orderSelect(vm.carts[vm.carts.length - 1]);
@@ -489,7 +489,7 @@ module.exports = function(ngModule) {
         }
 
         if (vm.actualOrder) {
-            setTimeout(function() {
+            setTimeout(function () {
                 vm.tabSelected = 1; // TAB GERA
                 vm.indexTabOrders = 0; // TAB PEDIDOS OU ORÇAMENTOS
                 orderSelect(vm.orders[vm.orders.length - 1]);
@@ -530,7 +530,7 @@ module.exports = function(ngModule) {
             vm.orderClicked = false;
         }
 
-        $timeout(function() {
+        $timeout(function () {
             angular
                 .element(document.querySelector(".orders-list button"))
                 .triggerHandler("click");

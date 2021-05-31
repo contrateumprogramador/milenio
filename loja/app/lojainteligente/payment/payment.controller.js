@@ -1,5 +1,5 @@
-module.exports = function(LojaInteligenteModule) {
-    LojaInteligenteModule.controller("CheckoutPaymentCtrl", function(
+module.exports = function (LojaInteligenteModule) {
+    LojaInteligenteModule.controller("CheckoutPaymentCtrl", function (
         $mdDialog,
         $mdMedia,
         $rootScope,
@@ -38,10 +38,7 @@ module.exports = function(LojaInteligenteModule) {
         vm.formStep = 0;
         vm.cart = Loja.Checkout.cart();
         vm.conditions = vm.cart.internal
-            ? {
-                  times: vm.cart.installmentsMax,
-                  value: vm.cart.total / vm.cart.installmentsMax
-              }
+            ? { times: vm.cart.installmentsMax, value: vm.cart.total / vm.cart.installmentsMax }
             : Conditions;
         vm.installments = Installments || [];
         vm.payment = creditcard.init("payment");
@@ -51,7 +48,7 @@ module.exports = function(LojaInteligenteModule) {
             : 0;
         vm.billetDiscount =
             _.get(Loja.Store.settings(), "billet.discount.value") || false;
-        vm.tab = 0;        
+        vm.tab = 0;
 
         // Methods
         vm.brandClass = brandClass;
@@ -66,21 +63,22 @@ module.exports = function(LojaInteligenteModule) {
         vm.inputFocus = inputFocus;
         vm.isFocused = isFocused;
         vm.step = step;
-        vm.submit = submit;        
+        vm.submit = submit;
+        vm.validCupom = validCupom;
 
         //////////////
         function limitInstallments(limit) {
-            if(!limit) vm.installments = Installments;
+            if (!limit) vm.installments = Installments;
             else {
                 vm.installments = Installments.filter((installment) => installment.times <= 6);
-                if(vm.payment.installments > 6) vm.payment.installments = 1;
+                if (vm.payment.installments > 6) vm.payment.installments = 1;
             }
         }
 
         function brandClass(brand) {
             if (!vm.ccForm || !vm.ccForm.ccNumber) return;
 
-            var ccNumber = vm.ccForm.ccNumber.$$rawModelValue;            
+            const ccNumber = vm.ccForm.ccNumber.$$rawModelValue;
 
             if (ccNumber && ccNumber.length >= 4) {
                 switch (brand) {
@@ -88,7 +86,7 @@ module.exports = function(LojaInteligenteModule) {
                         return "card-visa";
                     case "MasterCard":
                         return "card-mastercard";
-                    case "American Express":                        
+                    case "American Express":
                         return "card-amex";
                     case "Elo":
                     case "Maestro":
@@ -99,7 +97,7 @@ module.exports = function(LojaInteligenteModule) {
                         return "card-discover";
                 }
             } else {
-                return;
+
             }
         }
 
@@ -121,11 +119,11 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function cardChange(field) {
-            var input = vm.ccForm[field];
+            const input = vm.ccForm[field];
 
             if (!input) return;
 
-            var v = input.$$rawModelValue;
+            const v = input.$$rawModelValue;
 
             switch (field) {
                 case "ccNumber":
@@ -145,7 +143,7 @@ module.exports = function(LojaInteligenteModule) {
                         vm.payment.brand = "";
                     }
 
-                    if(vm.payment.brand === "American Express") limitInstallments(true);
+                    if (vm.payment.brand === "American Express") limitInstallments(true);
                     else limitInstallments();
 
                     break;
@@ -195,18 +193,18 @@ module.exports = function(LojaInteligenteModule) {
                 case 2:
                     return validateInput("ccName");
                 case 3:
-                    return validateInput("ccValidityMonth")
+                    return validateInput("ccValidityMonth");
                 case 4:
-                    return validateInput("ccValidityYear")
+                    return validateInput("ccValidityYear");
                 case 5:
-                    return validateInput("ccCvv")
+                    return validateInput("ccCvv");
             }
 
-            return false
+            return false;
         }
 
         function flip(e) {
-            var b = e == "in" ? "FLIP_CARD_IN" : "FLIP_CARD_OUT";
+            var b = e === "in" ? "FLIP_CARD_IN" : "FLIP_CARD_OUT";
 
             $rootScope.$broadcast(b);
         }
@@ -214,25 +212,25 @@ module.exports = function(LojaInteligenteModule) {
         function focus(v) {
             focused = v;
 
-            if (v == "cvv") cardChange("ccCvv");
+            if (v === "cvv") cardChange("ccCvv");
         }
 
         function goToCart(state) {
-            Loja.Checkout.resetCart()
+            Loja.Checkout.resetCart();
 
-            if (Loja.Auth.me()) $state.go("user", { actualOrder: true });
+            if (Loja.Auth.me()) $state.go("user", {actualOrder: true});
             else vm.paymentComplete = true;
         }
 
         function inputFocus(name) {
-            console.log(document.getElementsByName(name)[0])
-            $timeout(function() {
+            console.log(document.getElementsByName(name)[0]);
+            $timeout(function () {
                 angular.element(document.getElementsByName(name)[0]).focus();
             }, 500);
         }
 
         function isFocused(v) {
-            return v == focused;
+            return v === focused;
         }
 
         function loading(v) {
@@ -240,13 +238,32 @@ module.exports = function(LojaInteligenteModule) {
         }
 
         function step(i) {
-            if(continueDisabled() && i == 1) toast.message("Preencha os dados corretamente")
-            else if((vm.formStep + i) < 0) $state.go("shipping", { actual: true })
+            if (continueDisabled() && i === 1) toast.message("Preencha os dados corretamente");
+            else if ((vm.formStep + i) < 0) $state.go("shipping", {actual: true});
             else {
                 vm.formStep += i || 1;
-                if(vm.formStep > 5) submit()
+                if (vm.formStep > 5) submit();
             }
         }
+
+        function validCupom(ev, cupom) { //todo:criar rota especifica para validar o cupom
+            loading(true);
+            Loja.Checkout.coupon(cupom).then(
+                function (r) {
+                    if (Array.isArray(r.data.data))
+                        vm.errorMessageCC = "Cupom invalido";
+                    else
+                        vm.errorMessageCC = null;
+
+                },
+                function (err) {
+                    if (err.status === 404) vm.errorMessageCC = "Cupom invalido";
+                    else vm.errorMessageCC = "Tente mais tarde";
+                }
+            );
+            loading(false);
+        }
+
 
         function submit(method) {
             if (vm.document && vm.phone) {
@@ -257,33 +274,31 @@ module.exports = function(LojaInteligenteModule) {
             vm.errorMessageCC = null;
             vm.errorMessageBoleto = null;
 
-            if (method == "boleto") {
+            if (method === "boleto") {
                 vm.payment.method = "Boleto Bradesco";
                 vm.payment.installments = 1;
             }
 
             Loja.Checkout.pay(angular.copy(vm.payment)).then(
-                function(r) {
+                function (r) {
                     loading(false);
-                    if (vm.payment.method == "Boleto Bradesco") {
+                    if (vm.payment.method === "Boleto Bradesco") {
                         vm.boletoUrl = r.data.data.transaction.urlPagamento;
                     } else {
                         toast.message("Obrigado por comprar na Milenio Móveis, em breve você recebera um telefonema da empresa parceira Konduto para confirmação de alguns dados, por favor confirme para podermos dar continuidade em seu pedido", 6000);
-                        goToCart()
+                        goToCart();
                     }
                     vm.payment = [];
                 },
-                function(err) {
-                    if (vm.payment.method == "Boleto Bradesco") {
-                        vm.errorMessageBoleto =
-                            err.data && err.data.message
-                                ? err.data.message
-                                : "Erro no sistema, tente novamente.";
+                function (err) {
+                    if (vm.payment.method === "Boleto Bradesco") {
+                        vm.errorMessageBoleto = (err.data && err.data.message)
+                            ? err.data.message
+                            : "Erro no sistema, tente novamente.";
                     } else {
-                        vm.errorMessageCC =
-                            err.data && err.data.message
-                                ? err.data.message
-                                : "Erro no sistema, tente novamente.";
+                        vm.errorMessageCC = (err.data && err.data.message)
+                            ? err.data.message
+                            : "Erro no sistema, tente novamente.";
                     }
                     loading(false);
                     vm.payment = [];
@@ -293,7 +308,7 @@ module.exports = function(LojaInteligenteModule) {
                 }
             );
 
-            return;
+
         }
 
         function validateInput(name) {

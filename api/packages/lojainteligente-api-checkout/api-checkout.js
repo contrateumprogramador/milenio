@@ -4,7 +4,7 @@ import RdStation from "./modules/rdstation";
 
 export const name = "api-checkout";
 
-if (Meteor.isServer) {    
+if (Meteor.isServer) {
 
     // Auth API configuration
     var Api = new Restivus({
@@ -24,12 +24,12 @@ if (Meteor.isServer) {
     // Maps to: /checkouts
     Api.addRoute(
         "",
-        { authRequired: false },
+        {authRequired: false},
         {
             post: {
                 // Regras permitidas
                 roleRequired: [],
-                action: function() {
+                action: function () {
                     var checkout = this.bodyParams,
                         checkoutId = checkout._id,
                         events = checkout.events;
@@ -99,8 +99,8 @@ if (Meteor.isServer) {
 
                         // Atualizar o Checkout
                         Checkouts.update(
-                            { _id: checkoutId },
-                            { $set: checkout }
+                            {_id: checkoutId},
+                            {$set: checkout}
                         );
                     } else {
                         // Define número do Checkout
@@ -130,7 +130,7 @@ if (Meteor.isServer) {
                         }
                     });
 
-                    if(moment(checkout.meta.createdAt).add(3, 'days').isBefore(moment())) {
+                    if (moment(checkout.meta.createdAt).add(3, 'days').isBefore(moment())) {
                         console.log("foi")
                         return {
                             statusCode: 403,
@@ -145,7 +145,7 @@ if (Meteor.isServer) {
                     var user = this.user;
 
                     // Grava todos os Events
-                    Meteor.defer(function() {
+                    Meteor.defer(function () {
                         // Conversão de eventos em Status de Funil
                         var eventsToFunnel = {
                             cart_started: "Carrinho Iniciado",
@@ -157,7 +157,7 @@ if (Meteor.isServer) {
 
                         var funnelStatus = false;
 
-                        events.forEach(function(event) {
+                        events.forEach(function (event) {
                             // event.checkoutId = checkout._id;
                             // event.company = user.profile.company;
 
@@ -186,8 +186,8 @@ if (Meteor.isServer) {
                         // atualizada Checkout
                         if (funnelStatus) {
                             Checkouts.update(
-                                { _id: checkoutId },
-                                { $set: { funnelStatus } }
+                                {_id: checkoutId},
+                                {$set: {funnelStatus}}
                             );
                         }
                     });
@@ -199,7 +199,7 @@ if (Meteor.isServer) {
                     };
                 }
             },
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -215,7 +215,7 @@ if (Meteor.isServer) {
             get: {
                 // Regras permitidas
                 roleRequired: [],
-                action: function() {
+                action: function () {
                     // Busca Checkout
                     var checkout = Checkouts.findOne(
                         this.urlParams.checkoutId,
@@ -248,7 +248,7 @@ if (Meteor.isServer) {
                     var user = this.user;
                     if (user) {
                         // Grava Event de acesso
-                        Meteor.defer(function() {
+                        Meteor.defer(function () {
                             var event = {
                                 type: "checkout_accessed",
                                 time: new Date(),
@@ -282,7 +282,7 @@ if (Meteor.isServer) {
                     };
                 }
             },
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -298,7 +298,7 @@ if (Meteor.isServer) {
             post: {
                 // Regras permitidas
                 roleRequired: [],
-                action: async function() {
+                action: async function () {
                     var payment = this.bodyParams.payment;
 
                     // Busca Checkout
@@ -340,7 +340,7 @@ if (Meteor.isServer) {
                     return complete(company, checkout, payment, user);
                 }
             },
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -349,18 +349,18 @@ if (Meteor.isServer) {
     // Maps to: /checkouts/get/:number/:code
     Api.addRoute(
         "get/:number/:code",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
                 roleRequired: [],
-                action: function() {
+                action: function () {
                     // Busca Checkout
                     var checkout = Checkouts.findOne(
                         {
                             code: parseInt(this.urlParams.code),
                             number: parseInt(this.urlParams.number),
-                            createdAt: { $gte: moment().subtract(3, 'days').toDate() }
+                            createdAt: {$gte: moment().subtract(3, 'days').toDate()}
                         },
                         {
                             fields: {
@@ -392,7 +392,7 @@ if (Meteor.isServer) {
                     }
                 }
             },
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -404,7 +404,7 @@ if (Meteor.isServer) {
     function cartItems(items) {
         var r = [];
 
-        Object.keys(items).forEach(function(key) {
+        Object.keys(items).forEach(function (key) {
             var item = items[key];
 
             r.push({
@@ -447,7 +447,7 @@ if (Meteor.isServer) {
                 ),
                 numeroRecorrencia: parseInt(
                     checkout.number.toString() +
-                        checkout.paymentAttempt.toString()
+                    checkout.paymentAttempt.toString()
                 ),
                 valor: company.production
                     ? parseFloat(checkout.cart.total) * 100
@@ -524,8 +524,8 @@ if (Meteor.isServer) {
 
             function _calcDescontoBoleto() {
                 var discount = settings.billet
-                        ? settings.billet.discount
-                        : false,
+                    ? settings.billet.discount
+                    : false,
                     total = checkout.cart.itemsTotal;
 
                 if (data.transacao.valorDesconto || !discount) return;
@@ -536,6 +536,7 @@ if (Meteor.isServer) {
                         : discount.value) * 100;
                 data.transacao.valor -= data.transacao.valorDesconto;
             }
+
             boletoVencimento = moment().add(
                 settings.billet.validity || 5,
                 "days"
@@ -625,7 +626,7 @@ if (Meteor.isServer) {
         payment.transaction = r.data;
         payment.status = paymentStatus(payment.transaction.statusTransacao);
 
-        Meteor.defer(function() {
+        Meteor.defer(function () {
             // Atualiza Payment
             Payments.update(
                 {
@@ -644,7 +645,7 @@ if (Meteor.isServer) {
             });
 
             // Encontra o Status 'order' e adiciona o horário nele
-            status.status.forEach(function(s, key) {
+            status.status.forEach(function (s, key) {
                 if (s.name && s.name == "Pedido Realizado")
                     status.status[key].time = new Date();
             });
@@ -729,7 +730,7 @@ if (Meteor.isServer) {
                 customer.email,
                 "alteracao-status",
                 company.mails.comercial,
-                function(err, r) {
+                function (err, r) {
                     if (err) {
                         return {
                             statusCode: 404,
@@ -810,11 +811,11 @@ if (Meteor.isServer) {
     }
 
     function stockControl(items) {
-        Object.keys(items).forEach(function(key) {
+        Object.keys(items).forEach(function (key) {
             var item = items[key];
 
-            if(item.stock === 1) {
-                Items.update({ _id: item._id }, { $inc: { max: -item.quant } })
+            if (item.stock === 1) {
+                Items.update({_id: item._id}, {$inc: {max: -item.quant}})
             }
         });
     }
@@ -918,7 +919,7 @@ if (Meteor.isServer) {
     function kondutoShoppingCart(items) {
         var r = [];
 
-        items.forEach(function(item) {
+        items.forEach(function (item) {
             r.push({
                 sku: item._id,
                 name: item.name,
@@ -1106,25 +1107,25 @@ if (Meteor.isServer) {
             body = {},
             status = {};
 
-        order.status.forEach(function(stat) {
+        order.status.forEach(function (stat) {
             if (stat.time) status = stat;
         });
 
         // se não for cancelamento, puxa todos os dados
         body = !cancel
             ? {
-                  company: order.customer.company.name,
-                  firstname: order.customer.firstname,
-                  orderNumber: order.number,
-                  orderStatus: status.name,
-                  orderMessage: status.message,
-                  orderTime: moment(status.time).format(dateFormat)
-              }
+                company: order.customer.company.name,
+                firstname: order.customer.firstname,
+                orderNumber: order.number,
+                orderStatus: status.name,
+                orderMessage: status.message,
+                orderTime: moment(status.time).format(dateFormat)
+            }
             : {
-                  company: order.customer.company.name,
-                  firstname: order.customer.name,
-                  orderNumber: order.number
-              };
+                company: order.customer.company.name,
+                firstname: order.customer.name,
+                orderNumber: order.number
+            };
 
         return body;
     }

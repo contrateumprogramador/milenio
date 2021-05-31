@@ -1,6 +1,6 @@
-module.exports = function(ngModule) {
+module.exports = function (ngModule) {
     require('./suspended-summary.sass');
-    ngModule.directive('suspendedSummary', function() {
+    ngModule.directive('suspendedSummary', function () {
         return {
             restrict: 'EA',
             template: require('./suspended-summary.view.html'),
@@ -11,29 +11,34 @@ module.exports = function(ngModule) {
                 refreshCart: '=',
                 submit: '=',
                 form: '=',
-                payment: '='
+                payment: '=',
+                validcupom: '='
             },
             controllerAs: 'vm',
-            controller: function($mdDialog, $mdMedia, $scope, $state, $stateParams, $window, Loja, toast) {
+            controller: function ($mdDialog, $mdMedia, $scope, $state, $stateParams, $window, Loja, toast) {
                 var vm = this;
 
-                vm.installments = $scope.installments
-                vm.cart = $scope.cart
-                vm.refreshCart = $scope.refreshCart
-                vm.submit = $scope.submit
-                vm.form = $scope.form
-                vm.payment = $scope.payment
-                vm.address = Loja.Checkout.checkoutShipping()
+                vm.installments = $scope.installments;
+                vm.cart = $scope.cart;
+                vm.refreshCart = $scope.refreshCart;
+                vm.submit = $scope.submit;
+                vm.validCupom = $scope.validcupom;
+                vm.form = $scope.form;
+                vm.payment = $scope.payment;
+                vm.address = Loja.Checkout.checkoutShipping();
+                vm.removeCupom = Loja.Checkout.removeCoupon;
+                vm.cupom = "";
 
-                $scope.$watch('cart', function(newValue) {
+
+                $scope.$watch('cart', function (newValue) {
                     vm.cart = newValue;
                 });
 
-                $scope.$watch('form', function(newValue) {
+                $scope.$watch('form', function (newValue) {
                     vm.form = newValue;
                 });
 
-                $scope.$watch('installments', function(newValue) {
+                $scope.$watch('installments', function (newValue) {
                     vm.installments = newValue;
                 });
 
@@ -44,22 +49,38 @@ module.exports = function(ngModule) {
                 if (Loja.Checkout.isInternal()) {
                     vm.zipcode =
                         vm.cart.zipcode || Loja.Checkout.checkoutShipping().zipcode;
-                    vm.zipcodeDisabled = vm.zipcode ? true : false;
+                    vm.zipcodeDisabled = !!vm.zipcode;
                 }
 
                 //Methods
-                vm.goToCheckout = goToCheckout
-                vm.getZip = getZip
-                vm.getLabelButton = getLabelButton
-                vm.checkMedia = checkMedia
-                vm.getAddress = getAddress
+                vm.goToCheckout = goToCheckout;
+                vm.getZip = getZip;
+                vm.getLabelButton = getLabelButton;
+                vm.checkMedia = checkMedia;
+                vm.getAddress = getAddress;
+                vm.getLabelButtonCupom = getLabelButtonCupom;
+                vm.upDateCupom = upDateCupom;
 
                 //Functions
+                function upDateCupom(ev) {
+                    if (vm.cart.cupon)
+                        vm.removeCupom();
+                    else
+                        vm.validCupom(ev, vm.cupom);
+                    vm.cart = Loja.Checkout.cart();
+                }
+
+
+                function getLabelButtonCupom() {
+                    if (!vm.cart.cupon) return "Aplicar";
+                    return "Remover";
+                }
+
                 function goToCheckout(state) {
                     if (Loja.Checkout.isInternal()) {
                         Loja.Checkout.budget($stateParams.number, $stateParams.code);
                     }
-        
+
                     if (!vm.zipcode) {
                         toast.message("Informe seu CEP para continuar.");
                         angular
@@ -67,7 +88,7 @@ module.exports = function(ngModule) {
                             .scrollTopAnimated(550);
                         document.getElementById("ZipText").focus();
                     } else if (Loja.Auth.me()) {
-                        if (state == "quote") {
+                        if (state === "quote") {
                             $mdDialog
                                 .show(
                                     $mdDialog
@@ -80,19 +101,19 @@ module.exports = function(ngModule) {
                                         .ariaLabel("Orçamento Salvo")
                                         .ok("OK")
                                 )
-                                .finally(function() {
+                                .finally(function () {
                                     //Ao fechar o dialog, o carrinho é resetado.
                                     Loja.Checkout.resetCart();
                                     // Redireciona para a tela do usuário selecionando o último orçamento
-                                    $state.go("user", { actual: true });
+                                    $state.go("user", {actual: true});
                                 });
                         } else {
-                            $state.go(state, { actual: true });
+                            $state.go(state, {actual: true});
                         }
                     } else {
                         // Se o usuário não estiver logado, é solicitado o login
                         if (Loja.Checkout.isInternal()) {
-                            $state.go("checkout", { actual: true });
+                            $state.go("checkout", {actual: true});
                         } else {
                             Loja.Auth.sign(state);
                         }
@@ -101,12 +122,12 @@ module.exports = function(ngModule) {
 
                 function getAddress(address) {
                     var r = address.address + ', ' + address.number;
-        
+
                     if (address.complement)
                         r += ' ' + address.complement;
-        
+
                     r += ' - ' + address.district;
-        
+
                     return r;
                 }
 
@@ -118,12 +139,12 @@ module.exports = function(ngModule) {
                     if (vm.zipcode) {
                         vm.loading = true;
                         Loja.Store.shipping(vm.zipcode).then(
-                            function(response) {
+                            function (response) {
                                 Loja.Checkout.shipping(response.data.data, vm.zipcode);
                                 vm.refreshCart();
                                 vm.loading = false;
                             },
-                            function(err) {
+                            function (err) {
                                 vm.loading = false;
                                 toast.message(err.data.message);
                             }
@@ -132,33 +153,34 @@ module.exports = function(ngModule) {
                 }
 
                 function getLabelButton() {
-                    if(vm.payment) return "Pagar"
-                    else if(vm.submit) return "Próximo"
-                    return "Concluir compra"
+                    if (vm.payment) return "Pagar";
+                    else if (vm.submit) return "Próximo";
+                    return "Concluir compra";
                 }
 
-                const cartContainer = document.getElementById('Content')
+                const cartContainer = document.getElementById('Content');
 
                 if ($mdMedia("gt-xs") && !vm.payment && !vm.submit) {
-                    const menu = document.querySelector('.suspended-summary')
-                    menu.style = "position:fixed;width:17%"
+                    const menu = document.querySelector('.suspended-summary');
+                    menu.style = "position:fixed;width:17%";
 
-                    cartContainer.onscroll = function (){                        
-                        const footer = document.querySelector('#Footer')
-    
-                        if(menu) {
+                    cartContainer.onscroll = function () {
+                        const footer = document.querySelector('#Footer');
+
+                        if (menu) {
                             var offset = cartContainer.scrollTop + menu.offsetHeight;
                             var height = footer.offsetTop;
-    
+
                             if (offset >= (height - menu.offsetHeight)) {
-                                menu.style = "position:absolute;top:"+(height - menu.offsetHeight - 50)+"px;width:17%"
+                                menu.style = "position:absolute;top:" + (height - menu.offsetHeight - 50) + "px;width:17%";
                             } else {
-                                menu.style = "position:fixed;width:17%"
+                                menu.style = "position:fixed;width:17%";
                             }
                         }
                     };
                 } else {
-                    cartContainer.onscroll = () => {}
+                    cartContainer.onscroll = () => {
+                    };
                 }
             }
         };
