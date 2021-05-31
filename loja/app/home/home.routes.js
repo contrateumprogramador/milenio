@@ -63,9 +63,9 @@ module.exports = function (ngModule) {
                 Banners: function (Loja, toast) {
                     return Loja.Store.banners("Home Principal").then(
                         function (r) {
-                            return r.data.data[0] ?
-                                r.data.data[0].banners :
-                                r.data.data.banners;
+                            return r.data.data[0]
+                                ? r.data.data[0].banners
+                                : r.data.data.banners;
                         },
                         function (err) {
                             toast.message(err.data.message);
@@ -75,9 +75,9 @@ module.exports = function (ngModule) {
                 BlocoBanners: function (Loja, toast) {
                     return Loja.Store.banners("Home Bloco").then(
                         function (r) {
-                            return r.data.data[0] ?
-                                r.data.data[0].banners :
-                                r.data.data.banners;
+                            return r.data.data[0]
+                                ? r.data.data[0].banners
+                                : r.data.data.banners;
                         },
                         function (err) {
                             toast.message(err.data.message);

@@ -37,18 +37,15 @@ module.exports = function (LojaInteligenteModule) {
         vm.errorMessageBoleto = null;
         vm.formStep = 0;
         vm.cart = Loja.Checkout.cart();
-        vm.conditions = vm.cart.internal ?
-            {
-                times: vm.cart.installmentsMax,
-                value: vm.cart.total / vm.cart.installmentsMax
-            } :
-            Conditions;
+        vm.conditions = vm.cart.internal
+            ? { times: vm.cart.installmentsMax, value: vm.cart.total / vm.cart.installmentsMax }
+            : Conditions;
         vm.installments = Installments || [];
         vm.payment = creditcard.init("payment");
         vm.paymentComplete = false;
-        vm.payment.installments = vm.installments ?
-            vm.installments[vm.installments.length - 1].times :
-            0;
+        vm.payment.installments = vm.installments
+            ? vm.installments[vm.installments.length - 1].times
+            : 0;
         vm.billetDiscount =
             _.get(Loja.Store.settings(), "billet.discount.value") || false;
         vm.tab = 0;
@@ -295,15 +292,13 @@ module.exports = function (LojaInteligenteModule) {
                 },
                 function (err) {
                     if (vm.payment.method === "Boleto Bradesco") {
-                        vm.errorMessageBoleto =
-                            err.data && err.data.message ?
-                                err.data.message :
-                                "Erro no sistema, tente novamente.";
+                        vm.errorMessageBoleto = (err.data && err.data.message)
+                            ? err.data.message
+                            : "Erro no sistema, tente novamente.";
                     } else {
-                        vm.errorMessageCC =
-                            err.data && err.data.message ?
-                                err.data.message :
-                                "Erro no sistema, tente novamente.";
+                        vm.errorMessageCC = (err.data && err.data.message)
+                            ? err.data.message
+                            : "Erro no sistema, tente novamente.";
                     }
                     loading(false);
                     vm.payment = [];

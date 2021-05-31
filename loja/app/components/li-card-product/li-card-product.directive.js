@@ -23,9 +23,9 @@ module.exports = function(ngModule) {
                 vm.item = $scope.item;
                 vm.checkoutItem = $scope.checkoutItem;
                 vm.index = $scope.index;
-                vm.customization = vm.checkoutItem ?
-                    vm.checkoutItem.customizations :
-                    {};
+                vm.customization = vm.checkoutItem
+                    ? vm.checkoutItem.customizations
+                    : {};
                 vm.options = selectOptions();
                 vm.quantity = vm.checkoutItem ? vm.checkoutItem.quant : 1;
                 vm.addToCart = addToCart;
