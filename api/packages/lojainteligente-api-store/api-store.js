@@ -1,5 +1,5 @@
-import { GoogleMerchant } from "./google-merchant";
-import { MilenioRedirect } from "./milenio-redirect-data";
+import {GoogleMerchant} from "./google-merchant";
+import {MilenioRedirect} from "./milenio-redirect-data";
 // Write your package code here!
 
 // Variables exported by this module can be imported by other packages and
@@ -27,9 +27,9 @@ if (Meteor.isServer) {
      */
     Api.addRoute(
         "milenio/:id/:title",
-        { authRequired: false },
+        {authRequired: false},
         {
-            get: function() {
+            get: function () {
                 var url = "https://www.mileniomoveis.com.br",
                     path = MilenioRedirect[this.urlParams.id];
 
@@ -50,12 +50,12 @@ if (Meteor.isServer) {
     // Maps to: /store/tags
     Api.addRoute(
         "tags",
-        { authRequired: false },
+        {authRequired: false},
         {
             // Insere nova Tag
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -64,7 +64,7 @@ if (Meteor.isServer) {
 
                     // Verifica se 'company' já possui tags
                     if (
-                        Tags.findOne({ companyId: companyId, name: tag.name })
+                        Tags.findOne({companyId: companyId, name: tag.name})
                     ) {
                         return {
                             statusCode: 304,
@@ -83,13 +83,13 @@ if (Meteor.isServer) {
 
                     return {
                         status: "success",
-                        data: Tags.findOne({ _id: id })
+                        data: Tags.findOne({_id: id})
                     };
                 }
             }, // end POST
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -122,7 +122,7 @@ if (Meteor.isServer) {
                     }
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -131,11 +131,11 @@ if (Meteor.isServer) {
     // Maps to: /store/tags/:id
     Api.addRoute(
         "tags/:id",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -144,7 +144,7 @@ if (Meteor.isServer) {
                         tag = {};
 
                     // busca a tag no banco
-                    tag = Tags.findOne({ _id: id });
+                    tag = Tags.findOne({_id: id});
 
                     // se for encontrado retorna
                     if (tag) {
@@ -166,7 +166,7 @@ if (Meteor.isServer) {
             }, // end GET
             patch: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -174,11 +174,11 @@ if (Meteor.isServer) {
                         tag = this.bodyParams;
 
                     // se for encontrado atualiza
-                    if (Tags.findOne({ _id: id })) {
+                    if (Tags.findOne({_id: id})) {
                         // Se o patch vier com name, atualiza o name, se não as tags
                         var update = tag.name
-                            ? { name: tag.name }
-                            : { tags: tag.tags };
+                            ? {name: tag.name}
+                            : {tags: tag.tags};
 
                         Tags.update(
                             {
@@ -192,7 +192,7 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Tags.findOne({ _id: id })
+                            data: Tags.findOne({_id: id})
                         };
                     }
 
@@ -208,16 +208,16 @@ if (Meteor.isServer) {
             }, // end PATCH
             delete: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var id = this.urlParams.id;
 
                     // Verifica se a tag existe
-                    if (Tags.findOne({ _id: id })) {
+                    if (Tags.findOne({_id: id})) {
                         // Remove a tag
-                        Tags.remove({ _id: id });
+                        Tags.remove({_id: id});
 
                         return {
                             statusCode: 204,
@@ -238,7 +238,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end DELETE
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -250,12 +250,12 @@ if (Meteor.isServer) {
     // Maps to: /store/items
     Api.addRoute(
         "items",
-        { authRequired: false },
+        {authRequired: false},
         {
             // Insere novo Item
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -264,7 +264,7 @@ if (Meteor.isServer) {
 
                     // Verifica se 'item' já existe naquela empresa
                     if (
-                        Items.findOne({ companyId: companyId, name: item.name })
+                        Items.findOne({companyId: companyId, name: item.name})
                     ) {
                         return {
                             statusCode: 304,
@@ -283,13 +283,13 @@ if (Meteor.isServer) {
 
                     return {
                         status: "success",
-                        data: Items.findOne({ _id: id })
+                        data: Items.findOne({_id: id})
                     };
                 }
             }, // end POST
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -327,7 +327,7 @@ if (Meteor.isServer) {
 
                     // gera a query de busca
                     var adicionalQuery = {
-                        $or: [{ active: true }, { active: 1 }]
+                        $or: [{active: true}, {active: 1}]
                     };
 
                     var query = getQuery(
@@ -360,7 +360,7 @@ if (Meteor.isServer) {
                     }
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -368,10 +368,10 @@ if (Meteor.isServer) {
 
     Api.addRoute(
         "environments",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -391,9 +391,9 @@ if (Meteor.isServer) {
 
                     // gera a query de busca
                     var adicionalQuery = {
-                        $or: [{ active: true }, { active: 1 }]
+                        $or: [{active: true}, {active: 1}]
                     };
-                    
+
                     var query = getQuery(
                         params,
                         fields,
@@ -424,7 +424,7 @@ if (Meteor.isServer) {
                     }
                 }
             },
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -433,11 +433,11 @@ if (Meteor.isServer) {
     // Maps to: /store/items/:id
     Api.addRoute(
         "items/:id",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -446,7 +446,7 @@ if (Meteor.isServer) {
                         item = {};
 
                     // busca o item no banco
-                    item = Items.findOne({ _id: id });
+                    item = Items.findOne({_id: id});
 
                     // se for encontrado retorna
                     if (item) {
@@ -468,7 +468,7 @@ if (Meteor.isServer) {
             }, // end GET
             put: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -476,7 +476,7 @@ if (Meteor.isServer) {
                         item = this.bodyParams;
 
                     // se for encontrado atualiza
-                    if (Items.findOne({ _id: id })) {
+                    if (Items.findOne({_id: id})) {
                         Items.update(
                             {
                                 _id: id
@@ -489,7 +489,7 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Items.findOne({ _id: id })
+                            data: Items.findOne({_id: id})
                         };
                     }
 
@@ -505,16 +505,16 @@ if (Meteor.isServer) {
             }, // END PUT
             delete: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var id = this.urlParams.id;
 
                     // Verifica se a tag existe
-                    if (Items.findOne({ _id: id })) {
+                    if (Items.findOne({_id: id})) {
                         // Remove a tag
-                        Items.remove({ _id: id });
+                        Items.remove({_id: id});
 
                         return {
                             statusCode: 204,
@@ -535,7 +535,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end DELETE
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -543,11 +543,11 @@ if (Meteor.isServer) {
 
     Api.addRoute(
         "items/:id/customizations",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -555,13 +555,13 @@ if (Meteor.isServer) {
                         companyId = this.user.profile.company.companyId,
                         queryFields = {};
 
-                    var item = Items.findOne({ _id: this.urlParams.id });
+                    var item = Items.findOne({_id: this.urlParams.id});
 
                     var customizations = [];
 
-                    item.customizations.forEach(function(customization) {
+                    item.customizations.forEach(function (customization) {
                         customizations.push(
-                            Customizations.findOne({ _id: customization })
+                            Customizations.findOne({_id: customization})
                         );
                     });
 
@@ -571,7 +571,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -583,12 +583,12 @@ if (Meteor.isServer) {
     // Maps to: /store/banners
     Api.addRoute(
         "banners",
-        { authRequired: false },
+        {authRequired: false},
         {
             // Insere novo Banner
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -619,13 +619,13 @@ if (Meteor.isServer) {
 
                     return {
                         status: "success",
-                        data: Banners.findOne({ _id: id })
+                        data: Banners.findOne({_id: id})
                     };
                 }
             }, // end POST
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -658,7 +658,7 @@ if (Meteor.isServer) {
                     }
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -667,11 +667,11 @@ if (Meteor.isServer) {
     // Maps to: /store/banners/:id
     Api.addRoute(
         "banners/:id",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -680,7 +680,7 @@ if (Meteor.isServer) {
                         banner = {};
 
                     // busca o banner no banco
-                    banner = Banners.findOne({ _id: id });
+                    banner = Banners.findOne({_id: id});
 
                     // se for encontrado retorna
                     if (banner) {
@@ -693,13 +693,13 @@ if (Meteor.isServer) {
                     // se não, erro
                     return {
                         statusCode: 404,
-                        body: { status: "fail", message: "Faq não encontrado." }
+                        body: {status: "fail", message: "Faq não encontrado."}
                     };
                 }
             }, // end GET
             patch: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -707,11 +707,11 @@ if (Meteor.isServer) {
                         banner = this.bodyParams;
 
                     // se for encontrado atualiza
-                    if (Banners.findOne({ _id: id })) {
+                    if (Banners.findOne({_id: id})) {
                         // Verifica o que deve ser atualizado
                         var update = banner.group
-                            ? { group: banner.group }
-                            : { banners: banner.banners };
+                            ? {group: banner.group}
+                            : {banners: banner.banners};
 
                         Banners.update(
                             {
@@ -725,7 +725,7 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Banners.findOne({ _id: id })
+                            data: Banners.findOne({_id: id})
                         };
                     }
 
@@ -741,16 +741,16 @@ if (Meteor.isServer) {
             }, // END PUT
             delete: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var id = this.urlParams.id;
 
                     // Verifica se a tag existe
-                    if (Banners.findOne({ _id: id })) {
+                    if (Banners.findOne({_id: id})) {
                         // Remove a tag
-                        Banners.remove({ _id: id });
+                        Banners.remove({_id: id});
 
                         return {
                             statusCode: 204,
@@ -772,7 +772,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end DELETE
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -784,12 +784,12 @@ if (Meteor.isServer) {
     // Maps to: /store/faq
     Api.addRoute(
         "faq",
-        { authRequired: false },
+        {authRequired: false},
         {
             // Insere novo Faq
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -815,19 +815,19 @@ if (Meteor.isServer) {
                     // faz a novo faq receber o companyId
                     faq.companyId = companyId;
                     // pega o próximo indice
-                    faq.index = Faq.find({ companyId: companyId }).count() + 1;
+                    faq.index = Faq.find({companyId: companyId}).count() + 1;
 
                     var id = Faq.insert(faq);
 
                     return {
                         status: "success",
-                        data: Faq.findOne({ _id: id })
+                        data: Faq.findOne({_id: id})
                     };
                 }
             }, // end POST
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -846,7 +846,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -855,11 +855,11 @@ if (Meteor.isServer) {
     // Maps to: /store/faq/:id
     Api.addRoute(
         "faq/:id",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -868,7 +868,7 @@ if (Meteor.isServer) {
                         faq = {};
 
                     // busca o faq no banco
-                    faq = Faq.findOne({ _id: id });
+                    faq = Faq.findOne({_id: id});
 
                     // se for encontrado retorna
                     if (faq) {
@@ -881,19 +881,19 @@ if (Meteor.isServer) {
                     // se não, erro
                     return {
                         statusCode: 404,
-                        body: { status: "fail", message: "Faq não encontrado." }
+                        body: {status: "fail", message: "Faq não encontrado."}
                     };
                 }
             }, // end GET
             put: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var id = this.urlParams.id,
                         faq = this.bodyParams,
-                        oldFaq = Faq.findOne({ _id: id });
+                        oldFaq = Faq.findOne({_id: id});
 
                     // se for encontrado atualiza
                     if (oldFaq) {
@@ -912,29 +912,29 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Faq.findOne({ _id: id })
+                            data: Faq.findOne({_id: id})
                         };
                     }
 
                     // se não, erro
                     return {
                         statusCode: 404,
-                        body: { status: "fail", message: "Faq não encontrado." }
+                        body: {status: "fail", message: "Faq não encontrado."}
                     };
                 }
             }, // END PUT
             delete: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var id = this.urlParams.id;
 
                     // Verifica se existe o registro
-                    if (Faq.findOne({ _id: id })) {
+                    if (Faq.findOne({_id: id})) {
                         // Remove o registro
-                        Faq.remove({ _id: id });
+                        Faq.remove({_id: id});
 
                         return {
                             statusCode: 204,
@@ -948,11 +948,11 @@ if (Meteor.isServer) {
                     // Retorna um erro
                     return {
                         statusCode: 404,
-                        body: { status: "fail", message: "Faq não encontrado." }
+                        body: {status: "fail", message: "Faq não encontrado."}
                     };
                 }
             }, // end DELETE
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -961,11 +961,11 @@ if (Meteor.isServer) {
     // Maps to: /store/faq/reorder
     Api.addRoute(
         "faq/reorder",
-        { authRequired: false },
+        {authRequired: false},
         {
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -973,20 +973,20 @@ if (Meteor.isServer) {
                         companyId = this.user.profile.company.companyId;
 
                     // percorre os ids anotando a ordenação
-                    ids.forEach(function(id, i) {
+                    ids.forEach(function (id, i) {
                         Faq.update(
                             {
                                 _id: id
                             },
                             {
-                                $set: { index: i + 1 }
+                                $set: {index: i + 1}
                             }
                         );
                     });
 
                     return {
                         status: "success",
-                        data: Faq.find({ companyId: companyId }).fetch()
+                        data: Faq.find({companyId: companyId}).fetch()
                     };
                 }
             } // end POST
@@ -999,12 +999,12 @@ if (Meteor.isServer) {
     // Maps to: /store/shippings
     Api.addRoute(
         "shippings",
-        { authRequired: false },
+        {authRequired: false},
         {
             // Insere novo Registro
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1018,13 +1018,13 @@ if (Meteor.isServer) {
 
                     return {
                         status: "success",
-                        data: Shippings.findOne({ _id: id })
+                        data: Shippings.findOne({_id: id})
                     };
                 }
             }, // end POST
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1036,8 +1036,8 @@ if (Meteor.isServer) {
 
                     // verifica se existe um Cep dentro da faixa de ceps
                     if (params.zipcode) {
-                        query["zipcodes.start"] = { $lte: zipcode };
-                        query["zipcodes.end"] = { $gte: zipcode };
+                        query["zipcodes.start"] = {$lte: zipcode};
+                        query["zipcodes.end"] = {$gte: zipcode};
                     }
 
                     var shipping = Shippings.find(query, {
@@ -1071,7 +1071,7 @@ if (Meteor.isServer) {
                     }
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1080,11 +1080,11 @@ if (Meteor.isServer) {
     // Maps to: /store/shippings/:id
     Api.addRoute(
         "shippings/:id",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1093,7 +1093,7 @@ if (Meteor.isServer) {
                         shipping = {};
 
                     // busca o shipping no banco
-                    shipping = Shippings.findOne({ _id: id });
+                    shipping = Shippings.findOne({_id: id});
 
                     // se for encontrado retorna
                     if (shipping) {
@@ -1115,7 +1115,7 @@ if (Meteor.isServer) {
             }, // end GET
             put: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1123,7 +1123,7 @@ if (Meteor.isServer) {
                         shipping = this.bodyParams;
 
                     // se for encontrado atualiza
-                    if (Shippings.findOne({ _id: id })) {
+                    if (Shippings.findOne({_id: id})) {
                         Shippings.update(
                             {
                                 _id: id
@@ -1136,7 +1136,7 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Shippings.findOne({ _id: id })
+                            data: Shippings.findOne({_id: id})
                         };
                     }
 
@@ -1152,16 +1152,16 @@ if (Meteor.isServer) {
             }, // END PUT
             delete: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var id = this.urlParams.id;
 
                     // Verifica se o registro existe
-                    if (Shippings.findOne({ _id: id })) {
+                    if (Shippings.findOne({_id: id})) {
                         // Remove o registro
-                        Shippings.remove({ _id: id });
+                        Shippings.remove({_id: id});
 
                         return {
                             statusCode: 204,
@@ -1182,7 +1182,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end DELETE
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1194,12 +1194,12 @@ if (Meteor.isServer) {
     // Maps to: /store/terms
     Api.addRoute(
         "terms",
-        { authRequired: false },
+        {authRequired: false},
         {
             // Insere novo Term
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1208,7 +1208,7 @@ if (Meteor.isServer) {
 
                     // Verifica se 'term' com aquele nome já existe naquela empresa
                     if (
-                        Terms.findOne({ companyId: companyId, name: term.name })
+                        Terms.findOne({companyId: companyId, name: term.name})
                     ) {
                         return {
                             statusCode: 304,
@@ -1227,13 +1227,13 @@ if (Meteor.isServer) {
 
                     return {
                         status: "success",
-                        data: Terms.findOne({ _id: id })
+                        data: Terms.findOne({_id: id})
                     };
                 }
             }, // end POST
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1264,7 +1264,7 @@ if (Meteor.isServer) {
                     }
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1273,11 +1273,11 @@ if (Meteor.isServer) {
     // Maps to: /store/terms/:id
     Api.addRoute(
         "terms/:id",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1286,7 +1286,7 @@ if (Meteor.isServer) {
                         terms = {};
 
                     // busca o terms no banco
-                    terms = Terms.findOne({ _id: id });
+                    terms = Terms.findOne({_id: id});
 
                     // se for encontrado retorna
                     if (terms) {
@@ -1308,7 +1308,7 @@ if (Meteor.isServer) {
             }, // end GET
             put: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1316,7 +1316,7 @@ if (Meteor.isServer) {
                         terms = this.bodyParams;
 
                     // se for encontrado atualiza
-                    if (Terms.findOne({ _id: id })) {
+                    if (Terms.findOne({_id: id})) {
                         Terms.update(
                             {
                                 _id: id
@@ -1329,7 +1329,7 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Terms.findOne({ _id: id })
+                            data: Terms.findOne({_id: id})
                         };
                     }
 
@@ -1345,16 +1345,16 @@ if (Meteor.isServer) {
             }, // END PUT
             delete: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var id = this.urlParams.id;
 
                     // Verifica se o registro existe
-                    if (Terms.findOne({ _id: id })) {
+                    if (Terms.findOne({_id: id})) {
                         // Remove o registro
-                        Terms.remove({ _id: id });
+                        Terms.remove({_id: id});
 
                         return {
                             statusCode: 204,
@@ -1375,7 +1375,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end DELETE
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1387,12 +1387,12 @@ if (Meteor.isServer) {
     // Maps to: /store/coupons
     Api.addRoute(
         "coupons",
-        { authRequired: false },
+        {authRequired: false},
         {
             // Insere novo Coupon
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1408,13 +1408,13 @@ if (Meteor.isServer) {
 
                     return {
                         status: "success",
-                        data: Coupons.findOne({ _id: id })
+                        data: Coupons.findOne({_id: id})
                     };
                 }
             }, // end POST
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1434,7 +1434,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1442,30 +1442,65 @@ if (Meteor.isServer) {
 
     // Maps to: /store/coupons/:id
     Api.addRoute(
-        "coupons/:id",
-        { authRequired: false },
+        "coupons/:id/:checkout_id",
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     // Pega o id da url
-                    var param = this.urlParams.id,
-                        coupon = {};
+                    let {id: param, checkout_id: check_id} = this.urlParams, coupon = {};
+
 
                     // trata o termo enviado, se for id ou código
-                    coupon = Coupons.findOne({ _id: param });
-                    if (!coupon) coupon = Coupons.findOne({ code: param });
+                    coupon = Coupons.findOne({_id: param});
+                    if (!coupon) coupon = Coupons.findOne({code: param});
+
 
                     // se for encontrado retorna
                     if (coupon) {
+
+                        let check = Checkouts.findOne({_id: check_id});
+                        const items = [];
+
+                        const items_id = check.cart.items.map((i) => i._id);
+                        if (coupon.tags && coupon.tags.length >= 1) { //todo: checar com marrar viabilidade
+                            const resultItems = Items.find({_id: {$in: items_id}}).fetch();
+
+                            let is_tag = false;
+
+                            const checkCupons = (i) =>
+                                resultItems[i].tags.filter(
+                                    j => coupon.tags.find(
+                                        k =>
+                                            k.name === j.name && k.url === j.url && k.tagsGroup === j.tagsGroup
+                                    )
+                                ).length > 0;
+
+                            for (const i in resultItems) {
+                                if (checkCupons(i)) {
+                                    is_tag = true;
+                                    items.push(resultItems[i]._id);
+                                }
+                            }
+
+                            if (!is_tag) {
+                                return {
+                                    statusCode: 403,
+                                    body: {
+                                        status: "fail",
+                                        message: "Cupom não é valido para esse produto."
+                                    }
+                                };
+                            }
+                        } else items.push(...items_id);
+
+
                         //se cupom já tiver sido utilizado, não retorna
-                        if (
-                            coupon.used >= coupon.limit ||
-                            new Date() > coupon.expires
-                        ) {
+                        if (coupon.used >= coupon.limit || new Date() > coupon.expires) {
                             return {
                                 statusCode: 403,
                                 body: {
@@ -1478,7 +1513,10 @@ if (Meteor.isServer) {
                         // se não, retorna o cupom
                         return {
                             status: "success",
-                            data: coupon
+                            data: {
+                                coupon,
+                                itens: items
+                            }
                         };
                     }
 
@@ -1494,7 +1532,7 @@ if (Meteor.isServer) {
             }, // end GET
             put: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1502,7 +1540,7 @@ if (Meteor.isServer) {
                         coupon = this.bodyParams;
 
                     // se for encontrado atualiza
-                    if (Coupons.findOne({ _id: id })) {
+                    if (Coupons.findOne({_id: id})) {
                         Coupons.update(
                             {
                                 _id: id
@@ -1515,7 +1553,7 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Coupons.findOne({ _id: id })
+                            data: Coupons.findOne({_id: id})
                         };
                     }
 
@@ -1531,7 +1569,7 @@ if (Meteor.isServer) {
             }, // END PUT
             patch: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1539,7 +1577,7 @@ if (Meteor.isServer) {
                         coupon = this.bodyParams;
 
                     // se for encontrado atualiza
-                    if (Coupons.findOne({ _id: id })) {
+                    if (Coupons.findOne({_id: id})) {
                         Coupons.update(
                             {
                                 _id: id
@@ -1552,7 +1590,7 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Coupons.findOne({ _id: id })
+                            data: Coupons.findOne({_id: id})
                         };
                     }
 
@@ -1568,16 +1606,16 @@ if (Meteor.isServer) {
             },
             delete: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var id = this.urlParams.id;
 
                     // Verifica se o registro existe
-                    if (Coupons.findOne({ _id: id })) {
+                    if (Coupons.findOne({_id: id})) {
                         // Remove o registro
-                        Coupons.remove({ _id: id });
+                        Coupons.remove({_id: id});
 
                         return {
                             statusCode: 204,
@@ -1598,7 +1636,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end DELETE
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1607,11 +1645,11 @@ if (Meteor.isServer) {
     // Maps to: /store/coupons/:id/use
     Api.addRoute(
         "coupons/:id/use",
-        { authRequired: false },
+        {authRequired: false},
         {
             put: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1619,20 +1657,20 @@ if (Meteor.isServer) {
                         coupon = this.bodyParams;
 
                     // se for encontrado atualiza
-                    if (Coupons.findOne({ _id: id })) {
+                    if (Coupons.findOne({_id: id})) {
                         Coupons.update(
                             {
                                 _id: id
                             },
                             {
-                                $set: { used: coupon.use || true }
+                                $set: {used: coupon.use || true}
                             }
                         );
 
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Coupons.findOne({ _id: id })
+                            data: Coupons.findOne({_id: id})
                         };
                     }
 
@@ -1646,7 +1684,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // END PUT
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1658,12 +1696,12 @@ if (Meteor.isServer) {
     // Maps to: /store/status
     Api.addRoute(
         "status",
-        { authRequired: false },
+        {authRequired: false},
         {
             // Insere novo Status
             post: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1671,7 +1709,7 @@ if (Meteor.isServer) {
                         companyId = this.user.profile.company.companyId;
 
                     // Verifica se 'term' com aquele nome já existe naquela empresa
-                    if (Status.findOne({ companyId: companyId })) {
+                    if (Status.findOne({companyId: companyId})) {
                         return {
                             statusCode: 304,
                             body: {
@@ -1689,13 +1727,13 @@ if (Meteor.isServer) {
 
                     return {
                         status: "success",
-                        data: Status.findOne({ _id: id })
+                        data: Status.findOne({_id: id})
                     };
                 }
             }, // end POST
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1703,7 +1741,7 @@ if (Meteor.isServer) {
                         companyId = this.user.profile.company.companyId,
                         fields = ["status.name"];
 
-                    if (params.name) params["status"] = { name: params.name };
+                    if (params.name) params["status"] = {name: params.name};
 
                     // gera a query de busca
                     var query = getQuery(params, fields, companyId);
@@ -1728,7 +1766,7 @@ if (Meteor.isServer) {
                     }
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1737,11 +1775,11 @@ if (Meteor.isServer) {
     // Maps to: /store/status/:param
     Api.addRoute(
         "status/:param",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1750,12 +1788,12 @@ if (Meteor.isServer) {
                         status = {};
 
                     // busca o status no banco
-                    status = Status.findOne({ _id: param });
+                    status = Status.findOne({_id: param});
 
                     // verifica se foi enviado o nome
                     if (!status)
                         status = Status.findOne({
-                            status: { $elemMatch: { name: param } }
+                            status: {$elemMatch: {name: param}}
                         });
 
                     // se for encontrado retorna
@@ -1778,13 +1816,13 @@ if (Meteor.isServer) {
             }, // end GET
             put: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var param = this.urlParams.param,
                         newStatus = this.bodyParams,
-                        query = { _id: param };
+                        query = {_id: param};
 
                     // recebe o id da company
                     newStatus.companyId = this.user.profile.company.companyId;
@@ -1794,7 +1832,7 @@ if (Meteor.isServer) {
 
                     // se não for encontrado, busca pelo nome
                     if (!status) {
-                        query = { status: { $elemMatch: { name: param } } };
+                        query = {status: {$elemMatch: {name: param}}};
                         status = Status.findOne(query);
                     }
 
@@ -1807,7 +1845,7 @@ if (Meteor.isServer) {
                         // Retorna mensagem de sucesso
                         return {
                             status: "success",
-                            data: Status.findOne({ _id: status._id })
+                            data: Status.findOne({_id: status._id})
                         };
                     }
 
@@ -1823,19 +1861,19 @@ if (Meteor.isServer) {
             }, // END PUT
             delete: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
                     var param = this.urlParams.param,
-                        query = { _id: param };
+                        query = {_id: param};
 
                     // verifica se encontra pelo id
                     var status = Status.findOne(query);
 
                     // se não for encontrado, busca pelo nome
                     if (!status) {
-                        query = { status: { $elemMatch: { name: param } } };
+                        query = {status: {$elemMatch: {name: param}}};
                         status = Status.findOne(query);
                     }
 
@@ -1863,7 +1901,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end DELETE
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1875,11 +1913,11 @@ if (Meteor.isServer) {
     // Maps to: /store/settings
     Api.addRoute(
         "settings",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     this.user = setUser(this);
 
@@ -1893,7 +1931,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1905,11 +1943,11 @@ if (Meteor.isServer) {
     // Maps to: /store/sections
     Api.addRoute(
         "sections",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1945,7 +1983,7 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
@@ -1954,11 +1992,11 @@ if (Meteor.isServer) {
     // Maps to: /store/sections/:param
     Api.addRoute(
         "sections/:param",
-        { authRequired: false },
+        {authRequired: false},
         {
             get: {
                 // Regras permitidas
-                action: function() {
+                action: function () {
                     // seta o usuário logado
                     setUser(this);
 
@@ -1985,26 +2023,26 @@ if (Meteor.isServer) {
                     };
                 }
             }, // end GET
-            options: function() {
+            options: function () {
                 return {};
             }
         }
     );
 
-        // Opinions
+    // Opinions
     // =============================================================================
 
     // Maps to: /store/opinions
-    Api.addRoute('opinions', { authRequired: true }, {
+    Api.addRoute('opinions', {authRequired: true}, {
         post: {
-            action: function() {
+            action: function () {
                 var company = this.bodyParams;
 
                 // Verifica se 'username' já existe
-                if (Companies.findOne({ 'username': company.username })) {
+                if (Companies.findOne({'username': company.username})) {
                     return {
                         statusCode: 304,
-                        body: { status: 'fail', message: 'Empresa já existe.' }
+                        body: {status: 'fail', message: 'Empresa já existe.'}
                     };
                 }
 
@@ -2012,10 +2050,10 @@ if (Meteor.isServer) {
 
                 return {
                     status: 'success',
-                    data: Companies.findOne({ _id: companyId })
+                    data: Companies.findOne({_id: companyId})
                 };
             },
-            options: function() {
+            options: function () {
                 return {};
             }
         }, // end POST
@@ -2025,8 +2063,8 @@ if (Meteor.isServer) {
 
     //filtra por ativos dentro de arrays específicos
     function especificActive(registers, where) {
-        registers.forEach(function(data) {
-            data[where] = data[where].filter(function(singleData) {
+        registers.forEach(function (data) {
+            data[where] = data[where].filter(function (singleData) {
                 return singleData.active == 1;
             });
         });
@@ -2045,7 +2083,7 @@ if (Meteor.isServer) {
             // se enviar companyId, adiciona na query
             query["companyId"] = companyId;
 
-        Object.keys(params).forEach(function(param) {
+        Object.keys(params).forEach(function (param) {
             if (fields.indexOf(param) > -1)
                 query = fieldQuery(params[param], query, param);
         });
@@ -2070,7 +2108,7 @@ if (Meteor.isServer) {
     //função que configura uma query $or ou $and
     function queryOperators(operator, query, values, param) {
         query[operator] = [];
-        values.forEach(function(value) {
+        values.forEach(function (value) {
             var search = {};
             search[param] = regex(value);
             query[operator].push(search);
@@ -2095,7 +2133,7 @@ if (Meteor.isServer) {
     //função para retirada dos %
     function regex(value) {
         return value.indexOf("%") > -1
-            ? { $regex: value.replace(/%/g, "") }
+            ? {$regex: value.replace(/%/g, "")}
             : value;
     }
 }

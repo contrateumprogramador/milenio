@@ -64,9 +64,11 @@ module.exports = function (LojaInteligenteModule) {
         vm.isFocused = isFocused;
         vm.step = step;
         vm.submit = submit;
-        vm.validCupom = validCupom;
 
-        //////////////
+        //Functions
+
+
+
         function limitInstallments(limit) {
             if (!limit) vm.installments = Installments;
             else {
@@ -246,23 +248,7 @@ module.exports = function (LojaInteligenteModule) {
             }
         }
 
-        function validCupom(ev, cupom) { //todo:criar rota especifica para validar o cupom
-            loading(true);
-            Loja.Checkout.coupon(cupom).then(
-                function (r) {
-                    if (Array.isArray(r.data.data))
-                        vm.errorMessageCC = "Cupom invalido";
-                    else
-                        vm.errorMessageCC = null;
 
-                },
-                function (err) {
-                    if (err.status === 404) vm.errorMessageCC = "Cupom invalido";
-                    else vm.errorMessageCC = "Tente mais tarde";
-                }
-            );
-            loading(false);
-        }
 
 
         function submit(method) {

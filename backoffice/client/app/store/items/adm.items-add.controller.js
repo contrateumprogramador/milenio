@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
 
     angular.module("fuseapp").controller("AdmItemsAddCtrl", AdmItemsAddCtrl);
@@ -114,7 +114,7 @@
         //fecha o md-dialog
         function cancel() {
             if (vm.needSave) {
-                vm.form.pictures.forEach(function(picture) {
+                vm.form.pictures.forEach(function (picture) {
                     removePicture(picture);
                 });
                 $mdDialog.cancel();
@@ -163,18 +163,18 @@
         }
 
         function getDescriptions() {
-            Meteor.call("getSettings", function(err, r) {
+            Meteor.call("getSettings", function (err, r) {
                 err
                     ? toast.message(err.reason)
                     : (vm.descriptions = r.descriptions);
                 var tempFields = [],
                     newFields = [];
 
-                tempFields = vm.form.attributes.map(function(desc) {
+                tempFields = vm.form.attributes.map(function (desc) {
                     return desc.title;
                 });
 
-                vm.descriptions.forEach(function(description) {
+                vm.descriptions.forEach(function (description) {
                     if (tempFields.indexOf(description) > -1)
                         newFields.push(
                             vm.form.attributes[tempFields.indexOf(description)]
@@ -192,20 +192,20 @@
         }
 
         function getItems() {
-            Meteor.call("getAllItems", function(err, r) {
+            Meteor.call("getAllItems", function (err, r) {
                 err ? toast.message(err.reason) : (vm.items = r.items);
             });
         }
 
         function getCustomizations() {
-            Meteor.call("listCustomizations", function(err, r) {
+            Meteor.call("listCustomizations", function (err, r) {
                 err ? toast.message(err.reason) : (vm.customizations = r);
             });
         }
 
         //busca a lista de tags
         function getTagsList() {
-            Meteor.call("tagsList", function(err, r) {
+            Meteor.call("tagsList", function (err, r) {
                 err ? toast.message(err.reason) : (vm.tagsList = r);
                 tagsConfig();
             });
@@ -240,8 +240,8 @@
 
         function tagsConfig() {
             var newTags = [];
-            vm.tagsList.forEach(function(group) {
-                group.tags.forEach(function(tag) {
+            vm.tagsList.forEach(function (group) {
+                group.tags.forEach(function (tag) {
                     newTags.push({
                         name: tag.name,
                         url: tag.url,
@@ -265,7 +265,7 @@
 
         //remove a imagem na amazon
         function removePicture(url) {
-            S3.delete(imgUrl(url), function(err, r) {
+            S3.delete(imgUrl(url), function (err, r) {
                 if (err) {
                     toast.message(err);
                 } else {
@@ -287,17 +287,17 @@
             vm.form.name_nd = angular.lowercase(
                 Diacritics.remove(vm.form.name)
             );
-            
+
             const copy = angular.copy(vm.form)
 
-            Meteor.call(method, copy, function(err, r) {
+            Meteor.call(method, copy, function (err, r) {
                 vm.loading = false;
                 if (err) {
                     toast.message(err.reason);
                 } else {
                     vm.form = {};
                     vm.needSave = false;
-                    if(!vm.edit) {
+                    if (!vm.edit) {
                         $mdDialog.hide({
                             message,
                             previousProduct: copy
@@ -326,7 +326,7 @@
                     file: img,
                     path: "itens"
                 },
-                function(err, r) {
+                function (err, r) {
                     if (err) {
                         toast.message("Erro ao enviar imagem.");
                     } else {
@@ -345,7 +345,7 @@
                     Meteor.call(
                         "googleSearch",
                         configureString(searchText),
-                        function(err, r) {
+                        function (err, r) {
                             vm.google_categories = r;
                             vm.exibedCategories = r;
                             vm.progressLoading = false;
@@ -370,13 +370,12 @@
 
         //realiza a query de busca para um determinado md-chips
         function querySearch(query, local) {
-            if (local == "items" && vm.form.related.length >= 5)
+            if (local === "items" && vm.form.related.length >= 5)
                 toast.message("Máximo de 5 itens relacionados.");
             else {
-                var results = query
+                return query
                     ? vm[local].filter(createFilterFor(query, local))
                     : [];
-                return results;
             }
         }
 
@@ -406,13 +405,14 @@
 
         //drag-and-drop options
         vm.dragControlListeners = {
-            accept: function(sourceItemHandleScope, destSortableScope) {
+            accept: function (sourceItemHandleScope, destSortableScope) {
                 return true;
             }, //override to determine drag is allowed or not. default is true.
-            itemMoved: function(event) {
+            itemMoved: function (event) {
                 console.log("moveu");
             },
-            orderChanged: function(event) {},
+            orderChanged: function (event) {
+            },
             containment: "#board",
             clone: false, //optional param for clone feature.
             allowDuplicates: false, //optional param allows duplicates to be dropped.

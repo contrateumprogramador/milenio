@@ -11,8 +11,6 @@
                     title-text="'Checkout'"
             ></milenio-title>
         </div>
-        <suspended-summary installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart">
-        </suspended-summary>
         <md-divider hide-gt-xs></md-divider>
         <div layout="row">
             <li-steps active="1"></li-steps>
@@ -30,36 +28,46 @@
                 >
             </p>
         </div>
-        <div layout="row" class="title-top" hide-xs>
-            <h2>Produtos:</h2>
-        </div>
-        <div ng-if="!vm.cart.itemsCount">
-            <small-title
-                    flex="70"
-                    flex-xs="100"
-                    title="'Você não adicionou itens em seu carrinho'"
-            ></small-title>
-            <div flex="70" flex-xs="100" layout="row" layout-align="center stretch" layout-padding>
-                <md-button class="md-raised md-primary" ui-sref="home">
-                    <md-icon md-font-icon="icon-cart"></md-icon>
-                    Comprar Agora
-                </md-button>
+
+        <div style="display: grid;grid-template-columns: 2fr 1fr;grid-column-gap: 50px">
+            <div>
+                <div layout="row" class="title-top" hide-xs>
+                    <h2>Produtos:</h2>
+                </div>
+                <div ng-if="!vm.cart.itemsCount">
+                    <small-title
+                            flex="70"
+                            flex-xs="100"
+                            title="'Você não adicionou itens em seu carrinho'"
+                    ></small-title>
+                    <div flex="70" flex-xs="100" layout="row" layout-align="center stretch" layout-padding>
+                        <md-button class="md-raised md-primary" ui-sref="home">
+                            <md-icon md-font-icon="icon-cart"></md-icon>
+                            Comprar Agora
+                        </md-button>
+                    </div>
+                </div>
+                <div ng-show="vm.cart.itemsCount" id="RowTable" layout="column">
+                    <li-cart-items
+                            items="vm.cart.items"
+                            refresh-cart="vm.refreshCart"
+                            cart-internal="vm.cart.internal"
+                    ></li-cart-items>
+                    <md-button ng-click="vm.clearCart()" class="clear-cart">
+                        <md-icon md-font-icon="icon-trash"></md-icon>
+                        Limpar Carrinho
+                    </md-button>
+                </div>
             </div>
+            <suspended-summary installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart" validcupom="vm.validCupom" updateinstallments="vm.updateInstallments">
+            </suspended-summary>
         </div>
-        <div ng-show="vm.cart.itemsCount" id="RowTable" layout="column">
-            <li-cart-items
-                    items="vm.cart.items"
-                    refresh-cart="vm.refreshCart"
-                    cart-internal="vm.cart.internal"
-            ></li-cart-items>
-            <md-button ng-click="vm.clearCart()" class="clear-cart">
-                <md-icon md-font-icon="icon-trash"></md-icon>
-                Limpar Carrinho
-            </md-button>
-        </div>
+
+
         <md-divider hide-gt-xs></md-divider>
+
         <suspended-summary hide-gt-xs
-                           installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart"
-        ></suspended-summary>
+                           installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart" validcupom="vm.validCupom" updateinstallments="vm.updateInstallments">
+        </suspended-summary>
     </div>
 </div>

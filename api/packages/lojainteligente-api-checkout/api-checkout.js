@@ -298,7 +298,7 @@ if (Meteor.isServer) {
             post: {
                 // Regras permitidas
                 roleRequired: [],
-                action: async function () {
+                action: function () {
                     var payment = this.bodyParams.payment;
 
                     // Busca Checkout
@@ -335,7 +335,7 @@ if (Meteor.isServer) {
                         _id: user.profile.company.companyId
                     });
 
-                    Meteor.call("RdStation.sendEvent", "ORDER_PLACED", {})
+                    // Meteor.call("RdStation.sendEvent", "ORDER_PLACED", {})
 
                     return complete(company, checkout, payment, user);
                 }

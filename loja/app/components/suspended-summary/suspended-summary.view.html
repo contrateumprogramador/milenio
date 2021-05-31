@@ -1,26 +1,33 @@
 <div layout="column" class="suspended-infos">
-    <div class="suspended-cupom" ng-if="vm.payment">
-        <p>Insira um cupom de desconto</p>
-        <md-input-container>
-            <input
-                    placeholder="Entre com o cupom"
-                    type="text"
-                    inputmode="text"
-                    id="IDcupon"
-                    name="Cupom"
-                    ng-value="vm.cart.cupon"
-                    required
-                    ng-keyup="vm.getCupom()"
-                    ng-model="vm.cupom"
-                    autocomplete="off"
-            />
-        </md-input-container>
-        <div layout="row" layout-align="center center">
-            <md-button ng-click="vm.upDateCupom($event)"
-                       class="yellow-button" aria-label="Cart"
-                       ng-disabled="vm.progressLoading || $root.affiliate">
-                <span>{{vm.getLabelButtonCupom()}}</span>
-            </md-button>
+
+    <div class="suspended-cupom-container" >
+        <div class="suspended-cupom" ng-if="vm.refreshCart">
+            <p>Insira um cupom de desconto</p>
+            <md-input-container>
+                <input
+                        placeholder="Entre com o cupom"
+                        type="text"
+                        inputmode="text"
+                        id="IDcupon"
+                        name="Cupom"
+                        ng-value="vm.cart.cupon"
+                        required
+                        ng-model="vm.cupom"
+                        autocomplete="off"
+                />
+            </md-input-container>
+            <div layout="row" layout-align="center stretch" flex="100">
+                <div class="checkout-alert checkout-alert-error" ng-show="vm.errorMessageCC">
+                    <p>{{ vm.errorMessageCC }}</p>
+                </div>
+            </div>
+            <div layout="row" layout-align="center center">
+                <md-button ng-click="vm.upDateCupom($event)"
+                           class="yellow-button" aria-label="Cart"
+                           ng-disabled="vm.progressLoading || $root.affiliate">
+                    <span>{{vm.getLabelButtonCupom()}}</span>
+                </md-button>
+            </div>
         </div>
     </div>
     <!-- Address Card -->

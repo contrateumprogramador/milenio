@@ -35,8 +35,31 @@ module.exports = function (ngModule) {
         vm.clearCart = clearCart;
         vm.itemRemove = itemRemove;
         vm.refreshCart = refreshCart;
+        vm.validCupom = validCupom;
+        vm.updateInstallments = updatesInstallments;
+
 
         // Functions
+        function validCupom(ev, cupom) { //todo:criar rota especifica para validar o cupom
+            return Loja.Checkout.coupon(cupom).then(
+                function (r) {
+                    vm.errorMessageCC = Array.isArray(r.data.data) ? "Cupom invalido" : vm.errorMessageCC = null;
+                    vm.installments = Installments;
+                    return r;
+                },
+                function (err) {
+                    if (err.status === 404) vm.errorMessageCC = "Cupom invalido";
+                    else if (err.status === 403) vm.errorMessageCC = err.data.message;
+                    else vm.errorMessageCC = "Tente mais tarde";
+                    return err;
+                }
+            );
+        }
+
+        function updatesInstallments() {
+            return Loja.Checkout.calcInstallments();
+        }
+
         function clearCart(ev) {
             var confirm = $mdDialog
                 .confirm()

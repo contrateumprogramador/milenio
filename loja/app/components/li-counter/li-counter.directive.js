@@ -8,16 +8,18 @@ module.exports = function(ngModule) {
             replace: true,
             scope: {
                 item: '=',
-                refreshCart: '='
+                refreshCart: '=',
+                applydiscount: '='
             },
             controllerAs: "vm",
             controller: function($mdDialog, $scope, Loja, toast) {
                 var vm = this;
 
-                vm.changeQuant = changeQuant
-                vm.item = $scope.item
+                vm.changeQuant = changeQuant;
+                vm.item = $scope.item;
                 vm.refreshCart = $scope.refreshCart;
-                vm.itemRemove = itemRemove
+                vm.itemRemove = itemRemove;
+                vm.applyDiscount = $scope.applydiscount;
 
                 function changeQuant(item, value, ev, index){
                     if(item.quant + value === 0) {
@@ -30,8 +32,10 @@ module.exports = function(ngModule) {
   
                     Loja.Checkout.itemQuantChange(item, item.quant);
                     
-                    if (!vm.parent)
+                    if (!vm.parent) {
                         vm.refreshCart();
+                        vm.applyDiscount();
+                    }
                 }
 
                 function itemRemove(ev, item, index){

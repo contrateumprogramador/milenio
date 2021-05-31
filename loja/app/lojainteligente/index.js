@@ -502,8 +502,7 @@ var LojaInteligenteModule = angular
                 //calcula o valor do cep baseado no percentual
                 var shippingPrice =
                     api.shipping && api.shipping.percent
-                        ? (checkout.cart.itemsTotal * api.shipping.percent) /
-                        100
+                        ? (checkout.cart.itemsTotal * api.shipping.percent) / 100
                         : 0;
 
                 //se valor do pedido for maior que frete grátis, não cobra frete
@@ -546,11 +545,7 @@ var LojaInteligenteModule = angular
             function checkDiscount(coupon) {
                 if (!coupon) coupon = checkout.cart.coupon;
 
-                if (
-                    (!coupon || !coupon.discountType) &&
-                    !checkout.cart.discount
-                )
-                    return 0;
+                if ((!coupon || !coupon.discountType) && !checkout.cart.discount) return 0;
 
                 if (!checkout.cart.discountType) {
                     checkout.cart.discountType = coupon.discountType;
@@ -562,9 +557,20 @@ var LojaInteligenteModule = angular
             }
 
             function calcDiscount() {
-                return checkout.cart.discountType == "$"
-                    ? checkout.cart.discount
-                    : (checkout.cart.itemsTotal * checkout.cart.discount) / 100;
+                // if (checkout.cart.discountType === "$") return checkout.cart.discount;
+                let discount = 0;
+                checkout.cart.discountItens && checkout.cart.discountItens.forEach(
+                    item => {
+                        let product = checkout.cart.items.find(i => i._id === item);
+                        if (product)
+                            if (checkout.cart.discountType === "$")
+                                discount += (checkout.cart.discount * product.quant);
+                            else
+                                discount += (product.total * (checkout.cart.discount / 100));
+                    });
+                return discount;
+                // return checkout.cart.discountType === "$" ?
+                //     checkout.cart.discount : (checkout.cart.itemsTotal * checkout.cart.discount) / 100;
             }
 
             function saveCart() {
@@ -574,8 +580,7 @@ var LojaInteligenteModule = angular
                 checkout.cart.itemsTotal = itemsTotal();
                 checkout.cart.discount = checkDiscount();
                 if (!checkout.cart.internal) {
-                    checkout.cart.total =
-                        cart.itemsTotal - calcDiscount() + cart.shippingPrice;
+                    checkout.cart.total = cart.itemsTotal - calcDiscount() + cart.shippingPrice;
                     checkout.cart.shippingPrice = recalculateShipping();
                 }
             }
@@ -624,7 +629,6 @@ var LojaInteligenteModule = angular
             }
 
             function installmentsConfig() {
-                console.log(api.settings);
                 // Vars
                 var maxInstallments = api.settings.installments.maxInstallments,
                     minValueInstallments = api.settings.installments.min,
@@ -732,30 +736,55 @@ var LojaInteligenteModule = angular
                 },
                 coupon: function (code) {
                     return $q(function (resolve, reject) {
-                        API.Store.coupons(code).then(
+                        API.Store.coupons(code, checkout._id).then(
                             function (r) {
                                 // cria uma variavel com o resultado do cupom
-                                var coupon = r.data.data;
+                                let coupon = r.data.data.coupon;
                                 // aplica o desconto no checkout
                                 checkout.cart.discount = checkDiscount(coupon);
+                                checkout.cart.discountItens = r.data.data.itens;
                                 // salva o cupom no checkout
                                 checkout.cart.coupon = coupon;
                                 // gera o evento de cupom aplicado
+
+
+                                for (let i in checkout.cart.items) {
+                                    if (checkout.cart.discountItens.includes(checkout.cart.items[i]._id)) {
+                                        checkout.cart.items[i].discount = true;
+                                        if (checkout.cart.discountType === "$")
+                                            checkout.cart.items[i].totalDiscount = checkout.cart.items[i].total - (checkout.cart.discount * checkout.cart.items[i].quant);
+                                        else
+                                            checkout.cart.items[i].totalDiscount = checkout.cart.items[i].total * (1 - (checkout.cart.discount / 100));
+                                    }
+                                }
                                 event("coupon_applied", coupon);
                                 resolve(r);
                             },
                             function (err) {
+
                                 event("coupon_denied", code);
+                                console.log(err)
                                 reject(err);
                             }
                         );
                     });
                 },
                 removeCoupon: function () {
+                    let cupon = checkout.cart.coupon;
                     delete checkout.cart.coupon;
                     delete checkout.cart.cupon;
+                    delete checkout.cart.discountItens;
                     checkout.cart.discount = 0;
                     checkout.cart.discountType = "";
+
+                    checkout.cart.items.forEach(
+                        i => {
+                            if (i.discount) delete i.discount;
+                            if (i.totalDiscount) delete i.totalDiscount;
+                        }
+                    );
+
+                    event("removed_applied", cupon);
                     return checkout.cart;
                 },
                 getShippings: function () {
@@ -767,6 +796,9 @@ var LojaInteligenteModule = angular
                 },
                 isInternal: function () {
                     return checkout.internal;
+                },
+                calcInstallments: function () {
+                    return installmentsConfig();
                 },
                 itemInstallments: function (item) {
                     return $q(function (resolve, reject) {
@@ -1308,8 +1340,8 @@ var LojaInteligenteModule = angular
                         group: group
                     });
                 },
-                coupons: function (code) {
-                    return req("GET", "/store/coupons/" + code);
+                coupons: function (code, id) {
+                    return req("GET", "/store/coupons/" + code + "/" + id);
                 },
                 customizations: function (id) {
                     return req("GET", "/store/items/" + id + "/customizations");
