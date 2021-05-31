@@ -31,7 +31,6 @@ Meteor.methods({
             });
             return true;
         } catch (ex) {
-            console.log("Nope")
             console.log(ex)
             return ex
         }
