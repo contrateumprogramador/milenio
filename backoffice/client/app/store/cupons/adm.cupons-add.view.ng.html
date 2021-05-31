@@ -2,8 +2,8 @@
     <form name="formAdd" ng-submit="formAdd.$valid && vm.save()">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2 ng-hide="vm.edit">Adicionar Item</h2>
-                <h2 ng-show="vm.edit">Editar Item</h2>
+                <h2 ng-hide="vm.edit">Adicionar Cupom</h2>
+                <h2 ng-show="vm.edit">Editar Cupom</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="vm.cancel()">
                     <md-icon md-font-icon="icon-window-close" aria-label="fechar janela"></md-icon>
@@ -13,48 +13,80 @@
         <md-progress-linear md-mode="indeterminate" class="md-accent" ng-show="vm.progressLoading"></md-progress-linear>
         <md-dialog-content>
             <div class="md-dialog-content" layout="row" layout-wrap>
-                <md-input-container flex="100" flex-gt-xs="50">
-                    <label>Código Gerado</label>
-                    <input type="text" name="code" ng-model="vm.form.code" required tabindex="1">
-                    <div ng-messages="formAdd.code.$error" ng-show="formAdd.code.$touched" role="alert">
-                        <div ng-message="required">
-                            <span>Campo obrigatório.</span>
-                        </div>
+
+                <div flex="60" class="left-content-cupom" layout="row" layout-wrap>
+                    <div layout="column">
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Código Gerado</label>
+                            <input type="text" name="code" ng-model="vm.form.code" required tabindex="1">
+                            <div ng-messages="formAdd.code.$error" ng-show="formAdd.code.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container flex="100" flex-gt-xs="50">
+                            <label>Tipo de Desconto</label>
+                            <md-select ng-model="vm.form.discountType" tabindex="2">
+                                <md-option ng-repeat="type in vm.types" ng-value="type.short">
+                                    {{type.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <md-input-container flex="100" flex-gt-xs="30" ng-show="vm.form.discountType == '$'">
+                            <input tabindex="3" type="text" ui-money-mask name="discount" ng-model="vm.form.discount" placeholder="Valor" required>
+                            <div ng-messages="formAdd.discount.$error" ng-show="formAdd.discount.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="40" ng-show="vm.form.discountType == '%'">
+                            <input required type="number" step="any" name="discount" ng-model="vm.form.discount" placeholder="Percentual" tabindex="3"/>
+                            <div ng-messages="formAdd.discount.$error" ng-show="formAdd.discount.$touched" role="alert">
+                                <div ng-message="required">
+                                    <span>Campo obrigatório.</span>
+                                </div>
+                            </div>
+                        </md-input-container>
                     </div>
-                </md-input-container>
-                <md-input-container flex="100" flex-gt-xs="50">
-                  <label>Tipo de Desconto</label>
-                  <md-select ng-model="vm.form.discountType" tabindex="2">
-                    <md-option ng-repeat="type in vm.types" ng-value="type.short">
-                      {{type.name}}
-                    </md-option>
-                  </md-select>
-                </md-input-container>                              
-                <md-input-container flex="100" flex-gt-xs="30" ng-show="vm.form.discountType == '$'">
-                    <input tabindex="3" type="text" ui-money-mask name="discount" ng-model="vm.form.discount" placeholder="Valor" required>
-                    <div ng-messages="formAdd.discount.$error" ng-show="formAdd.discount.$touched" role="alert">
-                        <div ng-message="required">
-                            <span>Campo obrigatório.</span>
-                        </div>
+                    <div layout="column">
+                        <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Limite de uso</label>
+                            <input ng-model="vm.form.limit" type="number" step="1" min="1" tabindex="4">
+                        </md-input-container>
+
+                        <md-input-container flex="100" flex-gt-xs="20">
+                            <input type="number" step="any" name="used" ng-model="vm.form.used" placeholder="Usado" disabled/>
+                        </md-input-container>
+
+                        <md-datepicker md-min-date="vm.now" ng-model="vm.form.expires" md-placeholder="Vencimento" tabindex="5"></md-datepicker>
                     </div>
-                </md-input-container>       
-                <md-input-container flex="100" flex-gt-xs="40" ng-show="vm.form.discountType == '%'">
-                    <input required type="number" step="any" name="discount" ng-model="vm.form.discount" placeholder="Percentual" tabindex="3"/>
-                    <div ng-messages="formAdd.discount.$error" ng-show="formAdd.discount.$touched" role="alert">
-                        <div ng-message="required">
-                            <span>Campo obrigatório.</span>
-                        </div>
-                    </div>
-                </md-input-container>  
-                <md-input-container flex="100" flex-gt-xs="30">
-                      <label>Limite de uso</label>
-                      <input ng-model="vm.form.limit" type="number" step="1" min="1" tabindex="4">
-                </md-input-container>    
-                <md-input-container flex="100" flex-gt-xs="20">
-                    <input type="number" step="any" name="used" ng-model="vm.form.used" placeholder="Usado" disabled />
-                </md-input-container>                  
-                <md-datepicker md-min-date="vm.now" ng-model="vm.form.expires" md-placeholder="Vencimento" tabindex="5"></md-datepicker>                    
-            </div>                                  
+                </div>
+
+
+                <div flex="40" class="tag-input">
+                    <md-chips class="width100" ng-model="vm.form.tags" md-autocomplete-snap md-require-match="true">
+                        <md-autocomplete md-selected-item="vm.selectedTag"
+                                         md-search-text="vm.searchText"
+                                         md-items="item in vm.querySearch(vm.searchText, 'tagsList')"
+                                         md-item-text="item.name"
+                                         placeholder="Tags do cupom"
+                                         md-min-length="2">
+                            <span md-highlight-text="vm.searchText">{{item.name}} ({{item.tagsGroup}})</span>
+                        </md-autocomplete>
+
+                        <md-chip-template>
+                            <span>{{$chip.name}}</span>
+                            <span>({{$chip.tagsGroup}})</span>
+                        </md-chip-template>
+                    </md-chips>
+                    <p>* Deixe a entrada de tags vazia para o cupom ser aplicavel a todos os produtos.</p>
+                </div>
+
+            </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <md-button ng-click="vm.cancel()" aria-label="Cancelar" ng-disabled="vm.needSave">

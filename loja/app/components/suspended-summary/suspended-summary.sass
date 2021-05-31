@@ -9,20 +9,41 @@
   z-index: 0
   width: 50%
 
-.suspended-cupom
-  @include shadow_card
-  margin: 0 2rem
+.suspended-cupom-container
+  //position: fixed
+  //width: 17%
+  //top: 180px
+  //right: 0
+  //margin: 0 6rem
 
-  p
-    font-weight: 600
-    margin: 0 0 10px 0
 
-  md-input-container
-    margin: 12px 0 0 0
-    height: 33px
 
-  .yellow-button
-    margin-top: 1rem
+  .suspended-cupom
+    @include shadow_card
+    width: auto !important
+
+    .checkout-alert
+      border-radius: 4px
+      font-weight: bold
+      margin-top: 8px
+      padding: 8px
+      text-align: center
+      background: rgba(244,67,54, .15)
+      color: $red
+
+      p
+        margin: 0
+
+    p
+      font-weight: 600
+      margin: 0 0 10px 0
+
+    md-input-container
+      margin: 12px 0 0 0
+      height: 33px
+
+    .yellow-button
+      margin-top: 1rem
 
 
 .suspended-address
@@ -71,10 +92,14 @@
 body.is-mobile
   .suspended-infos
     margin-top: 25px
+    display: grid
+    place-items: center
 
   .suspended-cupom
     align-self: center
     padding: 2rem 3rem 2rem 3rem
+    md-input-container
+      width: 90%
 
   .suspended-address
     display: none

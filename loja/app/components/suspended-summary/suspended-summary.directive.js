@@ -12,7 +12,8 @@ module.exports = function (ngModule) {
                 submit: '=',
                 form: '=',
                 payment: '=',
-                validcupom: '='
+                validcupom: '=',
+                updateinstallments: '='
             },
             controllerAs: 'vm',
             controller: function ($mdDialog, $mdMedia, $scope, $state, $stateParams, $window, Loja, toast) {
@@ -23,11 +24,13 @@ module.exports = function (ngModule) {
                 vm.refreshCart = $scope.refreshCart;
                 vm.submit = $scope.submit;
                 vm.validCupom = $scope.validcupom;
+                vm.updateInstallments = $scope.updateinstallments;
                 vm.form = $scope.form;
                 vm.payment = $scope.payment;
                 vm.address = Loja.Checkout.checkoutShipping();
                 vm.removeCupom = Loja.Checkout.removeCoupon;
                 vm.cupom = "";
+                vm.errorMessageCC = "";
 
 
                 $scope.$watch('cart', function (newValue) {
@@ -63,11 +66,25 @@ module.exports = function (ngModule) {
 
                 //Functions
                 function upDateCupom(ev) {
-                    if (vm.cart.cupon)
+                    if (vm.cart.cupon) {
                         vm.removeCupom();
-                    else
-                        vm.validCupom(ev, vm.cupom);
-                    vm.cart = Loja.Checkout.cart();
+                        vm.cart = Loja.Checkout.cart();
+                        vm.installments = vm.updateInstallments();
+                        vm.refreshCart();
+                    } else vm.validCupom(ev, vm.cupom).then(
+                        r => {
+                            if (r.status === 200) {
+                                vm.errorMessageCC = null;
+                                vm.cart = Loja.Checkout.cart();
+                                vm.installments = vm.updateInstallments();
+                                vm.refreshCart();
+                            } else if (r.status === 404) vm.errorMessageCC = "Cupom invalido";
+                            else if (r.status === 403) vm.errorMessageCC = r.data.message;
+                            else vm.errorMessageCC = "Tente mais tarde";
+                        }
+                    );
+
+
                 }
 
 
@@ -160,25 +177,15 @@ module.exports = function (ngModule) {
 
                 const cartContainer = document.getElementById('Content');
 
+                const menu = document.querySelector('.suspended-summary');
+                const cupon = document.querySelector('.suspended-cupom-container');
+
                 if ($mdMedia("gt-xs") && !vm.payment && !vm.submit) {
-                    const menu = document.querySelector('.suspended-summary');
-                    menu.style = "position:fixed;width:17%";
-
-                    cartContainer.onscroll = function () {
-                        const footer = document.querySelector('#Footer');
-
-                        if (menu) {
-                            var offset = cartContainer.scrollTop + menu.offsetHeight;
-                            var height = footer.offsetTop;
-
-                            if (offset >= (height - menu.offsetHeight)) {
-                                menu.style = "position:absolute;top:" + (height - menu.offsetHeight - 50) + "px;width:17%";
-                            } else {
-                                menu.style = "position:fixed;width:17%";
-                            }
-                        }
-                    };
+                    cupon.style = "position:unset;width:75%;align-self:center;margin-bottom: 2rem;";
+                    menu.style = "position:unset;width:60%;align-self:center";
                 } else {
+                    cupon.style = "display:none;";
+                    menu.style = "display:none;";
                     cartContainer.onscroll = () => {
                     };
                 }

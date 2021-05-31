@@ -1,40 +1,68 @@
 .image-view
-    .as-sortable-item-handle
-        height: 80% !important
-        width: 200px !important
-        cursor: -webkit-grab !important
-    .placeholder-drag
-       border: 1px dotted #000 !important
-       border-radius: 10px
-       background: #D8D8D8
-    .as-sortable-drag
-        position: fixed
-        opacity: .8
-    md-card
-        width: 100% !important
-        height: 100%
+  .as-sortable-item-handle
+    height: 80% !important
+    width: 200px !important
+    cursor: -webkit-grab !important
+
+  .placeholder-drag
+    border: 1px dotted #000 !important
+    border-radius: 10px
+    background: #D8D8D8
+
+  .as-sortable-drag
+    position: fixed
+    opacity: .8
+
+  md-card
+    width: 100% !important
+    height: 100%
+
+
+md-dialog-content
+
+  .left-content-cupom
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-column-gap: 30px
+
+
+    md-input-container, md-datepicker
+      height: 50px
+      width: 100%
+      margin: 0
+
+      md-datepicker-input-container
+        width: 80%
+
+  .tag-input
+    padding-left: 20px
+
+    p
+     font-size: 14px
+
 
 md-datepicker
   margin: 11px
   margin-right: 15px !important
+
 .md-datepicker
-  display : inline-block
-  padding : 0
-  width   : 100%
+  display: inline-block
+  padding: 0
+  width: 100%
 
   .md-datepicker-button
-    margin-left : -12px
+    margin-left: -12px
 
   .md-datepicker-input-container
-    display : flex
+    display: flex
 
     .md-datepicker-input
-      max-width : 100%
-      min-width : 100%
+      max-width: 100%
+      min-width: 100%
 
     .md-datepicker-triangle-button
-      right : 8px
+      right: 8px
 
 .md-input-messages-animation
   .md-input-message-animation
-    margin-left : 34px
+    margin-left: 34px

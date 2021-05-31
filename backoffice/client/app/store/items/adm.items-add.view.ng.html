@@ -67,19 +67,28 @@
                             <label>Quantidade em estoque</label>
                             <input type="number" name="max" ng-model="vm.form.max">
                         </md-input-container>
+
                         <div flex="100" layout-align="space-between center">
                             <md-chips class="width100" ng-model="vm.form.tags" md-autocomplete-snap md-require-match="true">
-                                <md-autocomplete md-selected-item="vm.selectedTag" md-search-text="vm.searchText"
-                                    md-items="item in vm.querySearch(vm.searchText, 'tagsList')" md-item-text="item.name"
-                                    placeholder="Tags do produto" , md-min-length="2">
+
+                                <md-autocomplete
+                                        md-selected-item="vm.selectedTag"
+                                        md-search-text="vm.searchText"
+                                        md-items="item in vm.querySearch(vm.searchText, 'tagsList')"
+                                        md-item-text="item.name"
+                                        placeholder="Tags do produto"
+                                        md-min-length="2">
                                     <span md-highlight-text="vm.searchText">{{item.name}} ({{item.tagsGroup}})</span>
                                 </md-autocomplete>
+
                                 <md-chip-template>
                                     <span>{{$chip.name}}</span>
                                     <span>({{$chip.tagsGroup}})</span>
                                 </md-chip-template>
+
                             </md-chips>
                         </div>
+
                     </div>
                 </md-tab>
                 <md-tab label="Google">
@@ -103,9 +112,9 @@
                         </md-input-container>
                         <div flex="100">
                             <md-autocomplete md-selected-item="vm.form.googleShopping.data['g:google_product_category']"
-                                md-search-text-change="vm.searchGoogleCategory(vm.categorySearch)" md-search-text="vm.categorySearch"
-                                md-selected-item-change="vm.select(category)" md-items="category in vm.exibedCategories"
-                                md-item-text="category" placeholder="Selecione uma categoria">
+                                             md-search-text-change="vm.searchGoogleCategory(vm.categorySearch)" md-search-text="vm.categorySearch"
+                                             md-selected-item-change="vm.select(category)" md-items="category in vm.exibedCategories"
+                                             md-item-text="category" placeholder="Selecione uma categoria">
                                 <md-item-template>
                                     <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{category}}</span>
                                 </md-item-template>
@@ -128,10 +137,10 @@
                             <h2 class="md-title text-blue text-center">Customização</h2>
                             <div layout="row" layout-align="space-between center" layout-padding>
                                 <md-chips class="width100" ng-model="vm.form.customizations" md-autocomplete-snap
-                                    md-require-match="true">
+                                          md-require-match="true">
                                     <md-autocomplete md-selected-item="vm.selectedCustomization" md-search-text="vm.searchText"
-                                        md-items="item in vm.querySearch(vm.searchText, 'customizations')" md-item-text="item.type"
-                                        placeholder="Tipos de customização" , md-min-length="2">
+                                                     md-items="item in vm.querySearch(vm.searchText, 'customizations')" md-item-text="item.type"
+                                                     placeholder="Tipos de customização" , md-min-length="2">
                                         <span md-highlight-text="vm.searchText">{{item.type}}</span>
                                     </md-autocomplete>
                                     <md-chip-template>
@@ -145,7 +154,7 @@
                         </div>
                         <div layout="row" layout-align="space-between">
                             <md-content flex="{{100/vm.form.customizations.length}}" layout="column" ng-repeat="(key, customization) in vm.form.customizations"
-                                layout-padding>
+                                        layout-padding>
                                 <div class="bg-grey">
                                     <h2 class="text-white text-center">{{customization.type}}</h2>
                                     <md-card ng-style="{'background-image': 'url(' + option.image + ')'}" ng-repeat="(key, option) in customization.options">
@@ -170,9 +179,9 @@
                             </div>
                             <md-input-container flex="100" flex-gt-xs="25">
                                 <input type="text" ui-money-mask name="installments.min" ng-model="vm.form.installments.min"
-                                    placeholder="Valor Mínimo da Parcela">
+                                       placeholder="Valor Mínimo da Parcela">
                                 <div ng-messages="formAdd.installments.min.$error" ng-show="formAdd.installments.min.$touched"
-                                    role="alert">
+                                     role="alert">
                                     <div ng-message="required">
                                         <span>Campo obrigatório.</span>
                                     </div>
@@ -181,9 +190,9 @@
                             <md-input-container flex="100" flex-gt-xs="25">
                                 <label>Máximo de Parcelas</label>
                                 <input type="number" name="installments.maxInstallments" ng-model="vm.form.installments.maxInstallments"
-                                    min="1" max="100">
+                                       min="1" max="100">
                                 <div ng-messages="formAdd.installments.maxInstallments.$error" ng-show="formAdd.installments.maxInstallments.$touched"
-                                    role="alert">
+                                     role="alert">
                                     <div ng-message="required">
                                         <span>Campo obrigatório.</span>
                                     </div>
@@ -202,7 +211,7 @@
                             </md-input-container>
                             <md-input-container flex="100" flex-gt-xs="20">
                                 <input type="text" ui-money-mask name="price[key]" ng-model="vm.form.options[key].price"
-                                    placeholder="Preço" required>
+                                       placeholder="Preço" required>
                                 <div ng-messages="formAdd.price[key].$error" ng-show="formAdd.price[key].$touched" role="alert">
                                     <div ng-message="required">
                                         <span>Campo obrigatório.</span>
@@ -211,11 +220,11 @@
                             </md-input-container>
                             <md-input-container flex="100" flex-gt-xs="20">
                                 <input type="text" ui-money-mask name="salesPrice[key]" ng-model="vm.form.options[key].salesPrice"
-                                    placeholder="Preço promocional">
+                                       placeholder="Preço promocional">
                             </md-input-container>
                             <md-input-container flex="100" flex-gt-xs="15">
                                 <input type="text" name="sku[key]" ng-model="vm.form.options[key].sku" placeholder="Código da medida"
-                                    required>
+                                       required>
                                 <div ng-messages="formAdd.sku[key].$error" ng-show="formAdd.sku[key].$touched" role="alert">
                                     <div ng-message="required">
                                         <span>Campo obrigatório.</span>
@@ -223,11 +232,11 @@
                                 </div>
                             </md-input-container>
                             <md-button class="md-fab md-mini" ng-if="key != 0" ng-click="vm.removePrice(key)"
-                                aria-label="Retirar sub item">
+                                       aria-label="Retirar sub item">
                                 <md-icon md-font-icon="icon-close"></md-icon>
                             </md-button>
                             <md-button class="md-fab md-mini md-primary" ng-click="vm.newPrice()" ng-if="key == vm.form.options.length-1"
-                                aria-label="Novo Sub-item">
+                                       aria-label="Novo Sub-item">
                                 <md-icon md-font-icon="icon-plus"></md-icon>
                             </md-button>
                             <div flex="100" ng-if="key == 0" layout-wrap layout-padding>
@@ -243,10 +252,10 @@
                             <h2 class="md-title text-blue text-center">Produtos Relacionados</h2>
                             <div layout="row" layout-align="space-between center" layout-padding>
                                 <md-chips class="width100" md-max-chips="5" ng-model="vm.form.related"
-                                    md-autocomplete-snap md-require-match="true">
+                                          md-autocomplete-snap md-require-match="true">
                                     <md-autocomplete md-selected-item="vm.selectedItem" md-search-text="vm.searchText"
-                                        md-items="item in vm.querySearch(vm.searchText, 'items')" md-item-text="item.name"
-                                        placeholder="Itens" , md-min-length="2">
+                                                     md-items="item in vm.querySearch(vm.searchText, 'items')" md-item-text="item.name"
+                                                     placeholder="Itens" , md-min-length="2">
                                         <span md-highlight-text="vm.searchText">{{item.name}}</span>
                                     </md-autocomplete>
                                     <md-chip-template>
@@ -258,7 +267,7 @@
                         </div>
                         <div layout="row" layout-align="space-between">
                             <md-content flex="20" layout="column" ng-repeat="(key, item) in vm.form.related track by $index"
-                                layout-padding>
+                                        layout-padding>
                                 <md-card>
                                     <md-card-title>
                                         <md-card-title-text>
@@ -269,8 +278,8 @@
                                     </md-card-title>
                                     <md-card-content>
                                         <div class="md-subhead no-padding" ng-show="item.pictures.length > 0"
-                                            no-padding>
-                                            <img ng-src="{{item.pictures[0]}}" alt="{{item.name}}" />
+                                             no-padding>
+                                            <img ng-src="{{item.pictures[0]}}" alt="{{item.name}}"/>
                                         </div>
                                     </md-card-content>
                                 </md-card>
@@ -282,13 +291,13 @@
                     <div layout="row">
                         <div class="cropArea" ng-hide="vm.imageView == 1" flex="30" layout-padding>
                             <drop-zone id="fileInput" name="imageUpload" uploadMultiple="true" options="vm.dropzoneOptions"
-                                tabindex="6">
+                                       tabindex="6">
                             </drop-zone>
                         </div>
                         <md-content layout-padding layout-wrap flex>
                             <h2 class="md-title text-blue text-center">Imagens do Item</h2>
                             <div layout="row" class="image-view" layout-wrap as-sortable="vm.dragControlListeners"
-                                data-ng-model="vm.form.pictures" id="board">
+                                 data-ng-model="vm.form.pictures" id="board">
                                 <div ng-repeat="picture in vm.form.pictures" data-as-sortable-item flex="25">
                                     <md-card as-sortable-item-handle>
                                         <md-card-title>
@@ -298,7 +307,7 @@
                                         </md-card-title>
                                         <md-card-actions layout="row" layout-align="end center" class="slide-down">
                                             <md-button class="md-icon-button" ng-click="vm.removePicture(picture)"
-                                                aria-label="Excluir">
+                                                       aria-label="Excluir">
                                                 <md-icon md-font-icon="icon-delete" md-menu-align-target></md-icon>
                                             </md-button>
                                         </md-card-actions>
@@ -326,9 +335,9 @@
                             <md-input-container flex="100" flex-gt-xs="20">
                                 <label>Preço Normal</label>
                                 <input type="text" ui-money-mask name="value[$index]" ng-model="vm.form.recurrence[$index].value"
-                                    placeholder="Preço Normal" ng-keyup="vm.calcRecurrenceTotal($index)" required>
+                                       placeholder="Preço Normal" ng-keyup="vm.calcRecurrenceTotal($index)" required>
                                 <div ng-messages="formAdd.value[$index].$error" ng-show="formAdd.value[$index].$touched"
-                                    role="alert">
+                                     role="alert">
                                     <div ng-message="required">
                                         <span>Campo obrigatório.</span>
                                     </div>
@@ -337,9 +346,9 @@
                             <md-input-container flex="100" flex-gt-xs="20">
                                 <label>Desconto (%)</label>
                                 <input required="" type="number" ng-keyup="vm.calcRecurrenceTotal($index)" step="any"
-                                    name="discount[$index]" ng-model="vm.form.recurrence[$index].discount" aria-label="Desconto">
+                                       name="discount[$index]" ng-model="vm.form.recurrence[$index].discount" aria-label="Desconto">
                                 <div ng-messages="formAdd.discount[$index].$error" ng-show="formAdd.discount[$index].$touched"
-                                    role="alert">
+                                     role="alert">
                                     <div ng-message="required">
                                         <span>Campo obrigatório.</span>
                                     </div>
@@ -348,9 +357,9 @@
                             <md-input-container flex="100" flex-gt-xs="20">
                                 <label>Preço com Desconto</label>
                                 <input type="text" ui-money-mask name="total[$index]" ng-model="vm.form.recurrence[$index].total"
-                                    placeholder="Preço com Desconto" ng-readonly required>
+                                       placeholder="Preço com Desconto" ng-readonly required>
                                 <div ng-messages="formAdd.total[$index].$error" ng-show="formAdd.total[$index].$touched"
-                                    role="alert">
+                                     role="alert">
                                     <div ng-message="required">
                                         <span>Campo obrigatório.</span>
                                     </div>
@@ -372,7 +381,7 @@
                 Cancelar
             </md-button>
             <md-button class="md-raised md-accent" type="submit" ng-disabled="formAdd.$invalid || vm.loading"
-                aria-label="Adicionar">
+                       aria-label="Adicionar">
                 Salvar
             </md-button>
         </md-dialog-actions>

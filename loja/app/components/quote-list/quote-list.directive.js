@@ -32,6 +32,7 @@ module.exports = function(ngModule){
                 vm.refreshCart = $scope.refreshCart;
                 vm.checkMedia = checkMedia;
 
+
                 // Functions
                 function callDialog(ev, item, checkoutItem, index){
                   $mdDialog.show({

@@ -18,6 +18,7 @@ module.exports = function(LojaInteligenteModule) {
                     Installments: function($q, Loja, toast){
                         return $q(function(resolve, reject){
                             Loja.Checkout.itemInstallments().then(function(result){
+
                                 var i, installments = [];
                                 for(i=result.times;i>0;i--){
                                     installments.push({
