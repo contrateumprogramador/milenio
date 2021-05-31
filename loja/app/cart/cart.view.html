@@ -1,32 +1,31 @@
 <md-progress-linear
-    style="z-index: 9"
-    ng-show="vm.progressLoading"
-    md-mode="indeterminate"
+        style="z-index: 9"
+        ng-show="vm.progressLoading"
+        md-mode="indeterminate"
 ></md-progress-linear>
 <div class="" layout="row" layout-align="center center">
     <div id="Cart" layout="column" flex="100" flex-gt-md="90" flex-gt-lg="80">
         <div layout="row">
             <milenio-title
-                flex="100"
-                title-text="'Checkout'"
+                    flex="100"
+                    title-text="'Checkout'"
             ></milenio-title>
         </div>
-        <suspended-summary 
-            installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart"
-        ></suspended-summary>
+        <suspended-summary installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart">
+        </suspended-summary>
         <md-divider hide-gt-xs></md-divider>
         <div layout="row">
             <li-steps active="1"></li-steps>
         </div>
         <div
-            ng-if="vm.cart.itemsCount"
-            layout-gt-sm="row"
-            layout-align="end stretch"
-            layout="column"
+                ng-if="vm.cart.itemsCount"
+                layout-gt-sm="row"
+                layout-align="end stretch"
+                layout="column"
         >
             <p ng-if="$root.affiliate">
                 <a href="https://decor.mileniomoveis.com.br" target="_blank"
-                    >Este orçamento já está salvo na sua área do decorador,
+                >Este orçamento já está salvo na sua área do decorador,
                     clique aqui para acessar.</a
                 >
             </p>
@@ -36,9 +35,9 @@
         </div>
         <div ng-if="!vm.cart.itemsCount">
             <small-title
-                flex="70"
-                flex-xs="100"
-                title="'Você não adicionou itens em seu carrinho'"
+                    flex="70"
+                    flex-xs="100"
+                    title="'Você não adicionou itens em seu carrinho'"
             ></small-title>
             <div flex="70" flex-xs="100" layout="row" layout-align="center stretch" layout-padding>
                 <md-button class="md-raised md-primary" ui-sref="home">
@@ -49,9 +48,9 @@
         </div>
         <div ng-show="vm.cart.itemsCount" id="RowTable" layout="column">
             <li-cart-items
-                items="vm.cart.items"
-                refresh-cart="vm.refreshCart"
-                cart-internal="vm.cart.internal"
+                    items="vm.cart.items"
+                    refresh-cart="vm.refreshCart"
+                    cart-internal="vm.cart.internal"
             ></li-cart-items>
             <md-button ng-click="vm.clearCart()" class="clear-cart">
                 <md-icon md-font-icon="icon-trash"></md-icon>
@@ -60,7 +59,7 @@
         </div>
         <md-divider hide-gt-xs></md-divider>
         <suspended-summary hide-gt-xs
-            installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart"
+                           installments="vm.installments" cart="vm.cart" refresh-cart="vm.refreshCart"
         ></suspended-summary>
     </div>
 </div>

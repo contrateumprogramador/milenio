@@ -3,7 +3,16 @@
         <md-tab ng-repeat="image in vm.item.pictures track by $index">
             <img ng-src="{{ image }}" alt="vm.item.name">
             <md-tab-body>
-                <img ng-src="{{ image }}" alt="{{ vm.item.name }}" width="100%">
+                <img ng-src="{{ image }}" alt="{{ vm.item.name }}" ng-click="openDialog()" style="cursor: pointer;">
+
+                <div id="carousel-dialog" style="display: none">
+                    <div class="carousel-dialog">
+                        <md-icon md-font-icon="icon-close" class="carousel-close-button" ng-click="closeDialog()"></md-icon>
+                        <md-icon md-font-icon="icon-chevron-left" class="carousel-button" ng-click="previousPicture()"></md-icon>
+                        <img ng-src="{{ vm.item.pictures[vm.index] }}" alt="{{ vm.item.name }}">
+                        <md-icon md-font-icon="icon-chevron-right" class="carousel-button" ng-click="nextPicture()"></md-icon>
+                    </div>
+                </div>
             </md-tab-body>
         </md-tab>
     </md-tabs>

@@ -12,8 +12,7 @@ module.exports = function(ngModule) {
         Coupon,
         NewItems,
         BestSellers,
-        HomeSecundario,
-        $location
+        HomeSecundario
     ) {
         var vm = this,
             ctrl = $scope.$parent.ctrl;

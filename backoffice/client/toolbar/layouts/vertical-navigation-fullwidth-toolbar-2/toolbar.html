@@ -8,20 +8,19 @@
     </div>
     <div layout="row" layout-align="start center">
         <md-progress-circular
-            id="toolbar-progress"
-            ng-if="$root.loadingProgress"
-            class="md-accent"
-            md-mode="indeterminate"
-            md-diameter="64"
+                id="toolbar-progress"
+                ng-if="$root.loadingProgress"
+                class="md-accent"
+                md-mode="indeterminate"
+                md-diameter="64"
         >
         </md-progress-circular>
-        <div class="toolbar-separator"></div>
         <md-menu-bar class="menus">
             <md-menu md-position-mode="left bottom">
                 <md-button
-                    class="user-button"
-                    ng-click="$mdOpenMenu()"
-                    aria-label="User settings"
+                        class="user-button"
+                        ng-click="$mdOpenMenu()"
+                        aria-label="User settings"
                 >
                     <div layout="row" layout-align="space-between center">
                         <!-- <div class="avatar-wrapper">
@@ -31,15 +30,16 @@
                                      class="icon status s16">
                             </md-icon>
                         </div> -->
-                        <md-icon md-font-icon="icon-account-circle"></md-icon>
-                        <span class="username" hide-xs
-                            >{{ $root.currentUser.profile.firstname }}
-                            {{ $root.currentUser.profile.lastname }}</span
-                        >
+                        <md-icon md-font-icon="icon-account"></md-icon>
+                        <div class="title-role">
+                            <span class="username" hide-xs>{{ $root.currentUser.profile.firstname }} {{ $root.currentUser.profile.lastname }}</span>
+                            <span class="role" hide-xs ng-if="$root.currentUser.profile.permission == store">Gerente</span>
+                            <span class="role" hide-xs ng-if="$root.currentUser.profile.permission != store">Decorador</span>
+                        </div>
                         <md-icon
-                            md-font-icon="icon-chevron-down"
-                            class="icon s16"
-                            hide-xs
+                                md-font-icon="icon-chevron-down"
+                                class="icon s16"
+                                hide-xs
                         ></md-icon>
                     </div>
                 </md-button>
@@ -75,8 +75,8 @@
                     <!-- <md-menu-divider></md-menu-divider> -->
                     <md-menu-item class="md-indent">
                         <md-icon
-                            md-font-icon="icon-logout"
-                            class="icon"
+                                md-font-icon="icon-logout"
+                                class="icon"
                         ></md-icon>
                         <md-button ng-click="vm.logout()">Logout</md-button>
                     </md-menu-item>

@@ -1,4 +1,6 @@
-(function() {
+import {Meteor} from "meteor/meteor";
+
+(function () {
     "use strict";
 
     angular.module("fuseapp").controller("LoginController", LoginController);
@@ -15,14 +17,11 @@
             password: ""
         };
 
-        vm.cpForm = { password: "", passwordConfirmation: "" };
+        vm.cpForm = {password: "", passwordConfirmation: ""};
 
-        vm.login = function() {
+        vm.login = function () {
             vm.loading = true;
-            Meteor.loginWithPassword(vm.form.email, vm.form.password, function(
-                err,
-                r
-            ) {
+            Meteor.loginWithPassword(vm.form.email, vm.form.password, function(err, _) {
                 if (err) {
                     toast.message("Usuário ou senha incorretos.");
                 } else {
@@ -46,19 +45,20 @@
             });
         };
 
-        vm.changePassword = function() {
+
+        vm.changePassword = function () {
             vm.loading = true;
             Accounts.changePassword(
                 vm.form.password,
                 vm.cpForm.password,
-                function(err, r) {
+                function (err, r) {
                     vm.loading = false;
                     if (err) toast.message(err.reason);
                     else
                         Meteor.call(
                             "userPasswordChanged",
                             Meteor.userId(),
-                            function(err, r) {
+                            function (err, r) {
                                 if (err) toast.message(err.reason);
                                 else $state.go("app.dashboard");
                             }
@@ -67,10 +67,10 @@
             );
         };
 
-        vm.passwordRecover = function() {
+        vm.passwordRecover = function () {
             vm.loading = true;
 
-            Meteor.call("userPasswordRecover", vm.form.email, function(err, r) {
+            Meteor.call("userPasswordRecover", vm.form.email, function (err, r) {
                 vm.loading = false;
                 if (err) toast.message("Usuário ou senha incorretos.");
                 else {

@@ -13,7 +13,7 @@ module.exports = function(ngModule) {
             controller: function($scope, $mdDialog, Loja, toast) {
                 var vm = this;
 
-                vm.productId = $scope.productId
+                vm.productId = $scope.productId;
                 vm.user = Loja.Auth.me;
                 vm.opinions = [];
 

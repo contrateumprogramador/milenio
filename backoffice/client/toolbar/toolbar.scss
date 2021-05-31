@@ -2,134 +2,157 @@
 @import '{}/client/core/scss/partials/variables.scss';
 
 #toolbar {
+  height: $toolbarHeight;
+  min-height: $toolbarHeight;
+  max-height: $toolbarHeight;
+  z-index: 55 !important;
+
+  #navigation-toggle {
+    width: $toolbarHeight;
+    min-width: $toolbarHeight;
     height: $toolbarHeight;
-    min-height: $toolbarHeight;
-    max-height: $toolbarHeight;
-    z-index: 55 !important;
+    margin: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 0;
+  }
 
-    #navigation-toggle {
-        width: $toolbarHeight;
-        min-width: $toolbarHeight;
-        height: $toolbarHeight;
-        margin: 0;
-        border-right: 1px solid rgba(0, 0, 0, 0.12);
-        border-radius: 0;
+  .menus {
+    height: $toolbarHeight;
+    padding: 0;
+    display: grid;
+    place-content: center;
+
+    md-menu-item .md-button {
+      font-size: 15px;
+
+      md-icon {
+        margin: auto 16px auto 0;
+      }
     }
 
-    .menus {
-        height: $toolbarHeight;
-        padding: 0;
+    md-menu-content {
 
-        md-menu-item .md-button {
-            font-size: 15px;
+      &.md-menu-bar-menu {
 
-            md-icon {
-                margin: auto 16px auto 0;
-            }
+        &.md-dense {
+          padding: 8px 0;
+
+          .md-button,
+          md-menu-item {
+            height: 48px;
+            line-height: 48px;
+          }
+        }
+      }
+    }
+
+    .user-button {
+      margin: 0;
+      padding: 0 16px;
+      //height: $toolbarHeight;
+      text-transform: none;
+      border-radius: 100px;
+      height: 42px;
+
+      .avatar-wrapper {
+        position: relative;
+
+        .status {
+          position: absolute;
+          bottom: -3px;
+          right: 5px;
+        }
+      }
+
+      .title-role {
+        display: flex;
+        flex-direction: column;
+        margin: 0 12px 0 8px;
+        align-items: self-start;
+
+
+        .username {
+          font-weight: 600;
+          color: #10367A;
+          font-family: "Montserrat", sans-serif;
+          line-height: normal;
         }
 
-        md-menu-content {
-
-            &.md-menu-bar-menu {
-
-                &.md-dense {
-                    padding: 8px 0;
-
-                    .md-button,
-                    md-menu-item {
-                        height: 48px;
-                        line-height: 48px;
-                    }
-                }
-            }
+        .role {
+          font-weight: 600;
+          font-family: "Montserrat", sans-serif;
+          line-height: normal;
+          color: #E6BF2C;
         }
+      }
 
-        .user-button {
-            margin: 0;
-            padding: 0 16px;
-            height: $toolbarHeight;
-            text-transform: none;
-
-            .avatar-wrapper {
-                position: relative;
-
-                .status {
-                    position: absolute;
-                    bottom: -3px;
-                    right: 5px;
-                }
-            }
-
-            .username {
-                margin: 0 12px 0 8px;
-            }
-        }
     }
+  }
 
-    #language-menu {
-        height: $toolbarHeight;
+  #language-menu {
+    height: $toolbarHeight;
 
-        .language-button {
-            min-width: $toolbarHeight;
-            height: $toolbarHeight;
-            margin: 0;
-            padding: 0 16px;
-            border-radius: 0;
+    .language-button {
+      min-width: $toolbarHeight;
+      height: $toolbarHeight;
+      margin: 0;
+      padding: 0 16px;
+      border-radius: 0;
 
-            .iso {
-                text-transform: uppercase;
-            }
+      .iso {
+        text-transform: uppercase;
+      }
 
-            .flag {
-                margin-right: 8px;
-            }
-        }
+      .flag {
+        margin-right: 8px;
+      }
     }
+  }
 
-    #quick-panel-toggle {
-        width: $toolbarHeight;
-        height: $toolbarHeight;
-        margin: 0;
-        border-radius: 0;
-    }
+  #quick-panel-toggle {
+    width: $toolbarHeight;
+    height: $toolbarHeight;
+    margin: 0;
+    border-radius: 0;
+  }
 
-    .toolbar-separator {
-        height: $toolbarHeight;
-        width: 1px;
-        background: rgba(0, 0, 0, 0.12);
-    }
+  .toolbar-separator {
+    height: $toolbarHeight;
+    width: 1px;
+    background: rgba(0, 0, 0, 0.12);
+  }
 }
 
 #language-menu-content {
 
-    md-menu-item {
+  md-menu-item {
 
-        .flag {
-            margin-right: 16px;
-        }
+    .flag {
+      margin-right: 16px;
     }
+  }
 }
 
 #language-message {
-    min-height: 88px;
-    max-width: 600px;
+  min-height: 88px;
+  max-width: 600px;
 
-    .md-toast-content {
-        height: 90px;
-    }
+  .md-toast-content {
+    height: 90px;
+  }
 }
 
 // RESPONSIVE
 @media screen and (max-width: $layout-breakpoint-xs) {
 
-    #toolbar {
+  #toolbar {
 
-        #user-menu {
+    #user-menu {
 
-            .user-button {
-                min-width: 64px;
-                padding: 0 2px 0 10px;
-            }
-        }
+      .user-button {
+        min-width: 64px;
+        padding: 0 2px 0 10px;
+      }
     }
+  }
 }

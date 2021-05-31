@@ -1,6 +1,6 @@
-module.exports = function(ngModule) {
+module.exports = function (ngModule) {
     require("./cart.sass");
-    ngModule.controller("CartCtrl", function(
+    ngModule.controller("CartCtrl", function (
         $document,
         $mdDialog,
         $rootScope,
@@ -19,12 +19,11 @@ module.exports = function(ngModule) {
 
         // Vars
         vm.cart = Cart;
-        vm.installments = vm.cart.internal
-            ? {
-                  times: vm.cart.installmentsMax,
-                  value: vm.cart.total / vm.cart.installmentsMax
-              }
-            : Installments;        
+        vm.installments = vm.cart.internal ?
+            {
+                times: vm.cart.installmentsMax,
+                value: vm.cart.total / vm.cart.installmentsMax
+            } : Installments;
 
         //Root Scope
         $rootScope.pageTitle = "Orçamento : Milênio Móveis";
@@ -38,7 +37,6 @@ module.exports = function(ngModule) {
         vm.refreshCart = refreshCart;
 
         // Functions
-
         function clearCart(ev) {
             var confirm = $mdDialog
                 .confirm()
@@ -48,12 +46,13 @@ module.exports = function(ngModule) {
                 .cancel("Não");
 
             $mdDialog.show(confirm).then(
-                function() {
+                function () {
                     Loja.Checkout.resetCart();
                     toast.message("Seu carrinho foi limpo!");
                     $state.go("home");
                 },
-                function() {}
+                function () {
+                }
             );
         }
 
@@ -67,7 +66,7 @@ module.exports = function(ngModule) {
                 .ok("Remover")
                 .cancel("Cancelar");
 
-            $mdDialog.show(confirm).then(function() {
+            $mdDialog.show(confirm).then(function () {
                 Loja.Checkout.itemRemove(item);
                 toast.message("Item removido");
                 refreshCart();
@@ -77,10 +76,10 @@ module.exports = function(ngModule) {
         function refreshCart() {
             vm.cart = Loja.Checkout.cart();
             var firstItem = {};
-            Object.keys(vm.cart.items).forEach(function(item, key) {
+            Object.keys(vm.cart.items).forEach(function (item, key) {
                 if (key == 0) firstItem = vm.cart.items[item];
             });
-            Loja.Checkout.itemInstallments(firstItem).then(function(response) {
+            Loja.Checkout.itemInstallments(firstItem).then(function (response) {
                 vm.installments = response;
             });
         }
@@ -89,7 +88,7 @@ module.exports = function(ngModule) {
         var dataLayerProducts = [];
         var dataLayer = (window.dataLayer = window.dataLayer || []);
 
-        angular.forEach(vm.cart.items, function(item, key) {
+        angular.forEach(vm.cart.items, function (item, key) {
             var product = {
                 ecomm_prodid: item._id,
                 preco_produto: item.options.salesPrice || item.options.price,
