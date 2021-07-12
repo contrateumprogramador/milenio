@@ -185,7 +185,7 @@ module.exports = function (ngModule) {
                     menu.style = "position:unset;width:60%;align-self:center";
                 } else {
                     cupon.style = "display:none;";
-                    menu.style = "display:none;";
+                    // menu.style = "display:none;";
                     cartContainer.onscroll = () => {
                     };
                 }

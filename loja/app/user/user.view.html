@@ -250,8 +250,11 @@
                                     <h3>
                                         Total: {{ vm.orderClicked.cart.total | currency}}
                                     </h3>
-                                    <h3 ng-show="vm.orderClicked.cart.discount">
+                                    <h3 ng-show="vm.orderClicked.cart.discount" ng-if="vm.orderClicked.cart.discountType == '$'">
                                         Desconto: {{ vm.orderClicked.cart.discount | currency}}
+                                    </h3>
+                                    <h3 ng-show="vm.orderClicked.cart.discount" ng-if="vm.orderClicked.cart.discountType == '%'">
+                                        Desconto: {{ vm.orderClicked.cart.discount}} %
                                     </h3>
                                 </div>
                             </div>

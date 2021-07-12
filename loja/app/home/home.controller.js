@@ -93,7 +93,7 @@ module.exports = function(ngModule) {
             method: "GET",
             url: "https://graph.instagram.com/me/media?fields=permalink,media_url",
             params: {
-                access_token: "IGQVJXS3NxSlNHZAi1yTmU4U21uMVRaWTZA0MUduQnhCT0kxSk9xalhTeHhUWmJUMlZAfeVVuY0VmQUlET3dZAQ0V6eVk3TlVkX0NZAc0RKZA1BkMDdxUzNaNWx1a25kLWwzTE1MTlhybEdn"
+                access_token: "IGQVJWbUVQOUd5ZAHpNcnBCUmd0a0ZAHWmxSSUlfMk9BZAFkwZAF85aWpycVVhN2p3X0NsczlkOTlpU0taYnJlZAzZAFS3VObWlGdWNhNUFnVFZALdHIwbW44VUJZAN0llMVoyLVdTeWdvXzVSejlBQV9ORDR3QgZDZD"
             }
         }).then((response) => {
             vm.instaFeed = response.data.data;

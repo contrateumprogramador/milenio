@@ -557,7 +557,10 @@ var LojaInteligenteModule = angular
             }
 
             function calcDiscount() {
-                // if (checkout.cart.discountType === "$") return checkout.cart.discount;
+                if (checkout.cart.aboutTotal)
+                    return checkout.cart.discountType === "$" ?
+                        checkout.cart.discount : (checkout.cart.itemsTotal * checkout.cart.discount) / 100;
+
                 let discount = 0;
                 checkout.cart.discountItens && checkout.cart.discountItens.forEach(
                     item => {
@@ -569,8 +572,6 @@ var LojaInteligenteModule = angular
                                 discount += (product.total * (checkout.cart.discount / 100));
                     });
                 return discount;
-                // return checkout.cart.discountType === "$" ?
-                //     checkout.cart.discount : (checkout.cart.itemsTotal * checkout.cart.discount) / 100;
             }
 
             function saveCart() {
@@ -713,8 +714,10 @@ var LojaInteligenteModule = angular
                         "GET",
                         "/checkouts/get/" + number + "/" + code
                     ).then(function (r) {
-                        if (typeof set == "undefined" || set)
+                        if (typeof set == "undefined" || set) {
+                            r.data.data.cart.aboutTotal = true;
                             API.Checkout.setCheckout(r.data.data);
+                        }
                     }, function (err) {
                         $state.go("home");
                     });
