@@ -1,4 +1,4 @@
-<md-toolbar class="funnel-toolbar" ng-show="vm.role != 'affiliate'" layout="row" layout-align="end center">
+<md-toolbar class="funnel-toolbar" layout="row" layout-align="end center">
     <div flex ng-hide="vm.customer">
         <md-button class="md-icon-button" aria-label="Botão Menos" ng-click="vm.changeMonth(-1)">
             <md-icon md-font-icon="icon-chevron-left"></md-icon>
@@ -28,7 +28,7 @@
     </md-button>
 </md-toolbar>
 
-<md-button class="plus-checkout" ui-sref="app.funnel.manipulate" aria-label="Novo carrinho" ng-if="!$root.userIsInRole(['maintenance', 'affiliate'])">
+<md-button class="plus-checkout" ui-sref="app.funnel.manipulate" aria-label="Novo carrinho" ng-if="!$root.userIsInRole(['maintenance'])">
     <md-icon md-font-icon="icon-plus"></md-icon>
     <span>Novo carrinho</span>
 </md-button>

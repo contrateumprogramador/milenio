@@ -147,11 +147,19 @@ angular
         }
 
         function subscribe() {
+            console.group()
+            console.count("teste-->")
+            console.log(vm.cartSubscribe)
+            console.log(vm.paymentsSubscribe)
+            console.log(vm.selectedDate)
+            console.log(vm.search)
+
             vm.searching = true
             if(vm.cartSubscribe) {
                 vm.cartSubscribe.stop();
                 vm.paymentsSubscribe.stop();
             }
+            console.log("pass 1")
 
             vm.cartSubscribe = vm.subscribe("sales", function() {
                 return [this.getReactively("customer"), vm.selectedDate, vm.search];
@@ -161,6 +169,7 @@ angular
                 return [this.getReactively("list")];
             });
 
+
             Tracker.autorun(() => {
                 const isReady = vm.cartSubscribe.ready();
                 if(isReady) {
@@ -169,6 +178,10 @@ angular
                     if(currentState) $scope.$apply()
                 }
             });
+            console.log("pass 4")
+
+            console.groupEnd()
+
         }
 
         function changeStatus(checkout, key, ev) {
