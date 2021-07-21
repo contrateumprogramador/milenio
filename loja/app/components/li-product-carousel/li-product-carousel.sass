@@ -2,56 +2,65 @@
 @import '../../variables.scss'
 
 #TabImage
-	md-tabs
-		padding-bottom: 100px
+  md-tabs
+    padding-bottom: 100px
 
-	md-tabs-content-wrapper
-		border-radius: 2px
-		margin: 4px
-		min-width: 120px
-		padding: 0
-		width: 100%
+  md-tabs-content-wrapper
+    border-radius: 2px
+    margin: 4px
+    min-width: 120px
+    padding: 0
+    width: 100%
 
-		&.md-active
-			border: solid 1px $primary
+    &.md-active
+      border: solid 1px $primary
 
-		img
-			width: 100%
+    img
+      width: 100%
 
-	md-tabs-wrapper, md-tabs-canvas, md-pagination-wrapper
-		height: 100px
+  md-tabs-wrapper, md-tabs-canvas, md-pagination-wrapper
+    height: 100px
 
 .carousel-dialog
-	width: 100vw
-	padding: 0 1%
+  width: 100vw
+  height: 100vh
+  padding: 0 1%
 
-	display: flex
-	flex-wrap: wrap
-	justify-content: space-between
-	align-items: center
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-items: center
 
-	img
-		width: 30vw
 
-		@media screen and (max-width: 1000px)
-			width: 65vw
+  .wrapper
+      display: block
+      height: auto
 
-	.carousel-close-button
-		margin: 0 !important
-		font-size: 2.5rem !important
-		color: white
-		cursor: pointer
 
-		position: absolute
-		top: 5%
-		right: 2%
+  img
+    width: 40vw
 
-		@media screen and (max-width: 1000px)
-			right: 5%
+    @media screen and (min-width: 2560px)
+      width: 40vw
+    @media screen and (max-width: 1000px)
+      width: 65vw
 
-	.carousel-button
-		width: auto !important
-		margin: 0 !important
-		font-size: 3rem !important
-		color: white
-		cursor: pointer
+  .carousel-close-button
+    margin: 0 !important
+    font-size: 2.5rem !important
+    color: white
+    cursor: pointer
+
+    position: absolute
+    top: 5%
+    right: 2%
+
+    @media screen and (max-width: 1000px)
+      right: 5%
+
+  .carousel-button
+    width: auto !important
+    margin: 0 !important
+    font-size: 3rem !important
+    color: white
+    cursor: pointer

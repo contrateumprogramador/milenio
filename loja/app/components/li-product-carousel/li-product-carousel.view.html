@@ -9,11 +9,15 @@
                     <div class="carousel-dialog">
                         <md-icon md-font-icon="icon-close" class="carousel-close-button" ng-click="closeDialog()"></md-icon>
                         <md-icon md-font-icon="icon-chevron-left" class="carousel-button" ng-click="previousPicture()"></md-icon>
-                        <img ng-src="{{ vm.item.pictures[vm.index] }}" alt="{{ vm.item.name }}">
+                        <div class="wrapper">
+                            <img ng-src="{{ vm.item.pictures[vm.index] }}" alt="{{ vm.item.name }}">
+                        </div>
                         <md-icon md-font-icon="icon-chevron-right" class="carousel-button" ng-click="nextPicture()"></md-icon>
                     </div>
                 </div>
             </md-tab-body>
         </md-tab>
     </md-tabs>
+
 </div>
+
