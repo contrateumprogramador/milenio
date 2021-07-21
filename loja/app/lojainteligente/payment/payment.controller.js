@@ -145,7 +145,7 @@ module.exports = function (LojaInteligenteModule) {
                         vm.payment.brand = "";
                     }
 
-                    if (vm.payment.brand === "American Express") limitInstallments(true);
+                    if (vm.payment.brand === "American Express" || vm.payment.brand === "Elo") limitInstallments(true);
                     else limitInstallments();
 
                     break;
