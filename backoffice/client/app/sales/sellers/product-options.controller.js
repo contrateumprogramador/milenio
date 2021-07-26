@@ -63,7 +63,6 @@ angular
         }
 
         function setCustomization(group, customization) {
-            console.log("hey ho")
             vm.customization[group._id] = {
                 _id: group._id,
                 type: group.type,
