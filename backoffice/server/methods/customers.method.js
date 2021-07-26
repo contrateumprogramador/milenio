@@ -175,10 +175,9 @@ if (Meteor.isServer) {
                 ]
             };
 
-            console.log(query);
 
-            if (Roles.userIsInRole(Meteor.userId(), ["affiliate"]))
-                query.affiliateId = Meteor.userId();
+            // if (Roles.userIsInRole(Meteor.userId(), ["affiliate"]))
+            //     query.affiliateId = Meteor.userId();
 
             return Customers.find(query).fetch();
         }
