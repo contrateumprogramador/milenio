@@ -2,7 +2,7 @@
 
 angular
     .module("fuseapp")
-    .controller("ProductOptionsCtrl", function(
+    .controller("ProductOptionsCtrl", function (
         $mdDialog,
         $reactive,
         $scope,
@@ -38,6 +38,13 @@ angular
         }
 
         function checkoutItemConfig(item) {
+            const getindex = () => {
+                if (vm.option.name === "Personalizado") return '-P'
+                return item.options.indexOf(vm.option) === 0
+                    ? ''
+                    : ('-' + item.options.indexOf(vm.option).toString());
+            }
+
             return {
                 _id: item._id,
                 customizations: vm.customization || {},
@@ -45,7 +52,7 @@ angular
                 name_nd: item.name_nd,
                 options: vm.option || {},
                 picture: item.pictures[0] || "",
-                code: item.code,
+                code: item.code + getindex(),
                 url: item.url,
                 installments: item.installments || {}
             };

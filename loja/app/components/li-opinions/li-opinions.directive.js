@@ -19,21 +19,21 @@ module.exports = function(ngModule) {
 
                 Loja.Adm.opinions(vm.productId).then((r) => {
                     vm.opinions = r.data.data;
-                })
+                });
 
                 vm.grades = [
                     { title: "Média", value: "avg" },
-                    { title: "Custo Benefício", value: "costBenefit" },
-                    { title: "Características", value: "characteristics" },
-                    { title: "Qualidade", value: "quality" },
-                ]
+                    // { title: "Custo Benefício", value: "costBenefit" },
+                    // { title: "Características", value: "characteristics" },
+                    // { title: "Qualidade", value: "quality" },
+                ];
 
                 //Methods
-                vm.starFilled = starFilled
+                vm.starFilled = starFilled;
 
                 //Functions
                 function starFilled(current, opinion, key) {
-                    return (current+1) <= opinion[key]
+                    return (current+1) <= opinion[key];
                 }
             }
         };
