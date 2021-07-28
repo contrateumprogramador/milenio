@@ -21,7 +21,7 @@ if (Meteor.isServer) {
             };
         },
         AddressesByCustomer: function(customerId){
-            if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'salesman', 'expedition']))
+            if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'salesman', 'expedition','affiliate']))
                 throw new Meteor.Error(403, 'Permissão negada.');
 
             var customer = Customers.findOne({_id: customerId});

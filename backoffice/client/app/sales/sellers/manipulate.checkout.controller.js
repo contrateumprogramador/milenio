@@ -2,7 +2,7 @@
 
 angular
     .module("fuseapp")
-    .controller("ManipulateCheckout", function(
+    .controller("ManipulateCheckout", function (
         $mdDialog,
         $filter,
         $reactive,
@@ -40,17 +40,29 @@ angular
             of: "de"
         };
         vm.role = Meteor.user().roles[0];
-        vm.tab = vm.role == "affiliate" ? 2 : 0;
+        vm.tab = vm.role === "affiliate" ? 0 : 0;
 
-        if (Checkout && vm.role != "affiliate") {
+        console.log(vm)
+        console.log(vm.role)
+
+        if (Checkout && vm.role !== "affiliate") {
             vm.selected = vm.form.customer;
             vm.addresses = getAddresses(vm.selected._id);
         }
 
-        if (vm.role == "affiliate")
-            angular
-                .element(document.querySelector("md-tabs-wrapper"))
-                .css("display", "none");
+        if (!Checkout && vm.role === "affiliate") {
+            vm.form['affiliate'] ={
+                firstName:vm.currentUser.profile.firstName,
+                lastname:vm.currentUser.profile.lastName,
+                affiliateId:vm.currentUser._id
+            };
+
+        }
+
+        // if (vm.role == "affiliate")
+        //     angular
+        //         .element(document.querySelector("md-tabs-wrapper"))
+        //         .css("display", "none");
 
         // Vars
 
@@ -74,13 +86,14 @@ angular
         vm.selectAddress = selectAddress;
         vm.test = test;
 
+
         // Functions
         function addToCart(ev, item) {
-            Meteor.call("itemGet", item._id, function(err, completeItem) {
+            Meteor.call("itemGet", item._id, function (err, completeItem) {
                 Meteor.call(
                     "itemCustomizations",
                     completeItem.customizations,
-                    function(err, itemCustomizations) {
+                    function (err, itemCustomizations) {
                         $mdDialog
                             .show({
                                 controller: "ProductOptionsCtrl as vm",
@@ -96,9 +109,9 @@ angular
                                 },
                                 bindToController: true
                             })
-                            .then(function(item) {
+                            .then(function (item) {
                                 var count = 0;
-                                vm.form.cart.items.forEach(function(cartItem) {
+                                vm.form.cart.items.forEach(function (cartItem) {
                                     if (compareItems(item, cartItem)) count++;
                                 });
                                 if (!count) {
@@ -134,10 +147,10 @@ angular
             var itemString = item._id + item.options.sku,
                 cartItemString = cartItem._id + cartItem.options.sku;
 
-            Object.keys(item.customizations).forEach(function(key) {
+            Object.keys(item.customizations).forEach(function (key) {
                 itemString += item.customizations[key].option.code;
             });
-            Object.keys(cartItem.customizations).forEach(function(key) {
+            Object.keys(cartItem.customizations).forEach(function (key) {
                 cartItemString += cartItem.customizations[key].option.code;
             });
 
@@ -155,7 +168,7 @@ angular
         }
 
         function getAddresses(customerId) {
-            Meteor.call("AddressesByCustomer", customerId, function(err, r) {
+            Meteor.call("AddressesByCustomer", customerId, function (err, r) {
                 if (err) {
                     toast.message(err.reason);
                 } else {
@@ -166,7 +179,7 @@ angular
         }
 
         function getCustomers() {
-            Meteor.call("customersList", function(err, r) {
+            Meteor.call("customersList", function (err, r) {
                 err ? toast.message(err.reason) : (vm.customers = r);
             });
         }
@@ -180,7 +193,7 @@ angular
                 vm.progressLoading = true;
 
                 cep.getAddress(angular.copy(vm.form.shipping.zipcode))
-                    .success(function(data, status) {
+                    .success(function (data, status) {
                         vm.progressLoading = false;
                         if (data.erro) {
                             vm.form.shipping.city = "";
@@ -205,7 +218,7 @@ angular
                             vm.shippingForm.zipcode.$setValidity("cep", true);
                         }
                     })
-                    .error(function(data, status) {
+                    .error(function (data, status) {
                         vm.progressLoading = false;
                         toast.message(
                             "Não foi possível encontrar o endereço, confira o CEP."
@@ -231,7 +244,7 @@ angular
         function refreshCart() {
             vm.form.cart.itemsCount = 0;
             vm.form.cart.itemsTotal = 0;
-            vm.form.cart.items.forEach(function(item) {
+            vm.form.cart.items.forEach(function (item) {
                 item.total = item.options.salesPrice
                     ? item.options.salesPrice * item.quant
                     : item.options.price * item.quant;
@@ -257,11 +270,11 @@ angular
                 .cancel("Cancelar")
                 .targetEvent(ev);
 
-            $mdDialog.show(confirm).then(function() {
+            $mdDialog.show(confirm).then(function () {
                 Meteor.call(
                     "addressRemove",
                     angular.copy(vm.form.shipping),
-                    function(err, r) {
+                    function (err, r) {
                         err
                             ? toast.message(err.reason)
                             : toast.message("Endereço excluído.");
@@ -285,7 +298,7 @@ angular
                 "addressRegister",
                 vm.selected._id,
                 angular.copy(vm.form.shipping),
-                function(err, r) {
+                function (err, r) {
                     err ? toast.message(err.reason) : toast.message(message);
                     getAddresses(vm.selected._id);
                 }
@@ -301,7 +314,7 @@ angular
                 "internalManipulateCheckout",
                 angular.copy(vm.form),
                 edit,
-                function(err, r) {
+                function (err, r) {
                     err ? toast.message(err.reason) : toast.message(message);
                     $state.go("app.funnel");
                 }
@@ -317,7 +330,7 @@ angular
                 "customerRegister",
                 angular.copy(vm.form.customer),
                 edit,
-                function(err, r) {
+                function (err, r) {
                     err ? toast.message(err.reason) : toast.message(message);
                     getCustomers();
                     select(r);
@@ -332,7 +345,7 @@ angular
                     "searchCustomers",
                     configureString(searchText),
                     "firstname",
-                    function(err, r) {
+                    function (err, r) {
                         vm.customers = r;
                         vm.exibedCustomers = r;
                         vm.progressLoading = false;
@@ -357,7 +370,7 @@ angular
                     Meteor.call(
                         "searchItems",
                         configureString(vm.search),
-                        function(err, r) {
+                        function (err, r) {
                             vm.items = r;
                             vm.total = r.length;
                             vm.searchedItems = r;
@@ -368,7 +381,7 @@ angular
                 } else {
                     vm.searchedItems = $filter("filter")(
                         angular.copy(vm.items),
-                        { name_nd: configureString(vm.search) }
+                        {name_nd: configureString(vm.search)}
                     );
                     vm.progressLoading = false;
                     vm.total = vm.searchedItems.length;

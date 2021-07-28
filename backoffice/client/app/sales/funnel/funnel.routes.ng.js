@@ -52,6 +52,7 @@ angular.module("fuseapp").config(function($stateProvider) {
                     }
                 },
                 Checkout: function($stateParams, $q, toast) {
+
                     if (!$stateParams.checkoutId) return;
 
                     return $q(function(resolve, reject) {
