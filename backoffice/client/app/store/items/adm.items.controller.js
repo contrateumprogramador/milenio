@@ -1,5 +1,4 @@
-(function ()
-{
+(function () {
     'use strict';
 
     angular
@@ -7,7 +6,7 @@
         .controller('AdmItemsCtrl', AdmItemsCtrl);
 
     /** @ngInject */
-    function AdmItemsCtrl($filter, $mdDialog, $mdSidenav, $scope, $state, $reactive, Customizations, Items, Tags, toast){
+    function AdmItemsCtrl($filter, $mdDialog, $mdSidenav, $scope, $state, $reactive, Customizations, Items, Tags, toast) {
         var vm = this;
 
         // Data
@@ -52,18 +51,19 @@
 
         //////////
 
-        function add(ev){
+
+        function add(ev) {
             openForm((vm.listCustomizations) ? 'addCustomization' : 'addItem', ev);
         }
 
-        function changePage(){
+        function changePage() {
             vm.pagination = {
-                skip: vm.pagination.page*vm.pagination.limit-10,
+                skip: vm.pagination.page * vm.pagination.limit - 10,
                 limit: vm.pagination.limit,
                 page: vm.pagination.page
             };
 
-            Meteor.call('itemsList', vm.pagination, function(err, r){
+            Meteor.call('itemsList', vm.pagination, function (err, r) {
                 vm.exibedItems = r.items;
                 vm.total = r.total;
 
@@ -71,7 +71,7 @@
             });
         }
 
-        function cleanItems(){
+        function cleanItems() {
             vm.items = [];
             vm.exibedItems = [];
             vm.pagination = {
@@ -82,19 +82,21 @@
         }
 
         function edit(ev, item) {
-          if(vm.listCustomizations){
-            vm.selected = item || vm.selected;
-            openForm('editCustomization', ev);
-          } else {
-            getOneItem(item || vm.selected, function(){
-              openForm('editItem', ev);
-            });
-          }
+            if (vm.listCustomizations) {
+                vm.selected = item || vm.selected;
+                openForm('editCustomization', ev);
+            } else {
+                getOneItem(item || vm.selected, function () {
+                    openForm('editItem', ev);
+                });
+            }
         }
 
-        function getList(){
+        function getList() {
+
+
             vm.loading = true;
-            Meteor.call('listCustomizations', vm.pagination, function(err, r) {
+            Meteor.call('listCustomizations', vm.pagination, function (err, r) {
                 if (err) {
                     toast.message(err.reason);
                 } else {
@@ -102,20 +104,29 @@
                     vm.selected = vm.customizations[0] || {};
                     vm.loading = false;
                     changePage();
+
+                    if (vm.search['provider'].length > 3) {
+                        searchText('provider');
+                    } else if (vm.search['name_nd'].length > 3) {
+                        searchText('name_nd');
+                    }
+
                 }
+            })
+
+
+        }
+
+        function getOneItem(item, callback) {
+            Meteor.call('itemGet', item._id, true, function (err, item) {
+                (err) ? toast.message(err.reason) : vm.selected = item;
+                callback();
             });
         }
 
-        function getOneItem(item, callback){
-          Meteor.call('itemGet', item._id, true, function(err, item) {
-            (err) ? toast.message(err.reason) : vm.selected = item;
-            callback();
-          });
-        }
-
-        function info(ev, item){
-            getOneItem(item, function(){
-              openForm('info', ev);
+        function info(ev, item) {
+            getOneItem(item, function () {
+                openForm('info', ev);
             });
         }
 
@@ -125,7 +136,7 @@
                 locals,
                 isAdd = false;
 
-            switch(action) {
+            switch (action) {
                 case 'addItem':
                     controller = 'AdmItemsAddCtrl as vm';
                     templateUrl = 'client/app/store/items/adm.items-add.view.ng.html';
@@ -135,18 +146,18 @@
                 case 'editItem':
                     controller = 'AdmItemsAddCtrl as vm';
                     templateUrl = 'client/app/store/items/adm.items-add.view.ng.html';
-                    locals = { edit: angular.copy(vm.selected) };
+                    locals = {edit: angular.copy(vm.selected)};
                     break;
                 case 'info':
                     controller = 'AdmInfoCtrl as vm';
                     templateUrl = 'client/app/store/items/adm.items.info.view.ng.html';
-                    locals = { item: angular.copy(vm.selected) };
+                    locals = {item: angular.copy(vm.selected)};
                     break;
                 case 'addCustomization':
                 case 'editCustomization':
                     controller = 'AdmItemsAddCustomizationCtrl as vm';
                     templateUrl = 'client/app/store/items/customizations/adm.items-add-customization.view.ng.html';
-                    locals = (action == 'editCustomization') ? { edit: angular.copy(vm.selected) } : {};
+                    locals = (action == 'editCustomization') ? {edit: angular.copy(vm.selected)} : {};
                     break;
             }
 
@@ -160,15 +171,15 @@
                 locals: locals,
                 bindToController: true
             })
-            .then(function(answer) {
-                getList();
-                if(isAdd) {
-                    toast.message(answer.message);
-                    askNewProduct(ev, answer.previousProduct)
-                } else {
-                    toast.message(answer);
-                }
-            });
+                .then(function (answer) {
+                    getList();
+                    if (isAdd) {
+                        toast.message(answer.message);
+                        askNewProduct(ev, answer.previousProduct)
+                    } else {
+                        toast.message(answer);
+                    }
+                });
         }
 
         function addNewProduct(ev, previousProduct) {
@@ -179,47 +190,47 @@
                 targetEvent: ev,
                 clickOutsideToClose: false,
                 fullscreen: true,
-                locals: { previousProduct },
+                locals: {previousProduct},
                 bindToController: true
             })
-            .then(function(answer) {
-                getList();
-                toast.message(answer.message);
-                askNewProduct(ev, answer.previousProduct)
-            });
+                .then(function (answer) {
+                    getList();
+                    toast.message(answer.message);
+                    askNewProduct(ev, answer.previousProduct)
+                });
         }
 
         function askNewProduct(ev, previousProduct) {
             var confirm = $mdDialog.confirm()
-                  .title('Adicionar novo produto')
-                  .textContent("Deseja continuar adicionando produtos?")
-                  .ariaLabel('Adicionar produtos')
-                  .targetEvent(ev)
-                  .ok('Continuar')
-                  .cancel('Cancelar');
+                .title('Adicionar novo produto')
+                .textContent("Deseja continuar adicionando produtos?")
+                .ariaLabel('Adicionar produtos')
+                .targetEvent(ev)
+                .ok('Continuar')
+                .cancel('Cancelar');
 
-            $mdDialog.show(confirm).then(function() {
+            $mdDialog.show(confirm).then(function () {
                 addNewProduct(ev, previousProduct);
             });
         }
 
-        function remove(ev, item){
+        function remove(ev, item) {
             vm.selected = item || vm.selected;
             var method = (vm.listCustomizations) ? 'customizationRemove' : 'itemRemove';
             var message = (vm.listCustomizations) ? 'Customização excluída' : 'Item excluído';
-            var question = (vm.listCustomizations) ? 'Deseja excluir a customização '+vm.selected.type+'?' : 'Deseja excluir o item '+vm.selected.name+'?';
+            var question = (vm.listCustomizations) ? 'Deseja excluir a customização ' + vm.selected.type + '?' : 'Deseja excluir o item ' + vm.selected.name + '?';
 
             var confirm = $mdDialog.confirm()
-                  .title('Exclusão')
-                  .textContent(question)
-                  .ariaLabel('Exclusão')
-                  .targetEvent(ev)
-                  .ok('Excluir')
-                  .cancel('Cancelar');
+                .title('Exclusão')
+                .textContent(question)
+                .ariaLabel('Exclusão')
+                .targetEvent(ev)
+                .ok('Excluir')
+                .cancel('Cancelar');
 
-            $mdDialog.show(confirm).then(function() {
-              Meteor.call(method, vm.selected._id, function (err, r){
-                vm.loadingProgress = false;
+            $mdDialog.show(confirm).then(function () {
+                Meteor.call(method, vm.selected._id, function (err, r) {
+                    vm.loadingProgress = false;
 
                     if (err) {
                         toast.message(err.reason);
@@ -227,14 +238,14 @@
                         toast.message(message);
                         getList();
                     }
-              });
+                });
             });
         }
 
-        function searchText(field){
-            if(vm.search[field].length > 3){
+        function searchText(field) {
+            if (vm.search[field].length > 3) {
                 vm.progressLoading = true;
-                Meteor.call('searchItems', configureString(vm.search[field]), field, function(err, r){
+                Meteor.call('searchItems', configureString(vm.search[field]), field, function (err, r) {
                     vm.items = r;
                     vm.total = r.length;
                     vm.exibedItems = r;
@@ -248,28 +259,28 @@
             }
         }
 
-        function searchTags(){
-          if(vm.search.tags.length > 0){
-            vm.loading = true;
-            var tagsName = vm.search.tags.map(function(tag){
-              return tag.name;
-            });
+        function searchTags() {
+            if (vm.search.tags.length > 0) {
+                vm.loading = true;
+                var tagsName = vm.search.tags.map(function (tag) {
+                    return tag.name;
+                });
 
-            vm.exibedItems = [];
-            angular.copy(vm.items).forEach(function(item){
-              item.tags.forEach(function(tag){
-                if(tagsName.indexOf(tag.name) > -1)
-                  vm.exibedItems.push(item);
-              });
-            });
-            vm.loading = false;
-          } else {
-            changePage(true);
-          }
+                vm.exibedItems = [];
+                angular.copy(vm.items).forEach(function (item) {
+                    item.tags.forEach(function (tag) {
+                        if (tagsName.indexOf(tag.name) > -1)
+                            vm.exibedItems.push(item);
+                    });
+                });
+                vm.loading = false;
+            } else {
+                changePage(true);
+            }
         }
 
-        function configureString(search){
-          return Diacritics.remove(search.toLowerCase()).trim();
+        function configureString(search) {
+            return Diacritics.remove(search.toLowerCase()).trim();
         }
 
         //realiza a query de busca para um determinado md-chips
@@ -292,8 +303,7 @@
          *
          * @param item
          */
-        function select(item)
-        {
+        function select(item) {
             vm.selected = item;
         }
 
@@ -302,8 +312,7 @@
          *
          * @param item
          */
-        function toggleDetails(item)
-        {
+        function toggleDetails(item) {
             vm.selected = item;
             toggleSidenav('details-sidenav');
         }

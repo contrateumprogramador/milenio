@@ -1,7 +1,7 @@
-module.exports = function(ngModule) {
+module.exports = function (ngModule) {
     require("./li-product-details.sass");
 
-    ngModule.directive("liProductDetails", function() {
+    ngModule.directive("liProductDetails", function () {
         return {
             restrict: "EA",
             template: require("./li-product-details.view.html"),
@@ -17,7 +17,7 @@ module.exports = function(ngModule) {
                 index: "="
             },
             controllerAs: "vm",
-            controller: function(
+            controller: function (
                 $mdDialog,
                 $rootScope,
                 $scope,
@@ -49,11 +49,13 @@ module.exports = function(ngModule) {
                 vm.setCustomization = setCustomization;
                 vm.updateInstallments = updateInstallments;
                 vm.getTag = getTag;
-                vm.isIndisponible = isIndisponible
+                vm.isIndisponible = isIndisponible;
 
+                if ($scope.$parent.$resolve.from.includes('busca'))
+                    vm.busca = $scope.$parent.$resolve.from;
 
                 // Customizações do item
-                Loja.Store.customizations(vm.item._id).then(function(r) {
+                Loja.Store.customizations(vm.item._id).then(function (r) {
                     vm.customizations = r.data.data;
                 });
 
@@ -80,7 +82,7 @@ module.exports = function(ngModule) {
                  * @returns  {object} Retorna objeto de atributos do item limpo
                  */
                 function getItemAttributes(attributes) {
-                    lodash.remove(attributes, function(o) {
+                    lodash.remove(attributes, function (o) {
                         return (
                             o.title == "Referência" || o.title == "Dimensões"
                         );
@@ -89,10 +91,9 @@ module.exports = function(ngModule) {
                 }
 
                 function changeQuant(value) {
-                    if(vm.item.stock === 1) {
-                        if(vm.quantity + value <= vm.item.max) vm.quantity += value;
-                    }
-                    else
+                    if (vm.item.stock === 1) {
+                        if (vm.quantity + value <= vm.item.max) vm.quantity += value;
+                    } else
                         vm.quantity += value;
 
                     if (vm.quantity < 1) vm.quantity = 1;
@@ -126,8 +127,8 @@ module.exports = function(ngModule) {
                 function selectOptions() {
                     var options = {};
                     if (vm.checkoutItem) {
-                        vm.item.options.forEach(function(option, key) {
-                            if (option.name == vm.checkoutItem.options.name)
+                        vm.item.options.forEach(function (option, key) {
+                            if (option.name === vm.checkoutItem.options.name)
                                 options = vm.item.options[key];
                         });
                     } else options = vm.item.options[0];
@@ -135,7 +136,7 @@ module.exports = function(ngModule) {
                 }
 
                 function updateInstallments() {
-                    $timeout(function() {
+                    $timeout(function () {
                         vm.installments = Loja.Store.itemInstallments(
                             vm.item || {},
                             vm.options
@@ -144,7 +145,7 @@ module.exports = function(ngModule) {
                 }
 
                 function getTag(url) {
-                    const tag = lodash.find(vm.item.tags, { url });
+                    const tag = lodash.find(vm.item.tags, {url});
                     return lodash.get(tag, "name") || false;
                 }
             }

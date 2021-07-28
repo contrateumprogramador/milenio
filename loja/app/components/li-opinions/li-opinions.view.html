@@ -4,27 +4,26 @@
     </div>
     <div class="opinions" ng-show="vm.opinions.length">
         <div class="opinion" ng-repeat="opinion in vm.opinions">
+
             <div class="grades" layout="row">
                 <div ng-repeat="grade in vm.grades">
-                    <h4>{{grade.title}}:</h4>
-                    <div layout="row">
-                        <div ng-repeat="value in [].constructor(5) track by $index">
-                            <md-icon ng-class="{ 'star-filled': vm.starFilled($index, opinion, grade.value) }" md-font-icon="icon-star"></md-icon>
+                    <div class="description">
+                        <h2>{{opinion.title}}</h2>
+                        <div layout="row">
+                            <div ng-repeat="value in [].constructor(5) track by $index">
+                                <md-icon ng-class="{ 'star-filled': vm.starFilled($index, opinion, grade.value) }" md-font-icon="icon-star"></md-icon>
+                            </div>
                         </div>
+                        <p>{{opinion.opinion}}</p>
                     </div>
                 </div>
             </div>
+
             <div class="avaliation">
-                <h2>{{opinion.title}} - {{opinion.createdAt | date: "dd/MM/yyyy"}}</h2>
-
-                <h4>Cliente:</h4>
                 <p>{{opinion.user.name}}</p>
+                <p>{{opinion.createdAt | date: "dd/MM/yyyy"}}</p>
             </div>
 
-            <div class="description">
-                <h4>Opinião geral:</h4>
-                <p>{{opinion.opinion}}</p>
-            </div>
         </div>
     </div>
 </div>

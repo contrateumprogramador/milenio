@@ -6,11 +6,13 @@
         <!-- CONTENT -->
         <md-toolbar class="superior-bar" layout="row" layout-align="end center">
             <div flex ng-hide="vm.customer">
-                <md-button class="md-icon-button" aria-label="Botão Menos" ng-click="vm.changeMonth(-1)">
+                <md-button ng-if="vm.selectedMonth != 'Todos'" class="md-icon-button" aria-label="Botão Menos" ng-click="vm.changeMonth(-1)">
                     <md-icon md-font-icon="icon-chevron-left"></md-icon>
                 </md-button>
-                <md-button class="md-icon-button" aria-label="Botão Mais" ng-click="vm.changeMonth(1)">
+                <md-button ng-if="vm.selectedMonth != 'Todos'" class="md-icon-button" aria-label="Botão Mais" ng-click="vm.changeMonth(1)">
                     <md-icon md-font-icon="icon-chevron-right"></md-icon>
+                </md-button>
+                <md-button ng-if="vm.selectedMonth == 'Todos'" class="md-icon-button" aria-label="Botão Mais" ng-click="vm.changeMonth(1)">
                 </md-button>
                 {{vm.selectedMonth}}
             </div>

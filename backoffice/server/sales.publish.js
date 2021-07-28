@@ -1,16 +1,19 @@
 "use strict";
 
-Meteor.publish("sales", function(customer, date, search) {
+Meteor.publish("sales", function (customer, date, search, isDate) {
     //função para retirada dos %
     function regex(value) {
-        return { $regex: new RegExp(value, "i") };
+        return {$regex: new RegExp(value, "i")};
     }
 
     var where = {
         orderNumber: {
             $exists: true
-        },
-        "payment.time": {
+        }
+    };
+
+    if (isDate) {
+        where["payment.time"] = {
             $gte: new Date(
                 moment(date)
                     .startOf("month")
@@ -22,13 +25,13 @@ Meteor.publish("sales", function(customer, date, search) {
                     .format()
             )
         }
-    };
+    }
 
-    if(search) {
+    if (search) {
         where.$or = [
-            { "customer.firstname": regex(search) },
-            { "customer.lastname": regex(search) },
-            { "orderNumber": parseInt(search) }
+            {"customer.firstname": regex(search)},
+            {"customer.lastname": regex(search)},
+            {"orderNumber": parseInt(search)}
         ]
     }
 

@@ -2,7 +2,7 @@
 
 angular
     .module("fuseapp")
-    .controller("OrdersCtrl", function(
+    .controller("OrdersCtrl", function (
         $mdDialog,
         $reactive,
         $scope,
@@ -62,34 +62,34 @@ angular
         vm.statusPostSelected = statusPostSelected;
         vm.searchName = searchName
 
-        subscribe();
+        subscribe(true);
 
         // Functions
         function getStatus() {
-            Meteor.call("statusList", function(err, r) {
-                if(!err) vm.status = r[0].status
+            Meteor.call("statusList", function (err, r) {
+                if (!err) vm.status = r[0].status
             });
         }
 
         function avatarClass(item) {
             switch (item.payment.status) {
                 case "Pago":
-                    return { "bg-green": true };
+                    return {"bg-green": true};
                     break;
                 case "Transação Já Paga":
-                    return { "bg-green": true };
+                    return {"bg-green": true};
                     break;
                 case "Cancelado":
-                    return { "bg-grey": true };
+                    return {"bg-grey": true};
                     break;
                 case "Pago e Não Capturado":
-                    return { "bg-yellow": true };
+                    return {"bg-yellow": true};
                     break;
                 case "Não Pago":
-                    return { "bg-red": true };
+                    return {"bg-red": true};
                     break;
                 case "Aguardando Pagamento":
-                    return { "bg-orange": true };
+                    return {"bg-orange": true};
                     break;
                 default:
             }
@@ -111,18 +111,18 @@ angular
                 .title("Remover carrinho?")
                 .content(
                     "Remover permantente o " +
-                        vm.selected[0].orderNumber +
-                        "? Esta ação também removerá o carrinho de suas estatísticas."
+                    vm.selected[0].orderNumber +
+                    "? Esta ação também removerá o carrinho de suas estatísticas."
                 )
                 .ariaLabel("Remover carrinho")
                 .ok("Remover")
                 .cancel("Cancelar")
                 .targetEvent(ev);
 
-            $mdDialog.show(confirm).then(function() {
+            $mdDialog.show(confirm).then(function () {
                 vm.progressLoading = true;
 
-                Meteor.call("cartRemove", vm.selected[0]._id, function(err, r) {
+                Meteor.call("cartRemove", vm.selected[0]._id, function (err, r) {
                     vm.progressLoading = false;
 
                     if (err) toast.message(err.reason);
@@ -146,42 +146,35 @@ angular
             return payment ? payment.transaction.valor / 100 : checkout.cart.total
         }
 
-        function subscribe() {
-            console.group()
-            console.count("teste-->")
-            console.log(vm.cartSubscribe)
-            console.log(vm.paymentsSubscribe)
-            console.log(vm.selectedDate)
-            console.log(vm.search)
-
+        function subscribe(isDate) {
             vm.searching = true
-            if(vm.cartSubscribe) {
+            if (vm.cartSubscribe) {
                 vm.cartSubscribe.stop();
                 vm.paymentsSubscribe.stop();
             }
-            console.log("pass 1")
 
-            vm.cartSubscribe = vm.subscribe("sales", function() {
-                return [this.getReactively("customer"), vm.selectedDate, vm.search];
+            vm.cartSubscribe = vm.subscribe("sales", function () {
+                return [this.getReactively("customer"), vm.selectedDate, vm.search, (isDate || vm.search === '')];
             });
 
-            vm.paymentsSubscribe = vm.subscribe("payments", function() {
+            if(!(isDate || vm.search === '')){
+                vm.selectedMonth = "Todos"
+            }else{
+                vm.selectedMonth = getMonth();
+            }
+
+            vm.paymentsSubscribe = vm.subscribe("payments", function () {
                 return [this.getReactively("list")];
             });
 
-
             Tracker.autorun(() => {
                 const isReady = vm.cartSubscribe.ready();
-                if(isReady) {
+                if (isReady) {
                     const currentState = angular.copy(vm.searching);
                     vm.searching = false;
-                    if(currentState) $scope.$apply()
+                    if (currentState) $scope.$apply()
                 }
             });
-            console.log("pass 4")
-
-            console.groupEnd()
-
         }
 
         function changeStatus(checkout, key, ev) {
@@ -191,22 +184,22 @@ angular
                 .title("Alterar Status")
                 .content(
                     "Confirma a alteração do status para " +
-                        vm.status[key].name +
-                        "?"
+                    vm.status[key].name +
+                    "?"
                 )
                 .ariaLabel("Confirmar")
                 .ok("Confirmar")
                 .cancel("Voltar")
                 .targetEvent(ev);
 
-            $mdDialog.show(confirm).then(function() {
+            $mdDialog.show(confirm).then(function () {
                 vm.progressLoading = true;
 
                 Meteor.call(
                     "changeCheckoutStatus",
                     checkout._id,
                     vm.status[key],
-                    function(err, r) {
+                    function (err, r) {
                         if (err) {
                             toast.message(err.reason);
                         } else {
@@ -221,7 +214,7 @@ angular
         function checkStatus(item) {
             var status = "";
             if (item.status) {
-                item.status.forEach(function(itemStatus) {
+                item.status.forEach(function (itemStatus) {
                     if (itemStatus.time) status = itemStatus.name;
                 });
             }
@@ -248,9 +241,9 @@ angular
                 r +=
                     item.customer.lastname.indexOf(" ") > -1
                         ? item.customer.lastname.substr(
-                              item.customer.lastname.lastIndexOf(" "),
-                              1
-                          )
+                        item.customer.lastname.lastIndexOf(" "),
+                        1
+                        )
                         : item.customer.lastname.substr(0, 1);
 
             return r.toUpperCase();
@@ -307,7 +300,7 @@ angular
         }
 
         function makeDelivery(checkout, key, ev) {
-            Meteor.call("getCheckout", checkout._id, function(err, r) {
+            Meteor.call("getCheckout", checkout._id, function (err, r) {
                 vm.selected = r;
                 vm.key = key;
                 openForm("delivery", ev);
@@ -346,7 +339,7 @@ angular
                     controller = "SellersCtrl as vm";
                     templateUrl =
                         "client/app/sales/sellers/sellers.dialog.ng.html";
-                    locals = { checkout: vm.selected };
+                    locals = {checkout: vm.selected};
                     break;
                 case "questions":
                     controller = "OrdersQuestionsCtrl as vm";
@@ -368,7 +361,7 @@ angular
                     multiple: true,
                     bindToController: true
                 })
-                .then(function(answer) {
+                .then(function (answer) {
                     toast.message(answer);
                 });
         }
@@ -380,18 +373,18 @@ angular
                 .title("Cancelar pagamento?")
                 .content(
                     "Confirma o cancelamento do pagamento da venda " +
-                        item.orderNumber +
-                        "?"
+                    item.orderNumber +
+                    "?"
                 )
                 .ariaLabel("Cancelar pagamento")
                 .ok("Cancelar")
                 .cancel("Voltar")
                 .targetEvent(ev);
 
-            $mdDialog.show(confirm).then(function() {
+            $mdDialog.show(confirm).then(function () {
                 vm.progressLoading = true;
 
-                Meteor.call("paymentCancel", item._id, function(err, r) {
+                Meteor.call("paymentCancel", item._id, function (err, r) {
                     vm.progressLoading = false;
 
                     if (err) toast.message(err.reason);
@@ -407,18 +400,18 @@ angular
                 .title("Capturar pagamento?")
                 .content(
                     "Confirma do pagamento da venda " +
-                        vm.selected[0].orderNumber +
-                        "?"
+                    vm.selected[0].orderNumber +
+                    "?"
                 )
                 .ariaLabel("Capturar pagamento")
                 .ok("Capturar")
                 .cancel("Cancelar")
                 .targetEvent(ev);
 
-            $mdDialog.show(confirm).then(function() {
+            $mdDialog.show(confirm).then(function () {
                 vm.progressLoading = true;
 
-                Meteor.call("paymentCapture", vm.payment[0]._id, function(
+                Meteor.call("paymentCapture", vm.payment[0]._id, function (
                     err,
                     r
                 ) {
@@ -509,8 +502,8 @@ angular
         }
 
         function showOrder(ev) {
-            if(vm.selected) {
-                Meteor.call("getCheckout", vm.selected._id, function(err, r) {
+            if (vm.selected) {
+                Meteor.call("getCheckout", vm.selected._id, function (err, r) {
                     vm.selected = r;
                     openForm("show", ev);
                 });
@@ -522,15 +515,15 @@ angular
             var actualStatus = checkStatus(vm.selected);
 
             if (vm.status && actualStatus != "Pedido Realizado") {
-                var stringfied = vm.status.map(function(status) {
+                var stringfied = vm.status.map(function (status) {
                     return status.name;
                 });
 
-                stringfied.forEach(function(itemStatus) {
+                stringfied.forEach(function (itemStatus) {
                     if (
                         !itemStatus.time &&
                         stringfied.indexOf(actualStatus) <
-                            stringfied.indexOf(itemStatus)
+                        stringfied.indexOf(itemStatus)
                     )
                         vm.possibleStatus.push(itemStatus);
                 });
@@ -538,9 +531,9 @@ angular
         }
 
         function searchName(event, skip) {
-            if(skip || !vm.search.length || event.keyCode === 13) {
-                subscribe()
-                subscribe(true)
+            if (skip || !vm.search.length || event.keyCode === 13) {
+                subscribe(false)
+                // subscribe(true)
             }
         }
     });
