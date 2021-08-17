@@ -33,8 +33,8 @@
                         <md-icon md-font-icon="icon-account"></md-icon>
                         <div class="title-role">
                             <span class="username" hide-xs>{{ $root.currentUser.profile.firstname }} {{ $root.currentUser.profile.lastname }}</span>
-                            <span class="role" hide-xs ng-if="$root.currentUser.profile.permission == store">Gerente</span>
-                            <span class="role" hide-xs ng-if="$root.currentUser.profile.permission != store">Decorador</span>
+                            <span class="role" hide-xs ng-if="$root.currentUser.profile.permissions[0] == 'store'">Gerente</span>
+                            <span class="role" hide-xs ng-if="$root.currentUser.profile.permissions[0] == 'affiliate'">Decorador</span>
                         </div>
                         <md-icon
                                 md-font-icon="icon-chevron-down"

@@ -336,18 +336,18 @@ if (Meteor.isServer) {
                     });
 
 
-                    Meteor.call("RdStation.sendEvent", {
-                        event_type: "ORDER_PLACED",
-                        payload: {
-                            name: user.profile.firstname + " " + user.profile.lastname,
-                            email: user.username.split(":mileniomoveis")[0],
-                            cf_order_id: "order identifier",
-                            cf_order_total_items: checkout.cart.itemsCount,
-                            cf_order_status: payment.method.includes("Cartão") ? "payed" :"pending_payment",
-                            cf_order_payment_method: payment.method.includes("Cartão") ? "Credit Card" : "Invoice",
-                            cf_order_payment_amount: checkout.cart.total,
-                        }
-                    }, {})
+                    // Meteor.call("RdStation.sendEvent", {
+                    //     event_type: "ORDER_PLACED",
+                    //     payload: {
+                    //         name: user.profile.firstname + " " + user.profile.lastname,
+                    //         email: user.username.split(":mileniomoveis")[0],
+                    //         cf_order_id: "order identifier",
+                    //         cf_order_total_items: checkout.cart.itemsCount,
+                    //         cf_order_status: payment.method.includes("Cartão") ? "payed" :"pending_payment",
+                    //         cf_order_payment_method: payment.method.includes("Cartão") ? "Credit Card" : "Invoice",
+                    //         cf_order_payment_amount: checkout.cart.total,
+                    //     }
+                    // }, {})
 
                     return complete(company, checkout, payment, user);
                 }
