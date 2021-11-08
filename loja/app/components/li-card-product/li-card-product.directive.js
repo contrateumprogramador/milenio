@@ -39,19 +39,15 @@ module.exports = function(ngModule) {
                     vm.installments = Loja.Store.itemInstallments(vm.item);
                 });
 
-                function addToCart(ev) {
-                    // Loja.Checkout.itemAdd(
-                    //     angular.copy(vm.item),
-                    //     1,
-                    //     {},
-                    //     vm.item.options[0] || {},
-                    //     true,
-                    //     vm.index
-                    // );
-
-                    Loja.Store.items(vm.item._id).then(function(response){
-                        callDialog(ev, response.data.data);
-                    });
+                function addToCart() {
+                    Loja.Checkout.itemAdd(
+                        angular.copy(vm.item),
+                        vm.quantity,
+                        vm.customization,
+                        vm.options,
+                        true,
+                        vm.index
+                    );
                 }
 
                 function callDialog(ev, item) {

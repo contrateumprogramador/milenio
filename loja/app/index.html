@@ -243,9 +243,7 @@
                             <md-icon md-svg-icon="/assets/lojainteligente/imgs/instagram.svg"></md-icon>
                         </md-button>
                     </div>
-                </div>
-                <div layout="column" flex="100" flex-gt-xs="20" layout-align="center center
-                       " layout-align-gt-xs="start start" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
+
                     <h4 class="accent">RECEBA NOSSA NEWSLETTER</h4>
                     <md-input-container class="md-block" flex="100" ng-show="ctrl.user()">
                         <input ng-model="user.email" type="email" placeholder="VOCÊ JÁ ESTA CADASTRADO
@@ -253,10 +251,20 @@
                     </md-input-container>
                     <md-input-container class="md-block" flex="100" ng-click="ctrl.openNewsletter($event)
                        " ng-show="!ctrl.user()">
-                        <input ng-model="user.email" type="email" placeholder="INSIRA SEU EMAIL" ng-required="true">
+                        <input ng-model="user.email" type="email" style="color: #FFF !important" placeholder="INSIRA SEU EMAIL" ng-required="true">
                     </md-input-container>
+
+                    <h4 class="accent">FORMAS DE PAGAMENTO</h4>
+                    <div layout="row"> 
+                        <md-icon md-svg-icon="/assets/lojainteligente/imgs/visa.svg"></md-icon>
+                        <md-icon md-svg-icon="/assets/lojainteligente/imgs/amex.svg" class="mLeft20"></md-icon>
+                        <md-icon md-svg-icon="/assets/lojainteligente/imgs/mastercard.svg" class="mLeft20"></md-icon>
+                        <md-icon md-svg-icon="/assets/lojainteligente/imgs/diners-club.svg" class="mLeft20"></md-icon>
+                        <md-icon md-svg-icon="/assets/lojainteligente/imgs/elo.svg" class="mLeft20"></md-icon>
+                    </div>
                 </div>
             </div>
+            <!--
             <div layout="column" layout-gt-xs="row" layout-align="center center" layout-align-gt-xs="center start" layout-padding>
                 <div class="align-center" layout="column" flex="100" layout-align="center center
                        " layout-align-gt-xs="start start" ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
@@ -273,6 +281,7 @@
                         </div>
                     </div>
                 </div>
+                <!--
                 <div layout="row" flex="100" layout-align="start start" layout-align-gt-xs="end start
                        " ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
                     <div layout="column">
@@ -286,6 +295,8 @@
                         </div>
                     </div>
                 </div>
+                -->
+                <!--
                 <div layout="row" flex="100" layout-align="start start" layout-align-gt-xs="end start
                        " ng-class="{ 'flex-1': !ctrl.checkMedia( 'gt-xs')}">
                     <md-button href="https://codigofont.com" target="_blank" title="Desenvolvido com LojaInteligente
@@ -295,7 +306,9 @@
                         </h2>
                     </md-button>
                 </div>
+                
             </div>
+             -->
             <div id="Info" layout="row" layout-align="center center" layout-padding>
                 <p>
                     Milênio Com. e Imp. Móveis Ltda

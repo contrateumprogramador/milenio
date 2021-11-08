@@ -93,10 +93,10 @@ module.exports = function(ngModule) {
             method: "GET",
             url: "https://graph.instagram.com/me/media?fields=permalink,media_url",
             params: {
-                access_token: "IGQVJWbUVQOUd5ZAHpNcnBCUmd0a0ZAHWmxSSUlfMk9BZAFkwZAF85aWpycVVhN2p3X0NsczlkOTlpU0taYnJlZAzZAFS3VObWlGdWNhNUFnVFZALdHIwbW44VUJZAN0llMVoyLVdTeWdvXzVSejlBQV9ORDR3QgZDZD"
+                access_token: "IGQVJWMVNpcXI5czV3S2ppX1VTM3FzYW1TYmNsaGExVm85T3BjeDZAQUkRWYTBfN19JSE1MM1V3b2JJbnVWUFVlVnVmSWdvN21uMVhmWXVqZAXd6ZAHBhdG9la01sVDlpQUNYcE5nSDZA2NTNrcXppa1FsbQZDZD"
             }
         }).then((response) => {
             vm.instaFeed = response.data.data;
         });
     });
-};
+};  

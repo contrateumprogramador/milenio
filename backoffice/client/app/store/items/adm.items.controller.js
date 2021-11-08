@@ -245,7 +245,7 @@
         function searchText(field) {
             if (vm.search[field].length > 3) {
                 vm.progressLoading = true;
-                Meteor.call('searchItems', configureString(vm.search[field]), field, function (err, r) {
+                Meteor.call('searchItems', vm.search[field], field, function (err, r) {
                     vm.items = r;
                     vm.total = r.length;
                     vm.exibedItems = r;

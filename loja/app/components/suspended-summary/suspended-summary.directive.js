@@ -181,8 +181,8 @@ module.exports = function (ngModule) {
                 const cupon = document.querySelector('.suspended-cupom-container');
 
                 if ($mdMedia("gt-xs") && !vm.payment && !vm.submit) {
-                    cupon.style = "position:unset;width:75%;align-self:center;margin-bottom: 2rem;";
-                    menu.style = "position:unset;width:60%;align-self:center";
+                    cupon.style = "position:unset;width:80%;align-self:center;margin-bottom: 2rem;";
+                    menu.style = "position:unset;width:80%;align-self:center";
                 } else {
                     cupon.style = "display:none;";
                     // menu.style = "display:none;";

@@ -8,7 +8,7 @@
             <div class="grades" layout="row">
                 <div ng-repeat="grade in vm.grades">
                     <div class="description">
-                        <h2>{{opinion.title}}</h2>
+                        <h2 style="font-size: 100%;">{{opinion.title}}</h2>
                         <div layout="row">
                             <div ng-repeat="value in [].constructor(5) track by $index">
                                 <md-icon ng-class="{ 'star-filled': vm.starFilled($index, opinion, grade.value) }" md-font-icon="icon-star"></md-icon>

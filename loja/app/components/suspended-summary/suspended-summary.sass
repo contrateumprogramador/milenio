@@ -10,18 +10,19 @@
   width: 50%
 
 .suspended-cupom-container
-  //position: fixed
-  //width: 17%
-  //top: 180px
-  //right: 0
-  //margin: 0 6rem
+  @media screen and (min-width: 500px)
+    @include shadow_card
+  
+
+  margin-left: auto
+  margin-right: auto
 
 
 
   .suspended-cupom
-    @include shadow_card
-    width: auto !important
-
+    margin: 0px
+    padding: 0px
+  
     .checkout-alert
       border-radius: 4px
       font-weight: bold
@@ -59,10 +60,8 @@
     margin-bottom: 1rem
 
 .suspended-summary
-  right: 0
-  top: 50%
   @include shadow_card
-  margin: 0 2rem
+  align-self:center
 
   p
     margin-top: 0

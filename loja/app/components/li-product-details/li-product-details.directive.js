@@ -51,8 +51,9 @@ module.exports = function (ngModule) {
                 vm.getTag = getTag;
                 vm.isIndisponible = isIndisponible;
 
-                if ($scope.$parent.$resolve.from.includes('busca'))
-                    vm.busca = $scope.$parent.$resolve.from;
+                if($scope.$parent.$resolve.from)
+                    if ($scope.$parent.$resolve.from.includes('busca'))
+                        vm.busca = $scope.$parent.$resolve.from;
 
                 // Customizações do item
                 Loja.Store.customizations(vm.item._id).then(function (r) {

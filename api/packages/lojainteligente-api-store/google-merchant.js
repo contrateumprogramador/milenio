@@ -25,9 +25,9 @@ RssFeed.publish("mileniomoveis", function() {
                 title: item.name,
                 link:
                     "https://www.mileniomoveis.com.br/movel/" +
-                    item.url +
+                    item.url + 
                     "/" +
-                    item._id,
+                    item._id, 
                 description: self.cdata(
                     data.description ? data.description.substr(0, 400) : ""
                 ),

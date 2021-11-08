@@ -344,13 +344,13 @@ angular
                 Meteor.call(
                     "searchCustomers",
                     configureString(searchText),
-                    "firstname",
+                    $concat["$first_name"," ","$last_name"],
                     function (err, r) {
                         vm.customers = r;
                         vm.exibedCustomers = r;
                         vm.progressLoading = false;
                         $scope.$apply();
-                    }
+                    } 
                 );
             } else {
                 vm.customers = [];
